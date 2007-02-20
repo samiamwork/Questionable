@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancelFileCopy = id; }; 
+            CLASS = SaveProgressController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                theCancelDelegate = id; 
+                theProgressBar = NSProgressIndicator; 
+                theStatusTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {cancelFileCopy = id; }; 
+            CLASS = TIPFileArchiver; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                theProgressBar = NSProgressIndicator; 
+                theProgressWindow = NSWindow; 
+                theStatusTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

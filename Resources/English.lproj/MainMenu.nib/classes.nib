@@ -1,0 +1,84 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {revertToText = id; }; 
+            CLASS = QuestionView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theQuestion = id; theSlowRevealButton = NSButton; theTextButton = NSButton; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            CLASS = QuestionableDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {viewController = TriviaOutlineViewController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = TIPGameTimerView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = TIPGradientTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            CLASS = TIPSegmentedTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {managedTabs = NSTabView; }; 
+            SUPERCLASS = TIPGradientTableView; 
+        }, 
+        {
+            CLASS = TriviaBoardSimpleView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = TriviaBoardView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {correctAnswer = id; incorrectAnswer = id; }; 
+            CLASS = TriviaGameController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                answerView = NSTextView; 
+                buzzedPlayerName = NSTextField; 
+                mainBoardView = TriviaBoardView; 
+                playerController = TriviaPlayerController; 
+                questionController = TriviaOutlineViewController; 
+                questionTimerProgress = TIPGameTimerView; 
+                roundTimerProgress = TIPGameTimerView; 
+                simpleBoardView = TriviaBoardSimpleView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = TriviaOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            ACTIONS = {addBoard = id; addItem = id; deleteItem = id; openGame = id; saveGame = id; }; 
+            CLASS = TriviaOutlineViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                theDraggedItem = id; 
+                theOutlineView = TriviaOutlineView; 
+                theQuestionController = NSObjectController; 
+                theQuestionView = QuestionView; 
+                theTabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {addPlayer = id; getInfoForSelectedPlayer = id; registerInput = id; }; 
+            CLASS = TriviaPlayerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {playerArrayController = NSArrayController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {play = id; toggleFullscreen = id; }; 
+            CLASS = TriviaWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controlWindow = NSWindow; 
+                fullscreenMenuItem = NSMenuItem; 
+                gameController = TriviaGameController; 
+                gameWindow = NSWindow; 
+                questionController = TriviaOutlineViewController; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancel = id; setFullscreen = id; }; 
+            CLASS = FullscreenSheetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                delegate = id; 
+                fullscreenSheet = NSWindow; 
+                screenSelectionView = TIPScreenSelectionView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
