@@ -21,24 +21,27 @@
 		
 		theMovieView = [[MovieDragView alloc] initWithFrame:bounds];
 		[theMovieView setDraggingDelegate:self];
-		[theMovieView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 		[theMovieView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[theMovieView setControllerVisible:YES];
 		[theMovieView setPreservesAspectRatio:YES];
 		
 		theImageView = [[ImageDragView alloc] initWithFrame:bounds];
 		[theImageView setDraggingDelegate:self];
-		[theImageView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 		[theImageView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[theImageView setImageFrameStyle:NSImageFrameGroove];
 		
 		TextDragView *aTextView = [[TextDragView alloc] initWithFrame:bounds];
 		[aTextView setDraggingDelegate:self];
-		[aTextView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 		[aTextView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[aTextView setRichText:NO];
 		[aTextView setString:theQuestion];
 		[aTextView setDelegate:self];
+		
+#ifdef MULTIMEDIA_QUESTIONS
+		[theMovieView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+		[theImageView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+		[aTextView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+#endif
 		
 		theTextScrollView = [[NSScrollView alloc] initWithFrame:bounds];
 		[theTextScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -163,6 +166,8 @@
 
 #pragma mark Drag and Drop
 
+#ifdef MULTIMEDIA_QUESTIONS
+
 - (NSView *)viewForType:(NSPasteboard *)aPasteboard
 {
 	if( aPasteboard == nil )
@@ -238,6 +243,8 @@
 	
 	return YES;
 }
+
+#endif
 
 #pragma mark Binding Methods
 

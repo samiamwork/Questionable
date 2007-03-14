@@ -22,6 +22,7 @@
             OUTLETS = {managedTabs = NSTabView; }; 
             SUPERCLASS = TIPGradientTableView; 
         }, 
+        {CLASS = TriviaBoardOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             CLASS = TriviaBoardSimpleView; 
             LANGUAGE = ObjC; 
