@@ -821,10 +821,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_VERSION = 1.0a1;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					MULTIMEDIA_QUESTIONS,
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
@@ -837,10 +834,7 @@
 					ppc,
 					i386,
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					MULTIMEDIA_QUESTIONS,
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
