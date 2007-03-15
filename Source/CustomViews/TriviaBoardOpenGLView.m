@@ -39,6 +39,15 @@
 		_targetAspectRatio = 640.0f/480.0f;
 		_needsReshape = NO;
 		_isFirstFrame = YES;
+		
+		//Trivia Objects
+		_mainBoard = nil;
+		_question = nil;
+		_players = nil;
+		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5f animationCurve:NSAnimationEaseInOut];
+		[_transitionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+		
+		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
     }
 	
     return self;
@@ -48,34 +57,13 @@
 {
 	[_windowedContext release];
 	[_windowedPixelFormat release];
+	
+	[_mainBoard release];
+	[_question release];
+	[_players release];
+	[_transitionAnimation release];
 
 	[super dealloc];
-}
-
-
-- (void)awakeFromNib
-{
-	//[self reshape];
-}
-
-- (void)reshape
-{
-	_needsReshape = YES;
-	
-	NSSize thisSize = [self bounds].size;
-	_contextSize = thisSize;
-	
-	if( thisSize.width != _contextSize.width || thisSize.height != _contextSize.height ) {
-		_targetSize = thisSize;
-		
-		float targetWidth = thisSize.height*_targetAspectRatio;
-		float targetHeight = thisSize.width/_targetAspectRatio;
-		
-		if( targetWidth < thisSize.width )
-			_targetSize.width = targetWidth;
-		else if( targetHeight < thisSize.height )
-			_targetSize.height = targetHeight;
-	}
 }
 
 - (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect
@@ -155,6 +143,35 @@
 	_needsReshape = YES;
 }
 
+- (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
+{
+	switch( aState ) {
+		case kTIPTriviaBoardViewStateBoard:
+			glColor4f( 1.0f,0.0f,0.5f,progress );
+			break;
+		case kTIPTriviaBoardViewStateQuestion:
+			glColor4f( 0.0f,0.1f,0.5f,progress );
+			break;
+		case kTIPTriviaBoardViewStateAnswer:
+			glColor4f( 0.5f,0.0f,0.1f,progress );
+			break;
+		case kTIPTriviaBoardViewStatePlayers:
+			glColor4f( 1.0f,0.0f,0.5f,progress );
+			break;
+		case kTIPTriviaBoardViewStatePlaceholder:
+		default:
+			glColor4f( 0.8f,0.8f,0.8f,progress );
+			break;
+	}
+	
+	glBegin(GL_TRIANGLE_FAN); {
+		glVertex2f(0.0f,0.0f);
+		glVertex2f(_targetSize.width,0.0f);
+		glVertex2f(_targetSize.width,_targetSize.height);
+		glVertex2f(0.0f,_targetSize.height);
+	} glEnd();
+}
+
 - (void)drawRect:(NSRect)rect
 {
 	if( _isFirstFrame )
@@ -166,16 +183,120 @@
 	
 	glClearColor(0.5f,0.0f,0.0f,1.0f);
 	glClear( GL_COLOR_BUFFER_BIT );
-
-	glColor4f( 1.0f,0.0f,0.5f,1.0f );
-	glBegin(GL_TRIANGLE_FAN); {
-		glVertex2f(0.0f,0.0f);
-		glVertex2f(_targetSize.width,0.0f);
-		glVertex2f(_targetSize.width,_targetSize.height);
-		glVertex2f(0.0f,_targetSize.height);
-	} glEnd();
+	
+	if( theViewState != lastViewState ) {
+		float progress = [_transitionAnimation currentProgress];
+		[self drawState:lastViewState withProgress:(1.0f-progress)];
+		[self drawState:theViewState withProgress:progress];
+		
+		if( ![_transitionAnimation isAnimating] ) {
+			lastViewState = theViewState;
+			if( _transitionTimer != nil )
+				[_transitionTimer invalidate];
+			_transitionTimer = nil;
+		}
+	} else {
+		[self drawState:theViewState withProgress:1.0f];
+	}
 	 
 	[_windowedContext flushBuffer];
+}
+
+#pragma mark Trivia Methods
+
+- (void)setBoard:(TriviaBoard *)newBoard
+{
+	if( newBoard == _mainBoard )
+		return;
+	
+	[_mainBoard release];
+	_mainBoard = [newBoard retain];
+	
+	[self setNeedsDisplay:YES];
+}
+- (TriviaBoard *)board
+{
+	return _mainBoard;
+}
+
+- (void)setPlayers:(NSArray *)newPlayers
+{
+	if( newPlayers == _players )
+		return;
+	
+	[_players release];
+	_players = [newPlayers retain];
+	[self setNeedsDisplay:YES];
+}
+- (NSArray *)players
+{
+	return _players;
+}
+
+- (void)setQuestion:(TriviaQuestion *)newQuestion
+{
+	if( newQuestion == _question )
+		return;
+	
+	[_question release];
+	_question = [newQuestion retain];
+}
+- (TriviaQuestion *)question
+{
+	return _question;
+}
+
+- (void)setBoardViewState:(TIPTriviaBoardViewState)newState
+{
+	if( newState == theViewState )
+		return;
+	// for transition animations
+	theViewState = newState;
+	
+	if( _transitionTimer != nil )
+		[_transitionTimer invalidate];
+	_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(transitionUpdate:) userInfo:nil repeats:YES];
+	[_transitionAnimation setCurrentProgress:0.0];
+	[_transitionAnimation startAnimation];
+	
+	[self setNeedsDisplay:YES];
+}
+
+- (void)transitionUpdate:(NSTimer *)aTimer
+{
+	[self setNeedsDisplay:YES];
+}
+
+#pragma mark Trivia Show Methods
+
+- (void)showPlaceholder
+{
+	[self setBoardViewState:kTIPTriviaBoardViewStatePlaceholder];
+}
+
+- (void)showBoard
+{
+	if( _mainBoard != nil )
+		[self setBoardViewState:kTIPTriviaBoardViewStateBoard];
+	else
+		[self setBoardViewState:kTIPTriviaBoardViewStatePlaceholder];
+}
+
+- (void)showPlayers
+{
+	[self setBoardViewState:kTIPTriviaBoardViewStatePlayers];
+}
+
+- (void)showQuestion
+{
+	// generate a texture for the question we have
+	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
+}
+
+- (void)showAnswer
+{
+	// generate a texture for the answer we have
+	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
 }
 
 @end

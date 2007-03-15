@@ -50,7 +50,8 @@
 	[answerView setString:[selectedQuestion answer]];
 	[buzzedPlayerName setStringValue:@""];
 	
-	[mainBoardView showQuestion:selectedQuestion];
+	[mainBoardView setQuestion:selectedQuestion];
+	[mainBoardView showQuestion];
 }
 
 - (void)showAnswer
@@ -62,11 +63,11 @@
 	
 	
 	[selectedQuestion setUsed:YES];
-	[mainBoardView enable:NO question:selectedQuestionIndex inCategory:selectedCategoryIndex];
+	//[mainBoardView enable:NO question:selectedQuestionIndex inCategory:selectedCategoryIndex];
 	[simpleBoardView enable:NO question:selectedQuestionIndex inCategory:selectedCategoryIndex];
 	
-	[mainBoardView removeBadgeWithRedraw:NO];
-	[mainBoardView showAnswerToQuestion:selectedQuestion];
+	//[mainBoardView removeBadgeWithRedraw:NO];
+	[mainBoardView showAnswer];
 	
 	buzzedPlayer = nil;
 	selectedQuestion = nil;
@@ -127,7 +128,7 @@
 	if( [playerController allDisabled] )
 		[self showAnswer];
 	else {
-		[mainBoardView removeBadgeWithRedraw:YES];
+		//[mainBoardView removeBadgeWithRedraw:YES];
 
 		[questionTimer start];
 		[questionTimerProgress setMaxTime:questionTimeLength];
@@ -156,7 +157,7 @@
 	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundBuzzIn];
 	
-	[mainBoardView addBadgeWithString:[buzzedPlayer name]];
+	//[mainBoardView addBadgeWithString:[buzzedPlayer name]];
 
 	[questionTimer start];
 	[questionTimerProgress setMaxTime:questionTimeLength];

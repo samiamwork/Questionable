@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3E11DC2E0B84EB0E000DC73F /* TIPGameTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC290B84EB0E000DC73F /* TIPGameTimerView.m */; };
 		3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */; };
-		3E11DC300B84EB0E000DC73F /* TriviaBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2D0B84EB0E000DC73F /* TriviaBoardView.m */; };
 		3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */; };
 		3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */; };
 		3E11DC410B84EE08000DC73F /* speakeroff.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3C0B84EE08000DC73F /* speakeroff.pdf */; };
@@ -687,7 +686,6 @@
 				3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */,
 				3E11DC2E0B84EB0E000DC73F /* TIPGameTimerView.m in Sources */,
 				3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */,
-				3E11DC300B84EB0E000DC73F /* TriviaBoardView.m in Sources */,
 				3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */,
 				3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */,
 				3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */,

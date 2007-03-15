@@ -10,7 +10,7 @@
 //#import <TIPScreenSelectionViewFramework/TIPScreenSelectionView.h>
 #import "TriviaTimer.h"
 #import "TriviaBoard.h"
-#import "TriviaBoardView.h"
+#import "TriviaBoardOpenGLView.h"
 #import "TriviaBoardSimpleView.h"
 #import "TIPGameTimerView.h"
 #import "TriviaPlayerController.h"
@@ -18,7 +18,7 @@
 
 
 @interface TriviaGameController : NSObject {
-	IBOutlet TriviaBoardView *mainBoardView;
+	IBOutlet TriviaBoardOpenGLView *mainBoardView;
 	IBOutlet TriviaBoardSimpleView *simpleBoardView;
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaPlayerController *playerController;

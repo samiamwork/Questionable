@@ -9,7 +9,15 @@
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "TriviaBoard.h"
 
+typedef enum TIPTriviaBoardViewState {
+	kTIPTriviaBoardViewStatePlaceholder,
+	kTIPTriviaBoardViewStateBoard,
+	kTIPTriviaBoardViewStateQuestion,
+	kTIPTriviaBoardViewStateAnswer,
+	kTIPTriviaBoardViewStatePlayers
+} TIPTriviaBoardViewState;
 
 @interface TriviaBoardOpenGLView : NSView {
 	NSOpenGLContext *_windowedContext;
@@ -22,6 +30,30 @@
 	
 	NSSize _targetSize;
 	NSSize _contextSize;
+	
+	//Trivia Objects
+	TriviaBoard *_mainBoard;
+	TriviaQuestion *_question;
+	NSArray *_players;
+	
+	TIPTriviaBoardViewState theViewState;
+	TIPTriviaBoardViewState lastViewState;
+	NSAnimation *_transitionAnimation;
+	NSTimer *_transitionTimer;
 }
 
+- (void)setBoard:(TriviaBoard *)newBoard;
+- (TriviaBoard *)board;
+- (void)setPlayers:(NSArray *)newPlayers;
+- (NSArray *)players;
+- (void)setQuestion:(TriviaQuestion *)newQuestion;
+- (TriviaQuestion *)question;
+
+- (void)showBoard;
+- (void)showPlayers;
+- (void)showPlaceholder;
+- (void)showQuestion;
+- (void)showAnswer;
+
+- (void)setBoardViewState:(TIPTriviaBoardViewState)newState;
 @end

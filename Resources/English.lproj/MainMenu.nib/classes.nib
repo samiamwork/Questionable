@@ -37,7 +37,7 @@
             OUTLETS = {
                 answerView = NSTextView; 
                 buzzedPlayerName = NSTextField; 
-                mainBoardView = TriviaBoardView; 
+                mainBoardView = TriviaBoardOpenGLView; 
                 playerController = TriviaPlayerController; 
                 questionController = TriviaOutlineViewController; 
                 questionTimerProgress = TIPGameTimerView; 
