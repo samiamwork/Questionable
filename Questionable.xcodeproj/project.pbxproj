@@ -36,6 +36,8 @@
 		3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCC00B84FAE4000DC73F /* Stop.pdf */; };
 		3E4D099D0B83A070004620B8 /* TriviaGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D099A0B83A070004620B8 /* TriviaGameController.m */; };
 		3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D09A00B83A081004620B8 /* TriviaWindowController.m */; };
+		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
+		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */; };
 		3EB0257F0B8BDB7F00A095F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
@@ -95,8 +97,6 @@
 		3E11DC290B84EB0E000DC73F /* TIPGameTimerView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGameTimerView.m; sourceTree = "<group>"; };
 		3E11DC2A0B84EB0E000DC73F /* TriviaBoardSimpleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaBoardSimpleView.h; sourceTree = "<group>"; };
 		3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardSimpleView.m; sourceTree = "<group>"; };
-		3E11DC2C0B84EB0E000DC73F /* TriviaBoardView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaBoardView.h; sourceTree = "<group>"; };
-		3E11DC2D0B84EB0E000DC73F /* TriviaBoardView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardView.m; sourceTree = "<group>"; };
 		3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fullscreenIcon.pdf; sourceTree = "<group>"; };
 		3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = loadQuestions.pdf; sourceTree = "<group>"; };
 		3E11DC3C0B84EE08000DC73F /* speakeroff.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = speakeroff.pdf; sourceTree = "<group>"; };
@@ -142,6 +142,10 @@
 		3E4D099A0B83A070004620B8 /* TriviaGameController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaGameController.m; sourceTree = "<group>"; };
 		3E4D099F0B83A081004620B8 /* TriviaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaWindowController.h; sourceTree = "<group>"; };
 		3E4D09A00B83A081004620B8 /* TriviaWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaWindowController.m; sourceTree = "<group>"; };
+		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
+		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
+		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
+		3E9B2B920BAB15A200B4CF05 /* StringTexture.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StringTexture.m; sourceTree = "<group>"; };
 		3EB025400B8BBC8200A095F9 /* TriviaBoardOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaBoardOpenGLView.h; sourceTree = "<group>"; };
 		3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardOpenGLView.m; sourceTree = "<group>"; };
 		3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -294,6 +298,10 @@
 		3E11DC450B84EE9A000DC73F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */,
+				3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */,
+				3E9B2B910BAB15A200B4CF05 /* StringTexture.h */,
+				3E9B2B920BAB15A200B4CF05 /* StringTexture.m */,
 				3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */,
 				3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */,
 				3E11DC480B84EE9A000DC73F /* TIPFreeWindow.h */,
@@ -345,8 +353,6 @@
 				3E11DC290B84EB0E000DC73F /* TIPGameTimerView.m */,
 				3E11DC2A0B84EB0E000DC73F /* TriviaBoardSimpleView.h */,
 				3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */,
-				3E11DC2C0B84EB0E000DC73F /* TriviaBoardView.h */,
-				3E11DC2D0B84EB0E000DC73F /* TriviaBoardView.m */,
 				3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */,
 				3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */,
 				3EE2B00F0B82A11400EFBE3D /* TIPScreenSelectionView.h */,
@@ -703,6 +709,8 @@
 				3E11DC770B84EED1000DC73F /* TriviaDrawableQA.m in Sources */,
 				3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */,
 				3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */,
+				3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */,
+				3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,380 @@
+//
+//  RectangularBox.m
+//  CocoaAndOpenGL
+//
+//  Created by Nur Monson on 2/22/07.
+//  Copyright 2007 theidiotproject. All rights reserved.
+//
+
+#import "RectangularBox.h"
+
+#define VERTEXCOUNT_BORDER 32
+#define VERTEXCOUNT_HOLE 4
+
+@implementation RectangularBox
+
+- (id)init
+{
+	if( (self = [super init]) ) {
+		_borderTexture = 0;
+		_bgTexture = 0;
+		_cornerRadius = 0.0f;
+		_lineWidth = 1.0f;
+		_boxSize = NSZeroSize;
+		
+		_dirtyTexture = YES;
+		_dirtyVerticies = YES;
+		
+		_sharpCorners = BoxCornerNone;
+		//_sharpCorners = BoxCornerUpperLeft | BoxCornerUpperRight | BoxCornerLowerRight | BoxCornerLowerLeft;
+		
+		[self setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
+		[self setEndColor:[NSColor colorWithCalibratedWhite:0.5f alpha:1.0f]];
+		[self setBorderColor:[NSColor colorWithCalibratedWhite:0.8f alpha:1.0f]];
+		
+		_vertexArray = (fullVertex2 *)malloc( sizeof(fullVertex2)*(VERTEXCOUNT_BORDER+ VERTEXCOUNT_HOLE));
+	}
+	
+	return self;
+}
+
+- (void)deleteTexture
+{
+	if( _borderTexture == 0 )
+		return;
+	
+	glDeleteTextures(1,&_borderTexture);
+	_borderTexture = 0;
+	
+	glDeleteTextures(1,&_bgTexture);
+	_bgTexture = 0;
+}
+
+- (void)dealloc
+{
+	free( _vertexArray );
+	
+	[self deleteTexture];
+	
+	[super dealloc];
+}
+
+- (id)initWithSize:(NSSize)boxSize withRadius:(float)cornerRadius withLineWidth:(float)lineWidth
+{	
+	if( (self = [self init]) ) {
+		[self setSize:boxSize];
+		[self setCornerRadius:cornerRadius];
+		[self setLineWidth:lineWidth];
+	}
+	
+	return self;
+}
+
+- (void)setSharpCorners:(BoxCorner)newCorners
+{
+	_sharpCorners = newCorners;
+}
+
+- (void)setStartColor:(NSColor *)newColor
+{
+	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	[rgbColor getRed:&_startColor.red green:&_startColor.green blue:&_startColor.blue alpha:&_startColor.alpha];
+	_dirtyVerticies = YES;
+}
+
+- (void)setEndColor:(NSColor *)newColor
+{
+	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	[rgbColor getRed:&_endColor.red green:&_endColor.green blue:&_endColor.blue alpha:&_endColor.alpha];
+	_dirtyVerticies = YES;
+}
+
+- (void)setBorderColor:(NSColor *)newColor
+{
+	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	[rgbColor getRed:&_borderColor.red green:&_borderColor.green blue:&_borderColor.blue alpha:&_borderColor.alpha];
+	_dirtyVerticies = YES;
+}
+
+- (void)setSize:(NSSize)newSize
+{
+	float minSize = 2.0f*(_cornerRadius + 0.5f*_lineWidth);
+	
+	if( newSize.width < minSize )
+		newSize.width = minSize;
+	if( newSize.height < minSize )
+		newSize.height = minSize;
+	
+	_boxSize = newSize;
+	_dirtyVerticies = YES;
+}
+
+- (void)setCornerRadius:(float)newRadius
+{
+	if( newRadius < 0.0f )
+		newRadius = 0.0f;
+	
+	_cornerRadius = newRadius;
+	_dirtyTexture = YES;
+}
+
+- (void)setLineWidth:(float)newWidth
+{
+	if( newWidth < 1.0f )
+		newWidth = 1.0f;
+	
+	_lineWidth = newWidth;
+	_dirtyTexture = YES;
+}
+
+- (void)generateTextures
+{
+	[self deleteTexture];
+	
+	_textureSize = ceilf(_cornerRadius + _lineWidth/2.0f);
+	
+	void *bitmapData = calloc( (int)_textureSize*(int)_textureSize*4, 1 );
+	if( bitmapData == NULL ) {
+		printf("could not allocate bitmap data\n");
+		return;
+	}
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef bitmapContext = CGBitmapContextCreate(bitmapData,(int)_textureSize,(int)_textureSize,8,(int)_textureSize*4,colorSpace,kCGImageAlphaPremultipliedLast);
+	if( bitmapContext == NULL ) {
+		printf("Could not create bitmapContext\n");
+		return;
+	}
+	CGColorSpaceRelease(colorSpace);
+	
+	// draw Border Texture
+	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
+	
+	CGContextSetRGBStrokeColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
+	CGContextMoveToPoint(bitmapContext,_cornerRadius,0.0f);
+	CGContextAddArcToPoint(bitmapContext,_cornerRadius,_cornerRadius,0.0f,_cornerRadius,_cornerRadius);
+	CGContextSetLineWidth(bitmapContext,_lineWidth);
+	CGContextStrokePath(bitmapContext);
+	
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	glGenTextures(1, &_borderTexture);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _borderTexture);
+	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, _textureSize, _textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmapData);
+	glDisable(GL_TEXTURE_RECTANGLE_EXT);
+
+	// draw background texture
+	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
+
+	CGContextSetRGBFillColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
+	CGContextMoveToPoint(bitmapContext,0.0f,0.0f);
+	CGContextAddLineToPoint(bitmapContext,_cornerRadius,0.0f);
+	CGContextAddArcToPoint(bitmapContext,_cornerRadius,_cornerRadius,0.0f,_cornerRadius,_cornerRadius);
+	CGContextClosePath(bitmapContext);
+	CGContextFillPath(bitmapContext);
+	
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	glGenTextures (1, &_bgTexture);
+	glBindTexture (GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
+	glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, _textureSize, _textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmapData);
+	glDisable(GL_TEXTURE_RECTANGLE_EXT);
+	
+	
+	CGContextRelease( bitmapContext );
+	free(bitmapData);
+	_dirtyTexture = NO;
+}
+
+#define blendComponent(a,b,p) ((((b) - (a))*(p)) + (a))
+
+color4 blendColors( color4 color1, color4 color2, float position )
+{
+	color4 newColor;
+	
+	newColor.red = blendComponent(color1.red, color2.red, position);
+	newColor.green = blendComponent(color1.green, color2.green, position);
+	newColor.blue = blendComponent(color1.blue, color2.blue, position);
+	newColor.alpha = blendComponent(color1.alpha, color2.alpha, position);
+	
+	return newColor;
+}
+
+void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, color4 color )
+{
+	(*fullVertex)->vertex = vert;
+	(*fullVertex)->texture = tex;
+	(*fullVertex)->color = color;
+	
+	(*fullVertex)++;
+}
+
+- (void)generateVertexArray
+{
+	float xPoints[4] = { 0.0f, _textureSize, _boxSize.width-_textureSize, _boxSize.width };
+	float yPoints[4] = { 0.0f, _textureSize, _boxSize.height-_textureSize, _boxSize.height };
+	color4 midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
+	color4 midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
+	
+	color4 *colors[4] = { &_startColor, &midColor1, &midColor2, &_endColor };
+	color4 *currentColor;
+	
+	fullVertex2 *vertexPointer = _vertexArray;
+	
+	//upper right
+	if( _sharpCorners & BoxCornerUpperRight ) {
+		currentColor = colors[2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	} else {
+		currentColor = colors[2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[3]}, (texture2){_textureSize,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	}
+	
+	//right
+	currentColor = colors[1];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	
+	currentColor = colors[2];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	
+	//lower right
+	if( _sharpCorners & BoxCornerLowerRight ) {
+		currentColor = colors[0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	} else {
+		currentColor = colors[0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[0]}, (texture2){_textureSize,0.0f}, *currentColor );
+		currentColor = colors[1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	}
+	
+	//lower
+	currentColor = colors[0];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+	
+	currentColor = colors[1];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	
+	//lower left
+	if( _sharpCorners & BoxCornerLowerLeft ) {
+		currentColor = colors[0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	} else {
+		currentColor = colors[0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[0]}, (texture2){_textureSize,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	}
+	
+	//left
+	currentColor = colors[1];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	
+	currentColor = colors[2];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	
+	//upper left
+	if( _sharpCorners & BoxCornerUpperLeft ) {
+		currentColor = colors[2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	} else {
+		currentColor = colors[2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[3]}, (texture2){_textureSize,0.0f}, *currentColor );
+	}
+	
+	//upper
+	currentColor = colors[2];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	
+	currentColor = colors[3];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	
+	// hole
+	currentColor = colors[1];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[2];
+	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	
+	_dirtyVerticies = NO;
+}
+
+- (void)drawWithString:(StringTexture *)aStringTexture
+{
+	if ( _borderTexture == 0 )
+		[self generateTextures];
+	
+	if ( _borderTexture == 0)
+		return;
+	
+	if( _dirtyTexture )
+		[self generateTextures];
+	if( _dirtyVerticies )
+		[self generateVertexArray];
+	
+	glPushMatrix();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+	glTexCoordPointer( 2,GL_FLOAT,sizeof(fullVertex2),&_vertexArray->texture);
+	glVertexPointer( 2,GL_FLOAT,sizeof(fullVertex2),&_vertexArray->vertex);
+	glColorPointer( 4,GL_FLOAT,sizeof(fullVertex2),&_vertexArray->color);
+	
+	// draw background
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
+	glDrawArrays( GL_QUADS, 0, VERTEXCOUNT_BORDER+VERTEXCOUNT_HOLE );
+	// draw border
+	glColor4f(_borderColor.red,_borderColor.green,_borderColor.blue,_borderColor.alpha);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _borderTexture);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDrawArrays( GL_QUADS, 0 , VERTEXCOUNT_BORDER );
+	
+	glDisable(GL_TEXTURE_RECTANGLE_EXT);
+	glPopMatrix();
+	
+	// draw String
+	if( aStringTexture == nil )
+		return;
+	
+	[aStringTexture drawCenteredInSize:_boxSize];
+}
+
+@end

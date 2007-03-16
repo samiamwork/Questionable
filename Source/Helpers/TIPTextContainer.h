@@ -31,7 +31,6 @@ typedef enum _TIPTextAlignment {
 	ATSUTextMeasurement totalHeight;
 	
 	ATSUTextMeasurement *lineHeights;
-	ATSUTextMeasurement *lineWidths;
 	UniCharArrayOffset *endOfLines;
 	
 }
@@ -47,7 +46,7 @@ typedef enum _TIPTextAlignment {
 - (void)setColor:(NSColor *)aColor;
 - (void)setText:(NSString *)theText;
 
-- (NSSize)sizeOfFirstLine;
+- (NSSize)containerSize;
 
 -(void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt;
 

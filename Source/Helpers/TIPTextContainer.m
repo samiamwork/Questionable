@@ -19,11 +19,10 @@ int allocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **offs
 		*heights = NULL;
 	}
 	
-	*heights = (ATSUTextMeasurement *)malloc( numberOfElements*(sizeof(ATSUTextMeasurement)*2+sizeof(UniCharArrayOffset)) );
+	*heights = (ATSUTextMeasurement *)malloc( numberOfElements*(sizeof(ATSUTextMeasurement)+sizeof(UniCharArrayOffset)) );
 	if( !*heights )
 		return 0;
 	
-	//*widths = (ATSUTextMeasurement *)((char*)*heights + (numberOfElements*sizeof(ATSUTextMeasurement)));
 	*offsets = (UniCharArrayOffset *)((char*)*heights + (numberOfElements*sizeof(ATSUTextMeasurement)));
 	return 1;
 }
@@ -46,12 +45,11 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		textLength = 0;
 		lineCount = 0;
 		fontSize  = 0.0f;
-		leading = 0.0f;
+		leading = FloatToFixed(0.0f);
 		lineWidth = 0.0f;
 		fontName = nil;
 		
 		lineHeights = NULL;
-		lineWidths = NULL;
 		endOfLines = NULL;
 		
 		OSStatus status = noErr;
@@ -108,8 +106,6 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		if( thisLine==0 )
 			firstAscent = ascent;
 		totalHeight += lineHeights[thisLine];
-		
-		//status = ATSUGetUnjusti
 	}
 	
 	// correct the total height so that it reflects the true height (leading is not part of the text).
@@ -149,6 +145,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	//if( width == lineWidth )
 	//	return;
+	
+	lineWidth = width;
 	
 	ATSUAttributeTag layoutTags[] = {kATSULineWidthTag};
 	ByteCount layoutSizes[] = {sizeof(ATSUTextMeasurement)};
@@ -222,7 +220,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
 	if( status != noErr )
-		printf(ERR_PREFIX "could not set font size for!\n");
+		printf(ERR_PREFIX "could not set font size!\n");
 	
 	// we also need to redo our line breaks since the size has changed.
 	[self setWidth:lineWidth];
@@ -330,20 +328,12 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 }
 
-
-- (NSSize)sizeOfFirstLine
+- (NSSize)containerSize
 {
-	Rect textRect;
-	NSSize textSize;
-	
-	ATSUMeasureTextImage( defaultLayout, endOfLines[0], endOfLines[0+1]-endOfLines[0], FloatToFixed( 0.0f ), FloatToFixed( 0.0f ), &textRect );
-	//printf( "pos 0 = %d, pos 1 = %d, length = %d\n", endOfLines[0], endOfLines[1], lineCount );
-	
-	textSize.width = (float)textRect.right;
-	textSize.height = FixedToFloat( lineHeights[0] );
-	
-	return textSize;
+	NSSize containerSize = NSMakeSize(lineWidth,FixedToFloat(totalHeight));
+	return containerSize;
 }
+
 /*==================*/
 #pragma mark Drawing
 /*==================*/
@@ -357,7 +347,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 -(void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt
 {
 	OSStatus status;
-	unsigned i;
+	unsigned thisLine;
 	
 	[self setWidth:rect.size.width];
 	
@@ -380,9 +370,9 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	ATSUAttributeValuePtr values[] = { &cxt };
 	status = ATSUSetLayoutControls(defaultLayout, 1, tags, valueSizes, values);
 	
-	for(i=0; i<lineCount; i++) {
-		ATSUDrawText(defaultLayout, endOfLines[i], endOfLines[i+1]-endOfLines[i], fX, fY);
-		fY -= lineHeights[i];
+	for(thisLine=0; thisLine<lineCount; thisLine++) {
+		ATSUDrawText(defaultLayout, endOfLines[thisLine], endOfLines[thisLine+1]-endOfLines[thisLine], fX, fY);
+		fY -= lineHeights[thisLine];
 	}
 
 	CGContextRestoreGState(cxt);
