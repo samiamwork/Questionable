@@ -10,6 +10,7 @@
 #import <QTKit/QTKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "TriviaBoard.h"
+#import "RectangularBox.h"
 
 typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlaceholder,
@@ -40,6 +41,18 @@ typedef enum TIPTriviaBoardViewState {
 	TIPTriviaBoardViewState lastViewState;
 	NSAnimation *_transitionAnimation;
 	NSTimer *_transitionTimer;
+	
+	//display Objects
+	RectangularBox *_categoryTitleBox;
+	NSMutableArray *_categoryTitleStrings;
+	
+	//display metrics
+	NSSize _questionTitleSize;
+	NSSize _questionPointSize;
+	NSSize _boardPaddingSize;
+	NSSize _boardMarginSize;
+	NSSize _titleStringSize;
+	NSSize _pointStringSize;
 }
 
 - (void)setBoard:(TriviaBoard *)newBoard;

@@ -48,6 +48,10 @@
 		[_transitionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
 		
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
+		
+		//Display Objects
+		_categoryTitleBox = nil;
+		_categoryTitleStrings = [[NSMutableArray alloc] init];
     }
 	
     return self;
@@ -62,6 +66,10 @@
 	[_question release];
 	[_players release];
 	[_transitionAnimation release];
+	
+	//Display Objects
+	[_categoryTitleBox release];
+	[_categoryTitleStrings release];
 
 	[super dealloc];
 }
@@ -87,6 +95,18 @@
 	}
 	
 	return outputRect;
+}
+
+- (void)regenerateStringTextures
+{
+	[_categoryTitleStrings removeAllObjects];
+	NSEnumerator *categoryEnumerator = [[_mainBoard categories] objectEnumerator];
+	TriviaCategory *aCategory;
+	while( (aCategory = [categoryEnumerator nextObject]) ) {
+		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
+		[_categoryTitleStrings addObject:aStringTexture];
+		[aStringTexture release];
+	}
 }
 
 - (void)doReshape
@@ -124,6 +144,26 @@
 	
 	_needsReshape = NO;
 	
+	// recalculate display metrics
+	_boardPaddingSize = NSMakeSize(15.0f,0.0f);
+	_boardMarginSize = NSMakeSize(10.0f,25.0f);
+	NSSize availableSize = NSMakeSize(_targetSize.width - 2.0f*_boardMarginSize.width - 4.0f*_boardPaddingSize.width,
+									  _targetSize.height - 2.0f*_boardMarginSize.height - 5.0f*_boardPaddingSize.height);
+	_questionTitleSize.width = floorf(availableSize.width/5.0f);
+	_questionTitleSize.height = floorf(availableSize.height/5.0f);
+	_questionPointSize.width = _questionTitleSize.width;
+	_questionPointSize.height = floorf( (availableSize.height - _questionTitleSize.height)/5.0f );
+	
+	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f/4.0f));
+	_pointStringSize = NSMakeSize(floorf(_questionPointSize.height*0.9f),floorf(_questionPointSize.height*0.9f));
+	
+	// regenerate textures at new size
+	if( _categoryTitleBox != nil )
+		[_categoryTitleBox release];
+	_categoryTitleBox = [[RectangularBox alloc] initWithSize:_questionTitleSize withRadius:8.0f withLineWidth:5.0f];
+	[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+	[self regenerateStringTextures];
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -147,29 +187,56 @@
 {
 	switch( aState ) {
 		case kTIPTriviaBoardViewStateBoard:
-			glColor4f( 1.0f,0.0f,0.5f,progress );
+			glPushMatrix();
+			glTranslatef(0.0f,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
+			NSEnumerator *titleEnumerator = [_categoryTitleStrings objectEnumerator];
+			StringTexture *aTitleString;
+			while( (aTitleString = [titleEnumerator nextObject]) ) {
+				[_categoryTitleBox drawWithString:aTitleString];
+				
+				glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
+			}
+			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStateQuestion:
 			glColor4f( 0.0f,0.1f,0.5f,progress );
+			glBegin(GL_TRIANGLE_FAN); {
+				glVertex2f(0.0f,0.0f);
+				glVertex2f(_targetSize.width,0.0f);
+				glVertex2f(_targetSize.width,_targetSize.height);
+				glVertex2f(0.0f,_targetSize.height);
+			} glEnd();			
 			break;
 		case kTIPTriviaBoardViewStateAnswer:
 			glColor4f( 0.5f,0.0f,0.1f,progress );
+			glBegin(GL_TRIANGLE_FAN); {
+				glVertex2f(0.0f,0.0f);
+				glVertex2f(_targetSize.width,0.0f);
+				glVertex2f(_targetSize.width,_targetSize.height);
+				glVertex2f(0.0f,_targetSize.height);
+			} glEnd();			
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
 			glColor4f( 1.0f,0.0f,0.5f,progress );
+			glBegin(GL_TRIANGLE_FAN); {
+				glVertex2f(0.0f,0.0f);
+				glVertex2f(_targetSize.width,0.0f);
+				glVertex2f(_targetSize.width,_targetSize.height);
+				glVertex2f(0.0f,_targetSize.height);
+			} glEnd();			
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
 			glColor4f( 0.8f,0.8f,0.8f,progress );
+			glBegin(GL_TRIANGLE_FAN); {
+				glVertex2f(0.0f,0.0f);
+				glVertex2f(_targetSize.width,0.0f);
+				glVertex2f(_targetSize.width,_targetSize.height);
+				glVertex2f(0.0f,_targetSize.height);
+			} glEnd();			
 			break;
 	}
-	
-	glBegin(GL_TRIANGLE_FAN); {
-		glVertex2f(0.0f,0.0f);
-		glVertex2f(_targetSize.width,0.0f);
-		glVertex2f(_targetSize.width,_targetSize.height);
-		glVertex2f(0.0f,_targetSize.height);
-	} glEnd();
+
 }
 
 - (void)drawRect:(NSRect)rect
@@ -211,6 +278,8 @@
 	
 	[_mainBoard release];
 	_mainBoard = [newBoard retain];
+	
+	[self regenerateStringTextures];
 	
 	[self setNeedsDisplay:YES];
 }
