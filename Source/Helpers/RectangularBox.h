@@ -40,7 +40,8 @@ typedef enum BoxCorner {
 	BoxCornerUpperRight = 1,
 	BoxCornerLowerRight = 2,
 	BoxCornerLowerLeft = 4,
-	BoxCornerUpperLeft = 8
+	BoxCornerUpperLeft = 8,
+	BoxCornerAll = 15
 } BoxCorner;
 
 @interface RectangularBox : NSObject {

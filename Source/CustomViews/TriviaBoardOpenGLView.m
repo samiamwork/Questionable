@@ -16,14 +16,15 @@
     if (self) {
 		
 		NSOpenGLPixelFormatAttribute windowedAttributes[] = {
-			NSOpenGLPFAWindow,
+			//NSOpenGLPFAWindow,
+			//NSOpenGLPFANoRecovery,
 			NSOpenGLPFAAccelerated,
 			NSOpenGLPFADoubleBuffer,
-			NSOpenGLPFAColorSize, 24,
-			NSOpenGLPFAAlphaSize, 8,
+			//NSOpenGLPFAColorSize, 24,
+			//NSOpenGLPFAAlphaSize, 8,
 			0 };
 		
-		_windowedPixelFormat = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttributes] autorelease];
+		_windowedPixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttributes];
 		_windowedContext = [[NSOpenGLContext alloc] initWithFormat:_windowedPixelFormat shareContext:nil];
 		
 		if( !_windowedContext ) {
@@ -44,14 +45,16 @@
 		_mainBoard = nil;
 		_question = nil;
 		_players = nil;
-		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5f animationCurve:NSAnimationEaseInOut];
+		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseIn];
 		[_transitionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
 		
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
 		
 		//Display Objects
 		_categoryTitleBox = nil;
+		_pointsBox = nil;
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
+		_questionPointStrings = [[NSMutableArray alloc] init];
     }
 	
     return self;
@@ -69,7 +72,9 @@
 	
 	//Display Objects
 	[_categoryTitleBox release];
+	[_pointsBox release];
 	[_categoryTitleStrings release];
+	[_questionPointStrings release];
 
 	[super dealloc];
 }
@@ -105,6 +110,16 @@
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
 		[_categoryTitleStrings addObject:aStringTexture];
+		[aStringTexture release];
+	}
+	
+	[_questionPointStrings removeAllObjects];
+	unsigned int points;
+	for( points = 100; points <= 500; points += 100 ) {
+		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[[NSNumber numberWithInt:points] stringValue]
+																	withWidth:_pointStringSize.width
+																 withFontSize:_pointStringSize.height];
+		[_questionPointStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}
 }
@@ -145,7 +160,7 @@
 	_needsReshape = NO;
 	
 	// recalculate display metrics
-	_boardPaddingSize = NSMakeSize(15.0f,0.0f);
+	_boardPaddingSize = NSMakeSize(15.0f,-2.0f);
 	_boardMarginSize = NSMakeSize(10.0f,25.0f);
 	NSSize availableSize = NSMakeSize(_targetSize.width - 2.0f*_boardMarginSize.width - 4.0f*_boardPaddingSize.width,
 									  _targetSize.height - 2.0f*_boardMarginSize.height - 5.0f*_boardPaddingSize.height);
@@ -155,13 +170,19 @@
 	_questionPointSize.height = floorf( (availableSize.height - _questionTitleSize.height)/5.0f );
 	
 	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f/4.0f));
-	_pointStringSize = NSMakeSize(floorf(_questionPointSize.height*0.9f),floorf(_questionPointSize.height*0.9f));
+	_pointStringSize = NSMakeSize(floorf(_questionPointSize.height*0.9f),floorf(_questionPointSize.height*0.4f));
 	
 	// regenerate textures at new size
 	if( _categoryTitleBox != nil )
 		[_categoryTitleBox release];
-	_categoryTitleBox = [[RectangularBox alloc] initWithSize:_questionTitleSize withRadius:8.0f withLineWidth:5.0f];
+	_categoryTitleBox = [[RectangularBox alloc] initWithSize:_questionTitleSize withRadius:floorf(_questionTitleSize.height*0.2f) withLineWidth:5.0f];
 	[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+	
+	if( _pointsBox != nil )
+		[_pointsBox release];
+	_pointsBox = [[RectangularBox alloc] initWithSize:_questionPointSize withRadius:10.0f withLineWidth:5.0f];
+	[_pointsBox setSharpCorners:BoxCornerAll];
+	
 	[self regenerateStringTextures];
 	
 	[self setNeedsDisplay:YES];
@@ -175,7 +196,8 @@
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
 	
 	_contextSize = NSZeroSize;
 	
@@ -188,12 +210,23 @@
 	switch( aState ) {
 		case kTIPTriviaBoardViewStateBoard:
 			glPushMatrix();
-			glTranslatef(0.0f,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
+			glTranslatef(-_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
+			glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
 			NSEnumerator *titleEnumerator = [_categoryTitleStrings objectEnumerator];
 			StringTexture *aTitleString;
 			while( (aTitleString = [titleEnumerator nextObject]) ) {
 				[_categoryTitleBox drawWithString:aTitleString];
 				
+				glPushMatrix();
+				glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
+				NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
+				StringTexture *aPointTexture;
+				while( (aPointTexture = [pointEnumerator nextObject]) ) {
+					[_pointsBox drawWithString:aPointTexture];
+					glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
+				}
+				glPopMatrix();
 				glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
 			}
 			glPopMatrix();
@@ -227,16 +260,16 @@
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
-			glColor4f( 0.8f,0.8f,0.8f,progress );
+			glColor4f( 0.0f,0.8f,0.8f, progress ); 
 			glBegin(GL_TRIANGLE_FAN); {
 				glVertex2f(0.0f,0.0f);
 				glVertex2f(_targetSize.width,0.0f);
 				glVertex2f(_targetSize.width,_targetSize.height);
 				glVertex2f(0.0f,_targetSize.height);
-			} glEnd();			
+			} glEnd();
 			break;
 	}
-
+	
 }
 
 - (void)drawRect:(NSRect)rect
@@ -248,20 +281,20 @@
 	if( _contextSize.width != boundSize.width || _contextSize.height != boundSize.height )
 		[self doReshape];
 	
-	glClearColor(0.5f,0.0f,0.0f,1.0f);
+	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear( GL_COLOR_BUFFER_BIT );
 	
+	if( ![_transitionAnimation isAnimating] ) {
+		lastViewState = theViewState;
+		if( _transitionTimer != nil )
+			[_transitionTimer invalidate];
+		_transitionTimer = nil;
+	}
+	
 	if( theViewState != lastViewState ) {
-		float progress = [_transitionAnimation currentProgress];
+		float progress = [_transitionAnimation currentValue];
 		[self drawState:lastViewState withProgress:(1.0f-progress)];
 		[self drawState:theViewState withProgress:progress];
-		
-		if( ![_transitionAnimation isAnimating] ) {
-			lastViewState = theViewState;
-			if( _transitionTimer != nil )
-				[_transitionTimer invalidate];
-			_transitionTimer = nil;
-		}
 	} else {
 		[self drawState:theViewState withProgress:1.0f];
 	}

@@ -44,7 +44,9 @@ typedef enum TIPTriviaBoardViewState {
 	
 	//display Objects
 	RectangularBox *_categoryTitleBox;
+	RectangularBox *_pointsBox;
 	NSMutableArray *_categoryTitleStrings;
+	NSMutableArray *_questionPointStrings;
 	
 	//display metrics
 	NSSize _questionTitleSize;
