@@ -16,12 +16,11 @@
     if (self) {
 		
 		NSOpenGLPixelFormatAttribute windowedAttributes[] = {
-			//NSOpenGLPFAWindow,
-			//NSOpenGLPFANoRecovery,
+			NSOpenGLPFAWindow,
 			NSOpenGLPFAAccelerated,
 			NSOpenGLPFADoubleBuffer,
-			//NSOpenGLPFAColorSize, 24,
-			//NSOpenGLPFAAlphaSize, 8,
+			NSOpenGLPFAColorSize, 24,
+			NSOpenGLPFAAlphaSize, 8,
 			0 };
 		
 		_windowedPixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttributes];
@@ -45,7 +44,7 @@
 		_mainBoard = nil;
 		_question = nil;
 		_players = nil;
-		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseIn];
+		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseInOut];
 		[_transitionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
 		
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
@@ -196,7 +195,7 @@
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_DEPTH_TEST);
 	
 	_contextSize = NSZeroSize;
