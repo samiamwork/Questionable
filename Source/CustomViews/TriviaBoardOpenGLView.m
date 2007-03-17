@@ -50,10 +50,30 @@
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
 		
 		//Display Objects
-		_categoryTitleBox = nil;
-		_pointsBox = nil;
+		_categoryTitleBox = [[RectangularBox alloc] init];
+		[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.7f alpha:1.0f]];
+		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedRed:0.4f green:0.4f blue:0.9f alpha:1.0f]];
+		[_categoryTitleBox setLineWidth:1.0f];
+
+		_pointsBox = [[RectangularBox alloc] init];
+		[_pointsBox setSharpCorners:BoxCornerAll];
+		[_pointsBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.7f alpha:1.0f]];
+		[_pointsBox setEndColor:[NSColor colorWithCalibratedRed:0.4f green:0.4f blue:0.9f alpha:1.0f]];
+		[_pointsBox setLineWidth:1.0f];
+		[_pointsBox setCornerRadius:10.0f];
+		[_pointsBox setShadingDirection:BoxShadingHorizontal];
+		
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
 		_questionPointStrings = [[NSMutableArray alloc] init];
+		
+		_QATitleBox = nil;
+		_QATitleBox = [[RectangularBox alloc] init];
+		[_QATitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+		
+		_QATextBox = nil;
+		_questionString = nil;
+		_answerString = nil;
     }
 	
     return self;
@@ -171,16 +191,15 @@
 	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f/4.0f));
 	_pointStringSize = NSMakeSize(floorf(_questionPointSize.height*0.9f),floorf(_questionPointSize.height*0.4f));
 	
-	// regenerate textures at new size
-	if( _categoryTitleBox != nil )
-		[_categoryTitleBox release];
-	_categoryTitleBox = [[RectangularBox alloc] initWithSize:_questionTitleSize withRadius:floorf(_questionTitleSize.height*0.2f) withLineWidth:5.0f];
-	[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+	// set new sizes
+	[_categoryTitleBox setSize:_questionTitleSize];
+	[_categoryTitleBox setCornerRadius:floorf(_questionTitleSize.height*0.2f)];
 	
-	if( _pointsBox != nil )
-		[_pointsBox release];
-	_pointsBox = [[RectangularBox alloc] initWithSize:_questionPointSize withRadius:10.0f withLineWidth:5.0f];
-	[_pointsBox setSharpCorners:BoxCornerAll];
+	[_pointsBox setSize:_questionPointSize];
+	
+	[_QATitleBox setSize:availableSize];
+	[_QATitleBox setCornerRadius:ceilf(availableSize.height/2.0f)];
+	[_QATitleBox setLineWidth:ceilf(availableSize.height*0.02f)];
 	
 	[self regenerateStringTextures];
 	
@@ -341,6 +360,8 @@
 	
 	[_question release];
 	_question = [newQuestion retain];
+	
+	
 }
 - (TriviaQuestion *)question
 {

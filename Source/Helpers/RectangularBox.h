@@ -44,6 +44,11 @@ typedef enum BoxCorner {
 	BoxCornerAll = 15
 } BoxCorner;
 
+typedef enum BoxShadingDirection {
+	BoxShadingHorizontal,
+	BoxShadingVertical
+} BoxShadingDirection;
+
 @interface RectangularBox : NSObject {
 	GLuint _borderTexture;
 	GLuint _bgTexture;
@@ -58,6 +63,7 @@ typedef enum BoxCorner {
 	float _textureSize;
 	
 	BoxCorner _sharpCorners;
+	BoxShadingDirection _shadingDirection;
 	
 	fullVertex2 *_vertexArray;
 	
@@ -70,6 +76,7 @@ typedef enum BoxCorner {
 - (void)drawWithString:(StringTexture *)aStringTexture;
 
 - (void)setSharpCorners:(BoxCorner)newCorners;
+- (void)setShadingDirection:(BoxShadingDirection)newShadingDirection;
 - (void)setSize:(NSSize)newSize;
 - (void)setCornerRadius:(float)newRadius;
 - (void)setLineWidth:(float)newWidth;

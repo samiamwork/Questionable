@@ -26,7 +26,7 @@
 		_dirtyVerticies = YES;
 		
 		_sharpCorners = BoxCornerNone;
-		//_sharpCorners = BoxCornerUpperLeft | BoxCornerUpperRight | BoxCornerLowerRight | BoxCornerLowerLeft;
+		_shadingDirection = BoxShadingVertical;
 		
 		[self setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
 		[self setEndColor:[NSColor colorWithCalibratedWhite:0.5f alpha:1.0f]];
@@ -72,7 +72,20 @@
 
 - (void)setSharpCorners:(BoxCorner)newCorners
 {
+	if( newCorners == _sharpCorners )
+		return;
+	
 	_sharpCorners = newCorners;
+	_dirtyVerticies = YES;
+}
+
+- (void)setShadingDirection:(BoxShadingDirection)newShadingDirection
+{
+	if( newShadingDirection == _shadingDirection )
+		return;
+	
+	_shadingDirection = newShadingDirection;
+	_dirtyVerticies = YES;
 }
 
 - (void)setStartColor:(NSColor *)newColor
@@ -116,6 +129,7 @@
 	
 	_cornerRadius = newRadius;
 	_dirtyTexture = YES;
+	_dirtyVerticies = YES;
 }
 
 - (void)setLineWidth:(float)newWidth
@@ -213,6 +227,14 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	float yPoints[4] = { 0.0f, _textureSize, _boxSize.height-_textureSize, _boxSize.height };
 	color4 midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
 	color4 midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
+
+	if( BoxShadingVertical ) {
+		midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
+		midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
+	} else {
+		midColor1 = blendColors( _startColor, _endColor, xPoints[1]/_boxSize.width );
+		midColor2 = blendColors( _startColor, _endColor, xPoints[2]/_boxSize.width );
+	}
 	
 	color4 *colors[4] = { &_startColor, &midColor1, &midColor2, &_endColor };
 	color4 *currentColor;
@@ -221,114 +243,140 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	
 	//upper right
 	if( _sharpCorners & BoxCornerUpperRight ) {
-		currentColor = colors[2];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-		currentColor = colors[3];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
 	} else {
-		currentColor = colors[2];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
-		currentColor = colors[3];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[3]}, (texture2){_textureSize,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
 	}
 	
 	//right
-	currentColor = colors[1];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
 	
-	currentColor = colors[2];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
 	
 	//lower right
 	if( _sharpCorners & BoxCornerLowerRight ) {
-		currentColor = colors[0];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
-		currentColor = colors[1];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
 	} else {
-		currentColor = colors[0];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[0]}, (texture2){_textureSize,0.0f}, *currentColor );
-		currentColor = colors[1];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
 	}
 	
 	//lower
-	currentColor = colors[0];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 0];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 0];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
 	
-	currentColor = colors[1];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
 	
 	//lower left
 	if( _sharpCorners & BoxCornerLowerLeft ) {
-		currentColor = colors[0];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
-		currentColor = colors[1];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
 	} else {
-		currentColor = colors[0];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[0]}, (texture2){_textureSize,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 0];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
-		currentColor = colors[1];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 1];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
 	}
 	
 	//left
-	currentColor = colors[1];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
 	
-	currentColor = colors[2];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
 	
 	//upper left
 	if( _sharpCorners & BoxCornerUpperLeft ) {
-		currentColor = colors[2];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-		currentColor = colors[3];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[3]}, (texture2){_textureSize,_textureSize}, *currentColor );
 	} else {
-		currentColor = colors[2];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-		currentColor = colors[3];
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 3];
 		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[3]}, (texture2){_textureSize,0.0f}, *currentColor );
 	}
 	
 	//upper
-	currentColor = colors[2];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
 	
-	currentColor = colors[3];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 3];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 3];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
 	
 	// hole
-	currentColor = colors[1];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
-	currentColor = colors[2];
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
 	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
 	
 	_dirtyVerticies = NO;
