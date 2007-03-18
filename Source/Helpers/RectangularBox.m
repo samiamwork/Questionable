@@ -121,6 +121,10 @@
 	_boxSize = newSize;
 	_dirtyVerticies = YES;
 }
+- (NSSize)size
+{
+	return _boxSize;
+}
 
 - (void)setCornerRadius:(float)newRadius
 {
@@ -131,6 +135,10 @@
 	_dirtyTexture = YES;
 	_dirtyVerticies = YES;
 }
+- (float)cornerRadius
+{
+	return _cornerRadius;
+}
 
 - (void)setLineWidth:(float)newWidth
 {
@@ -139,6 +147,10 @@
 	
 	_lineWidth = newWidth;
 	_dirtyTexture = YES;
+}
+- (float)lineWidth
+{
+	return _lineWidth;
 }
 
 - (void)generateTextures

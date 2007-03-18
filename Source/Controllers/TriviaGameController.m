@@ -41,7 +41,10 @@
 	[super dealloc];
 }
 
-
+- (void)awakeFromNib
+{
+	[simpleBoardView setDelegate:self];
+}
 #pragma mark question methods
 
 - (void)showQuestion

@@ -78,8 +78,11 @@ typedef enum BoxShadingDirection {
 - (void)setSharpCorners:(BoxCorner)newCorners;
 - (void)setShadingDirection:(BoxShadingDirection)newShadingDirection;
 - (void)setSize:(NSSize)newSize;
+- (NSSize)size;
 - (void)setCornerRadius:(float)newRadius;
+- (float)cornerRadius;
 - (void)setLineWidth:(float)newWidth;
+- (float)lineWidth;
 
 - (void)setStartColor:(NSColor *)newColor;
 - (void)setEndColor:(NSColor *)newColor;
