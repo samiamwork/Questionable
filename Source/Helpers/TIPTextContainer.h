@@ -39,6 +39,7 @@ typedef enum _TIPTextAlignment {
 + (id)containerWithString:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)theFontName;
 
 - (void)setWidth:(float)width;
+- (void)setFont:(NSFont *)newFont;
 - (void)setFontWithName:(NSString *)newFontName;
 - (void)setFontSize:(float)theSize;
 - (void)setLeading:(float)theLeading;

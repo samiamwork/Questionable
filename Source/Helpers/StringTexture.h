@@ -20,9 +20,11 @@
 	NSColor *_textColor;
 	
 	TIPTextContainer *_text;
+	BOOL _dirtyTexture;
 }
 
 - (id)initWithString:(NSString *)aString withWidth:(float)textureWidth withFontSize:(float)fontSize;
+- (void)setFont:(NSFont *)newFont;
 - (void)setColor:(NSColor *)newColor;
 - (void)generateTexture;
 - (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width;

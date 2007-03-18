@@ -128,6 +128,7 @@
 	TriviaCategory *aCategory;
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
+		[aStringTexture setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f]];
 		[_categoryTitleStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}
@@ -138,6 +139,7 @@
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[[NSNumber numberWithInt:points] stringValue]
 																	withWidth:_pointStringSize.width
 																 withFontSize:_pointStringSize.height];
+		[aStringTexture setFont:[NSFont fontWithName:@"Helvetica-Bold" size:12.0f]];
 		[_questionPointStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}
@@ -189,7 +191,7 @@
 	_questionPointSize.height = floorf( (availableSize.height - _questionTitleSize.height)/5.0f );
 	
 	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f/4.0f));
-	_pointStringSize = NSMakeSize(floorf(_questionPointSize.height*0.9f),floorf(_questionPointSize.height*0.4f));
+	_pointStringSize = NSMakeSize(floorf(_questionPointSize.width*0.9f),floorf(_questionPointSize.height*0.6f));
 	
 	// set new sizes
 	[_categoryTitleBox setSize:_questionTitleSize];

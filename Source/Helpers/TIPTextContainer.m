@@ -173,6 +173,14 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 }
 
+- (void)setFont:(NSFont *)newFont
+{
+	if( newFont == nil )
+		return;
+	
+	[self setFontWithName:[newFont fontName]];
+}
+
 - (void)setFontWithName:(NSString *)newFontName
 {
 	if( newFontName == nil )

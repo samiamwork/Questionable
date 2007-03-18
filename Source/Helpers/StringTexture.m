@@ -26,6 +26,8 @@
 		_textureID = 0;
 		_textureSize = NSZeroSize;
 		[self setColor:[NSColor colorWithCalibratedWhite:0.0f alpha:1.0f]];
+		
+		_dirtyTexture = YES;
 	}
 
 	return self;
@@ -71,6 +73,12 @@
 	[_textColor retain];
 }
 
+- (void)setFont:(NSFont *)newFont
+{
+	[_text setFont:newFont];
+	_dirtyTexture = YES;
+}
+
 - (void)generateAlphaOnlyTexture
 {
 	[self deleteTexture];
@@ -114,6 +122,8 @@
 	
 	free(convertedData);
 	free(bitmapData);
+	
+	_dirtyTexture = NO;
 }
 
 - (void)generateTexture
@@ -144,6 +154,8 @@
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	[bitmap release];
 	[image release];
+	
+	_dirtyTexture = NO;
 }
 
 - (NSSize)naturalSize
@@ -153,7 +165,7 @@
 
 - (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width
 {
-	if ( _textureID == 0 )
+	if ( _dirtyTexture )
 		[self generateAlphaOnlyTexture];
 		//[self generateTexture];
 	
