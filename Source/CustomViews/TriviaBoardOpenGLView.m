@@ -78,6 +78,17 @@
 		
 		_questionString = nil;
 		_answerString = nil;
+		
+		_playerNameBox = [[RectangularBox alloc] init];
+		[_playerNameBox setSharpCorners:BoxCornerAll];
+		[_playerNameBox setLineWidth:1.0f];
+		[_playerNameBox setCornerRadius:5.0f];
+		_playerPointBox = [[RectangularBox alloc] init];
+		[_playerPointBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight|BoxCornerLowerLeft];
+		[_playerPointBox setLineWidth:1.0f];
+		[_playerPointBox setCornerRadius:5.0f];
+		_playerNameStrings = [[NSMutableArray alloc] init];
+		_playerPointStrings = [[NSMutableArray alloc] init];
     }
 	
     return self;
@@ -104,6 +115,11 @@
 	[_questionTitleString release];
 	[_categoryTitleStrings release];
 	[_questionPointStrings release];
+	
+	[_playerNameBox release];
+	[_playerPointBox release];
+	[_playerNameStrings release];
+	[_playerPointStrings release];
 
 	[super dealloc];
 }
@@ -169,6 +185,24 @@
 		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
 		[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
 	}
+	
+	
+	if( [_playerNameStrings count] != 0 ) {
+		NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
+		StringTexture *aStringTexture;
+		while( (aStringTexture = [stringEnumerator nextObject]) ) {
+			[aStringTexture setWidth:[_playerNameBox size].width];
+			[aStringTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		}
+	}
+	if( [_playerPointStrings count] != 0 ) {
+		NSEnumerator *stringEnumerator = [_playerPointStrings objectEnumerator];
+		StringTexture *aStringTexture;
+		while( (aStringTexture = [stringEnumerator nextObject]) ) {
+			[aStringTexture setWidth:[_playerPointBox size].width];
+			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.8f)];
+		}
+	}
 }
 
 - (void)doReshape
@@ -233,6 +267,12 @@
 	[_QATextBox setCornerRadius:[_QATitleBox cornerRadius]];
 	[_QATextBox setLineWidth:[_QATitleBox lineWidth]];
 	
+	_playerNameSize = NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.5f));
+	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.3f));
+	_playerPointPadding = ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.2f);
+	[_playerNameBox setSize:_playerNameSize];
+	[_playerPointBox setSize:_playerPointSize];
+	
 	[self regenerateStringTextures];
 	
 	[self setNeedsDisplay:YES];
@@ -253,6 +293,17 @@
 	
 	_isFirstFrame = NO;
 	_needsReshape = YES;
+}
+
+- (void)drawPlayerStatus
+{
+	unsigned int playerIndex;
+	for( playerIndex = 0; playerIndex < [_playerNameStrings count] && playerIndex < 4; playerIndex++ ) {
+		[_playerNameBox drawWithString:[_playerNameStrings objectAtIndex:playerIndex]];
+		glTranslatef(0.0f,-[_playerPointBox size].height,0.0f);
+		[_playerPointBox drawWithString:[_playerPointStrings objectAtIndex:playerIndex]];
+		glTranslatef(0.0f,-([_playerNameBox size].height+_playerPointPadding),0.0f);
+	}
 }
 
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
@@ -300,7 +351,11 @@
 			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
-			//
+			glPushMatrix();
+			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_playerNameBox size].height,0.0f);
+			[self drawPlayerStatus];
+			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
@@ -341,6 +396,8 @@
 				_answerString = nil;
 				break;
 			case kTIPTriviaBoardViewStatePlayers:
+				[_playerNameStrings removeAllObjects];
+				[_playerPointStrings removeAllObjects];
 				break;
 			case kTIPTriviaBoardViewStatePlaceholder:
 				break;
@@ -452,20 +509,37 @@
 - (void)showPlayers
 {
 	[self setBoardViewState:kTIPTriviaBoardViewStatePlayers];
+	
+	NSMutableArray *topScorers = [NSMutableArray arrayWithArray:_players];
+	[topScorers sortUsingSelector:@selector(sortByPoints:)];
+	
+	while( [topScorers count] > 4 )
+		[topScorers removeObjectAtIndex:4];
+	
+	NSEnumerator *playerEnumerator = [topScorers objectEnumerator];
+	TriviaPlayer *aPlayer;
+	while( (aPlayer = [playerEnumerator nextObject]) ) {
+		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		[_playerNameStrings addObject:aNameTexture];
+		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerPointBox size].height*0.8f)];
+		[_playerPointStrings addObject:aPointTexture];
+	}
 }
 
 - (void)showQuestion
 {
 	// generate a texture for the question we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
-	_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
+	if( [_question question] != nil )
+		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 }
 
 - (void)showAnswer
 {
 	// generate a texture for the answer we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
-	_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
+	if( [_question answer] != nil )
+		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 }
 
 @end

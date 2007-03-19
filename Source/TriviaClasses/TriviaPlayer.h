@@ -28,6 +28,8 @@
 - (BOOL)enabled;
 - (void)setEnabled:(BOOL)isEnabled;
 
+- (NSComparisonResult)sortByPoints:(id)anotherPlayer;
+
 - (BOOL)isConnected;
 //- (BOOL)setIsConnected:(BOOL)connected;
 

@@ -73,6 +73,16 @@
 	enabled = isEnabled;
 }
 
+- (NSComparisonResult)sortByPoints:(id)anotherPlayer
+{
+	if( [(TriviaPlayer *)anotherPlayer points] > [self points] )
+		return NSOrderedDescending;
+	else if( [(TriviaPlayer *)anotherPlayer points] == [self points] )
+		return NSOrderedSame;
+	
+	return NSOrderedAscending;
+}
+
 - (BOOL)isConnected
 {
 	if( inputElement == nil )
