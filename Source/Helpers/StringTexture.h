@@ -24,7 +24,10 @@
 }
 
 - (id)initWithString:(NSString *)aString withWidth:(float)textureWidth withFontSize:(float)fontSize;
+- (void)setString:(NSString *)newString;
+- (void)setWidth:(float)newWidth;
 - (void)setFont:(NSFont *)newFont;
+- (void)setFontSize:(float)newFontSize;
 - (void)setColor:(NSColor *)newColor;
 - (void)generateTexture;
 - (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width;

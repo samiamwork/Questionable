@@ -96,6 +96,12 @@
 	//Display Objects
 	[_categoryTitleBox release];
 	[_pointsBox release];
+	[_QATitleBox release];
+	[_QATextBox release];
+	[_questionString release];
+	[_answerString release];
+	[_answerTitleString release];
+	[_questionTitleString release];
 	[_categoryTitleStrings release];
 	[_questionPointStrings release];
 
@@ -154,6 +160,15 @@
 	if( _answerTitleString != nil )
 		[_answerTitleString release];
 	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
+	
+	if( _questionString != nil ) {
+		[_questionString setWidth:ceilf([_QATextBox size].width*0.8f)];
+		[_questionString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+	}
+	if( _answerString != nil ) {
+		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
+		[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+	}
 }
 
 - (void)doReshape
@@ -271,8 +286,8 @@
 			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_questionTitleString];
-			glTranslatef(0.0f,-[_QATextBox size].height,0.0f);
-			[_QATextBox drawWithString:nil];
+			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
+			[_QATextBox drawWithString:_questionString];
 			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStateAnswer:
@@ -280,18 +295,12 @@
 			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_answerTitleString];
-			glTranslatef(0.0f,-[_QATextBox size].height,0.0f);
-			[_QATextBox drawWithString:nil];
+			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
+			[_QATextBox drawWithString:_answerString];
 			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
-			glColor4f( 1.0f,0.0f,0.5f,progress );
-			glBegin(GL_TRIANGLE_FAN); {
-				glVertex2f(0.0f,0.0f);
-				glVertex2f(_targetSize.width,0.0f);
-				glVertex2f(_targetSize.width,_targetSize.height);
-				glVertex2f(0.0f,_targetSize.height);
-			} glEnd();			
+			//
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
@@ -319,7 +328,26 @@
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear( GL_COLOR_BUFFER_BIT );
 	
-	if( ![_transitionAnimation isAnimating] ) {
+	if( lastViewState != theViewState && ![_transitionAnimation isAnimating] ) {
+		switch(lastViewState) {
+			case kTIPTriviaBoardViewStateQuestion:
+				if( _questionString != nil )
+					[_questionString release];
+				_questionString = nil;
+				break;
+			case kTIPTriviaBoardViewStateAnswer:
+				if( _answerString != nil )
+					[_answerString release];
+				_answerString = nil;
+				break;
+			case kTIPTriviaBoardViewStatePlayers:
+				break;
+			case kTIPTriviaBoardViewStatePlaceholder:
+				break;
+			default:
+				break;
+		}
+		
 		lastViewState = theViewState;
 		if( _transitionTimer != nil )
 			[_transitionTimer invalidate];
@@ -430,12 +458,14 @@
 {
 	// generate a texture for the question we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
+	_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 }
 
 - (void)showAnswer
 {
 	// generate a texture for the answer we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
+	_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 }
 
 @end

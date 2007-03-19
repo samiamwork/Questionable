@@ -40,6 +40,7 @@
 	
 	glDeleteTextures(1,&_textureID);
 	_textureID = 0;
+	_dirtyTexture = YES;
 }
 
 - (void)dealloc
@@ -66,6 +67,18 @@
 	return self;
 }
 
+- (void)setString:(NSString *)newString
+{
+	[_text setText:newString];
+	_dirtyTexture = YES;
+}
+
+- (void)setWidth:(float)newWidth
+{
+	[_text setWidth:newWidth];
+	_dirtyTexture = YES;
+}
+
 - (void)setColor:(NSColor *)newColor
 {
 	[_textColor release];
@@ -76,6 +89,12 @@
 - (void)setFont:(NSFont *)newFont
 {
 	[_text setFont:newFont];
+	_dirtyTexture = YES;
+}
+
+- (void)setFontSize:(float)newFontSize
+{
+	[_text setFontSize:newFontSize];
 	_dirtyTexture = YES;
 }
 
