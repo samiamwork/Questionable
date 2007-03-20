@@ -192,6 +192,7 @@
 	drawnSize.width = width;
 	drawnSize.height *= width/_textureSize.width;
 	
+	glPushAttrib(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();
 	float red,green,blue,alpha;
@@ -216,7 +217,7 @@
 	
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	glPopMatrix();
-	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+	glPopAttrib();
 }
 
 - (void)drawCenteredInSize:(NSSize)aSize

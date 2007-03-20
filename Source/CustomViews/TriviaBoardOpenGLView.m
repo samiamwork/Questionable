@@ -58,7 +58,7 @@
 
 		_pointsBox = [[RectangularBox alloc] init];
 		[_pointsBox setSharpCorners:BoxCornerAll];
-		[_pointsBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.7f alpha:1.0f]];
+		[_pointsBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.6f alpha:1.0f]];
 		[_pointsBox setEndColor:[NSColor colorWithCalibratedRed:0.4f green:0.4f blue:0.9f alpha:1.0f]];
 		[_pointsBox setLineWidth:1.0f];
 		[_pointsBox setCornerRadius:10.0f];
@@ -267,6 +267,7 @@
 	_playerPointPadding = ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.2f);
 	[_playerNameBox setSize:_playerNameSize];
 	[_playerPointBox setSize:_playerPointSize];
+	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
 	
 	[self regenerateStringTextures];
 	
@@ -306,7 +307,7 @@
 	switch( aState ) {
 		case kTIPTriviaBoardViewStateBoard:
 			glPushMatrix();
-			glTranslatef(-_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
 			glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
 			NSEnumerator *titleEnumerator = [_categoryTitleStrings objectEnumerator];
@@ -329,7 +330,7 @@
 			break;
 		case kTIPTriviaBoardViewStateQuestion:
 			glPushMatrix();
-			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_questionTitleString];
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
@@ -338,7 +339,7 @@
 			break;
 		case kTIPTriviaBoardViewStateAnswer:
 			glPushMatrix();
-			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_answerTitleString];
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
@@ -347,7 +348,7 @@
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
 			glPushMatrix();
-			glTranslatef(_contextSize.width*(1.0f-progress),0.0f,0.0f);
+			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_playerNameBox size].height,0.0f);
 			[self drawPlayerStatus];
 			glPopMatrix();
@@ -412,10 +413,10 @@
 	
 	if( theViewState != lastViewState ) {
 		float progress = [_transitionAnimation currentValue];
-		[self drawState:lastViewState withProgress:(1.0f-progress)];
-		[self drawState:theViewState withProgress:progress];
+		[self drawState:lastViewState withProgress:progress];
+		[self drawState:theViewState withProgress:progress-1.0f];
 	} else {
-		[self drawState:theViewState withProgress:1.0f];
+		[self drawState:theViewState withProgress:0.0f];
 	}
 	 
 	[_windowedContext flushBuffer];
