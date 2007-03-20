@@ -179,8 +179,10 @@
 	}
 
 	// if we're running then pause/unpause
-	if( ![roundTimer stopped] )
+	if( ![roundTimer stopped] ) {
 		[self pauseRound];
+		return YES;
+	}
 
 	[roundTimerProgress setMaxTime:roundTimeLength];
 	[roundTimerProgress setCurrentTime:0.0];
