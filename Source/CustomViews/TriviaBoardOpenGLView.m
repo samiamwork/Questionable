@@ -310,17 +310,19 @@
 			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
 			glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
-			NSEnumerator *titleEnumerator = [_categoryTitleStrings objectEnumerator];
-			StringTexture *aTitleString;
-			while( (aTitleString = [titleEnumerator nextObject]) ) {
-				[_categoryTitleBox drawWithString:aTitleString];
+			unsigned int categoryIndex;
+			for( categoryIndex = 0; categoryIndex < [[_mainBoard categories] count]; categoryIndex++ ) {
+				TriviaCategory *aCategory = [[_mainBoard categories] objectAtIndex:categoryIndex];
+				[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
 				
 				glPushMatrix();
 				glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
-				NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
-				StringTexture *aPointTexture;
-				while( (aPointTexture = [pointEnumerator nextObject]) ) {
-					[_pointsBox drawWithString:aPointTexture];
+				unsigned int questionIndex;
+				for( questionIndex = 0; questionIndex < [[aCategory questions] count]; questionIndex++ ) {
+					StringTexture *aStringTexture = nil;
+					if( ! [[[aCategory questions] objectAtIndex:questionIndex] used] )
+						aStringTexture = [_questionPointStrings objectAtIndex:questionIndex];
+					[_pointsBox drawWithString:aStringTexture];
 					glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
 				}
 				glPopMatrix();
