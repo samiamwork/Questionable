@@ -28,6 +28,8 @@
 		_sharpCorners = BoxCornerNone;
 		_shadingDirection = BoxShadingVertical;
 		
+		_isBorderEnabled = YES;
+		
 		[self setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
 		[self setEndColor:[NSColor colorWithCalibratedWhite:0.5f alpha:1.0f]];
 		[self setBorderColor:[NSColor colorWithCalibratedWhite:0.8f alpha:1.0f]];
@@ -151,6 +153,15 @@
 - (float)lineWidth
 {
 	return _lineWidth;
+}
+
+- (void)enableBorder:(BOOL)willEnable
+{
+	_isBorderEnabled = willEnable;
+}
+- (BOOL)isBorderEnabled
+{
+	return _isBorderEnabled;
 }
 
 - (void)generateTextures
@@ -422,10 +433,12 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
 	glDrawArrays( GL_QUADS, 0, VERTEXCOUNT_BORDER+VERTEXCOUNT_HOLE );
 	// draw border
-	glColor4f(_borderColor.red,_borderColor.green,_borderColor.blue,_borderColor.alpha);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _borderTexture);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDrawArrays( GL_QUADS, 0 , VERTEXCOUNT_BORDER );
+	if( _isBorderEnabled ) {
+		glColor4f(_borderColor.red,_borderColor.green,_borderColor.blue,_borderColor.alpha);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _borderTexture);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDrawArrays( GL_QUADS, 0 , VERTEXCOUNT_BORDER );
+	}
 	
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	glPopMatrix();

@@ -72,9 +72,15 @@
 		_answerString = nil;
 		
 		_QATitleBox = [[RectangularBox alloc] init];
+		[_QATitleBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.25f blue:0.55f alpha:1.0f]];
+		[_QATitleBox setEndColor:[NSColor colorWithCalibratedRed:0.3f green:0.35f blue:0.65f alpha:1.0f]];
 		[_QATitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+		[_QATitleBox setLineWidth:1.0f];
 		_QATextBox = [[RectangularBox alloc] init];
+		[_QATextBox setStartColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
+		[_QATextBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
 		[_QATextBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight];
+		[_QATextBox setLineWidth:1.0f];
 		
 		_questionString = nil;
 		_answerString = nil;
@@ -89,6 +95,15 @@
 		[_playerPointBox setCornerRadius:5.0f];
 		_playerNameStrings = [[NSMutableArray alloc] init];
 		_playerPointStrings = [[NSMutableArray alloc] init];
+		
+		_placeholderCircleOuter = [[RectangularBox alloc] init];
+		[_placeholderCircleOuter setLineWidth:10.0f];
+		[_placeholderCircleOuter enableBorder:NO];
+		_placeholderCircleInner = [[RectangularBox alloc] init];
+		[_placeholderCircleInner setLineWidth:10.0f];
+		_questionmark = [[StringTexture alloc] initWithString:@"?" withWidth:150.0f withFontSize:100.0f];
+		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
+		[_questionmark setColor:[NSColor whiteColor]];
     }
 	
     return self;
@@ -120,6 +135,10 @@
 	[_playerPointBox release];
 	[_playerNameStrings release];
 	[_playerPointStrings release];
+	
+	[_placeholderCircleInner release];
+	[_placeholderCircleOuter release];
+	[_questionmark release];
 
 	[super dealloc];
 }
@@ -198,6 +217,8 @@
 			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		}
 	}
+	
+	[_questionmark setFontSize:_targetSize.height*0.5f];
 }
 
 - (void)doReshape
@@ -256,11 +277,11 @@
 	
 	[_QATitleBox setSize:NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width, availableSize.height*0.2f)];
 	[_QATitleBox setCornerRadius:[_QATitleBox size].height*0.4f];
-	[_QATitleBox setLineWidth:ceilf(availableSize.height*0.01f)];
+	//[_QATitleBox setLineWidth:ceilf(availableSize.height*0.005f)];
 	
 	[_QATextBox setSize:NSMakeSize([_QATitleBox size].width,availableSize.height*0.8f)];
 	[_QATextBox setCornerRadius:[_QATitleBox cornerRadius]];
-	[_QATextBox setLineWidth:[_QATitleBox lineWidth]];
+	//[_QATextBox setLineWidth:[_QATitleBox lineWidth]];
 	
 	_playerNameSize = NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.5f));
 	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.3f));
@@ -269,6 +290,10 @@
 	[_playerPointBox setSize:_playerPointSize];
 	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
 	
+	[_placeholderCircleOuter setSize:NSMakeSize(_targetSize.height*0.5f,_targetSize.height*0.5f)];
+	[_placeholderCircleOuter setCornerRadius:[_placeholderCircleOuter size].width/2.0f];
+	[_placeholderCircleInner setSize:NSMakeSize([_placeholderCircleOuter size].width*0.5f,[_placeholderCircleOuter size].height*0.5f)];
+	[_placeholderCircleInner setCornerRadius:[_placeholderCircleInner size].width/2.0f];
 	[self regenerateStringTextures];
 	
 	[self setNeedsDisplay:YES];
@@ -357,13 +382,9 @@
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
-			glColor4f( 0.0f,0.8f,0.8f, progress ); 
-			glBegin(GL_TRIANGLE_FAN); {
-				glVertex2f(0.0f,0.0f);
-				glVertex2f(_targetSize.width,0.0f);
-				glVertex2f(_targetSize.width,_targetSize.height);
-				glVertex2f(0.0f,_targetSize.height);
-			} glEnd();
+			glPushMatrix();
+			[_placeholderCircleOuter drawWithString:nil];
+			glPopMatrix();
 			break;
 	}
 	
@@ -554,6 +575,7 @@
 	if( [_question question] != nil )
 		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
+	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }
 
 - (void)showAnswer
@@ -563,6 +585,7 @@
 	if( [_question answer] != nil )
 		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
+	[_answerTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }
 
 @end
