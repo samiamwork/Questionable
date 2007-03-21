@@ -12,7 +12,6 @@
 
 @interface TriviaBoardSimpleView : NSView {
 	TriviaBoard *mainBoard;
-	unsigned numberOfCategories;
 	unsigned questionsPerCategory;
 	
 	IBOutlet id delegate;
@@ -20,8 +19,7 @@
 	TIPTextContainer *placeholderMessage;
 	NSMutableArray *titleArray;
 	NSMutableArray *pointArray;
-	NSMutableArray *usedQuestionsArray;
-
+	
 	BOOL enabled;
 }
 

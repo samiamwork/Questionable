@@ -25,7 +25,6 @@
 		titleArray = [[NSMutableArray alloc] init];
 		pointArray = [[NSMutableArray alloc] init];
 		usedQuestionsArray = [[NSMutableArray alloc] init];
-		numberOfCategories = 0;
 		questionsPerCategory = 0;
 		
 		placeholderMessage = [[TIPTextContainer alloc] init];
@@ -75,12 +74,6 @@
 	if( mainBoard != nil )
 		[mainBoard retain];
 	
-	[titleArray removeAllObjects];
-	[pointArray removeAllObjects];
-	[usedQuestionsArray removeAllObjects];
-	
-	numberOfCategories = [[mainBoard categories] count];
-	
 	TriviaCategory *thisCategory;
 	NSEnumerator *categoryEnumerator = [[mainBoard categories] objectEnumerator];
 	
@@ -94,22 +87,18 @@
 			questionsPerCategory = [[thisCategory questions] count];
 		
 	}
-	
+
+	[pointArray removeAllObjects];
 	unsigned questionIndex;
 	for( questionIndex = 0; questionIndex < questionsPerCategory; questionIndex++ ) {
 		TIPTextContainer *newText = [TIPTextContainer containerWithString:[[NSNumber numberWithInt:questionIndex*100+100] stringValue]];
-		[newText setFontWithName:@"Impact"];
+		[newText setFont:[NSFont fontWithName:@"Helvetica-Bold" size:15.0f]];
 		[newText setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f]];
 		
 		[pointArray addObject:newText];
 	}
 	
-	categoryEnumerator = [titleArray objectEnumerator];
-	id thisTitle;
-	while( (thisTitle = [categoryEnumerator nextObject]) )
-		[usedQuestionsArray addObject:[NSMutableArray arrayWithArray:pointArray]];
-	
-	[self display];
+	[self setNeedsDisplay:YES];
 }
 
 - (TriviaBoard *)board
@@ -119,12 +108,6 @@
 
 - (void)enable:(BOOL)enable question:(unsigned)theQuestionIndex inCategory:(unsigned)theCategoryIndex
 {
-	if( enable ) {
-		[[usedQuestionsArray objectAtIndex:theCategoryIndex] replaceObjectAtIndex:theQuestionIndex withObject:[pointArray objectAtIndex:theQuestionIndex]];
-	} else {
-		[[usedQuestionsArray objectAtIndex:theCategoryIndex] replaceObjectAtIndex:theQuestionIndex withObject:[NSNull null]];
-	}
-	
 	[self setNeedsDisplay:YES];
 }
 
@@ -152,12 +135,12 @@
 		float titleHeight = bounds.size.height * TITLEFRACT;
 		NSSize qSize;
 		qSize.height = (bounds.size.height - titleHeight)/questionsPerCategory;
-		qSize.width = bounds.size.width/numberOfCategories;
+		qSize.width = bounds.size.width/(float)[[mainBoard categories] count];
 		CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
 		
 		CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,1.0f);
 		unsigned categoryIndex;
-		for( categoryIndex = 0; categoryIndex<numberOfCategories; categoryIndex++ ) {
+		for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
 			TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
 			
 			currentRect.size.height = titleHeight;
@@ -172,20 +155,19 @@
 			currentRect.origin.y -= qSize.height;
 			currentRect.size.height = qSize.height;
 			unsigned questionIndex;
-			//TODO make this get the points to draw from a dictionary matched by point value
 			for( questionIndex = 0; questionIndex<questionsPerCategory; questionIndex++ ) {
-				TIPTextContainer *thePointText = [[usedQuestionsArray objectAtIndex:categoryIndex] objectAtIndex:questionIndex];
-				
 				CGContextSetRGBFillColor(currentContext,0.0f,0.0f,0.4f,1.0f);
 				CGContextFillRect(currentContext,currentRect);
 				CGContextStrokeRect(currentContext,currentRect);
-				if( (id)thePointText != (id)[NSNull null] ) {
-					[thePointText setFontSize:qSize.height/2.0f];
-					[thePointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+				
+				TriviaQuestion *aQuestion = [[[[mainBoard categories] objectAtIndex:categoryIndex] questions] objectAtIndex:questionIndex];
+				if( ! [aQuestion used] ) {
+					TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
+					[aPointText setFontSize:qSize.height/2.0f];
+					[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
 				}
 				
 				currentRect.origin.y -= qSize.height;
-				
 			}
 			currentRect.origin.x += qSize.width;
 		}
@@ -218,7 +200,7 @@
 	if( point.y > clickableHeight )
 		return;
 	
-	NSSize questionSize = NSMakeSize(bounds.size.width/numberOfCategories, clickableHeight/questionsPerCategory);
+	NSSize questionSize = NSMakeSize(bounds.size.width/(float)[[mainBoard categories] count], clickableHeight/questionsPerCategory);
 	
 	unsigned questionIndex = questionsPerCategory-1-(unsigned)(point.y/questionSize.height);
 	unsigned categoryIndex = (unsigned)(point.x/questionSize.width);
