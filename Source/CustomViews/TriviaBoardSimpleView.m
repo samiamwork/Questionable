@@ -20,7 +20,8 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if( (self = [super initWithFrame:frameRect]) ) {
-		enabled = NO;
+		_viewState = kTriviaSimpleViewNothing;
+		_question = nil;
 		
 		mainBoard = nil;
 		titleArray = [[NSMutableArray alloc] init];
@@ -43,9 +44,12 @@
 	
 	if( mainBoard != nil )
 		[mainBoard release];
+	if( _question != nil )
+		[_question release];
 	
 	[placeholderMessage release];
 	[titleArray release];
+	[pointArray release];
 }
 
 - (void)setDelegate:(id)newDelegate
@@ -97,27 +101,137 @@
 		
 		[pointArray addObject:newText];
 	}
-	
-	[self setNeedsDisplay:YES];
 }
-
 - (TriviaBoard *)board
 {
 	return mainBoard;
 }
 
-- (void)enable:(BOOL)enable question:(unsigned)theQuestionIndex inCategory:(unsigned)theCategoryIndex
+- (void)setQuestion:(TriviaQuestion *)newQuestion
 {
-	[self setNeedsDisplay:YES];
+	if( newQuestion == _question )
+		return;
+	
+	[_question release];
+	_question = [newQuestion retain];
+}
+- (TriviaQuestion *)question
+{
+	return _question;
 }
 
-- (void)setEnable:(BOOL)isEnabled;
+- (void)showBoard
 {
-	enabled = isEnabled;
+	if( mainBoard == nil )
+		_viewState = kTriviaSimpleViewNothing;
+	else
+		_viewState = kTriviaSimpleViewBoard;
+	[self setNeedsDisplay:YES];
+}
+- (void)showQuestion
+{
+	if( _question == nil )
+		[self showBoard];
+	else
+		_viewState = kTriviaSimpleViewQuestion;
+	[self setNeedsDisplay:YES];
+}
+- (void)showAnswer
+{
+	if( _question == nil )
+		[self showBoard];
+	else
+		_viewState = kTriviaSimpleViewAnswer;
 	[self setNeedsDisplay:YES];
 }
 
 #pragma mark Drawing
+
+- (void)drawBoard
+{
+	NSRect bounds = [self bounds];
+	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
+	
+	float titleHeight = bounds.size.height * TITLEFRACT;
+	NSSize qSize;
+	qSize.height = (bounds.size.height - titleHeight)/questionsPerCategory;
+	qSize.width = bounds.size.width/(float)[[mainBoard categories] count];
+	CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
+	
+	CGContextSetLineWidth(currentContext,4.0f);
+	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
+	
+	CGContextSetLineWidth(currentContext,5.0f);
+	unsigned categoryIndex;
+	for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
+		TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
+		
+		currentRect.size.height = titleHeight;
+		currentRect.origin.y = bounds.size.height - titleHeight;
+		
+		CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
+		CGContextFillRect(currentContext,currentRect);
+		
+		[thisText setFontSize:currentRect.size.height/5.0f];
+		[thisText setColor:[NSColor blackColor]];
+		[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+		[thisText setColor:[NSColor whiteColor]];
+		[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+		
+		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
+		CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
+		CGContextStrokePath(currentContext);
+		
+		currentRect.origin.y -= qSize.height;
+		currentRect.size.height = qSize.height;
+		unsigned questionIndex;
+		for( questionIndex = 0; questionIndex<questionsPerCategory; questionIndex++ ) {
+			TriviaQuestion *aQuestion = [[[[mainBoard categories] objectAtIndex:categoryIndex] questions] objectAtIndex:questionIndex];
+			if( ! [aQuestion used] ) {
+				TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
+				[aPointText setFontSize:qSize.height/2.0f];
+				[aPointText setColor:[NSColor blackColor]];
+				[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+				[aPointText setColor:[NSColor whiteColor]];
+				[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+			}
+			
+			if( questionIndex != questionsPerCategory-1 ) {
+				CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
+				CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
+				CGContextStrokePath(currentContext);
+			}
+			
+			currentRect.origin.y -= qSize.height;
+		}
+		
+		if( categoryIndex != [[mainBoard categories] count]-1 ) {
+			CGContextMoveToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y);
+			CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y+bounds.size.height);
+			CGContextStrokePath(currentContext);
+		}
+		
+		currentRect.origin.x += qSize.width;
+	}
+}
+
+- (void)drawString:(NSString *)aString
+{
+	if( aString == nil )
+		return;
+	
+	NSRect bounds = [self bounds];
+	TIPTextContainer *aTextContainer = [[TIPTextContainer alloc] init];
+	[aTextContainer setText:aString];
+	[aTextContainer setFontSize:bounds.size.height/20.0f];
+	
+	[aTextContainer setColor:[NSColor blackColor]];
+	[aTextContainer drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height)
+						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
+	[aTextContainer setColor:[NSColor whiteColor]];
+	[aTextContainer drawTextInRect:bounds
+						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
+}
 
 - (void)drawRect:(NSRect)rect
 {
@@ -134,94 +248,37 @@
 	CGContextSetLineWidth(currentContext,4.0f);
 	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
 	CGContextStrokeRect(currentContext,*(CGRect *)&bounds);
-	
-	if( mainBoard == nil ) {
-		CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
-		[placeholderMessage setFontSize:bounds.size.height/8.0f];
-		[placeholderMessage setColor:[NSColor blackColor]];
-		[placeholderMessage drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height) inContext:currentContext];
-		[placeholderMessage setColor:[NSColor whiteColor]];
-		[placeholderMessage drawTextInRect:bounds inContext:currentContext];
-	} else {
-		float titleHeight = bounds.size.height * TITLEFRACT;
-		NSSize qSize;
-		qSize.height = (bounds.size.height - titleHeight)/questionsPerCategory;
-		qSize.width = bounds.size.width/(float)[[mainBoard categories] count];
-		CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
-		
-		CGContextSetLineWidth(currentContext,5.0f);
-		//CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,1.0f);
-		unsigned categoryIndex;
-		for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
-			TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
-			
-			currentRect.size.height = titleHeight;
-			currentRect.origin.y = bounds.size.height - titleHeight;
-			
-			CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
-			CGContextFillRect(currentContext,currentRect);
-			
-			[thisText setFontSize:currentRect.size.height/5.0f];
-			[thisText setColor:[NSColor blackColor]];
-			[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-			[thisText setColor:[NSColor whiteColor]];
-			[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
-			
-			CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
-			CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
-			CGContextStrokePath(currentContext);
-			
-			currentRect.origin.y -= qSize.height;
-			currentRect.size.height = qSize.height;
-			unsigned questionIndex;
-			for( questionIndex = 0; questionIndex<questionsPerCategory; questionIndex++ ) {
-				TriviaQuestion *aQuestion = [[[[mainBoard categories] objectAtIndex:categoryIndex] questions] objectAtIndex:questionIndex];
-				if( ! [aQuestion used] ) {
-					TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
-					[aPointText setFontSize:qSize.height/2.0f];
-					[aPointText setColor:[NSColor blackColor]];
-					[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-					[aPointText setColor:[NSColor whiteColor]];
-					[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
-				}
-				
-				if( questionIndex != questionsPerCategory-1 ) {
-					CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
-					CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
-					CGContextStrokePath(currentContext);
-				}
-				
-				currentRect.origin.y -= qSize.height;
-			}
-			
-			if( categoryIndex != [[mainBoard categories] count]-1 ) {
-				CGContextMoveToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y);
-				CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y+bounds.size.height);
-				CGContextStrokePath(currentContext);
-			}
-			
-			currentRect.origin.x += qSize.width;
-		}
-		
-		if( !enabled ) {
-			CGContextSetRGBFillColor(currentContext,1.0f,1.0f,1.0f,0.5f);
-			CGContextFillRect(currentContext,*(CGRect *)&bounds);
-		}
+
+	switch( _viewState ) {
+		case kTriviaSimpleViewBoard:
+			[self drawBoard];
+			break;
+		case kTriviaSimpleViewQuestion:
+			[self drawString:(NSString *)[_question question]];
+			break;
+		case kTriviaSimpleViewAnswer:
+			[self drawString:[_question answer]];
+			break;
+		default:
+			CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
+			[placeholderMessage setFontSize:bounds.size.height/8.0f];
+			[placeholderMessage setColor:[NSColor blackColor]];
+			[placeholderMessage drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height) inContext:currentContext];
+			[placeholderMessage setColor:[NSColor whiteColor]];
+			[placeholderMessage drawTextInRect:bounds inContext:currentContext];
 	}
+	
 }
 
 #pragma mark mouse tracking
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-	if( !enabled )
+	if( _viewState != kTriviaSimpleViewBoard || mainBoard == nil )
 		return;
 	
 	NSPoint point = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSRect bounds = [self bounds];
-	
-	if( mainBoard == nil )
-		return;
 	
 	if( [self mouse:point inRect:bounds] == NO )
 		return;

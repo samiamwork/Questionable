@@ -10,8 +10,16 @@
 #import "TriviaBoard.h"
 #import "TIPTextContainer.h"
 
+typedef enum TriviaSimpleViewState {
+	kTriviaSimpleViewNothing,
+	kTriviaSimpleViewBoard,
+	kTriviaSimpleViewQuestion,
+	kTriviaSimpleViewAnswer
+} TriviaSimpleViewState;
+
 @interface TriviaBoardSimpleView : NSView {
 	TriviaBoard *mainBoard;
+	TriviaQuestion *_question;
 	unsigned questionsPerCategory;
 	
 	IBOutlet id delegate;
@@ -20,14 +28,17 @@
 	NSMutableArray *titleArray;
 	NSMutableArray *pointArray;
 	
-	BOOL enabled;
+	TriviaSimpleViewState _viewState;
 }
 
 - (void)setDelegate:(id)newDelegate;
 - (id)delegate;
 - (void)setBoard:(TriviaBoard *)newBoard;
 - (TriviaBoard *)board;
+- (void)setQuestion:(TriviaQuestion *)newQuestion;
+- (TriviaQuestion *)question;
 
-- (void)setEnable:(BOOL)isEnable;
-- (void)enable:(BOOL)enable question:(unsigned)theQuestionIndex inCategory:(unsigned)theCategoryIndex;
+- (void)showBoard;
+- (void)showQuestion;
+- (void)showAnswer;
 @end

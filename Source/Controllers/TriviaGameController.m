@@ -55,6 +55,9 @@
 	
 	[mainBoardView setQuestion:selectedQuestion];
 	[mainBoardView showQuestion];
+	
+	[simpleBoardView setQuestion:selectedQuestion];
+	[simpleBoardView showQuestion];
 }
 
 - (void)showAnswer
@@ -64,13 +67,11 @@
 	
 	[playerController disableAllPlayers];
 	
-	
 	[selectedQuestion setUsed:YES];
-	//[mainBoardView enable:NO question:selectedQuestionIndex inCategory:selectedCategoryIndex];
-	[simpleBoardView enable:NO question:selectedQuestionIndex inCategory:selectedCategoryIndex];
 	
 	//[mainBoardView removeBadgeWithRedraw:NO];
 	[mainBoardView showAnswer];
+	[simpleBoardView showAnswer];
 	
 	buzzedPlayer = nil;
 	selectedQuestion = nil;
@@ -83,8 +84,6 @@
 	// don't select a new question if we're already answering one
 	if( ![questionTimer stopped] )
 		return;
-	
-	[simpleBoardView setEnable:NO];
 	
 	selectedCategoryIndex = categoryIndex;
 	selectedQuestionIndex = questionIndex;
@@ -191,13 +190,13 @@
 	[roundTimer start];
 	
 	currentBoard = [questionController checkoutBoard];
-	[simpleBoardView setEnable:YES];
 	[simpleBoardView setBoard:currentBoard];
 	[mainBoardView setBoard:currentBoard];
 	
 	[mainBoardView setPlayers:[playerController players]];
 	
 	[mainBoardView showBoard];
+	[simpleBoardView showBoard];
 	
 	return YES;
 }
@@ -283,7 +282,7 @@
 		[self stopRound];
 	else {
 		[mainBoardView showBoard];
-		[simpleBoardView setEnable:YES];
+		[simpleBoardView showBoard];
 	}
 }
 @end
