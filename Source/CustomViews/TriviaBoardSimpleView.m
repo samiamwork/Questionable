@@ -7,6 +7,7 @@
 //
 
 #import "TriviaBoardSimpleView.h"
+#import "TIPGradient.h"
 
 #define TITLEFRACT 0.2f
 
@@ -24,7 +25,6 @@
 		mainBoard = nil;
 		titleArray = [[NSMutableArray alloc] init];
 		pointArray = [[NSMutableArray alloc] init];
-		usedQuestionsArray = [[NSMutableArray alloc] init];
 		questionsPerCategory = 0;
 		
 		placeholderMessage = [[TIPTextContainer alloc] init];
@@ -125,11 +125,22 @@
 	
 	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextClearRect(currentContext, *(CGRect *)&bounds);
+	TIPMutableGradientRef bgGradient = TIPMutableGradientCreate();
+	TIPGradientAddRGBColorStop(bgGradient,0.0f,0.9f,0.9f,0.9f,1.0f);
+	TIPGradientAddRGBColorStop(bgGradient,1.0f,0.7f,0.7f,0.7f,1.0f);
+	TIPGradientRadialFillRect(currentContext,bgGradient,*(CGRect *)&bounds,(CGPoint){bounds.size.width/2.0f,0.0f},sqrtf(bounds.size.width*bounds.size.width/4.0f + bounds.size.height*bounds.size.height));
+	TIPGradientRelease(bgGradient);
+	
+	CGContextSetLineWidth(currentContext,4.0f);
+	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
+	CGContextStrokeRect(currentContext,*(CGRect *)&bounds);
 	
 	if( mainBoard == nil ) {
 		CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
-		CGContextFillRect(currentContext, *(CGRect *)&bounds);
 		[placeholderMessage setFontSize:bounds.size.height/8.0f];
+		[placeholderMessage setColor:[NSColor blackColor]];
+		[placeholderMessage drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height) inContext:currentContext];
+		[placeholderMessage setColor:[NSColor whiteColor]];
 		[placeholderMessage drawTextInRect:bounds inContext:currentContext];
 	} else {
 		float titleHeight = bounds.size.height * TITLEFRACT;
@@ -138,7 +149,8 @@
 		qSize.width = bounds.size.width/(float)[[mainBoard categories] count];
 		CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
 		
-		CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,1.0f);
+		CGContextSetLineWidth(currentContext,5.0f);
+		//CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,1.0f);
 		unsigned categoryIndex;
 		for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
 			TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
@@ -146,29 +158,48 @@
 			currentRect.size.height = titleHeight;
 			currentRect.origin.y = bounds.size.height - titleHeight;
 			
-			CGContextSetRGBFillColor(currentContext, 0.0f,0.0f,0.2f,1.0f);
+			CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
 			CGContextFillRect(currentContext,currentRect);
-			CGContextStrokeRect(currentContext,currentRect);
+			
 			[thisText setFontSize:currentRect.size.height/5.0f];
+			[thisText setColor:[NSColor blackColor]];
+			[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+			[thisText setColor:[NSColor whiteColor]];
 			[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+			
+			CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
+			CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
+			CGContextStrokePath(currentContext);
 			
 			currentRect.origin.y -= qSize.height;
 			currentRect.size.height = qSize.height;
 			unsigned questionIndex;
 			for( questionIndex = 0; questionIndex<questionsPerCategory; questionIndex++ ) {
-				CGContextSetRGBFillColor(currentContext,0.0f,0.0f,0.4f,1.0f);
-				CGContextFillRect(currentContext,currentRect);
-				CGContextStrokeRect(currentContext,currentRect);
-				
 				TriviaQuestion *aQuestion = [[[[mainBoard categories] objectAtIndex:categoryIndex] questions] objectAtIndex:questionIndex];
 				if( ! [aQuestion used] ) {
 					TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
 					[aPointText setFontSize:qSize.height/2.0f];
+					[aPointText setColor:[NSColor blackColor]];
+					[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+					[aPointText setColor:[NSColor whiteColor]];
 					[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+				}
+				
+				if( questionIndex != questionsPerCategory-1 ) {
+					CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
+					CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
+					CGContextStrokePath(currentContext);
 				}
 				
 				currentRect.origin.y -= qSize.height;
 			}
+			
+			if( categoryIndex != [[mainBoard categories] count]-1 ) {
+				CGContextMoveToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y);
+				CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y+bounds.size.height);
+				CGContextStrokePath(currentContext);
+			}
+			
 			currentRect.origin.x += qSize.width;
 		}
 		
