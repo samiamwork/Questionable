@@ -33,15 +33,19 @@ typedef enum _TIPTextAlignment {
 	ATSUTextMeasurement *lineHeights;
 	UniCharArrayOffset *endOfLines;
 	
+	BOOL _fitInRect;
 }
 
 + (id)containerWithString:(NSString *)aString;
 + (id)containerWithString:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)theFontName;
 
 - (void)setWidth:(float)width;
+- (void)setFitInRect:(BOOL)willFitInRect;
+- (BOOL)fitInRect;
 - (void)setFont:(NSFont *)newFont;
 - (void)setFontWithName:(NSString *)newFontName;
 - (void)setFontSize:(float)theSize;
+- (float)fontSize;
 - (void)setLeading:(float)theLeading;
 - (void)setAlignment:(TIPTextAlignment)newAlignment;
 - (void)setColor:(NSColor *)aColor;
@@ -49,6 +53,7 @@ typedef enum _TIPTextAlignment {
 
 - (NSSize)containerSize;
 
--(void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt;
+- (void)fitTextInRect:(NSRect)rect;
+- (void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt;
 
 @end

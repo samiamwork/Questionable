@@ -172,10 +172,11 @@
 		CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
 		CGContextFillRect(currentContext,currentRect);
 		
-		[thisText setFontSize:currentRect.size.height/5.0f];
-		[thisText setColor:[NSColor blackColor]];
-		[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-		[thisText setColor:[NSColor whiteColor]];
+		[thisText setFontSize:currentRect.size.height/2.0f];
+		[thisText fitTextInRect:NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f)];
+		[thisText setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.9f]];
+		//[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+		//[thisText setColor:[NSColor whiteColor]];
 		[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
 		
 		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
@@ -225,10 +226,14 @@
 	[aTextContainer setText:aString];
 	[aTextContainer setFontSize:bounds.size.height/20.0f];
 	
+	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.05f,bounds.size.height*0.05f);
+	[aTextContainer fitTextInRect:textRect];
+	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
+		[aTextContainer setFontSize:textRect.size.height/5.0f];
 	[aTextContainer setColor:[NSColor blackColor]];
-	[aTextContainer drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height)
-						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
-	[aTextContainer setColor:[NSColor whiteColor]];
+	//[aTextContainer drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height)
+	//					 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
+	//[aTextContainer setColor:[NSColor whiteColor]];
 	[aTextContainer drawTextInRect:bounds
 						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
 }

@@ -64,9 +64,11 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		
 		[self setText:@"Text not set!"];
 		[self setAlignment:kTIPTextAlignmentCenter];
+		[self setFontSize:12.0f];
 		
 		ATSUSetTransientFontMatching(defaultLayout, true);
 		
+		_fitInRect = NO;
 	}
 	
 	return self;
@@ -143,9 +145,6 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	OSStatus status;
 	CFIndex strLength = textLength;
 	
-	//if( width == lineWidth )
-	//	return;
-	
 	lineWidth = width;
 	
 	ATSUAttributeTag layoutTags[] = {kATSULineWidthTag};
@@ -171,6 +170,15 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	[self recalculateLineHeights];
 	
+}
+
+- (void)setFitInRect:(BOOL)willFitInRect
+{
+	_fitInRect = willFitInRect;
+}
+- (BOOL)fitInRect
+{
+	return _fitInRect;
 }
 
 - (void)setFont:(NSFont *)newFont
@@ -230,8 +238,16 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	if( status != noErr )
 		printf(ERR_PREFIX "could not set font size!\n");
 	
+	ByteCount actualSize;
+	status = ATSUGetAttribute(defaultStyle,kATSUSizeTag,sizeof(Fixed),&atsuSize,&actualSize);
+	fontSize = FixedToFloat(atsuSize);
+	
 	// we also need to redo our line breaks since the size has changed.
 	[self setWidth:lineWidth];
+}
+- (float)fontSize
+{
+	return fontSize;
 }
 
 - (void)setLeading:(float)newLeading
@@ -342,6 +358,32 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	return containerSize;
 }
 
+#define MINIMUM_STEPSIZE 0.5f
+- (void)fitTextInRect:(NSRect)rect
+{
+	[self setFontSize:ceilf(rect.size.height/(float)lineCount)];
+	float stepSize = fontSize;
+	if( stepSize <= 1 ) {
+		stepSize = 2;
+		[self setFontSize:(float)stepSize];
+	}
+	int passCount = 0;
+	while( stepSize > MINIMUM_STEPSIZE || stepSize < -MINIMUM_STEPSIZE || FixedToFloat(totalHeight) > rect.size.height ) {
+		if( FixedToFloat(totalHeight) < rect.size.height ) {
+			[self setFontSize:fontSize+stepSize];
+		} else {
+			if( stepSize > MINIMUM_STEPSIZE )
+				stepSize /= 2.0f;
+			[self setFontSize:fontSize-stepSize];
+		}
+		passCount++;
+	}
+#ifdef MINIMUM_FONTSIZE
+	if( fontSize < MINIMUM_FONTSIZE )
+		[self setFontSize:MINIMUM_FONTSIZE];
+#endif
+}
+
 /*==================*/
 #pragma mark Drawing
 /*==================*/
@@ -352,12 +394,15 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
  * then it will align the string at the top.
  */
 
--(void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt
+- (void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt
 {
 	OSStatus status;
 	unsigned thisLine;
 	
 	[self setWidth:rect.size.width];
+	
+	if( _fitInRect )
+		[self fitTextInRect:rect];
 	
 	Fixed fX = FloatToFixed(rect.origin.x);
 	Fixed fY = FloatToFixed(rect.origin.y + rect.size.height) - firstAscent;
