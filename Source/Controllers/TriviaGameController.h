@@ -22,12 +22,8 @@
 	IBOutlet TriviaBoardSimpleView *simpleBoardView;
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaPlayerController *playerController;
-	//IBOutlet NSTextView *questionView;
-	IBOutlet NSTextView *answerView;
-	IBOutlet NSTextField *buzzedPlayerName;
 	
 	IBOutlet TIPGameTimerView *roundTimerProgress;
-	IBOutlet TIPGameTimerView *questionTimerProgress;
 	
 	TriviaTimer *roundTimer;
 	TriviaTimer *questionTimer;

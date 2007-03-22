@@ -21,8 +21,9 @@
 {
 	if( (self = [super initWithFrame:frameRect]) ) {
 		_viewState = kTriviaSimpleViewNothing;
-		_question = nil;
+		_timerLevel = 4;
 		
+		_question = nil;
 		mainBoard = nil;
 		titleArray = [[NSMutableArray alloc] init];
 		pointArray = [[NSMutableArray alloc] init];
@@ -59,10 +60,25 @@
 	
 	delegate = newDelegate;
 }
-
 - (id)delegate
 {
 	return delegate;
+}
+
+- (void)setTimerLevel:(unsigned int)newLevel
+{
+	if( newLevel == _timerLevel )
+		return;
+	
+	if( newLevel > 4 )
+		newLevel = 4;
+	
+	_timerLevel = newLevel;
+	[self setNeedsDisplay:YES];
+}
+- (unsigned int)timerLevel
+{
+	return _timerLevel;
 }
 
 #pragma mark Board Methods
@@ -161,7 +177,7 @@
 	CGContextSetLineWidth(currentContext,4.0f);
 	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
 	
-	CGContextSetLineWidth(currentContext,5.0f);
+	CGContextSetLineWidth(currentContext,3.0f);
 	unsigned categoryIndex;
 	for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
 		TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
@@ -174,7 +190,7 @@
 		
 		[thisText setFontSize:currentRect.size.height/2.0f];
 		[thisText fitTextInRect:NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f)];
-		[thisText setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.9f]];
+		[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
 		//[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
 		//[thisText setColor:[NSColor whiteColor]];
 		[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
@@ -190,7 +206,7 @@
 			TriviaQuestion *aQuestion = [[[[mainBoard categories] objectAtIndex:categoryIndex] questions] objectAtIndex:questionIndex];
 			if( ! [aQuestion used] ) {
 				TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
-				[aPointText setFontSize:qSize.height/2.0f];
+				[aPointText setFontSize:qSize.height*0.7f];
 				[aPointText setColor:[NSColor blackColor]];
 				[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
 				[aPointText setColor:[NSColor whiteColor]];
@@ -230,12 +246,34 @@
 	[aTextContainer fitTextInRect:textRect];
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
 		[aTextContainer setFontSize:textRect.size.height/5.0f];
-	[aTextContainer setColor:[NSColor blackColor]];
+	[aTextContainer setColor:[NSColor colorWithCalibratedWhite:0.31f alpha:0.9f]];
 	//[aTextContainer drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height)
 	//					 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
 	//[aTextContainer setColor:[NSColor whiteColor]];
 	[aTextContainer drawTextInRect:bounds
 						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
+}
+
+#define BAR_PADDING_SCALE 0.025f
+- (void)drawTimer
+{
+	if( _timerLevel == 0 )
+		return;
+	
+	NSRect bounds = [self bounds];
+	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
+	float barPadding = ceilf(bounds.size.height*BAR_PADDING_SCALE);
+	CGRect barRect = CGRectMake(0.0,0.0f,ceilf(bounds.size.width*0.025f),(bounds.size.height-barPadding*3.0f)/4.0f);
+	CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,0.2f);
+	
+	unsigned int currentLevel;
+	for( currentLevel=0; currentLevel < _timerLevel; currentLevel++ ) {
+		CGContextFillRect(currentContext,barRect);
+		barRect.origin.x += bounds.size.width-barRect.size.width;
+		CGContextFillRect(currentContext,barRect);
+		barRect.origin.x = 0.0f;
+		barRect.origin.y += barRect.size.height+barPadding;
+	}
 }
 
 - (void)drawRect:(NSRect)rect
@@ -260,9 +298,11 @@
 			break;
 		case kTriviaSimpleViewQuestion:
 			[self drawString:(NSString *)[_question question]];
+			[self drawTimer];
 			break;
 		case kTriviaSimpleViewAnswer:
 			[self drawString:[_question answer]];
+			[self drawTimer];
 			break;
 		default:
 			CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);

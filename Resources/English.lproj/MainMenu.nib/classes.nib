@@ -36,12 +36,9 @@
             CLASS = TriviaGameController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                answerView = NSTextView; 
-                buzzedPlayerName = NSTextField; 
                 mainBoardView = TriviaBoardOpenGLView; 
                 playerController = TriviaPlayerController; 
                 questionController = TriviaOutlineViewController; 
-                questionTimerProgress = TIPGameTimerView; 
                 roundTimerProgress = TIPGameTimerView; 
                 simpleBoardView = TriviaBoardSimpleView; 
             }; 

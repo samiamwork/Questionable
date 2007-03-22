@@ -29,6 +29,7 @@ typedef enum TriviaSimpleViewState {
 	NSMutableArray *pointArray;
 	
 	TriviaSimpleViewState _viewState;
+	unsigned int _timerLevel;
 }
 
 - (void)setDelegate:(id)newDelegate;
@@ -37,6 +38,8 @@ typedef enum TriviaSimpleViewState {
 - (TriviaBoard *)board;
 - (void)setQuestion:(TriviaQuestion *)newQuestion;
 - (TriviaQuestion *)question;
+- (void)setTimerLevel:(unsigned int)newLevel;
+- (unsigned int)timerLevel;
 
 - (void)showBoard;
 - (void)showQuestion;

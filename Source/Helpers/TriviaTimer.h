@@ -28,6 +28,7 @@
 - (NSTimeInterval)timeLength;
 - (void)setTimeLength:(NSTimeInterval)length;
 - (NSTimeInterval)timeElapsed;
+- (unsigned int)currentLevel;
 - (void)setTimeInterval:(NSTimeInterval)interval;
 - (void)setTarget:(id)target selector:(SEL)selector;
 

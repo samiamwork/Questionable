@@ -49,21 +49,17 @@
 
 - (void)showQuestion
 {
-	//[questionView setString:[selectedQuestion question]];
-	[answerView setString:[selectedQuestion answer]];
-	[buzzedPlayerName setStringValue:@""];
-	
 	[mainBoardView setQuestion:selectedQuestion];
 	[mainBoardView showQuestion];
 	
 	[simpleBoardView setQuestion:selectedQuestion];
 	[simpleBoardView showQuestion];
+	[simpleBoardView setTimerLevel:4];
 }
 
 - (void)showAnswer
 {	
 	[questionTimer stop];
-	[questionTimerProgress setStopped:YES];
 	
 	[playerController disableAllPlayers];
 	
@@ -72,6 +68,7 @@
 	//[mainBoardView removeBadgeWithRedraw:NO];
 	[mainBoardView showAnswer];
 	[simpleBoardView showAnswer];
+	[simpleBoardView setTimerLevel:0];
 	
 	buzzedPlayer = nil;
 	selectedQuestion = nil;
@@ -92,9 +89,6 @@
 	[self showQuestion];
 
 	[questionTimer start];
-	[questionTimerProgress setMaxTime:questionTimeLength];
-	[questionTimerProgress setCurrentTime:0.0];
-	[questionTimerProgress setStopped:NO];
 	
 	[playerController enableAllPlayers];
 }
@@ -110,7 +104,6 @@
 	
 	//[buzzedPlayer addPoints:[selectedQuestion points]];
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
-	[buzzedPlayerName setStringValue:@""];
 	[self showAnswer];
 }
 - (IBAction)incorrectAnswer:(id)sender
@@ -122,7 +115,6 @@
 	
 	//[buzzedPlayer subtractPoints:[selectedQuestion points]];
 	[buzzedPlayer subtractPoints:(selectedQuestionIndex+1) * 100];
-	[buzzedPlayerName setStringValue:@""];
 	buzzedPlayer = nil;
 	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundIncorrectAnswer];
@@ -133,9 +125,6 @@
 		//[mainBoardView removeBadgeWithRedraw:YES];
 
 		[questionTimer start];
-		[questionTimerProgress setMaxTime:questionTimeLength];
-		[questionTimerProgress setCurrentTime:0.0];
-		[questionTimerProgress setStopped:NO];
 	}
 }
 
@@ -155,16 +144,11 @@
 	// same question wrong
 	[buzzedPlayer setEnabled:NO];
 	
-	[buzzedPlayerName setStringValue:[buzzedPlayer name]];
-	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundBuzzIn];
 	
 	//[mainBoardView addBadgeWithString:[buzzedPlayer name]];
 
 	[questionTimer start];
-	[questionTimerProgress setMaxTime:questionTimeLength];
-	[questionTimerProgress setCurrentTime:0.0];
-	[questionTimerProgress setStopped:NO];
 }
 
 #pragma mark Game Methods
@@ -237,7 +221,6 @@
 	// reset question timer if it's running.
 	[questionTimer stop];
 	[roundTimerProgress setStopped:YES];
-	[questionTimerProgress setStopped:YES];
 }
 
 #pragma mark game timers
@@ -252,8 +235,6 @@
 
 - (void)questionTimerFired
 {
-	[questionTimerProgress setCurrentTime:[questionTimer timeElapsed]];
-
 	if( [questionTimer stopped] ) {
 		
 		if( buzzedPlayer != nil )
@@ -264,7 +245,8 @@
 			[self showAnswer];
 		}
 		
-	}
+	} else
+		[simpleBoardView setTimerLevel:[questionTimer currentLevel]];
 	
 }
 
