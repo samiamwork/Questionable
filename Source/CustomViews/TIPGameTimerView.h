@@ -26,14 +26,8 @@ typedef enum _TriviaTimeDisplay {
 	TIPTextContainer *timeContainer;
 	TIPTextContainer *stoppedContainer;
 	BOOL stopped;
+	BOOL _countdown;
 	TriviaTimeDisplay display;
-	
-	// drawing ojects
-	CGMutablePathRef outline;
-	TIPMutableGradientRef bgGradient;
-	TriviaDrawableProgressTic *ticDrawableStopped;
-	TriviaDrawableProgressTic *ticDrawableUsed;
-	TriviaDrawableProgressTic *ticDrawableUnused;
 }
 
 - (NSTimeInterval)currentTime;

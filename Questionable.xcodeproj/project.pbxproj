@@ -780,6 +780,7 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = Questionable;
+				WARNING_CFLAGS = "$(inherited)";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -818,6 +819,7 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = Questionable;
+				WARNING_CFLAGS = "$(inherited)";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};

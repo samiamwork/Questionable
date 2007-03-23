@@ -19,22 +19,14 @@
 		stopped = YES;
 		display = TriviaTimeDisplayMiliseconds | TriviaTimeDisplaySeconds | TriviaTimeDisplayMinutes | TriviaTimeDisplayHours;
 		
-		timeContainer = [[TIPTextContainer containerWithString:@"1:00:00.0"] retain];
+		timeContainer = [[TIPTextContainer containerWithString:@"00"] retain];
 		[timeContainer setAlignment:kTIPTextAlignmentCenter];
-		stoppedContainer = [[TIPTextContainer containerWithString:@"0:00:00.0"] retain];
+		[timeContainer setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:1.0f]];
+		stoppedContainer = [[TIPTextContainer containerWithString:@"00"] retain];
 		[stoppedContainer setAlignment:kTIPTextAlignmentCenter];
-		[stoppedContainer setColor:[NSColor colorWithCalibratedWhite:0.5f alpha:1.0f]];
-		
-		outline = NULL;
-		bgGradient = TIPMutableGradientCreate();
-		TIPGradientAddRGBColorStop(bgGradient,0.0f,0.9137f,0.9922f,0.7059f,1.0f);
-		TIPGradientAddRGBColorStop(bgGradient,1.0f,0.8510f,0.9137f,0.6863f,1.0f);
-		
-		ticDrawableStopped = [[TriviaDrawableProgressTic alloc] init];
-		ticDrawableUnused = [[TriviaDrawableProgressTic alloc] init];
-		[ticDrawableUnused setBackgroundColor:[NSColor colorWithCalibratedRed:0.4f green:1.0f blue:0.4f alpha:0.5f]];
-		ticDrawableUsed = [[TriviaDrawableProgressTic alloc] init];
-		[ticDrawableUsed setBackgroundColor:[NSColor colorWithCalibratedRed:0.4f green:0.4f blue:0.4f alpha:0.4f]];
+		[stoppedContainer setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:1.0f]];
+
+		_countdown = YES;
 	}
 
 	return self;
@@ -42,15 +34,8 @@
 
 - (void)dealloc
 {	
-	TIPGradientRelease(bgGradient);
-	if( outline )
-		CGPathRelease( outline );
-	
 	[timeContainer release];
 	[stoppedContainer release];
-	[ticDrawableStopped release];
-	[ticDrawableUsed release];
-	[ticDrawableUnused release];
 	
 	[super dealloc];
 }
@@ -64,12 +49,17 @@ NSString *stringForTime(NSTimeInterval aTime)
 	int m = (int)(aTime/60.0);
 	aTime -= m*60.0;
 	int s = (int)(aTime);
+	/*
 	aTime -= s;
 	aTime *= 10.0;
 	int ms = (int)aTime;
-
+	 */
 	NSString *displayString;
-	displayString = [NSString stringWithFormat:@"%d:%02d:%02d.%01d", h, m, s, ms];
+	m += h*60;
+	if( m == 0 )
+		displayString = [NSString stringWithFormat:@":%02d", s];
+	else
+		displayString = [NSString stringWithFormat:@"%02d", m+1];
 	
 	return displayString;
 }
@@ -89,7 +79,8 @@ NSString *stringForTime(NSTimeInterval aTime)
 		return;
 	
 	currentTime = newTime;
-	[timeContainer setText:stringForTime(currentTime)];
+	NSTimeInterval timeToReport = _countdown ? maxTime-currentTime : currentTime;
+	[timeContainer setText:stringForTime(timeToReport)];
 	if( !stopped )
 		[self setNeedsDisplay:YES];
 }
@@ -135,60 +126,108 @@ NSString *stringForTime(NSTimeInterval aTime)
 
 #pragma mark drawing
 
-- (void)drawRect:(NSRect)theRect
+- (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect
 {
-	if( outline )
-		CGPathRelease( outline );
-	outline = TIPCGUtilsRoundedBoxCreate(*(CGRect *)&theRect,0.0f,5.0f,1.0);
+	NSRect outputRect;
+	outputRect.origin = inRect.origin;
+	float rectAspectRatio = inRect.size.width/inRect.size.height;
+	float imageAspectRatio = inputRect.size.width/inputRect.size.height;
 	
+	float zoom;
+	if( imageAspectRatio < rectAspectRatio ) {
+		zoom = inRect.size.height/inputRect.size.height;
+		outputRect.size.height = inRect.size.height;
+		outputRect.size.width = roundf( inputRect.size.width*zoom);
+		outputRect.origin.x += roundf( (inRect.size.width - outputRect.size.width)/2.0f );
+	} else {
+		zoom = inRect.size.width/inputRect.size.width;
+		outputRect.size.height = roundf( inputRect.size.height*zoom);
+		outputRect.size.width = inRect.size.width;
+		outputRect.origin.y += roundf( (inRect.size.height - outputRect.size.height)/2.0f );
+	}
+	
+	return outputRect;
+}
+
+- (BOOL)isOpaque
+{
+	return NO;
+}
+
+- (void)drawRect:(NSRect)theRect
+{	
 	CGContextRef cxt = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextSaveGState( cxt );
 	
 	//draw background
+	/*
+	CGMutablePathRef outline = TIPCGUtilsRoundedBoxCreate(*(CGRect *)&theRect,0.0f,5.0f,1.0);
+	TIPMutableGradientRef bgGradient = TIPMutableGradientCreate();
+	TIPGradientAddRGBColorStop(bgGradient,0.0f,0.9137f,0.9922f,0.7059f,1.0f);
+	TIPGradientAddRGBColorStop(bgGradient,1.0f,0.8510f,0.9137f,0.6863f,1.0f);
+	
 	TIPGradientAxialFillPath( cxt, bgGradient, outline, 90.0f );
 	CGContextSetLineWidth( cxt , 1.0f );
 	CGContextSetRGBStrokeColor( cxt, 0.0f,0.0f,0.0f,0.3f );
 	CGContextAddPath( cxt, outline );
 	CGContextStrokePath( cxt );
+	CGPathRelease( outline );
+	TIPGradientRelease(bgGradient);
+	*/
+	NSRect bounds = [self bounds];
 	
-	NSRect indicatorRect;
-	NSRect textRect;
-	NSDivideRect( theRect, &textRect, &indicatorRect, 20.0f,NSMinYEdge );
+	NSRect clockRect = [self fitRect:NSMakeRect(bounds.origin.x,bounds.origin.y,bounds.size.height,bounds.size.height)
+							  inRect:bounds];
+	clockRect = NSInsetRect(clockRect,4.0f,4.0f);
+	CGMutablePathRef circle = CGPathCreateMutable();
+	// draw outline
+	CGContextSetLineWidth( cxt , 3.0f );
+	CGPathAddArc(circle,NULL,clockRect.origin.x+clockRect.size.width/2.0f,clockRect.origin.y+clockRect.size.height/2.0f,clockRect.size.height/2.0f,0.0f,2.0f*M_PI,0);
+	CGContextAddPath(cxt,circle);
+	CGContextStrokePath(cxt);
+	// draw background
+	CGContextSetRGBFillColor(cxt,0.95f,0.95f,0.95f,1.0f);
+	CGContextAddPath(cxt,circle);
+	CGContextFillPath(cxt);
+	CGPathRelease(circle);
+	// draw indicator circle
+	CGContextSetRGBStrokeColor(cxt,0.35f,0.35f,0.37f,1.0f);
+	NSRect indicatorRect = NSInsetRect(clockRect,clockRect.size.height*0.1f,clockRect.size.height*0.1f);
+	CGContextSetLineWidth(cxt,clockRect.size.height*0.2f);
+	float percentDone = (float)((maxTime-currentTime)/maxTime);
+	if( stopped )
+		percentDone = 1.0f;
+	CGContextAddArc(cxt,indicatorRect.origin.x+indicatorRect.size.width/2.0f,indicatorRect.origin.y+indicatorRect.size.height/2.0f,indicatorRect.size.height/2.0f,M_PI_2,M_PI_2-2.0f*M_PI*percentDone,1);
+	CGContextStrokePath(cxt);
 	
-	// draw indicator
-	NSRect innerRect = NSInsetRect(indicatorRect,5.0f,5.0f);
-	float ticWidth = innerRect.size.width/10.0f;
-	CGPoint aPoint = *(CGPoint *)&innerRect.origin;
-	int ticIndex;
-	CGLayerRef ticLayerRef;
-	if( stopped ) {
-		ticLayerRef = [ticDrawableStopped makeLayerForSize:NSMakeSize(ticWidth,innerRect.size.height) withContext:cxt];
-		for( ticIndex = 0; ticIndex < 10; ticIndex++) {
-			CGContextDrawLayerAtPoint( cxt, aPoint, ticLayerRef );
-			aPoint.x += ticWidth;
-		}
-	} else {
-		float precentDone = (float)(currentTime/maxTime);
-		
-		CGLayerRef ticUsedLayerRef = [ticDrawableUsed makeLayerForSize:NSMakeSize(ticWidth,innerRect.size.height) withContext:cxt];
-		CGLayerRef ticUnusedLayerRef = [ticDrawableUnused makeLayerForSize:NSMakeSize(ticWidth,innerRect.size.height) withContext:cxt];
-		while( (aPoint.x - innerRect.origin.x)/innerRect.size.width < precentDone ) {
-			CGContextDrawLayerAtPoint( cxt, aPoint, ticUnusedLayerRef );
-			aPoint.x += ticWidth;
-		}
-		while( aPoint.x < innerRect.origin.x+innerRect.size.width ) {
-			CGContextDrawLayerAtPoint( cxt, aPoint, ticUsedLayerRef );
-			aPoint.x += ticWidth;
-		}
-	}
-		
+	// draw time background
+	NSRect textRect = NSInsetRect(clockRect,clockRect.size.width*0.15f,clockRect.size.height*0.3f);
+	CGContextSetRGBFillColor(cxt,0.1f,0.1f,0.1f,0.8f);
+	CGMutablePathRef timePill = TIPCGUtilsPill(*(CGRect *)&textRect);
+	CGContextAddPath(cxt,timePill);
+	CGContextFillPath(cxt);
+	CGPathRelease(timePill);
 	
-	// draw text
+	// draw time
 	TIPTextContainer *theText = timeContainer;
 	if( stopped )
 		theText = stoppedContainer;
-	[theText setFontSize:15.0f];
+	[theText fitTextInRect:textRect];
 	[theText drawTextInRect:textRect inContext:cxt];
+	
+	// draw shine
+	TIPMutableGradientRef whiteShine = TIPMutableGradientCreate();
+	TIPGradientAddRGBColorStop(whiteShine,0.0f,1.0f,1.0f,1.0f,0.0f);
+	TIPGradientAddRGBColorStop(whiteShine,1.0f,1.0f,1.0f,1.0f,0.8f);
+	
+	NSRect shineRect = NSInsetRect(clockRect,2.0f,2.0f);
+	CGMutablePathRef shineSemicircle = CGPathCreateMutable();
+	
+	CGPathAddArc(shineSemicircle,NULL,shineRect.origin.x+shineRect.size.width/2.0f,shineRect.origin.y+shineRect.size.height/2.0f,shineRect.size.height/2.0f,0.0f,M_PI,0);
+	CGPathCloseSubpath(shineSemicircle);
+	TIPGradientAxialFillPath(cxt,whiteShine,shineSemicircle,90.0f);
+	CGPathRelease(shineSemicircle);
+	TIPGradientRelease(whiteShine);
 	
 	CGContextRestoreGState( cxt );
 }
