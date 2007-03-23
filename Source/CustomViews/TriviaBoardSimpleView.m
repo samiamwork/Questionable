@@ -234,9 +234,9 @@
 
 - (void)drawString:(NSString *)aString
 {
-	if( aString == nil )
+	if( aString == nil || [aString length] == 0 )
 		return;
-	
+
 	NSRect bounds = [self bounds];
 	TIPTextContainer *aTextContainer = [[TIPTextContainer alloc] init];
 	[aTextContainer setText:aString];

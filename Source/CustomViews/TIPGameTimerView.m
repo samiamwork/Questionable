@@ -59,7 +59,7 @@ NSString *stringForTime(NSTimeInterval aTime)
 	if( m == 0 )
 		displayString = [NSString stringWithFormat:@":%02d", s];
 	else
-		displayString = [NSString stringWithFormat:@"%02d", m+1];
+		displayString = [NSString stringWithFormat:@"%02d", m];
 	
 	return displayString;
 }
