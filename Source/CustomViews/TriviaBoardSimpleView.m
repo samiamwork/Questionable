@@ -91,8 +91,13 @@
 	[mainBoard release];
 	mainBoard = newBoard;
 	
-	if( mainBoard != nil )
-		[mainBoard retain];
+	if( mainBoard == nil ) {
+		_viewState = kTriviaSimpleViewNothing;
+		[self setNeedsDisplay:YES];
+		return;
+	}
+	
+	[mainBoard retain];
 	
 	TriviaCategory *thisCategory;
 	NSEnumerator *categoryEnumerator = [[mainBoard categories] objectEnumerator];
