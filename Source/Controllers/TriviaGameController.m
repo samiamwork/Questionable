@@ -155,11 +155,13 @@
 
 - (BOOL)startRound
 {
+	/*
 	// can't start a game without at least two players
 	if( [[playerController players] count] == 0 ) {
 		printf("not enough players (%d)! Not starting game!\n", [[playerController players] count]);
 		return NO;
 	}
+	 */
 
 	// if we're running then pause/unpause
 	if( ![roundTimer stopped] ) {
