@@ -78,11 +78,15 @@ NSString *stringForTime(NSTimeInterval aTime)
 	if( newTime == currentTime )
 		return;
 	
+	NSTimeInterval oldTime = currentTime;
 	currentTime = newTime;
 	NSTimeInterval timeToReport = _countdown ? maxTime-currentTime : currentTime;
 	[timeContainer setText:stringForTime(timeToReport)];
-	if( !stopped )
-		[self setNeedsDisplay:YES];
+	
+	if( stopped || (floor(currentTime/60.0)-floor(oldTime/60.0) < 1.0 && maxTime-currentTime > 1.0) )
+		return;
+	
+	[self setNeedsDisplay:YES];
 }
 
 - (NSTimeInterval)maxTime
