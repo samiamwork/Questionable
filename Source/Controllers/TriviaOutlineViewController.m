@@ -162,6 +162,20 @@
 	[theOutlineView reloadData];
 }
 
+- (IBAction)addCategory:(id)sender
+{
+	TriviaCategory *newCategory = [[TriviaCategory alloc] init];
+	TriviaBoard *aBoard = [[theQuestionDoc boards] objectAtIndex:0];
+	if( [aBoard isFull] ) {
+		NSBeep();
+		return;
+	}
+	[aBoard addCategory:newCategory];
+	[newCategory release];
+	
+	[theOutlineView reloadData];
+}
+
 - (IBAction)addItem:(id)sender
 {
 	id item = [theOutlineView itemAtRow:[theOutlineView selectedRow]];
@@ -213,8 +227,8 @@
 		return;
 	}
 	
-	[self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:theOutlineView]];
 	[theOutlineView reloadData];
+	[self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:theOutlineView]];
 }
 
 - (BOOL)openGameFile:(NSString *)filename
@@ -521,12 +535,10 @@
 {
 	NSArray *items;
 	
-	if( [item isKindOfClass:[TriviaBoard class]] )
-		items = [(TriviaBoard *)item categories];
-	else if( [item isKindOfClass:[TriviaCategory class]] )
+	if( [item isKindOfClass:[TriviaCategory class]] )
 		items = [(TriviaCategory *)item questions];
 	else if( item == nil )
-		items = [theQuestionDoc boards];
+		items = [[[theQuestionDoc boards] objectAtIndex:0] categories];
 	else
 		items = nil;
 	

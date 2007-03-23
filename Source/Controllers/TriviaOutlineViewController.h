@@ -38,6 +38,7 @@
 - (BOOL)openGameFile:(NSString *)filename;
 
 - (IBAction)addBoard:(id)sender;
+- (IBAction)addCategory:(id)sender;
 - (IBAction)addItem:(id)sender;
 - (IBAction)deleteItem:(id)sender;
 - (IBAction)openGame:(id)sender;

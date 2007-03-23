@@ -166,8 +166,14 @@
 {
 	if( aQuestion == nil )
 		return;
-	//[aQuestion setParent:nil];
-	[theQuestions removeObject:aQuestion];
+	
+	unsigned questionIndex = [theQuestions indexOfObject:aQuestion];
+	if( questionIndex == NSNotFound )
+		return;
+	
+	TriviaQuestion *replacementQuestion = [[TriviaQuestion alloc] init];
+	[theQuestions replaceObjectAtIndex:questionIndex withObject:replacementQuestion];
+	[replacementQuestion release];
 }
 - (void)insertObject:(TriviaQuestion *)aQuestion inQuestionsAtIndex:(unsigned int)anIndex
 {
