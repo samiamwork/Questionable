@@ -125,6 +125,7 @@
 		// pause
 		[self addElapsedTime];
 		[timer invalidate];
+		timer = nil;
 		paused = YES;
 	}
 }
