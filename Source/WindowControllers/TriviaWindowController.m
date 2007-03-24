@@ -165,8 +165,11 @@ static NSString *TriviaToolbarItemIdentifierStop = @"Trivia Toolbar Item Identif
 - (IBAction)stop:(id)sender
 {
 	[gameController stopRound];
-	if( playToolbarItem != nil && [[playToolbarItem label] isEqualToString:@"Pause"] )
+	if( playToolbarItem != nil && [[playToolbarItem label] isEqualToString:@"Pause"] ) {
+		[playToolbarItem setImage:[NSImage imageNamed:@"Play"]];
 		[playToolbarItem setLabel:@"Play"];
+		[playToolbarItem setAction:@selector(play:)];
+	}
 }
 
 - (void)load:(id)sender
