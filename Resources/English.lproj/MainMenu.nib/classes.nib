@@ -46,7 +46,14 @@
         }, 
         {CLASS = TriviaOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
-            ACTIONS = {addBoard = id; addItem = id; deleteItem = id; openGame = id; saveGame = id; }; 
+            ACTIONS = {
+                addBoard = id; 
+                addCategory = id; 
+                addItem = id; 
+                deleteItem = id; 
+                openGame = id; 
+                saveGame = id; 
+            }; 
             CLASS = TriviaOutlineViewController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
