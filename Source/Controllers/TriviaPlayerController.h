@@ -22,6 +22,7 @@
 - (NSArray *)sortDescriptors;
 
 - (IBAction)addPlayer:(id)sender;
+- (IBAction)removePlayer:(id)sender;
 
 - (BOOL)allDisabled;
 - (void)disableAllPlayers;

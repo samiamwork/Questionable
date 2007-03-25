@@ -16,6 +16,8 @@
 	if( (self = [super init]) ) {
 
 		players = [[NSMutableArray alloc] init];
+		[self addPlayer:nil];
+		
 		NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"points" ascending:NO] autorelease];
 		sortDescriptors = [[NSArray alloc] initWithObjects:descriptor,nil];
 		inputPollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(checkForBuzz:) userInfo:nil repeats:YES];
@@ -81,6 +83,22 @@
 	[newPlayer setName:[NSString stringWithFormat:@"Player %d", [players count]+1]];
 	
 	[players addObject:newPlayer];
+	
+	// tell the object controllers that it's changed
+	[self setPlayers:players];
+}
+
+- (IBAction)removePlayer:(id)sender
+{
+	NSArray *selectedPlayers = [playerArrayController selectedObjects];
+	
+	NSEnumerator *playerEnumerator = [selectedPlayers objectEnumerator];
+	TriviaPlayer *aPlayer;
+	while( (aPlayer = [playerEnumerator nextObject]) )
+		[players removeObject:aPlayer];
+	
+	if( [players count] == 0 )
+		[self addPlayer:nil];
 	
 	// tell the object controllers that it's changed
 	[self setPlayers:players];
