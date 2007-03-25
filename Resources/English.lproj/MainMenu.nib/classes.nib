@@ -36,6 +36,8 @@
             CLASS = TriviaGameController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                correctButton = NSButton; 
+                incorrectButton = NSButton; 
                 mainBoardView = TriviaBoardOpenGLView; 
                 playerController = TriviaPlayerController; 
                 questionController = TriviaOutlineViewController; 
@@ -73,13 +75,14 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {play = id; toggleFullscreen = id; }; 
+            ACTIONS = {pause = id; play = id; stop = id; toggleFullscreen = id; }; 
             CLASS = TriviaWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 controlWindow = NSWindow; 
                 fullscreenMenuItem = NSMenuItem; 
                 gameController = TriviaGameController; 
+                gameTimerView = TIPGameTimerView; 
                 gameWindow = NSWindow; 
                 questionController = TriviaOutlineViewController; 
             }; 

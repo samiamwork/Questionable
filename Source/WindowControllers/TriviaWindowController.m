@@ -15,6 +15,7 @@ static NSString *TriviaToolbarItemIdentifierFullscreen = @"Trivia Toolbar Item I
 static NSString *TriviaToolbarItemIdentifierLoad = @"Trivia Toolbar Item Identifier Load";
 static NSString *TriviaToolbarItemIdentifierPlay = @"Trivia Toolbar Item Identifier Play";
 static NSString *TriviaToolbarItemIdentifierStop = @"Trivia Toolbar Item Identifier Stop";
+static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identifier Timer";
 
 @interface TriviaWindowController (Private)
 - (void)setupToolbar;
@@ -94,7 +95,14 @@ static NSString *TriviaToolbarItemIdentifierStop = @"Trivia Toolbar Item Identif
 		[toolbarItem setPaletteLabel:@"Stop"];
 		[toolbarItem setImage:[NSImage imageNamed:@"Stop"]];
 		[toolbarItem setTarget:self];
-		[toolbarItem setAction:@selector(stop:)];		
+		[toolbarItem setAction:@selector(stop:)];
+	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierTimer] ) {
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		[toolbarItem setLabel:@"Timer"];
+		[toolbarItem setPaletteLabel:@"Timer"];
+		[toolbarItem setMinSize:NSMakeSize(45.0f,45.0f)];
+		[toolbarItem setMaxSize:NSMakeSize(45.0f,45.0f)];
+		[toolbarItem setView:gameTimerView];
 	} else {
 		toolbarItem = nil;
 	}
@@ -106,6 +114,7 @@ static NSString *TriviaToolbarItemIdentifierStop = @"Trivia Toolbar Item Identif
 {
 	return [NSArray arrayWithObjects: TriviaToolbarItemIdentifierMute,
 		TriviaToolbarItemIdentifierLoad, TriviaToolbarItemIdentifierFullscreen,
+		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierTimer,
 		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierPlay,
 		TriviaToolbarItemIdentifierStop, nil];
 }

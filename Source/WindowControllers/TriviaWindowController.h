@@ -10,6 +10,7 @@
 #import "FullscreenSheetController.h"
 #import "TriviaOutlineViewController.h"
 #import "TriviaGameController.h"
+#import "TIPGameTimerView.h"
 
 @protocol gameController
 - (BOOL)startGame;
@@ -42,6 +43,7 @@
 	IBOutlet NSMenuItem *fullscreenMenuItem;
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaGameController *gameController;
+	IBOutlet TIPGameTimerView *gameTimerView;
 	NSToolbarItem *playToolbarItem;
 	
 	

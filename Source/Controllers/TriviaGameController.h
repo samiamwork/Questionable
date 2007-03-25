@@ -25,6 +25,9 @@
 	
 	IBOutlet TIPGameTimerView *roundTimerProgress;
 	
+	IBOutlet NSButton *correctButton;
+	IBOutlet NSButton *incorrectButton;
+	
 	TriviaTimer *roundTimer;
 	TriviaTimer *questionTimer;
 	NSTimeInterval roundTimeLength;

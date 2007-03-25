@@ -44,6 +44,9 @@
 - (void)awakeFromNib
 {
 	[simpleBoardView setDelegate:self];
+	
+	[incorrectButton setEnabled:NO];
+	[correctButton setEnabled:NO];
 }
 #pragma mark question methods
 
@@ -65,7 +68,6 @@
 	
 	[selectedQuestion setUsed:YES];
 	
-	//[mainBoardView removeBadgeWithRedraw:NO];
 	[mainBoardView showAnswer];
 	[simpleBoardView showAnswer];
 	[simpleBoardView setTimerLevel:0];
@@ -102,7 +104,6 @@
 	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundCorrectAnswer];
 	
-	//[buzzedPlayer addPoints:[selectedQuestion points]];
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
 	[self showAnswer];
 }
@@ -113,7 +114,6 @@
 	if( selectedQuestion == nil)
 		return;
 	
-	//[buzzedPlayer subtractPoints:[selectedQuestion points]];
 	[buzzedPlayer subtractPoints:(selectedQuestionIndex+1) * 100];
 	buzzedPlayer = nil;
 	
@@ -148,6 +148,9 @@
 	
 	//[mainBoardView addBadgeWithString:[buzzedPlayer name]];
 
+	[incorrectButton setEnabled:YES];
+	[correctButton setEnabled:YES];
+	
 	[questionTimer start];
 }
 
@@ -247,6 +250,8 @@
 			[self showAnswer];
 		}
 		
+		[incorrectButton setEnabled:NO];
+		[correctButton setEnabled:NO];
 	} else
 		[simpleBoardView setTimerLevel:[questionTimer currentLevel]];
 	
