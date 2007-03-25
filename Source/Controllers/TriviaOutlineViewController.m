@@ -214,7 +214,6 @@
 	}
 	
 	if( [selectedItem isKindOfClass:[TriviaBoard class]] ) {
-		//[boards removeObject:selectedItem];
 		[theQuestionDoc removeBoard:selectedItem];
 	} else if( [selectedItem isKindOfClass:[TriviaCategory class]] ) {
 		TriviaBoard *parentBoard = (TriviaBoard *)[(TriviaCategory *)selectedItem parent];

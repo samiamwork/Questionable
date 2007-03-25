@@ -157,7 +157,18 @@
 {
 	if( aCategory == nil )
 		return;
-	[theCategories removeObject:aCategory];
+	
+	unsigned categoryIndex = [theCategories indexOfObject:aCategory];
+	if( categoryIndex == NSNotFound )
+		return;
+	
+	[theCategories removeObjectAtIndex:categoryIndex];
+	if( [theCategories count] != 0 )
+		return;
+	
+	TriviaCategory *replacementCategory = [[TriviaCategory alloc] init];
+	[self addCategory:replacementCategory];
+	[replacementCategory release];
 }
 - (void)insertObject:(TriviaCategory *)aCategory inCategoriesAtIndex:(unsigned int)anIndex
 {

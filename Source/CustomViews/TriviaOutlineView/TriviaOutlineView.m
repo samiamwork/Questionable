@@ -13,7 +13,7 @@
 @end
 
 @implementation TriviaOutlineView
-
+/*
 - (void)keyDown:(NSEvent *)theEvent
 {
 	if( [[theEvent charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteCharacter ) {
@@ -25,5 +25,5 @@
 	
 	[super keyDown:theEvent];
 }
-
+*/
 @end
