@@ -53,7 +53,7 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	
 	[toolbar setDelegate:self];
 	
-	[controlWindow setToolbar:toolbar];
+	[[self window] setToolbar:toolbar];
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted

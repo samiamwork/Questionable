@@ -22,6 +22,11 @@
 
 - (void)dealloc
 {
+	NSEnumerator *boardEnumerator = [theBoards objectEnumerator];
+	TriviaBoard *aBoard;
+	while( (aBoard = [boardEnumerator nextObject]) )
+		[aBoard removeObserver:self forKeyPath:@"anyPropertyChanged"];
+	
 	[theBoards release];
 
 	[super dealloc];
@@ -137,6 +142,7 @@
 	if( aBoard == nil )
 		return;
 	
+	[aBoard addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[theBoards addObject:aBoard];
 }
 - (void)removeBoard:(TriviaBoard *)aBoard
@@ -144,7 +150,17 @@
 	if( aBoard == nil )
 		return;
 	
+	[aBoard removeObserver:self forKeyPath:@"NSKeyValueObservingOptionNew"];
 	[theBoards removeObject:aBoard];
+}
+
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if( ![keyPath isEqualToString:@"anyPropertyChanged"] )
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+	
+	[self updateChangeCount:NSChangeDone];
 }
 
 @end

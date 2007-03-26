@@ -76,6 +76,9 @@
 	[theQuestionView bind:@"question" toObject:theQuestionController withKeyPath:@"selection.question" options:nil];
 	
 	[theOutlineView registerForDraggedTypes:[NSArray arrayWithObject:TriviaOutlinePboardType]];
+	
+	[theQuestionDoc addWindowController:triviaWindowController];
+	[[NSDocumentController sharedDocumentController] addDocument:theQuestionDoc];
 }
 
 #pragma mark Acessor Methods
@@ -236,14 +239,20 @@
 	if( ![extension isEqualToString:@"triviaqm"] )
 		return NO;
 	
+	[theQuestionDoc removeWindowController:triviaWindowController];
+	[theQuestionDoc close];
+	[[NSDocumentController sharedDocumentController] removeDocument:theQuestionDoc];
 	[theQuestionDoc release];
-	theQuestionDoc = [[TriviaQuestionDocument alloc] init];
+	
 	NSError *anError = nil;
-	[theQuestionDoc readFromURL:[NSURL fileURLWithPath:filename] ofType:@"TriviaDocumentTest" error:&anError];
+	theQuestionDoc = [[TriviaQuestionDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filename] ofType:@"TriviaDocument" error:&anError];
+	[theQuestionDoc addWindowController:triviaWindowController];
+	
 	[theOutlineView reloadData];
 	if( anError != nil )
 		return NO;
-	[self setCurrentBoard:[[theQuestionDoc boards] objectAtIndex:0]];
+	
+	[self selectTabForItem:[[[[theQuestionDoc boards] objectAtIndex:0] categories] objectAtIndex:0]];
 	
 	[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:filename]];
 	return YES;

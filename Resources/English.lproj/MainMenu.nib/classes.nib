@@ -64,6 +64,7 @@
                 theQuestionController = NSObjectController; 
                 theQuestionView = QuestionView; 
                 theTabView = NSTabView; 
+                triviaWindowController = NSWindowController; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
@@ -79,14 +80,13 @@
             CLASS = TriviaWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                controlWindow = NSWindow; 
                 fullscreenMenuItem = NSMenuItem; 
                 gameController = TriviaGameController; 
                 gameTimerView = TIPGameTimerView; 
                 gameWindow = NSWindow; 
                 questionController = TriviaOutlineViewController; 
             }; 
-            SUPERCLASS = NSObject; 
+            SUPERCLASS = NSWindowController; 
         }
     ); 
     IBVersion = 1; 

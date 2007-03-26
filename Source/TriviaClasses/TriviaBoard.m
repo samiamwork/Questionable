@@ -14,7 +14,7 @@
 
 + (void)initialize
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"title",nil];
+	NSArray *keys = [NSArray arrayWithObjects:@"title",@"categoryChange",nil];
 	[TriviaBoard setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
 }
 
@@ -38,6 +38,12 @@
 - (void)dealloc
 {
 	[theTitle release];
+	
+	NSEnumerator *categoryEnumerator = [theCategories objectEnumerator];
+	TriviaCategory *aCategory;
+	while( (aCategory = [categoryEnumerator nextObject]) )
+		[aCategory removeObserver:self forKeyPath:@"anyPropertyChanged"];
+	
 	[theCategories release];
 	
 	[super dealloc];
@@ -140,9 +146,21 @@
 	if( newCategories == theCategories || [newCategories count] > MAXCATEGORIES )
 		return;
 	
+	NSEnumerator *categoryEnumerator = [theCategories objectEnumerator];
+	TriviaCategory *aCategory;
+	while( (aCategory = [categoryEnumerator nextObject]) )
+		[aCategory removeObserver:self forKeyPath:@"anyPropertyChanged"];
+	
 	[theCategories release];
 	theCategories = [[NSMutableArray alloc] initWithArray:newCategories];
 	[theCategories makeObjectsPerformSelector:@selector(setParent:) withObject:self];
+	
+	categoryEnumerator = [theCategories objectEnumerator];
+	while( (aCategory = [categoryEnumerator nextObject]) )
+		[aCategory addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
+	
+	[self willChangeValueForKey:@"categoryChange"];
+	[self didChangeValueForKey:@"categoryChange"];
 }
 
 - (void)addCategory:(TriviaCategory *)newCategory
@@ -150,8 +168,12 @@
 	if( newCategory == nil || [self isFull] )
 		return;
 	
+	[newCategory addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[newCategory setParent:self];
 	[theCategories addObject:newCategory];
+	
+	[self willChangeValueForKey:@"categoryChange"];
+	[self didChangeValueForKey:@"categoryChange"];
 }
 - (void)removeCategory:(TriviaCategory *)aCategory
 {
@@ -162,13 +184,18 @@
 	if( categoryIndex == NSNotFound )
 		return;
 	
+	[[theCategories objectAtIndex:categoryIndex] removeObserver:self forKeyPath:@"anyPropertyChanged"];
 	[theCategories removeObjectAtIndex:categoryIndex];
 	if( [theCategories count] != 0 )
 		return;
 	
 	TriviaCategory *replacementCategory = [[TriviaCategory alloc] init];
+	[replacementCategory addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[self addCategory:replacementCategory];
 	[replacementCategory release];
+	
+	[self willChangeValueForKey:@"categoryChange"];
+	[self didChangeValueForKey:@"categoryChange"];
 }
 - (void)insertObject:(TriviaCategory *)aCategory inCategoriesAtIndex:(unsigned int)anIndex
 {
@@ -176,10 +203,14 @@
 	if( [self isFull] && foundIndex == NSNotFound )
 		return;
 	
-	if( foundIndex != NSNotFound )
-		[theCategories exchangeObjectAtIndex:anIndex withObjectAtIndex:foundIndex];
-	else
+	if( foundIndex == NSNotFound ) {
+		[aCategory addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 		[theCategories insertObject:aCategory atIndex:anIndex];
+	} else
+		[theCategories exchangeObjectAtIndex:anIndex withObjectAtIndex:foundIndex];
+	
+	[self willChangeValueForKey:@"categoryChange"];
+	[self didChangeValueForKey:@"categoryChange"];
 }
 
 - (BOOL)allUsed
@@ -199,6 +230,11 @@
 	if( [theCategories count] < MAXCATEGORIES )
 		return NO;
 	
+	return YES;
+}
+
+- (BOOL)categoryChange
+{
 	return YES;
 }
 
@@ -222,5 +258,14 @@
 - (NSString *)description
 {
 	return theTitle;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if( ![keyPath isEqualToString:@"anyPropertyChanged"] )
+		return;
+	
+	[self willChangeValueForKey:@"categoryChange"];
+	[self didChangeValueForKey:@"categoryChange"];
 }
 @end

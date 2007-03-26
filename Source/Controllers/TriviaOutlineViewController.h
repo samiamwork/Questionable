@@ -26,6 +26,7 @@
 	
 	id theDraggedItem;
 	
+	IBOutlet NSWindowController *triviaWindowController;
 	IBOutlet TriviaOutlineView *theOutlineView;
 	IBOutlet NSTabView *theTabView;
 	IBOutlet QuestionView *theQuestionView;
