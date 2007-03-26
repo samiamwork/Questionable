@@ -86,10 +86,10 @@ NSString *SoundThemeNameDefault = @"Default Theme";
 	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameEnd];
 	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundStart];
 	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundEnd];
-	[themeSoundNames setValue:@"MM3buzz" forKey:SoundThemeSoundBuzzIn];
-	[themeSoundNames setValue:@"MM3ding" forKey:SoundThemeSoundCorrectAnswer];
-	[themeSoundNames setValue:@"MM3death" forKey:SoundThemeSoundIncorrectAnswer];
-	[themeSoundNames setValue:@"MM3death" forKey:SoundThemeSoundTimeUp];
+	[themeSoundNames setValue:@"Ping" forKey:SoundThemeSoundBuzzIn];
+	[themeSoundNames setValue:@"Glass" forKey:SoundThemeSoundCorrectAnswer];
+	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundIncorrectAnswer];
+	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundTimeUp];
 	
 	[aTheme setValue:themeSoundNames forKey:@"soundNames"];
 	
