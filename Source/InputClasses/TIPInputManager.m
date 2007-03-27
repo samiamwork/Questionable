@@ -166,6 +166,7 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		aDevice = [deviceEnumerator nextObject];
 	
 	if( aDevice ) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"TIPInputDeviceDisconnected" object:aDevice];
 		[deviceArray removeObject:aDevice];
 		//printf("device removed!\n");
 	}

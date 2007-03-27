@@ -109,10 +109,25 @@
 	if( newElement == inputElement )
 		return;
 	
+	if( inputElement != nil )
+		[[NSNotificationCenter defaultCenter] removeObserver:self
+														name:@"TIPInputDeviceDisconnected"
+													  object:[inputElement device]];
+	if( newElement != nil )
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(deviceDisconnected:)
+													 name:@"TIPInputDeviceDisconnected"
+												   object:[newElement device]];
 	[self willChangeValueForKey:@"isConnected"];
 	[inputElement release];
 	inputElement = [newElement retain];
 	[self didChangeValueForKey:@"isConnected"];
+	
+}
+
+- (void)deviceDisconnected:(NSNotification *)aNotification
+{
+	[self setInputElement:nil];
 }
 
 - (BOOL)isButtonPressed

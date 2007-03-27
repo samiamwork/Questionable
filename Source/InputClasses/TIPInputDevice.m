@@ -180,6 +180,7 @@
 {
 	return locationID;
 }
+
 - (IOHIDDeviceInterface **)deviceInterface
 {
 	return deviceInterface;
