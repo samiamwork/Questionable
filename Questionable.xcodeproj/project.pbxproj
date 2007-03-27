@@ -34,6 +34,8 @@
 		3E11DCC10B84FAE4000DC73F /* Pause.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCBE0B84FAE4000DC73F /* Pause.pdf */; };
 		3E11DCC20B84FAE4000DC73F /* Play.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCBF0B84FAE4000DC73F /* Play.pdf */; };
 		3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCC00B84FAE4000DC73F /* Stop.pdf */; };
+		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
+		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
 		3E4D099D0B83A070004620B8 /* TriviaGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D099A0B83A070004620B8 /* TriviaGameController.m */; };
 		3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D09A00B83A081004620B8 /* TriviaWindowController.m */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
@@ -138,6 +140,9 @@
 		3E11DCBE0B84FAE4000DC73F /* Pause.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Pause.pdf; sourceTree = "<group>"; };
 		3E11DCBF0B84FAE4000DC73F /* Play.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Play.pdf; sourceTree = "<group>"; };
 		3E11DCC00B84FAE4000DC73F /* Stop.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Stop.pdf; sourceTree = "<group>"; };
+		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
+		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
+		3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GetInput.nib; path = English.lproj/GetInput.nib; sourceTree = "<group>"; };
 		3E4D09990B83A070004620B8 /* TriviaGameController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaGameController.h; sourceTree = "<group>"; };
 		3E4D099A0B83A070004620B8 /* TriviaGameController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaGameController.m; sourceTree = "<group>"; };
 		3E4D099F0B83A081004620B8 /* TriviaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaWindowController.h; sourceTree = "<group>"; };
@@ -459,6 +464,8 @@
 				3EE2B0090B829F8C00EFBE3D /* FullscreenSheetController.m */,
 				3EE2AFE90B82891400EFBE3D /* SaveProgressController.h */,
 				3EE2AFEA0B82891400EFBE3D /* SaveProgressController.m */,
+				3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */,
+				3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */,
 			);
 			path = WindowControllers;
 			sourceTree = "<group>";
@@ -496,6 +503,7 @@
 				3EE2ADFC0B810B4A00EFBE3D /* Images */,
 				65464FC00A9A486600F418E3 /* AppleScriptInfo.sdef */,
 				45FC53A608FBFB490091ABDF /* InfoPlist.strings */,
+				3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */,
 				3EE2B0120B82A13300EFBE3D /* FullscreenSheet.nib */,
 				3EE2AE870B811C9100EFBE3D /* SaveProgress.nib */,
 				45FC53A808FBFB490091ABDF /* MainMenu.nib */,
@@ -600,6 +608,7 @@
 				3E11DCC10B84FAE4000DC73F /* Pause.pdf in Resources */,
 				3E11DCC20B84FAE4000DC73F /* Play.pdf in Resources */,
 				3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */,
+				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +720,7 @@
 				3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */,
 				3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */,
 				3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */,
+				3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

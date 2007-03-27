@@ -11,6 +11,10 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <IOKit/hid/IOHIDUsageTables.h>
 
+@interface NSObject (delegate)
+- (void)elementSearchFinished:(TIPInputElement *)foundElement;
+@end
+
 @implementation TIPInputManager
 
 void HIDAddDevices( void *managerRef, io_iterator_t iterator );
@@ -68,6 +72,7 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		// activate device removal notifications by using the iterator
 		HIDRemoveDevices( self, removedDeviceIterator);
 		
+		_delegate = nil;
 	}
 	return self;
 }
@@ -93,17 +98,25 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 	return g_inputManager;
 }
 
+- (id)delegate
+{
+	return _delegate;
+}
+- (void)setDelegate:(id)newDelegate
+{
+	_delegate = newDelegate;
+}
+
 - (NSArray *)devices
 {
 	return (NSArray *)deviceArray;
 }
 
-- (TIPInputElement *)getAnyElementWithTimeout:(NSTimeInterval)timeout;
+- (void)getAnyElementWithTimeout:(NSTimeInterval)timeout;
 {
 	// save current input state of all devices and elements
 	// loop through all objects waiting for the first element in
 	// any device that shows a change of more than X%.
-	NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
 	
 	// set all the elements reference Values
 	TIPInputDevice *aDevice;
@@ -115,26 +128,33 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 			[anElement setReferenceValue];
 	}
 	
-	TIPInputElement *differentElement = nil;
+	_elementCheckTimeout = timeout;
+	_startTime = [NSDate timeIntervalSinceReferenceDate];
+	_elementCheckTimer = [NSTimer timerWithTimeInterval:1.0/30.0 target:self selector:@selector(checkElements:) userInfo:nil repeats:YES];
+	[[NSRunLoop currentRunLoop] addTimer:_elementCheckTimer forMode:NSModalPanelRunLoopMode];
+}
 
-	while( [NSDate timeIntervalSinceReferenceDate] - startTime < timeout ) {
+- (void)checkElements:(NSTimer *)aTimer
+{
+	TIPInputElement *differentElement = nil;
+	
+	TIPInputDevice *aDevice;
+	NSEnumerator *deviceEnumerator = [deviceArray objectEnumerator];
+	while( (aDevice = [deviceEnumerator nextObject]) && differentElement == nil) {
 		
-		deviceEnumerator = [deviceArray objectEnumerator];
-		while( (aDevice = [deviceEnumerator nextObject]) ) {
-			
-			NSEnumerator *elementEnumerator = [[aDevice elements] objectEnumerator];
-			TIPInputElement *anElement;
-			while( (anElement = [elementEnumerator nextObject]) ) {
-				differentElement = [anElement isDifferentThanReference];
-				if( differentElement != nil )
-					return differentElement;
-			}
-			
-		}
+		NSEnumerator *elementEnumerator = [[aDevice elements] objectEnumerator];
+		TIPInputElement *anElement;
+		while( (anElement = [elementEnumerator nextObject]) && differentElement == nil)
+			differentElement = [anElement isDifferentThanReference];			
 		
 	}
 	
-	return differentElement;
+	if( [NSDate timeIntervalSinceReferenceDate] - _startTime > _elementCheckTimeout || differentElement != nil ) {
+		[_elementCheckTimer invalidate];
+		_elementCheckTimer = nil;
+		if( _delegate != nil && [_delegate respondsToSelector:@selector(elementSearchFinished:)] )
+			[_delegate elementSearchFinished:differentElement];
+	}
 }
 
 - (void)removeDeviceAtLocation:(long)aLocation

@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = TriviaPlayerGetInputController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_promptField" = NSTextField; "_spinner" = NSProgressIndicator; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TriviaPlayer.h"
+#import "../WindowControllers/TriviaPlayerGetInputController.h"
 
 
 @interface TriviaPlayerController : NSObject {
@@ -15,6 +16,10 @@
 	IBOutlet NSArrayController *playerArrayController;
 	NSArray *sortDescriptors;
 	NSTimer *inputPollTimer;
+	
+	BOOL _waitingForButton;
+	TriviaPlayerGetInputController *_getInputWindow;
+	TriviaPlayer *_playerToGetButtonFor;
 }
 
 - (NSMutableArray *)players;

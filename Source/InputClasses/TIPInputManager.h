@@ -22,6 +22,10 @@
 	io_iterator_t removedDeviceIterator;
 	
 	NSMutableArray *deviceArray;
+	id _delegate;
+	NSTimeInterval _elementCheckTimeout;
+	NSTimeInterval _startTime;
+	NSTimer *_elementCheckTimer;
 }
 
 /*!
@@ -33,6 +37,8 @@
 
 + (TIPInputManager *)defaultManager;
 
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 - (NSArray *)devices;
-- (TIPInputElement *)getAnyElementWithTimeout:(NSTimeInterval)timeout;
+- (void)getAnyElementWithTimeout:(NSTimeInterval)timeout;
 @end

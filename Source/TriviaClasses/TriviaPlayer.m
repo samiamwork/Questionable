@@ -29,6 +29,7 @@
 - (void)dealloc
 {
 	[theName release];
+	[inputElement release];
 	
 	[super dealloc];
 }
@@ -90,12 +91,27 @@
 	
 	return YES;
 }
-
+/*
 - (void)registerInput
 {	
 	[self willChangeValueForKey:@"isConnected"];
 	inputElement = [[TIPInputManager defaultManager] getAnyElementWithTimeout:5.0];
 		
+	[self didChangeValueForKey:@"isConnected"];
+}
+*/
+- (TIPInputElement *)inputElement
+{
+	return inputElement;
+}
+- (void)setInputElement:(TIPInputElement *)newElement
+{
+	if( newElement == inputElement )
+		return;
+	
+	[self willChangeValueForKey:@"isConnected"];
+	[inputElement release];
+	inputElement = [newElement retain];
 	[self didChangeValueForKey:@"isConnected"];
 }
 

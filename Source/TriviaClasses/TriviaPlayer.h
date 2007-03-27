@@ -33,6 +33,8 @@
 - (BOOL)isConnected;
 //- (BOOL)setIsConnected:(BOOL)connected;
 
-- (void)registerInput;
+//- (void)registerInput;
+- (TIPInputElement *)inputElement;
+- (void)setInputElement:(TIPInputElement *)newElement;
 - (BOOL)isButtonPressed;
 @end

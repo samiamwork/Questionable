@@ -22,7 +22,10 @@
 		sortDescriptors = [[NSArray alloc] initWithObjects:descriptor,nil];
 		inputPollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(checkForBuzz:) userInfo:nil repeats:YES];
 		
+		_getInputWindow = [[TriviaPlayerGetInputController alloc] init];
+		
 		[self addObserver:self forKeyPath:@"players" options:NSKeyValueObservingOptionOld context:nil];
+		[[TIPInputManager defaultManager] setDelegate:self];
 	}
 	
 	return self;
@@ -34,6 +37,8 @@
 	[sortDescriptors release];
 	[self removeObserver:self forKeyPath:@"players"];
 	[inputPollTimer invalidate];
+	
+	[_getInputWindow release];
 	
 	[super dealloc];
 }
@@ -149,11 +154,27 @@
 - (IBAction)registerInput:(id)sender
 {	
 	unsigned int selectionIndex = [playerArrayController selectionIndex];
-	if( selectionIndex == NSNotFound )
+	if( selectionIndex == NSNotFound || _waitingForButton )
 		return;
 	
-	[sender setEnabled:NO];
-	[[players objectAtIndex:selectionIndex] registerInput];
-	[sender setEnabled:YES];
+	[_getInputWindow setPromptStringForPlayerName:[[players objectAtIndex:selectionIndex] name]];
+	_playerToGetButtonFor = [players objectAtIndex:selectionIndex];
+	[_playerToGetButtonFor retain];
+	_waitingForButton = YES;
+	
+	[[TIPInputManager defaultManager] getAnyElementWithTimeout:5.0];
+	[_getInputWindow beginModalStatus];
+}
+
+- (void)elementSearchFinished:(TIPInputElement *)foundElement
+{
+	_waitingForButton = NO;
+	[_getInputWindow endModalStatus];
+	if( foundElement == nil || _playerToGetButtonFor == nil )
+		return;
+	
+	[_playerToGetButtonFor setInputElement:foundElement];
+	[_playerToGetButtonFor release];
+	_playerToGetButtonFor = nil;
 }
 @end
