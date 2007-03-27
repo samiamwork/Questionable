@@ -34,16 +34,21 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		NSMutableArray *deviceUsagePairs = [NSMutableArray array];
 		NSMutableDictionary *joystickDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *gamepadDictionary = [NSMutableDictionary dictionary];
+		NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
 		
 		NSNumber *usagePage = [NSNumber numberWithInt:kHIDPage_GenericDesktop];
 		[joystickDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[gamepadDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
+		[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 
 		[joystickDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Joystick] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:joystickDictionary];
 
 		[gamepadDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_GamePad] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:gamepadDictionary];
+		
+		[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
+		[deviceUsagePairs addObject:keyboardDictionary];
 		
 		[HIDMatchingDictionary setValue:deviceUsagePairs forKey:@kIOHIDDeviceUsagePairsKey];
 		
