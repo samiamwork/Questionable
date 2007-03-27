@@ -20,6 +20,15 @@
 	BoolToStatusStringTransformer *stringTransformer = [[BoolToStatusStringTransformer alloc] init];
 	[NSValueTransformer setValueTransformer:stringTransformer forName:@"BoolToStatusStringTransformer"];
 	[stringTransformer release];
+	
+	//set user defaults
+	NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
+	
+	[defaultDict setValue:[NSNumber numberWithInt:15] forKey:@"lengthOfQuestion"];
+	[defaultDict setValue:[NSNumber numberWithInt:30] forKey:@"lengthOfGame"];
+	
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
+	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultDict];
 }
 
 - (void) awakeFromNib

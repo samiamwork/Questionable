@@ -20,9 +20,10 @@
 		paused = NO;
 				
 		// all times in seconds
-		roundTimeLength = 28.0*60.0;
-		questionTimeLength = 15.0;
 		displayTimeLength = 5.0f;
+		NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
+		roundTimeLength = [[defaults valueForKey:@"lengthOfGame"] doubleValue]*60.0;
+		questionTimeLength = [[defaults valueForKey:@"lengthOfQuestion"] doubleValue];
 		
 		roundTimer = [[TriviaTimer timerWithLength:roundTimeLength interval:1.0 target:self selector:@selector(roundTimerFired)] retain];
 		questionTimer = [[TriviaTimer timerWithLength:questionTimeLength interval:0.1 target:self selector:@selector(questionTimerFired)] retain];
@@ -38,6 +39,8 @@
 {
 	[roundTimer release];
 	[questionTimer release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[super dealloc];
 }
 
@@ -90,6 +93,10 @@
 	
 	[self showQuestion];
 
+	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
+	questionTimeLength = [[defaults valueForKey:@"lengthOfQuestion"] doubleValue];
+	[questionTimer release];
+	questionTimer = [[TriviaTimer timerWithLength:questionTimeLength interval:0.1 target:self selector:@selector(questionTimerFired)] retain];
 	[questionTimer start];
 	
 	[playerController enableAllPlayers];
@@ -158,20 +165,17 @@
 
 - (BOOL)startRound
 {
-	/*
-	// can't start a game without at least two players
-	if( [[playerController players] count] == 0 ) {
-		printf("not enough players (%d)! Not starting game!\n", [[playerController players] count]);
-		return NO;
-	}
-	 */
-
 	// if we're running then pause/unpause
 	if( ![roundTimer stopped] ) {
 		[self pauseRound];
 		return YES;
 	}
 
+	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
+	roundTimeLength = [[defaults valueForKey:@"lengthOfGame"] doubleValue]*60.0;
+	[roundTimer release];
+	roundTimer = [[TriviaTimer timerWithLength:roundTimeLength interval:1.0 target:self selector:@selector(roundTimerFired)] retain];
+	
 	[roundTimerProgress setMaxTime:roundTimeLength];
 	[roundTimerProgress setCurrentTime:0.0];
 	[roundTimerProgress setStopped:NO];
