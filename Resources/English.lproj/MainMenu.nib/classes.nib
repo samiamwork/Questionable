@@ -46,6 +46,7 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = TriviaGradientView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = TriviaOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
             ACTIONS = {
@@ -75,6 +76,7 @@
             OUTLETS = {playerArrayController = NSArrayController; }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = TriviaStatusView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {pause = id; play = id; stop = id; toggleFullscreen = id; }; 
             CLASS = TriviaWindowController; 

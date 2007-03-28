@@ -36,6 +36,8 @@
 		3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCC00B84FAE4000DC73F /* Stop.pdf */; };
 		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
 		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
+		3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */; };
+		3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */; };
 		3E4D099D0B83A070004620B8 /* TriviaGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D099A0B83A070004620B8 /* TriviaGameController.m */; };
 		3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D09A00B83A081004620B8 /* TriviaWindowController.m */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
@@ -143,6 +145,10 @@
 		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
 		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
 		3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GetInput.nib; path = English.lproj/GetInput.nib; sourceTree = "<group>"; };
+		3E3FBA970BBA017200B2C457 /* TriviaStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaStatusView.h; sourceTree = "<group>"; };
+		3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaStatusView.m; sourceTree = "<group>"; };
+		3E3FBABA0BBA19F300B2C457 /* TriviaGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaGradientView.h; sourceTree = "<group>"; };
+		3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaGradientView.m; sourceTree = "<group>"; };
 		3E4D09990B83A070004620B8 /* TriviaGameController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaGameController.h; sourceTree = "<group>"; };
 		3E4D099A0B83A070004620B8 /* TriviaGameController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaGameController.m; sourceTree = "<group>"; };
 		3E4D099F0B83A081004620B8 /* TriviaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaWindowController.h; sourceTree = "<group>"; };
@@ -364,6 +370,10 @@
 				3EE2B0100B82A11400EFBE3D /* TIPScreenSelectionView.m */,
 				3EB025400B8BBC8200A095F9 /* TriviaBoardOpenGLView.h */,
 				3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */,
+				3E3FBA970BBA017200B2C457 /* TriviaStatusView.h */,
+				3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */,
+				3E3FBABA0BBA19F300B2C457 /* TriviaGradientView.h */,
+				3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -721,6 +731,8 @@
 				3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */,
 				3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */,
 				3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */,
+				3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */,
+				3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
