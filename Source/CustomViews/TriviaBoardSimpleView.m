@@ -198,7 +198,6 @@
 		[thisText fitTextInRect:insetTitleRect];
 		[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
 		[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-		//[thisText setColor:[NSColor whiteColor]];
 		[thisText drawTextInRect:insetTitleRect inContext:currentContext];
 		
 		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
@@ -238,12 +237,23 @@
 	}
 }
 
-- (void)drawString:(NSString *)aString
+- (void)drawString:(NSString *)aString withTitle:(NSString *)aTitle
 {
+	NSRect bounds = [self bounds];
+	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
+	
+	if( aTitle != nil ) {
+		TIPTextContainer *answerTitle = [TIPTextContainer containerWithString:aTitle
+																		color:[NSColor colorWithCalibratedWhite:0.3f alpha:0.3f]
+																	 fontName:@"Helvetica-Bold"];
+		[answerTitle setAlignment:kTIPTextAlignmentLeft];
+		[answerTitle setFontSize:bounds.size.height*0.2f];
+		[answerTitle drawTextInRect:NSMakeRect(bounds.origin.x,bounds.origin.y+bounds.size.height*0.85f,bounds.size.width,bounds.size.height*0.2f) inContext:currentContext];
+	}
+	
 	if( aString == nil || [aString length] == 0 )
 		return;
-
-	NSRect bounds = [self bounds];
+	
 	TIPTextContainer *aTextContainer = [[TIPTextContainer alloc] init];
 	[aTextContainer setText:aString];
 	[aTextContainer setFontSize:bounds.size.height/20.0f];
@@ -253,11 +263,8 @@
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
 		[aTextContainer setFontSize:textRect.size.height/5.0f];
 	[aTextContainer setColor:[NSColor colorWithCalibratedWhite:0.31f alpha:0.9f]];
-	//[aTextContainer drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height)
-	//					 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
-	//[aTextContainer setColor:[NSColor whiteColor]];
 	[aTextContainer drawTextInRect:bounds
-						 inContext:[[NSGraphicsContext currentContext] graphicsPort]];
+						 inContext:currentContext];
 }
 
 #define BAR_PADDING_SCALE 0.025f
@@ -303,13 +310,13 @@
 			[self drawBoard];
 			break;
 		case kTriviaSimpleViewQuestion:
-			[self drawString:(NSString *)[_question question]];
+			[self drawString:(NSString *)[_question question] withTitle:@"Question"];
 			[self drawTimer];
 			break;
-		case kTriviaSimpleViewAnswer:
-			[self drawString:[_question answer]];
+		case kTriviaSimpleViewAnswer: {
+			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
 			[self drawTimer];
-			break;
+			} break;
 		default:
 			CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
 			[placeholderMessage setFontSize:bounds.size.height/8.0f];
