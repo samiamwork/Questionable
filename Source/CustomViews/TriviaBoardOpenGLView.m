@@ -96,14 +96,14 @@
 		_playerNameStrings = [[NSMutableArray alloc] init];
 		_playerPointStrings = [[NSMutableArray alloc] init];
 		
-		_placeholderCircleOuter = [[RectangularBox alloc] init];
-		[_placeholderCircleOuter setLineWidth:10.0f];
-		[_placeholderCircleOuter enableBorder:NO];
-		_placeholderCircleInner = [[RectangularBox alloc] init];
-		[_placeholderCircleInner setLineWidth:10.0f];
+		_placeholderBox = [[RectangularBox alloc] init];
+		[_placeholderBox setLineWidth:10.0f];
+		[_placeholderBox setBorderColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
+		[_placeholderBox setStartColor:[NSColor colorWithCalibratedRed:0.5f green:0.7f blue:0.8f alpha:1.0f]];
+		[_placeholderBox setEndColor:[NSColor colorWithCalibratedRed:0.1f green:0.7f blue:0.8f alpha:1.0f]];
 		_questionmark = [[StringTexture alloc] initWithString:@"?" withWidth:150.0f withFontSize:100.0f];
 		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
-		[_questionmark setColor:[NSColor whiteColor]];
+		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
     }
 	
     return self;
@@ -136,8 +136,7 @@
 	[_playerNameStrings release];
 	[_playerPointStrings release];
 	
-	[_placeholderCircleInner release];
-	[_placeholderCircleOuter release];
+	[_placeholderBox release];
 	[_questionmark release];
 
 	[super dealloc];
@@ -217,7 +216,7 @@
 			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		}
 	}
-	
+	[_questionmark setWidth:ceilf(_targetSize.width*0.5f)];
 	[_questionmark setFontSize:_targetSize.height*0.5f];
 }
 
@@ -290,10 +289,9 @@
 	[_playerPointBox setSize:_playerPointSize];
 	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
 	
-	[_placeholderCircleOuter setSize:NSMakeSize(_targetSize.height*0.5f,_targetSize.height*0.5f)];
-	[_placeholderCircleOuter setCornerRadius:[_placeholderCircleOuter size].width/2.0f];
-	[_placeholderCircleInner setSize:NSMakeSize([_placeholderCircleOuter size].width*0.5f,[_placeholderCircleOuter size].height*0.5f)];
-	[_placeholderCircleInner setCornerRadius:[_placeholderCircleInner size].width/2.0f];
+	[_placeholderBox setSize:NSMakeSize(_targetSize.height*0.7f,_targetSize.height*0.5f)];
+	[_placeholderBox setCornerRadius:[_placeholderBox size].width/5.0f];
+	[_placeholderBox setLineWidth:ceilf([_placeholderBox size].width*0.05f)];
 	[self regenerateStringTextures];
 	
 	[self setNeedsDisplay:YES];
@@ -329,10 +327,10 @@
 
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
 {
+	glPushMatrix();
+	glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 	switch( aState ) {
-		case kTIPTriviaBoardViewStateBoard:
-			glPushMatrix();
-			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
+		case kTIPTriviaBoardViewStateBoard: {
 			float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
 			glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
 			unsigned int categoryIndex;
@@ -353,41 +351,32 @@
 				glPopMatrix();
 				glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
 			}
-			glPopMatrix();
-			break;
+		    }break;
 		case kTIPTriviaBoardViewStateQuestion:
-			glPushMatrix();
-			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_questionTitleString];
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
 			[_QATextBox drawWithString:_questionString];
-			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStateAnswer:
-			glPushMatrix();
-			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_answerTitleString];
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
 			[_QATextBox drawWithString:_answerString];
-			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
-			glPushMatrix();
-			glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_playerNameBox size].height,0.0f);
 			[self drawPlayerStatus];
-			glPopMatrix();
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
-			glPushMatrix();
-			[_placeholderCircleOuter drawWithString:nil];
-			glPopMatrix();
+			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
+			// drawn twice as a horrible hack to get it to show up on the first frame
+			[_placeholderBox drawWithString:_questionmark];
+			[_placeholderBox drawWithString:_questionmark];
 			break;
 	}
-	
+	glPopMatrix();
 }
 
 - (void)drawRect:(NSRect)rect

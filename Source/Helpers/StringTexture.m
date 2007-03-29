@@ -137,7 +137,7 @@
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	
 	free(bitmapData);
-	
+
 	_dirtyTexture = NO;
 }
 
@@ -184,7 +184,7 @@
 	if ( _dirtyTexture )
 		[self generateAlphaOnlyTexture];
 		//[self generateTexture];
-	
+
 	if ( _textureID == 0)
 		return;
 	
