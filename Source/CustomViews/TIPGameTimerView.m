@@ -75,17 +75,19 @@ NSString *stringForTime(NSTimeInterval aTime)
 	if( newTime > maxTime )
 		newTime = maxTime;
 	
-	if( newTime == currentTime )
-		return;
-	
 	NSTimeInterval oldTime = currentTime;
 	currentTime = newTime;
-	NSTimeInterval timeToReport = _countdown ? maxTime-currentTime : currentTime;
-	[timeContainer setText:stringForTime(timeToReport)];
+	NSTimeInterval timeToReport = currentTime;
+	if( _countdown ) {
+		NSTimeInterval secondsLeft = ceil(maxTime-currentTime);
+		timeToReport = secondsLeft > 60.0 ? ceil(secondsLeft/60.0)*60.0 : secondsLeft;
+		currentTime = maxTime-timeToReport;
+	}
 	
-	if( stopped || (floor(currentTime/60.0)-floor(oldTime/60.0) < 1.0 && maxTime-currentTime > 1.0) )
+	if( currentTime == oldTime )
 		return;
 	
+	[timeContainer setText:stringForTime(timeToReport)];
 	[self setNeedsDisplay:YES];
 }
 
@@ -183,7 +185,8 @@ NSString *stringForTime(NSTimeInterval aTime)
 	CGContextSetRGBStrokeColor(cxt,0.35f,0.35f,0.37f,1.0f);
 	NSRect indicatorRect = NSInsetRect(clockRect,clockRect.size.height*0.1f,clockRect.size.height*0.1f);
 	CGContextSetLineWidth(cxt,clockRect.size.height*0.2f);
-	float percentDone = (float)((maxTime-currentTime)/maxTime);
+	float secondsLeft = (float)ceil(maxTime-currentTime);
+	float percentDone = ceilf(secondsLeft/(float)maxTime);
 	if( stopped )
 		percentDone = 1.0f;
 	CGContextAddArc(cxt,indicatorRect.origin.x+indicatorRect.size.width/2.0f,indicatorRect.origin.y+indicatorRect.size.height/2.0f,indicatorRect.size.height/2.0f,M_PI_2,M_PI_2-2.0f*M_PI*percentDone,1);
