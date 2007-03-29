@@ -163,21 +163,6 @@ NSString *stringForTime(NSTimeInterval aTime)
 	CGContextRef cxt = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextSaveGState( cxt );
 	
-	//draw background
-	/*
-	CGMutablePathRef outline = TIPCGUtilsRoundedBoxCreate(*(CGRect *)&theRect,0.0f,5.0f,1.0);
-	TIPMutableGradientRef bgGradient = TIPMutableGradientCreate();
-	TIPGradientAddRGBColorStop(bgGradient,0.0f,0.9137f,0.9922f,0.7059f,1.0f);
-	TIPGradientAddRGBColorStop(bgGradient,1.0f,0.8510f,0.9137f,0.6863f,1.0f);
-	
-	TIPGradientAxialFillPath( cxt, bgGradient, outline, 90.0f );
-	CGContextSetLineWidth( cxt , 1.0f );
-	CGContextSetRGBStrokeColor( cxt, 0.0f,0.0f,0.0f,0.3f );
-	CGContextAddPath( cxt, outline );
-	CGContextStrokePath( cxt );
-	CGPathRelease( outline );
-	TIPGradientRelease(bgGradient);
-	*/
 	NSRect bounds = [self bounds];
 	
 	NSRect clockRect = [self fitRect:NSMakeRect(bounds.origin.x,bounds.origin.y,bounds.size.height,bounds.size.height)
@@ -224,7 +209,7 @@ NSString *stringForTime(NSTimeInterval aTime)
 	TIPGradientAddRGBColorStop(whiteShine,0.0f,1.0f,1.0f,1.0f,0.0f);
 	TIPGradientAddRGBColorStop(whiteShine,1.0f,1.0f,1.0f,1.0f,0.8f);
 	
-	NSRect shineRect = NSInsetRect(clockRect,2.0f,2.0f);
+	NSRect shineRect = NSInsetRect(clockRect,1.0f,1.0f);
 	CGMutablePathRef shineSemicircle = CGPathCreateMutable();
 	
 	CGPathAddArc(shineSemicircle,NULL,shineRect.origin.x+shineRect.size.width/2.0f,shineRect.origin.y+shineRect.size.height/2.0f,shineRect.size.height/2.0f,0.0f,M_PI,0);
