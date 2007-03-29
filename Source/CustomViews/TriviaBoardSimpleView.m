@@ -194,11 +194,12 @@
 		CGContextFillRect(currentContext,currentRect);
 		
 		[thisText setFontSize:currentRect.size.height/2.0f];
-		[thisText fitTextInRect:NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f)];
+		NSRect insetTitleRect = NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f);
+		[thisText fitTextInRect:insetTitleRect];
 		[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
-		//[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
+		[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
 		//[thisText setColor:[NSColor whiteColor]];
-		[thisText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
+		[thisText drawTextInRect:insetTitleRect inContext:currentContext];
 		
 		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
 		CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
@@ -247,7 +248,7 @@
 	[aTextContainer setText:aString];
 	[aTextContainer setFontSize:bounds.size.height/20.0f];
 	
-	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.05f,bounds.size.height*0.05f);
+	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.1f,bounds.size.height*0.1f);
 	[aTextContainer fitTextInRect:textRect];
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
 		[aTextContainer setFontSize:textRect.size.height/5.0f];

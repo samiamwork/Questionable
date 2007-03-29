@@ -69,6 +69,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		ATSUSetTransientFontMatching(defaultLayout, true);
 		
 		_fitInRect = NO;
+		_widthDirty = YES;
 	}
 	
 	return self;
@@ -145,6 +146,9 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	OSStatus status;
 	CFIndex strLength = textLength;
 	
+	if( lineWidth == width && !_widthDirty )
+		return;
+	
 	lineWidth = width;
 	
 	ATSUAttributeTag layoutTags[] = {kATSULineWidthTag};
@@ -170,6 +174,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	[self recalculateLineHeights];
 	
+	_widthDirty = NO;
 }
 
 - (void)setFitInRect:(BOOL)willFitInRect
@@ -223,6 +228,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	// since not all fonts have the same size we need to redo our line breaks
 	[self setWidth:lineWidth];
+
+	_widthDirty = YES;
 }
 
 - (void)setFontSize:(float)theSize
@@ -243,6 +250,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	fontSize = FixedToFloat(atsuSize);
 	
 	// we also need to redo our line breaks since the size has changed.
+	_widthDirty = YES;
 	[self setWidth:lineWidth];
 }
 - (float)fontSize
@@ -299,7 +307,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
 	if(status != noErr)
 		printf(ERR_PREFIX "Could not set alignment!\n");
-	
+
+	_widthDirty = YES;
 }
 - (void)setColor:(NSColor *)aColor
 {
@@ -349,7 +358,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	status = ATSUSetRunStyle(defaultLayout,defaultStyle,0, textLength);
 	if( status != noErr )
 		printf(ERR_PREFIX "Could not assign style to new text!\n");
-	
+
+	_widthDirty = YES;
 }
 
 - (NSSize)containerSize
@@ -361,6 +371,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 #define MINIMUM_STEPSIZE 0.5f
 - (void)fitTextInRect:(NSRect)rect
 {
+	[self setWidth:rect.size.width];
 	[self setFontSize:ceilf(rect.size.height/(float)lineCount)];
 	float stepSize = fontSize;
 	if( stepSize <= 1 ) {
@@ -378,6 +389,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		}
 		passCount++;
 	}
+	
 #ifdef MINIMUM_FONTSIZE
 	if( fontSize < MINIMUM_FONTSIZE )
 		[self setFontSize:MINIMUM_FONTSIZE];

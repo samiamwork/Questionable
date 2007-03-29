@@ -34,6 +34,7 @@ typedef enum _TIPTextAlignment {
 	UniCharArrayOffset *endOfLines;
 	
 	BOOL _fitInRect;
+	BOOL _widthDirty;
 }
 
 + (id)containerWithString:(NSString *)aString;
