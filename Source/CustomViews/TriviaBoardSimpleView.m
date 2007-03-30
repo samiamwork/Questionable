@@ -232,12 +232,13 @@
 				[aPointText setColor:[NSColor whiteColor]];
 				[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
 			}
-			
+			/*
 			if( questionIndex != questionsPerCategory-1 ) {
 				CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
 				CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
 				CGContextStrokePath(currentContext);
 			}
+			 */
 			
 			currentRect.origin.y -= qSize.height;
 		}
