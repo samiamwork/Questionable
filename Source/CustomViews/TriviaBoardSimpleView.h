@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "TriviaBoard.h"
 #import "TIPTextContainer.h"
+#import "TIPCGUtils.h"
 
 typedef enum TriviaSimpleViewState {
 	kTriviaSimpleViewNothing,
@@ -20,6 +21,7 @@ typedef enum TriviaSimpleViewState {
 @interface TriviaBoardSimpleView : NSView {
 	TriviaBoard *mainBoard;
 	TriviaQuestion *_question;
+	NSString *_playerName;
 	unsigned questionsPerCategory;
 	
 	IBOutlet id delegate;
@@ -38,6 +40,8 @@ typedef enum TriviaSimpleViewState {
 - (TriviaBoard *)board;
 - (void)setQuestion:(TriviaQuestion *)newQuestion;
 - (TriviaQuestion *)question;
+- (void)setPlayerName:(NSString *)aPlayerName;
+- (NSString *)playerName;
 - (void)setTimerLevel:(unsigned int)newLevel;
 - (unsigned int)timerLevel;
 

@@ -113,6 +113,8 @@
 	
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
 	[self showAnswer];
+	
+	[simpleBoardView setPlayerName:nil];
 }
 - (IBAction)incorrectAnswer:(id)sender
 {
@@ -130,9 +132,11 @@
 		[self showAnswer];
 	else {
 		//[mainBoardView removeBadgeWithRedraw:YES];
-
+		[simpleBoardView showQuestion];
 		[questionTimer start];
 	}
+	
+	[simpleBoardView setPlayerName:nil];
 }
 
 - (void)playerBuzzed:(NSNotification *)theNotification
@@ -154,6 +158,8 @@
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundBuzzIn];
 	
 	//[mainBoardView addBadgeWithString:[buzzedPlayer name]];
+	[simpleBoardView setPlayerName:[buzzedPlayer name]];
+	[simpleBoardView showAnswer];
 
 	[incorrectButton setEnabled:YES];
 	[correctButton setEnabled:YES];

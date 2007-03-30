@@ -24,6 +24,7 @@
 		_timerLevel = 4;
 		
 		_question = nil;
+		_playerName = nil;
 		mainBoard = nil;
 		titleArray = [[NSMutableArray alloc] init];
 		pointArray = [[NSMutableArray alloc] init];
@@ -140,6 +141,19 @@
 - (TriviaQuestion *)question
 {
 	return _question;
+}
+
+- (void)setPlayerName:(NSString *)aPlayerName
+{
+	if( aPlayerName == _playerName )
+		return;
+	
+	[_playerName release];
+	_playerName = [aPlayerName retain];
+}
+- (NSString *)playerName
+{
+	return _playerName;
 }
 
 - (void)showBoard
@@ -268,6 +282,28 @@
 						 inContext:currentContext];
 }
 
+- (void)drawPlayerName
+{
+	if( _playerName == nil )
+		return;
+	
+	NSRect bounds = [self bounds];
+	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
+	
+	CGRect boxRect = CGRectMake(bounds.origin.x+bounds.size.width*0.2f,bounds.origin.y+bounds.size.height*0.8f,bounds.size.width*0.6f,bounds.size.height*0.2f);
+	float boxRadius = boxRect.size.height*0.2f;
+	CGPathRef roundBoxRef = TIPCGUtilsPartialRoundedBoxCreate(boxRect,boxRadius,YES,NO,NO,YES);
+	CGContextSetRGBFillColor(currentContext,0.3f,0.3f,0.4f,0.5f);
+	CGContextAddPath(currentContext,roundBoxRef);
+	CGContextFillPath(currentContext);
+	CGPathRelease(roundBoxRef);
+	
+	TIPTextContainer *nameContainer = [TIPTextContainer containerWithString:_playerName color:[NSColor whiteColor] fontName:@"Helvetica"];
+	[nameContainer setFontSize:(boxRect.size.height-boxRadius)/4.0f];
+	[nameContainer setFitInRect:YES];
+	[nameContainer drawTextInRect:NSInsetRect(*(NSRect *)&boxRect,boxRadius,boxRadius) inContext:currentContext];
+}
+
 #define BAR_PADDING_SCALE 0.025f
 - (void)drawTimer
 {
@@ -317,6 +353,7 @@
 		case kTriviaSimpleViewAnswer: {
 			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
 			[self drawTimer];
+			[self drawPlayerName];
 			} break;
 		default:
 			CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
