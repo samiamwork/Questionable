@@ -51,6 +51,7 @@ typedef enum _TIPTextAlignment {
 - (void)setAlignment:(TIPTextAlignment)newAlignment;
 - (void)setColor:(NSColor *)aColor;
 - (void)setText:(NSString *)theText;
+- (void)setShadowWithOffset:(NSSize)anOffset color:(NSColor *)aColor blur:(float)blur;
 
 - (NSSize)containerSize;
 

@@ -362,6 +362,32 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	_widthDirty = YES;
 }
 
+- (void)setShadowWithOffset:(NSSize)anOffset color:(NSColor *)aColor blur:(float)blur
+{
+	OSStatus status;
+	ATSUAttributeTag styleTags[] = {kATSUStyleDropShadowTag,
+		kATSUStyleDropShadowOffsetOptionTag,
+		kATSUStyleDropShadowColorOptionTag,
+		kATSUStyleDropShadowBlurOptionTag};
+	ByteCount styleSizes[] = {sizeof(Boolean), sizeof(CGSize), sizeof(CGColorRef), sizeof(float)};
+	Boolean shadowOn = YES;
+	const float rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&rgba[0]
+																  green:&rgba[1]
+																   blue:&rgba[2]
+																  alpha:&rgba[3] ];
+	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+	CGColorRef shadowColor = CGColorCreate(colorSpaceRef, rgba);
+	ATSUAttributeValuePtr styleValues[] = {&shadowOn, (CGSize *)&anOffset, &shadowColor, &blur};
+	
+	status = ATSUSetAttributes(defaultStyle, 4, styleTags, styleSizes, styleValues);
+	if(status != noErr)
+		printf(ERR_PREFIX "Could not set shadow!\n");
+	
+	CGColorRelease(shadowColor);
+	CGColorSpaceRelease(colorSpaceRef);
+}
+
 - (NSSize)containerSize
 {
 	NSSize containerSize = NSMakeSize(lineWidth,FixedToFloat(totalHeight));
