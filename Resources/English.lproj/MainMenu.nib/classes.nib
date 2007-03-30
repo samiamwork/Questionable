@@ -21,8 +21,9 @@
             CLASS = TIPSegmentedTableView; 
             LANGUAGE = ObjC; 
             OUTLETS = {managedTabs = NSTabView; }; 
-            SUPERCLASS = TIPGradientTableView; 
+            SUPERCLASS = TIPSideGradientTableView; 
         }, 
+        {CLASS = TIPSideGradientTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {CLASS = TriviaBoardOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             CLASS = TriviaBoardSimpleView; 

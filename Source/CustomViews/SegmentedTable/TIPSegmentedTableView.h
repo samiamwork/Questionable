@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "TIPGradientTableView.h"
+#import "TIPSideGradientTableView.h"
 #import "TIPTextCell.h"
 
-@interface TIPSegmentedTableView : TIPGradientTableView {
+@interface TIPSegmentedTableView : TIPSideGradientTableView {
 	NSMutableArray *items;
 	
 	IBOutlet NSTabView *managedTabs;
