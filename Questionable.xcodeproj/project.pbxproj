@@ -11,8 +11,6 @@
 		3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */; };
 		3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */; };
 		3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */; };
-		3E11DC410B84EE08000DC73F /* speakeroff.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3C0B84EE08000DC73F /* speakeroff.pdf */; };
-		3E11DC420B84EE08000DC73F /* speakeron.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3D0B84EE08000DC73F /* speakeron.pdf */; };
 		3E11DC430B84EE08000DC73F /* triviaplaceholder.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */; };
 		3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */; };
 		3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */; };
@@ -40,6 +38,12 @@
 		3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */; };
 		3E4D099D0B83A070004620B8 /* TriviaGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D099A0B83A070004620B8 /* TriviaGameController.m */; };
 		3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D09A00B83A081004620B8 /* TriviaWindowController.m */; };
+		3E903C820BC42CDB009B6F93 /* Correct.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C7E0BC42CDA009B6F93 /* Correct.pdf */; };
+		3E903C830BC42CDB009B6F93 /* Incorrect.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */; };
+		3E903C840BC42CDB009B6F93 /* NoSound.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C800BC42CDB009B6F93 /* NoSound.pdf */; };
+		3E903C850BC42CDB009B6F93 /* Sound.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C810BC42CDB009B6F93 /* Sound.pdf */; };
+		3E903C990BC44941009B6F93 /* Minus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C970BC44941009B6F93 /* Minus.pdf */; };
+		3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C980BC44941009B6F93 /* Plus.pdf */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
@@ -104,8 +108,6 @@
 		3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardSimpleView.m; sourceTree = "<group>"; };
 		3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fullscreenIcon.pdf; sourceTree = "<group>"; };
 		3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = loadQuestions.pdf; sourceTree = "<group>"; };
-		3E11DC3C0B84EE08000DC73F /* speakeroff.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = speakeroff.pdf; sourceTree = "<group>"; };
-		3E11DC3D0B84EE08000DC73F /* speakeron.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = speakeron.pdf; sourceTree = "<group>"; };
 		3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = triviaplaceholder.pdf; sourceTree = "<group>"; };
 		3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPCGUtils.c; sourceTree = "<group>"; };
 		3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPCGUtils.h; sourceTree = "<group>"; };
@@ -154,6 +156,12 @@
 		3E4D099A0B83A070004620B8 /* TriviaGameController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaGameController.m; sourceTree = "<group>"; };
 		3E4D099F0B83A081004620B8 /* TriviaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaWindowController.h; sourceTree = "<group>"; };
 		3E4D09A00B83A081004620B8 /* TriviaWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaWindowController.m; sourceTree = "<group>"; };
+		3E903C7E0BC42CDA009B6F93 /* Correct.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Correct.pdf; sourceTree = "<group>"; };
+		3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Incorrect.pdf; sourceTree = "<group>"; };
+		3E903C800BC42CDB009B6F93 /* NoSound.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NoSound.pdf; sourceTree = "<group>"; };
+		3E903C810BC42CDB009B6F93 /* Sound.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Sound.pdf; sourceTree = "<group>"; };
+		3E903C970BC44941009B6F93 /* Minus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Minus.pdf; sourceTree = "<group>"; };
+		3E903C980BC44941009B6F93 /* Plus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Plus.pdf; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -386,13 +394,17 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3E903C970BC44941009B6F93 /* Minus.pdf */,
+				3E903C980BC44941009B6F93 /* Plus.pdf */,
+				3E903C7E0BC42CDA009B6F93 /* Correct.pdf */,
+				3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */,
+				3E903C800BC42CDB009B6F93 /* NoSound.pdf */,
+				3E903C810BC42CDB009B6F93 /* Sound.pdf */,
 				3E11DCBE0B84FAE4000DC73F /* Pause.pdf */,
 				3E11DCBF0B84FAE4000DC73F /* Play.pdf */,
 				3E11DCC00B84FAE4000DC73F /* Stop.pdf */,
 				3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */,
 				3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */,
-				3E11DC3C0B84EE08000DC73F /* speakeroff.pdf */,
-				3E11DC3D0B84EE08000DC73F /* speakeron.pdf */,
 				3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
 				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
@@ -617,13 +629,17 @@
 				3EE2B0140B82A13300EFBE3D /* FullscreenSheet.nib in Resources */,
 				3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */,
 				3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */,
-				3E11DC410B84EE08000DC73F /* speakeroff.pdf in Resources */,
-				3E11DC420B84EE08000DC73F /* speakeron.pdf in Resources */,
 				3E11DC430B84EE08000DC73F /* triviaplaceholder.pdf in Resources */,
 				3E11DCC10B84FAE4000DC73F /* Pause.pdf in Resources */,
 				3E11DCC20B84FAE4000DC73F /* Play.pdf in Resources */,
 				3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */,
 				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
+				3E903C820BC42CDB009B6F93 /* Correct.pdf in Resources */,
+				3E903C830BC42CDB009B6F93 /* Incorrect.pdf in Resources */,
+				3E903C840BC42CDB009B6F93 /* NoSound.pdf in Resources */,
+				3E903C850BC42CDB009B6F93 /* Sound.pdf in Resources */,
+				3E903C990BC44941009B6F93 /* Minus.pdf in Resources */,
+				3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

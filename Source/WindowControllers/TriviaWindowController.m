@@ -64,7 +64,7 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierMute] autorelease];
 		[toolbarItem setLabel:@"Sound"];
 		[toolbarItem setPaletteLabel:@"Sound"];
-		[toolbarItem setImage:[NSImage imageNamed:@"speakeron.pdf"]];
+		[toolbarItem setImage:[NSImage imageNamed:@"Sound.pdf"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(toggleSound:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierLoad] ) {
@@ -138,11 +138,11 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 {
 	if( [[TriviaSoundController defaultController] mute] ) {
 		[[TriviaSoundController defaultController] setMute:NO];
-		[sender setImage:[NSImage imageNamed:@"speakeron.pdf"]];
+		[sender setImage:[NSImage imageNamed:@"Sound.pdf"]];
 		//[sender setLabel:@"Mute"];
 	} else {
 		[[TriviaSoundController defaultController] setMute:YES];
-		[sender setImage:[NSImage imageNamed:@"speakeroff.pdf"]];
+		[sender setImage:[NSImage imageNamed:@"NoSound.pdf"]];
 		//[sender setLabel:@"Unmute"];
 	}
 }
