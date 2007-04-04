@@ -35,7 +35,7 @@
 		return;
 	
 	[_promptString release];
-	_promptString = [[NSString alloc] initWithFormat:@"Press any button to use as a buzzer for %@.",playerName];
+	_promptString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Press any button to use as a buzzer for %@.",@"Player button configure prompt"),playerName];
 }
 
 - (void)beginModalStatus

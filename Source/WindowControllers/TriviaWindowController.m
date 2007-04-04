@@ -62,44 +62,44 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	
 	if( [itemIdent isEqual:TriviaToolbarItemIdentifierMute] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierMute] autorelease];
-		[toolbarItem setLabel:@"Sound"];
-		[toolbarItem setPaletteLabel:@"Sound"];
+		[toolbarItem setLabel:NSLocalizedString(@"Sound",@"Sound")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Sound",@"Sound")];
 		[toolbarItem setImage:[NSImage imageNamed:@"Sound.pdf"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(toggleSound:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierLoad] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierLoad] autorelease];
-		[toolbarItem setLabel:@"Load"];
-		[toolbarItem setPaletteLabel:@"Load"];
+		[toolbarItem setLabel:NSLocalizedString(@"Load",@"Load")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Load",@"Load")];
 		[toolbarItem setImage:[NSImage imageNamed:@"loadQuestions.pdf"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(load:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierFullscreen] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierFullscreen] autorelease];
-		[toolbarItem setLabel:@"Fullscreen"];
-		[toolbarItem setPaletteLabel:@"Fullscreen"];
+		[toolbarItem setLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
 		[toolbarItem setImage:[NSImage imageNamed:@"fullscreenIcon.pdf"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(toggleFullscreen:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlay] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
-		[toolbarItem setLabel:@"Play"];
-		[toolbarItem setPaletteLabel:@"Play"];
+		[toolbarItem setLabel:NSLocalizedString(@"Play",@"Play")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Play",@"Play")];
 		[toolbarItem setImage:[NSImage imageNamed:@"Play"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(play:)];
 		playToolbarItem = toolbarItem;
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierStop] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
-		[toolbarItem setLabel:@"Stop"];
-		[toolbarItem setPaletteLabel:@"Stop"];
+		[toolbarItem setLabel:NSLocalizedString(@"Stop",@"Stop")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Stop",@"Stop")];
 		[toolbarItem setImage:[NSImage imageNamed:@"Stop"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(stop:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierTimer] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
-		[toolbarItem setLabel:@"Timer"];
-		[toolbarItem setPaletteLabel:@"Timer"];
+		[toolbarItem setLabel:NSLocalizedString(@"Timer",@"Timer")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Timer",@"Timer")];
 		[toolbarItem setMinSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setMaxSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setView:gameTimerView];
