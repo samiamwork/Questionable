@@ -31,7 +31,8 @@
 		questionsPerCategory = 0;
 		
 		placeholderMessage = [[TIPTextContainer alloc] init];
-		[placeholderMessage setText:@"No game has been started yet."];
+		//[placeholderMessage setText:@"No game has been started yet."];
+		[placeholderMessage setText:@"?"];
 		[placeholderMessage setFontSize:frameRect.size.height/5.0f];
 		[placeholderMessage setAlignment:kTIPTextAlignmentCenter];
 		[placeholderMessage setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
@@ -323,6 +324,42 @@
 	}
 }
 
+- (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect
+{
+	NSRect outputRect;
+	outputRect.origin = inRect.origin;
+	float rectAspectRatio = inRect.size.width/inRect.size.height;
+	float imageAspectRatio = inputRect.size.width/inputRect.size.height;
+	
+	float zoom;
+	if( imageAspectRatio < rectAspectRatio ) {
+		zoom = inRect.size.height/inputRect.size.height;
+		outputRect.size.height = inRect.size.height;
+		outputRect.size.width = roundf( inputRect.size.width*zoom);
+		outputRect.origin.x += roundf( (inRect.size.width - outputRect.size.width)/2.0f );
+	} else {
+		zoom = inRect.size.width/inputRect.size.width;
+		outputRect.size.height = roundf( inputRect.size.height*zoom);
+		outputRect.size.width = inRect.size.width;
+		outputRect.origin.y += roundf( (inRect.size.height - outputRect.size.height)/2.0f );
+	}
+	
+	return outputRect;
+}
+
+- (void)drawPlaceholder
+{
+	NSRect bounds = [self bounds];
+	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
+	
+	CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
+	[placeholderMessage setFontSize:bounds.size.height/4.0f];
+	[placeholderMessage setColor:[NSColor blackColor]];
+	[placeholderMessage drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height) inContext:currentContext];
+	[placeholderMessage setColor:[NSColor whiteColor]];
+	[placeholderMessage drawTextInRect:bounds inContext:currentContext];
+}
+
 - (void)drawRect:(NSRect)rect
 {
 	NSRect bounds = [self bounds];
@@ -353,12 +390,7 @@
 			[self drawPlayerName];
 			} break;
 		default:
-			CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,1.0f);
-			[placeholderMessage setFontSize:bounds.size.height/8.0f];
-			[placeholderMessage setColor:[NSColor blackColor]];
-			[placeholderMessage drawTextInRect:NSMakeRect(bounds.origin.x+1.0f,bounds.origin.y-1.0f,bounds.size.width,bounds.size.height) inContext:currentContext];
-			[placeholderMessage setColor:[NSColor whiteColor]];
-			[placeholderMessage drawTextInRect:bounds inContext:currentContext];
+			[self drawPlaceholder];
 	}
 	
 }
