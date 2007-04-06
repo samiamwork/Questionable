@@ -17,16 +17,6 @@
 		3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */; };
 		3E11DC560B84EE9A000DC73F /* TIPTextContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4F0B84EE9A000DC73F /* TIPTextContainer.m */; };
 		3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC510B84EE9A000DC73F /* TriviaTimer.m */; };
-		3E11DC6E0B84EED1000DC73F /* TriviaDrawable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC5B0B84EED1000DC73F /* TriviaDrawable.m */; };
-		3E11DC6F0B84EED1000DC73F /* TriviaDrawableBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC5D0B84EED1000DC73F /* TriviaDrawableBadge.m */; };
-		3E11DC700B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC5F0B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.m */; };
-		3E11DC710B84EED1000DC73F /* TriviaDrawableGameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC610B84EED1000DC73F /* TriviaDrawableGameBoard.m */; };
-		3E11DC720B84EED1000DC73F /* TriviaDrawablePlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC630B84EED1000DC73F /* TriviaDrawablePlaceholder.m */; };
-		3E11DC730B84EED1000DC73F /* TriviaDrawablePlayerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC650B84EED1000DC73F /* TriviaDrawablePlayerStatus.m */; };
-		3E11DC740B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC670B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.m */; };
-		3E11DC750B84EED1000DC73F /* TriviaDrawablePointsBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC690B84EED1000DC73F /* TriviaDrawablePointsBox.m */; };
-		3E11DC760B84EED1000DC73F /* TriviaDrawableProgressTic.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC6B0B84EED1000DC73F /* TriviaDrawableProgressTic.m */; };
-		3E11DC770B84EED1000DC73F /* TriviaDrawableQA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC6D0B84EED1000DC73F /* TriviaDrawableQA.m */; };
 		3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC7C0B84EF61000DC73F /* TIPGradient.c */; };
 		3E11DCB30B84F90A000DC73F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E11DCB20B84F90A000DC73F /* QuartzCore.framework */; };
 		3E11DCC10B84FAE4000DC73F /* Pause.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCBE0B84FAE4000DC73F /* Pause.pdf */; };
@@ -120,26 +110,6 @@
 		3E11DC4F0B84EE9A000DC73F /* TIPTextContainer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPTextContainer.m; sourceTree = "<group>"; };
 		3E11DC500B84EE9A000DC73F /* TriviaTimer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaTimer.h; sourceTree = "<group>"; };
 		3E11DC510B84EE9A000DC73F /* TriviaTimer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaTimer.m; sourceTree = "<group>"; };
-		3E11DC5A0B84EED1000DC73F /* TriviaDrawable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawable.h; sourceTree = "<group>"; };
-		3E11DC5B0B84EED1000DC73F /* TriviaDrawable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawable.m; sourceTree = "<group>"; };
-		3E11DC5C0B84EED1000DC73F /* TriviaDrawableBadge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawableBadge.h; sourceTree = "<group>"; };
-		3E11DC5D0B84EED1000DC73F /* TriviaDrawableBadge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawableBadge.m; sourceTree = "<group>"; };
-		3E11DC5E0B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawableCategoryTitleBox.h; sourceTree = "<group>"; };
-		3E11DC5F0B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawableCategoryTitleBox.m; sourceTree = "<group>"; };
-		3E11DC600B84EED1000DC73F /* TriviaDrawableGameBoard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawableGameBoard.h; sourceTree = "<group>"; };
-		3E11DC610B84EED1000DC73F /* TriviaDrawableGameBoard.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawableGameBoard.m; sourceTree = "<group>"; };
-		3E11DC620B84EED1000DC73F /* TriviaDrawablePlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawablePlaceholder.h; sourceTree = "<group>"; };
-		3E11DC630B84EED1000DC73F /* TriviaDrawablePlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawablePlaceholder.m; sourceTree = "<group>"; };
-		3E11DC640B84EED1000DC73F /* TriviaDrawablePlayerStatus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawablePlayerStatus.h; sourceTree = "<group>"; };
-		3E11DC650B84EED1000DC73F /* TriviaDrawablePlayerStatus.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawablePlayerStatus.m; sourceTree = "<group>"; };
-		3E11DC660B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawablePlayerStatusBox.h; sourceTree = "<group>"; };
-		3E11DC670B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawablePlayerStatusBox.m; sourceTree = "<group>"; };
-		3E11DC680B84EED1000DC73F /* TriviaDrawablePointsBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawablePointsBox.h; sourceTree = "<group>"; };
-		3E11DC690B84EED1000DC73F /* TriviaDrawablePointsBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawablePointsBox.m; sourceTree = "<group>"; };
-		3E11DC6A0B84EED1000DC73F /* TriviaDrawableProgressTic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawableProgressTic.h; sourceTree = "<group>"; };
-		3E11DC6B0B84EED1000DC73F /* TriviaDrawableProgressTic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawableProgressTic.m; sourceTree = "<group>"; };
-		3E11DC6C0B84EED1000DC73F /* TriviaDrawableQA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaDrawableQA.h; sourceTree = "<group>"; };
-		3E11DC6D0B84EED1000DC73F /* TriviaDrawableQA.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaDrawableQA.m; sourceTree = "<group>"; };
 		3E11DC7C0B84EF61000DC73F /* TIPGradient.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPGradient.c; sourceTree = "<group>"; };
 		3E11DC7D0B84EF61000DC73F /* TIPGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradient.h; sourceTree = "<group>"; };
 		3E11DCB20B84F90A000DC73F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
@@ -340,33 +310,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		3E11DC590B84EED1000DC73F /* Drawables */ = {
-			isa = PBXGroup;
-			children = (
-				3E11DC5A0B84EED1000DC73F /* TriviaDrawable.h */,
-				3E11DC5B0B84EED1000DC73F /* TriviaDrawable.m */,
-				3E11DC5C0B84EED1000DC73F /* TriviaDrawableBadge.h */,
-				3E11DC5D0B84EED1000DC73F /* TriviaDrawableBadge.m */,
-				3E11DC5E0B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.h */,
-				3E11DC5F0B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.m */,
-				3E11DC600B84EED1000DC73F /* TriviaDrawableGameBoard.h */,
-				3E11DC610B84EED1000DC73F /* TriviaDrawableGameBoard.m */,
-				3E11DC620B84EED1000DC73F /* TriviaDrawablePlaceholder.h */,
-				3E11DC630B84EED1000DC73F /* TriviaDrawablePlaceholder.m */,
-				3E11DC640B84EED1000DC73F /* TriviaDrawablePlayerStatus.h */,
-				3E11DC650B84EED1000DC73F /* TriviaDrawablePlayerStatus.m */,
-				3E11DC660B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.h */,
-				3E11DC670B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.m */,
-				3E11DC680B84EED1000DC73F /* TriviaDrawablePointsBox.h */,
-				3E11DC690B84EED1000DC73F /* TriviaDrawablePointsBox.m */,
-				3E11DC6A0B84EED1000DC73F /* TriviaDrawableProgressTic.h */,
-				3E11DC6B0B84EED1000DC73F /* TriviaDrawableProgressTic.m */,
-				3E11DC6C0B84EED1000DC73F /* TriviaDrawableQA.h */,
-				3E11DC6D0B84EED1000DC73F /* TriviaDrawableQA.m */,
-			);
-			path = Drawables;
-			sourceTree = "<group>";
-		};
 		3EE2ADDD0B8109AC00EFBE3D /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,7 +500,6 @@
 				3EE2AE7A0B811B7200EFBE3D /* TIPMovie.m */,
 				3EE2AE7B0B811B7200EFBE3D /* TriviaQuestionDocument.h */,
 				3EE2AE7C0B811B7200EFBE3D /* TriviaQuestionDocument.m */,
-				3E11DC590B84EED1000DC73F /* Drawables */,
 				3E11DC450B84EE9A000DC73F /* Helpers */,
 				3EE2B02A0B82A75D00EFBE3D /* ValueTransformers */,
 				3EE2B0020B829F2900EFBE3D /* Controllers */,
@@ -741,16 +683,6 @@
 				3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */,
 				3E11DC560B84EE9A000DC73F /* TIPTextContainer.m in Sources */,
 				3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */,
-				3E11DC6E0B84EED1000DC73F /* TriviaDrawable.m in Sources */,
-				3E11DC6F0B84EED1000DC73F /* TriviaDrawableBadge.m in Sources */,
-				3E11DC700B84EED1000DC73F /* TriviaDrawableCategoryTitleBox.m in Sources */,
-				3E11DC710B84EED1000DC73F /* TriviaDrawableGameBoard.m in Sources */,
-				3E11DC720B84EED1000DC73F /* TriviaDrawablePlaceholder.m in Sources */,
-				3E11DC730B84EED1000DC73F /* TriviaDrawablePlayerStatus.m in Sources */,
-				3E11DC740B84EED1000DC73F /* TriviaDrawablePlayerStatusBox.m in Sources */,
-				3E11DC750B84EED1000DC73F /* TriviaDrawablePointsBox.m in Sources */,
-				3E11DC760B84EED1000DC73F /* TriviaDrawableProgressTic.m in Sources */,
-				3E11DC770B84EED1000DC73F /* TriviaDrawableQA.m in Sources */,
 				3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */,
 				3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */,
 				3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */,
