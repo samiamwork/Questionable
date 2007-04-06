@@ -119,7 +119,7 @@
 	for( questionIndex = 0; questionIndex < questionsPerCategory; questionIndex++ ) {
 		TIPTextContainer *newText = [TIPTextContainer containerWithString:[[NSNumber numberWithInt:questionIndex*100+100] stringValue]];
 		[newText setFont:[NSFont fontWithName:@"Helvetica-Bold" size:15.0f]];
-		[newText setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f]];
+		[newText setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
 		//[newText setShadowWithOffset:NSMakeSize(2.0f,-2.0f) color:[NSColor colorWithCalibratedWhite:0.0f alpha:1.0f] blur:2.0f];
 		
 		[pointArray addObject:newText];
@@ -229,7 +229,7 @@
 				[aPointText setFontSize:qSize.height*0.7f];
 				//[aPointText setColor:[NSColor blackColor]];
 				//[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-				[aPointText setColor:[NSColor whiteColor]];
+				//[aPointText setColor:[NSColor whiteColor]];
 				[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
 			}
 			/*
