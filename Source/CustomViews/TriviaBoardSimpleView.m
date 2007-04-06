@@ -291,18 +291,14 @@
 	NSRect bounds = [self bounds];
 	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
 	
-	CGRect boxRect = CGRectMake(bounds.origin.x+bounds.size.width*0.2f,bounds.origin.y+bounds.size.height*0.8f,bounds.size.width*0.6f,bounds.size.height*0.2f);
-	float boxRadius = boxRect.size.height*0.2f;
-	CGPathRef roundBoxRef = TIPCGUtilsPartialRoundedBoxCreate(boxRect,boxRadius,YES,NO,NO,YES);
 	CGContextSetRGBFillColor(currentContext,0.3f,0.3f,0.4f,0.5f);
-	CGContextAddPath(currentContext,roundBoxRef);
-	CGContextFillPath(currentContext);
-	CGPathRelease(roundBoxRef);
+	CGRect boxRect = CGRectMake(bounds.origin.x,bounds.origin.y+bounds.size.height*0.8f,bounds.size.width,bounds.size.height*0.2f);
+	CGContextFillRect(currentContext, boxRect);
 	
 	TIPTextContainer *nameContainer = [TIPTextContainer containerWithString:_playerName color:[NSColor whiteColor] fontName:@"Helvetica"];
-	[nameContainer setFontSize:(boxRect.size.height-boxRadius)/4.0f];
+	[nameContainer setFontSize:boxRect.size.height/4.0f];
 	[nameContainer setFitInRect:YES];
-	[nameContainer drawTextInRect:NSInsetRect(*(NSRect *)&boxRect,boxRadius,boxRadius) inContext:currentContext];
+	[nameContainer drawTextInRect:*(NSRect *)&boxRect inContext:currentContext];
 }
 
 #define BAR_PADDING_SCALE 0.025f
