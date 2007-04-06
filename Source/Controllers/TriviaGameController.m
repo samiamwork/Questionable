@@ -115,6 +115,9 @@
 	[self showAnswer];
 	
 	[simpleBoardView setPlayerName:nil];
+	
+	[incorrectButton setEnabled:NO];
+	[correctButton setEnabled:NO];
 }
 - (IBAction)incorrectAnswer:(id)sender
 {
@@ -137,6 +140,9 @@
 	}
 	
 	[simpleBoardView setPlayerName:nil];
+	
+	[incorrectButton setEnabled:NO];
+	[correctButton setEnabled:NO];
 }
 
 - (void)playerBuzzed:(NSNotification *)theNotification
