@@ -30,13 +30,13 @@
 		3E903C830BC42CDB009B6F93 /* Incorrect.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */; };
 		3E903C840BC42CDB009B6F93 /* NoSound.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C800BC42CDB009B6F93 /* NoSound.pdf */; };
 		3E903C850BC42CDB009B6F93 /* Sound.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C810BC42CDB009B6F93 /* Sound.pdf */; };
-		3E903C990BC44941009B6F93 /* Minus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C970BC44941009B6F93 /* Minus.pdf */; };
-		3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C980BC44941009B6F93 /* Plus.pdf */; };
-		3E903D3D0BC5ADFE009B6F93 /* ButtonSet.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */; };
 		3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */; };
 		3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */; };
 		3E903DDF0BC8361C009B6F93 /* Pause.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DDD0BC8361C009B6F93 /* Pause.tiff */; };
 		3E903DE00BC8361C009B6F93 /* Play.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DDE0BC8361C009B6F93 /* Play.tiff */; };
+		3E903DE70BC8409D009B6F93 /* Minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DE50BC8409D009B6F93 /* Minus.tiff */; };
+		3E903DE80BC8409D009B6F93 /* Plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DE60BC8409D009B6F93 /* Plus.tiff */; };
+		3E903DEE0BC8440E009B6F93 /* ButtonSet.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
@@ -129,13 +129,13 @@
 		3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Incorrect.pdf; sourceTree = "<group>"; };
 		3E903C800BC42CDB009B6F93 /* NoSound.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NoSound.pdf; sourceTree = "<group>"; };
 		3E903C810BC42CDB009B6F93 /* Sound.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Sound.pdf; sourceTree = "<group>"; };
-		3E903C970BC44941009B6F93 /* Minus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Minus.pdf; sourceTree = "<group>"; };
-		3E903C980BC44941009B6F93 /* Plus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Plus.pdf; sourceTree = "<group>"; };
-		3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ButtonSet.pdf; sourceTree = "<group>"; };
 		3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionMediaMinus.tiff; sourceTree = "<group>"; };
 		3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionPlus.tiff; sourceTree = "<group>"; };
 		3E903DDD0BC8361C009B6F93 /* Pause.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Pause.tiff; sourceTree = "<group>"; };
 		3E903DDE0BC8361C009B6F93 /* Play.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play.tiff; sourceTree = "<group>"; };
+		3E903DE50BC8409D009B6F93 /* Minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Minus.tiff; sourceTree = "<group>"; };
+		3E903DE60BC8409D009B6F93 /* Plus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Plus.tiff; sourceTree = "<group>"; };
+		3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ButtonSet.tiff; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -339,13 +339,13 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */,
+				3E903DE50BC8409D009B6F93 /* Minus.tiff */,
+				3E903DE60BC8409D009B6F93 /* Plus.tiff */,
 				3E903DDD0BC8361C009B6F93 /* Pause.tiff */,
 				3E903DDE0BC8361C009B6F93 /* Play.tiff */,
 				3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */,
 				3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */,
-				3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */,
-				3E903C970BC44941009B6F93 /* Minus.pdf */,
-				3E903C980BC44941009B6F93 /* Plus.pdf */,
 				3E903C7E0BC42CDA009B6F93 /* Correct.pdf */,
 				3E903C7F0BC42CDA009B6F93 /* Incorrect.pdf */,
 				3E903C800BC42CDB009B6F93 /* NoSound.pdf */,
@@ -579,13 +579,13 @@
 				3E903C830BC42CDB009B6F93 /* Incorrect.pdf in Resources */,
 				3E903C840BC42CDB009B6F93 /* NoSound.pdf in Resources */,
 				3E903C850BC42CDB009B6F93 /* Sound.pdf in Resources */,
-				3E903C990BC44941009B6F93 /* Minus.pdf in Resources */,
-				3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */,
-				3E903D3D0BC5ADFE009B6F93 /* ButtonSet.pdf in Resources */,
 				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
 				3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */,
 				3E903DDF0BC8361C009B6F93 /* Pause.tiff in Resources */,
 				3E903DE00BC8361C009B6F93 /* Play.tiff in Resources */,
+				3E903DE70BC8409D009B6F93 /* Minus.tiff in Resources */,
+				3E903DE80BC8409D009B6F93 /* Plus.tiff in Resources */,
+				3E903DEE0BC8440E009B6F93 /* ButtonSet.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
