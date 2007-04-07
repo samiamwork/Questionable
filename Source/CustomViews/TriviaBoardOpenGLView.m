@@ -370,10 +370,32 @@
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
+			glPushMatrix();
 			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
 			// drawn twice as a horrible hack to get it to show up on the first frame
 			[_placeholderBox drawWithString:_questionmark];
 			[_placeholderBox drawWithString:_questionmark];
+			
+			glScalef(1.0f,-1.0f,1.0f);
+			glTranslatef( 0.0f, 0.05f*_targetSize.height,0.0f);
+			[_placeholderBox drawWithString:_questionmark];
+			glBegin(GL_TRIANGLE_STRIP); {
+				float shadowHeight = _targetSize.height*0.2f;
+				NSSize featureSize = [_placeholderBox size];
+				glColor4f(0.0f,0.0f,0.0f,0.7f);
+				glVertex3f(0.0f,0.0f,0.0f);
+				glVertex3f(featureSize.width,0.0f,0.0f);
+				
+				glColor4f(0.0f,0.0f,0.0f,1.0f);
+				glVertex3f(0.0f, shadowHeight,0.0f);
+				glVertex3f(featureSize.width, shadowHeight,0.0f);
+				
+				if( shadowHeight < featureSize.height ) {
+					glVertex3f(0.0f, featureSize.height,0.0f);
+					glVertex3f(featureSize.width, featureSize.height,0.0f);
+				}
+			} glEnd();
+			glPopMatrix();
 			break;
 	}
 	glPopMatrix();

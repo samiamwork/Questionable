@@ -354,11 +354,11 @@
 				3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
 				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
-				3EE2AE8A0B811CAE00EFBE3D /* minus.tiff */,
-				3EE2AE8B0B811CAE00EFBE3D /* plus.tiff */,
 				3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */,
 				3EE2ADFE0B810B4A00EFBE3D /* players.pdf */,
 				3EE2ADFF0B810B4A00EFBE3D /* questions.pdf */,
+				3EE2AE8A0B811CAE00EFBE3D /* minus.tiff */,
+				3EE2AE8B0B811CAE00EFBE3D /* plus.tiff */,
 			);
 			path = Images;
 			sourceTree = "<group>";
