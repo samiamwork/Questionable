@@ -15,7 +15,7 @@
 {
 	if( (self = [super init]) ) {
 		buttonCell = [[NSButtonCell alloc] init];
-		[buttonCell setImage:[NSImage imageNamed:@"plus"]];
+		[buttonCell setImage:[NSImage imageNamed:@"QuestionPlus.tiff"]];
 		[buttonCell setImagePosition:NSImageOnly];
 		[buttonCell setBezeled:NO];
 		[buttonCell setBordered:NO];

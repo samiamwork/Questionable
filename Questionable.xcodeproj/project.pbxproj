@@ -35,6 +35,8 @@
 		3E903C990BC44941009B6F93 /* Minus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C970BC44941009B6F93 /* Minus.pdf */; };
 		3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903C980BC44941009B6F93 /* Plus.pdf */; };
 		3E903D3D0BC5ADFE009B6F93 /* ButtonSet.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */; };
+		3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */; };
+		3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
@@ -63,8 +65,6 @@
 		3EE2AE850B811BBC00EFBE3D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE2AE830B811BBC00EFBE3D /* IOKit.framework */; };
 		3EE2AE860B811BBC00EFBE3D /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE2AE840B811BBC00EFBE3D /* QTKit.framework */; };
 		3EE2AE890B811C9100EFBE3D /* SaveProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AE870B811C9100EFBE3D /* SaveProgress.nib */; };
-		3EE2AE8C0B811CAE00EFBE3D /* minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AE8A0B811CAE00EFBE3D /* minus.tiff */; };
-		3EE2AE8D0B811CAE00EFBE3D /* plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AE8B0B811CAE00EFBE3D /* plus.tiff */; };
 		3EE2AFD80B82880100EFBE3D /* TriviaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFD70B82880100EFBE3D /* TriviaPlayer.m */; };
 		3EE2AFE40B8288B300EFBE3D /* TIPInputDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFDF0B8288B300EFBE3D /* TIPInputDevice.m */; };
 		3EE2AFE50B8288B300EFBE3D /* TIPInputElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFE10B8288B300EFBE3D /* TIPInputElement.m */; };
@@ -134,6 +134,8 @@
 		3E903C970BC44941009B6F93 /* Minus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Minus.pdf; sourceTree = "<group>"; };
 		3E903C980BC44941009B6F93 /* Plus.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Plus.pdf; sourceTree = "<group>"; };
 		3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ButtonSet.pdf; sourceTree = "<group>"; };
+		3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionMediaMinus.tiff; sourceTree = "<group>"; };
+		3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionPlus.tiff; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -183,8 +185,6 @@
 		3EE2AE830B811BBC00EFBE3D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		3EE2AE840B811BBC00EFBE3D /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		3EE2AE880B811C9100EFBE3D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SaveProgress.nib; sourceTree = "<group>"; };
-		3EE2AE8A0B811CAE00EFBE3D /* minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = minus.tiff; sourceTree = "<group>"; };
-		3EE2AE8B0B811CAE00EFBE3D /* plus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plus.tiff; sourceTree = "<group>"; };
 		3EE2AFD60B82880100EFBE3D /* TriviaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaPlayer.h; sourceTree = "<group>"; };
 		3EE2AFD70B82880100EFBE3D /* TriviaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayer.m; sourceTree = "<group>"; };
 		3EE2AFDE0B8288B300EFBE3D /* TIPInputDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPInputDevice.h; sourceTree = "<group>"; };
@@ -339,6 +339,8 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */,
+				3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */,
 				3E903D380BC5ADFE009B6F93 /* ButtonSet.pdf */,
 				3E903C970BC44941009B6F93 /* Minus.pdf */,
 				3E903C980BC44941009B6F93 /* Plus.pdf */,
@@ -357,8 +359,6 @@
 				3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */,
 				3EE2ADFE0B810B4A00EFBE3D /* players.pdf */,
 				3EE2ADFF0B810B4A00EFBE3D /* questions.pdf */,
-				3EE2AE8A0B811CAE00EFBE3D /* minus.tiff */,
-				3EE2AE8B0B811CAE00EFBE3D /* plus.tiff */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -566,8 +566,6 @@
 				3EE2AE010B810B4A00EFBE3D /* players.pdf in Resources */,
 				3EE2AE020B810B4A00EFBE3D /* questions.pdf in Resources */,
 				3EE2AE890B811C9100EFBE3D /* SaveProgress.nib in Resources */,
-				3EE2AE8C0B811CAE00EFBE3D /* minus.tiff in Resources */,
-				3EE2AE8D0B811CAE00EFBE3D /* plus.tiff in Resources */,
 				3EE2AFF50B828AB300EFBE3D /* jewel green.pdf in Resources */,
 				3EE2AFF60B828AB300EFBE3D /* jewel red.pdf in Resources */,
 				3EE2B0000B829D9300EFBE3D /* Questionable.icns in Resources */,
@@ -586,6 +584,8 @@
 				3E903C990BC44941009B6F93 /* Minus.pdf in Resources */,
 				3E903C9A0BC44941009B6F93 /* Plus.pdf in Resources */,
 				3E903D3D0BC5ADFE009B6F93 /* ButtonSet.pdf in Resources */,
+				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
+				3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
