@@ -11,7 +11,6 @@
 		3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */; };
 		3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */; };
 		3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */; };
-		3E11DC430B84EE08000DC73F /* triviaplaceholder.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */; };
 		3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */; };
 		3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */; };
 		3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */; };
@@ -99,7 +98,6 @@
 		3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardSimpleView.m; sourceTree = "<group>"; };
 		3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fullscreenIcon.pdf; sourceTree = "<group>"; };
 		3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = loadQuestions.pdf; sourceTree = "<group>"; };
-		3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = triviaplaceholder.pdf; sourceTree = "<group>"; };
 		3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPCGUtils.c; sourceTree = "<group>"; };
 		3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPCGUtils.h; sourceTree = "<group>"; };
 		3E11DC480B84EE9A000DC73F /* TIPFreeWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPFreeWindow.h; sourceTree = "<group>"; };
@@ -353,7 +351,6 @@
 				3E11DCC00B84FAE4000DC73F /* Stop.pdf */,
 				3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */,
 				3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */,
-				3E11DC3E0B84EE08000DC73F /* triviaplaceholder.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
 				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
 				3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */,
@@ -572,7 +569,6 @@
 				3EE2B0140B82A13300EFBE3D /* FullscreenSheet.nib in Resources */,
 				3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */,
 				3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */,
-				3E11DC430B84EE08000DC73F /* triviaplaceholder.pdf in Resources */,
 				3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */,
 				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
 				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
