@@ -35,9 +35,9 @@
 	[tableColumn setDataCell:textCell];
 	
 	items = [[NSMutableArray alloc] initWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:@"Controls",@"name",[NSImage imageNamed:@"controls.pdf"],@"image",nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"Questions",@"name",[NSImage imageNamed:@"questions.pdf"],@"image",nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"Players",@"name",[NSImage imageNamed:@"players.pdf"],@"image",nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:@"Controls",@"name",[NSImage imageNamed:@"controls.tiff"],@"image",nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:@"Questions",@"name",[NSImage imageNamed:@"questions.tiff"],@"image",nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:@"Players",@"name",[NSImage imageNamed:@"players.tiff"],@"image",nil],
 		nil];
 	
 	[self setDelegate:self];

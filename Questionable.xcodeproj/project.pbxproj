@@ -41,10 +41,10 @@
 		3EE136100BCAD1440062334B /* Incorrect.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1360E0BCAD1440062334B /* Incorrect.tiff */; };
 		3EE136150BCAD4800062334B /* NoSound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136130BCAD4800062334B /* NoSound.tiff */; };
 		3EE136160BCAD4800062334B /* Sound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136140BCAD4800062334B /* Sound.tiff */; };
+		3EE136470BCAF37B0062334B /* controls.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136440BCAF37B0062334B /* controls.tiff */; };
+		3EE136480BCAF37B0062334B /* players.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136450BCAF37B0062334B /* players.tiff */; };
+		3EE136490BCAF37B0062334B /* questions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136460BCAF37B0062334B /* questions.tiff */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
-		3EE2AE000B810B4A00EFBE3D /* controls.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */; };
-		3EE2AE010B810B4A00EFBE3D /* players.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2ADFE0B810B4A00EFBE3D /* players.pdf */; };
-		3EE2AE020B810B4A00EFBE3D /* questions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2ADFF0B810B4A00EFBE3D /* questions.pdf */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
 		3EE2AE580B811A2D00EFBE3D /* TriviaBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE530B811A2D00EFBE3D /* TriviaBoard.m */; };
@@ -143,11 +143,11 @@
 		3EE1360E0BCAD1440062334B /* Incorrect.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Incorrect.tiff; sourceTree = "<group>"; };
 		3EE136130BCAD4800062334B /* NoSound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = NoSound.tiff; sourceTree = "<group>"; };
 		3EE136140BCAD4800062334B /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
+		3EE136440BCAF37B0062334B /* controls.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = controls.tiff; sourceTree = "<group>"; };
+		3EE136450BCAF37B0062334B /* players.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = players.tiff; sourceTree = "<group>"; };
+		3EE136460BCAF37B0062334B /* questions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questions.tiff; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
-		3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = controls.pdf; sourceTree = "<group>"; };
-		3EE2ADFE0B810B4A00EFBE3D /* players.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = players.pdf; sourceTree = "<group>"; };
-		3EE2ADFF0B810B4A00EFBE3D /* questions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = questions.pdf; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
 		3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPSegmentedTableView.m; sourceTree = "<group>"; };
 		3EE2AE140B810C5900EFBE3D /* TIPTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPTextCell.h; sourceTree = "<group>"; };
@@ -337,6 +337,9 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3EE136440BCAF37B0062334B /* controls.tiff */,
+				3EE136450BCAF37B0062334B /* players.tiff */,
+				3EE136460BCAF37B0062334B /* questions.tiff */,
 				3EE136130BCAD4800062334B /* NoSound.tiff */,
 				3EE136140BCAD4800062334B /* Sound.tiff */,
 				3EE1360D0BCAD1440062334B /* Correct.tiff */,
@@ -353,9 +356,6 @@
 				3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
 				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
-				3EE2ADFD0B810B4A00EFBE3D /* controls.pdf */,
-				3EE2ADFE0B810B4A00EFBE3D /* players.pdf */,
-				3EE2ADFF0B810B4A00EFBE3D /* questions.pdf */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -559,9 +559,6 @@
 				45FC53AE08FBFB490091ABDF /* InfoPlist.strings in Resources */,
 				45FC53AF08FBFB490091ABDF /* MainMenu.nib in Resources */,
 				65464FC10A9A486600F418E3 /* AppleScriptInfo.sdef in Resources */,
-				3EE2AE000B810B4A00EFBE3D /* controls.pdf in Resources */,
-				3EE2AE010B810B4A00EFBE3D /* players.pdf in Resources */,
-				3EE2AE020B810B4A00EFBE3D /* questions.pdf in Resources */,
 				3EE2AE890B811C9100EFBE3D /* SaveProgress.nib in Resources */,
 				3EE2AFF50B828AB300EFBE3D /* jewel green.pdf in Resources */,
 				3EE2AFF60B828AB300EFBE3D /* jewel red.pdf in Resources */,
@@ -582,6 +579,9 @@
 				3EE136100BCAD1440062334B /* Incorrect.tiff in Resources */,
 				3EE136150BCAD4800062334B /* NoSound.tiff in Resources */,
 				3EE136160BCAD4800062334B /* Sound.tiff in Resources */,
+				3EE136470BCAF37B0062334B /* controls.tiff in Resources */,
+				3EE136480BCAF37B0062334B /* players.tiff in Resources */,
+				3EE136490BCAF37B0062334B /* questions.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
