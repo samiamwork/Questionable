@@ -18,7 +18,6 @@
 		3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC510B84EE9A000DC73F /* TriviaTimer.m */; };
 		3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC7C0B84EF61000DC73F /* TIPGradient.c */; };
 		3E11DCB30B84F90A000DC73F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E11DCB20B84F90A000DC73F /* QuartzCore.framework */; };
-		3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DCC00B84FAE4000DC73F /* Stop.pdf */; };
 		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
 		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
 		3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */; };
@@ -44,6 +43,7 @@
 		3EE136470BCAF37B0062334B /* controls.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136440BCAF37B0062334B /* controls.tiff */; };
 		3EE136480BCAF37B0062334B /* players.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136450BCAF37B0062334B /* players.tiff */; };
 		3EE136490BCAF37B0062334B /* questions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136460BCAF37B0062334B /* questions.tiff */; };
+		3EE136510BCAF5D90062334B /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136500BCAF5D90062334B /* Stop.tiff */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
@@ -111,7 +111,6 @@
 		3E11DC7C0B84EF61000DC73F /* TIPGradient.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPGradient.c; sourceTree = "<group>"; };
 		3E11DC7D0B84EF61000DC73F /* TIPGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradient.h; sourceTree = "<group>"; };
 		3E11DCB20B84F90A000DC73F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
-		3E11DCC00B84FAE4000DC73F /* Stop.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Stop.pdf; sourceTree = "<group>"; };
 		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
 		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
 		3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GetInput.nib; path = English.lproj/GetInput.nib; sourceTree = "<group>"; };
@@ -146,6 +145,7 @@
 		3EE136440BCAF37B0062334B /* controls.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = controls.tiff; sourceTree = "<group>"; };
 		3EE136450BCAF37B0062334B /* players.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = players.tiff; sourceTree = "<group>"; };
 		3EE136460BCAF37B0062334B /* questions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questions.tiff; sourceTree = "<group>"; };
+		3EE136500BCAF5D90062334B /* Stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop.tiff; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
@@ -337,6 +337,7 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3EE136500BCAF5D90062334B /* Stop.tiff */,
 				3EE136440BCAF37B0062334B /* controls.tiff */,
 				3EE136450BCAF37B0062334B /* players.tiff */,
 				3EE136460BCAF37B0062334B /* questions.tiff */,
@@ -351,7 +352,6 @@
 				3E903DDE0BC8361C009B6F93 /* Play.tiff */,
 				3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */,
 				3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */,
-				3E11DCC00B84FAE4000DC73F /* Stop.pdf */,
 				3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */,
 				3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
@@ -566,7 +566,6 @@
 				3EE2B0140B82A13300EFBE3D /* FullscreenSheet.nib in Resources */,
 				3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */,
 				3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */,
-				3E11DCC30B84FAE4000DC73F /* Stop.pdf in Resources */,
 				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
 				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
 				3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */,
@@ -582,6 +581,7 @@
 				3EE136470BCAF37B0062334B /* controls.tiff in Resources */,
 				3EE136480BCAF37B0062334B /* players.tiff in Resources */,
 				3EE136490BCAF37B0062334B /* questions.tiff in Resources */,
+				3EE136510BCAF5D90062334B /* Stop.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
