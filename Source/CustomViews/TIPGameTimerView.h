@@ -10,7 +10,6 @@
 #import "TIPTextContainer.h"
 #import "TIPCGUtils.h"
 #import "TIPGradient.h"
-#import "TriviaDrawableProgressTic.h"
 
 typedef enum _TriviaTimeDisplay {
 	TriviaTimeDisplayMiliseconds = 1<<0,
