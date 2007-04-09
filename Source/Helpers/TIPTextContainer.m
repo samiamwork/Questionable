@@ -371,7 +371,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		kATSUStyleDropShadowBlurOptionTag};
 	ByteCount styleSizes[] = {sizeof(Boolean), sizeof(CGSize), sizeof(CGColorRef), sizeof(float)};
 	Boolean shadowOn = YES;
-	const float rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	float rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&rgba[0]
 																  green:&rgba[1]
 																   blue:&rgba[2]
