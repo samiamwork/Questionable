@@ -276,11 +276,9 @@
 	
 	[_QATitleBox setSize:NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width, availableSize.height*0.2f)];
 	[_QATitleBox setCornerRadius:[_QATitleBox size].height*0.4f];
-	//[_QATitleBox setLineWidth:ceilf(availableSize.height*0.005f)];
 	
 	[_QATextBox setSize:NSMakeSize([_QATitleBox size].width,availableSize.height*0.8f)];
 	[_QATextBox setCornerRadius:[_QATitleBox cornerRadius]];
-	//[_QATextBox setLineWidth:[_QATitleBox lineWidth]];
 	
 	_playerNameSize = NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.5f));
 	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.3f));
@@ -325,33 +323,63 @@
 	}
 }
 
+- (NSSize)drawBoard
+{
+	float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
+	NSSize boardSize;
+	boardSize.width = [[_mainBoard categories] count]*_questionTitleSize.width + ([[_mainBoard categories] count]-1)*_boardPaddingSize.width;
+	boardSize.height = _questionTitleSize.height + 5.0f*(_questionPointSize.height + _boardPaddingSize.height);
+	
+	glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
+	unsigned int categoryIndex;
+	for( categoryIndex = 0; categoryIndex < [[_mainBoard categories] count]; categoryIndex++ ) {
+		TriviaCategory *aCategory = [[_mainBoard categories] objectAtIndex:categoryIndex];
+		[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
+		
+		glPushMatrix();
+		glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
+		unsigned int questionIndex;
+		for( questionIndex = 0; questionIndex < [[aCategory questions] count]; questionIndex++ ) {
+			StringTexture *aStringTexture = nil;
+			if( ! [[[aCategory questions] objectAtIndex:questionIndex] used] )
+				aStringTexture = [_questionPointStrings objectAtIndex:questionIndex];
+			[_pointsBox drawWithString:aStringTexture];
+			glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
+		}
+		glPopMatrix();
+		glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
+	}
+	
+	return boardSize;
+}
+
+- (void)drawShine:(NSSize)featureSize
+{
+	glBegin(GL_TRIANGLE_STRIP); {
+		float shadowHeight = _targetSize.height*0.2f;
+		glColor4f(0.0f,0.0f,0.0f,0.7f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(featureSize.width,0.0f,0.0f);
+		
+		glColor4f(0.0f,0.0f,0.0f,1.0f);
+		glVertex3f(0.0f, shadowHeight,0.0f);
+		glVertex3f(featureSize.width, shadowHeight,0.0f);
+		
+		if( shadowHeight < featureSize.height ) {
+			glVertex3f(0.0f, featureSize.height,0.0f);
+			glVertex3f(featureSize.width, featureSize.height,0.0f);
+		}
+	} glEnd();
+}
+
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
 {
 	glPushMatrix();
 	glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 	switch( aState ) {
-		case kTIPTriviaBoardViewStateBoard: {
-			float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
-			glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
-			unsigned int categoryIndex;
-			for( categoryIndex = 0; categoryIndex < [[_mainBoard categories] count]; categoryIndex++ ) {
-				TriviaCategory *aCategory = [[_mainBoard categories] objectAtIndex:categoryIndex];
-				[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
-				
-				glPushMatrix();
-				glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
-				unsigned int questionIndex;
-				for( questionIndex = 0; questionIndex < [[aCategory questions] count]; questionIndex++ ) {
-					StringTexture *aStringTexture = nil;
-					if( ! [[[aCategory questions] objectAtIndex:questionIndex] used] )
-						aStringTexture = [_questionPointStrings objectAtIndex:questionIndex];
-					[_pointsBox drawWithString:aStringTexture];
-					glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
-				}
-				glPopMatrix();
-				glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
-			}
-		    }break;
+		case kTIPTriviaBoardViewStateBoard:
+			[self drawBoard];
+			break;
 		case kTIPTriviaBoardViewStateQuestion:
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_questionTitleString];
@@ -370,7 +398,6 @@
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
-			glPushMatrix();
 			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
 			// drawn twice as a horrible hack to get it to show up on the first frame
 			[_placeholderBox drawWithString:_questionmark];
@@ -379,23 +406,7 @@
 			glScalef(1.0f,-1.0f,1.0f);
 			glTranslatef( 0.0f, 0.05f*_targetSize.height,0.0f);
 			[_placeholderBox drawWithString:_questionmark];
-			glBegin(GL_TRIANGLE_STRIP); {
-				float shadowHeight = _targetSize.height*0.2f;
-				NSSize featureSize = [_placeholderBox size];
-				glColor4f(0.0f,0.0f,0.0f,0.7f);
-				glVertex3f(0.0f,0.0f,0.0f);
-				glVertex3f(featureSize.width,0.0f,0.0f);
-				
-				glColor4f(0.0f,0.0f,0.0f,1.0f);
-				glVertex3f(0.0f, shadowHeight,0.0f);
-				glVertex3f(featureSize.width, shadowHeight,0.0f);
-				
-				if( shadowHeight < featureSize.height ) {
-					glVertex3f(0.0f, featureSize.height,0.0f);
-					glVertex3f(featureSize.width, featureSize.height,0.0f);
-				}
-			} glEnd();
-			glPopMatrix();
+			[self drawShine:[_placeholderBox size]];
 			break;
 	}
 	glPopMatrix();
