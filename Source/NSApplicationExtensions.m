@@ -47,6 +47,7 @@
 	
 	NSMutableString *regString = [NSMutableString stringWithFormat:@"%@\n%@\n(%@)",
 		[licenseDict valueForKey:@"Name"],[licenseDict valueForKey:@"Email"],[licenseDict valueForKey:@"ID"]];
+	[licenseDict release];
 	return regString;
 }
 

@@ -72,6 +72,20 @@
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if( [[filename pathExtension] isEqualToString:@"questionablelicense"] ) {
+		NSDictionary *prefs = [[NSUserDefaultsController sharedUserDefaultsController] values];
+		NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData((CFDataRef )[prefs valueForKey:@"license"]);
+		if( APVerifyLicenseData( (CFDataRef )[prefs valueForKey:@"license"] ) ) {
+			NSAlert *alert = [[NSAlert alloc] init];
+			[alert addButtonWithTitle:@"OK"];
+			[alert setMessageText:@"You already have a valid license for this application."];
+			[alert setInformativeText:[NSString stringWithFormat:@"Licensed to: %@ (%@)", [licenseDict valueForKey:@"Name"], [licenseDict valueForKey:@"Email"]]];
+			[alert setAlertStyle:NSInformationalAlertStyle];
+			[alert runModal];
+
+			[licenseDict release];
+			return NO;
+		}
+		
 		NSData *licenseData = [NSData dataWithContentsOfFile:filename];
 		if( licenseData == nil )
 			return NO;
@@ -80,7 +94,6 @@
 			return NO;
 		
 		[NSApp willChangeValueForKey:@"registeredString"];
-		NSDictionary *prefs = [[NSUserDefaultsController sharedUserDefaultsController] values];
 		[prefs setValue:licenseData forKey:@"license"];
 		[NSApp didChangeValueForKey:@"registeredString"];
 
