@@ -108,6 +108,14 @@
 		[prefs setValue:newLicenseData forKey:@"license"];
 		[NSApp didChangeValueForKey:@"registeredString"];
 
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert addButtonWithTitle:@"OK"];
+		[alert setMessageText:@"This application is now registered!"];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert runModal];
+		
+		[alert release];
+		
 		return YES;
 	} else
 		return [viewController openGameFile:filename];
