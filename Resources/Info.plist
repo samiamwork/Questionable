@@ -9,6 +9,20 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>questionablelicense</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>QuestionableLicense</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>triviaqm</string>
 			</array>
 			<key>CFBundleTypeName</key>

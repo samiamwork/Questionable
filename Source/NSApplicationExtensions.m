@@ -37,13 +37,6 @@
 
 @implementation NSApplication (TIPExtensions)
 
-- (NSString *)registeredUserName
-{
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData( (CFDataRef )licenseData );
-	return [licenseDict valueForKey:@"name"];
-}
-
 - (NSString *)registeredString
 {
 	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
@@ -52,21 +45,9 @@
 	if( licenseDict == nil )
 		return @"Unregistered";
 	
-	return [licenseDict valueForKey:@"name"];
-}
-
-- (NSString *)registeredUserNumber
-{
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData( (CFDataRef )licenseData );
-	return [licenseDict valueForKey:@"ID"];
-}
-
-- (NSString *)registeredUserEmail
-{
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData( (CFDataRef )licenseData );
-	return [licenseDict valueForKey:@"email"];
+	NSMutableString *regString = [NSMutableString stringWithFormat:@"%@\n%@\n(%@)",
+		[licenseDict valueForKey:@"Name"],[licenseDict valueForKey:@"Email"],[licenseDict valueForKey:@"ID"]];
+	return regString;
 }
 
 - (BOOL)registered

@@ -11,9 +11,6 @@
 
 @interface NSApplication (TIPExtensions)
 
-- (NSString *)registeredUserName;
-- (NSString *)registeredUserNumber;
-- (NSString *)registeredUserEmail;
 - (NSString *)registeredString;
 - (BOOL)registered;
 

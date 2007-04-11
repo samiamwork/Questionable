@@ -71,7 +71,22 @@
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-	return [viewController openGameFile:filename];
+	if( [[filename pathExtension] isEqualToString:@"questionablelicense"] ) {
+		NSData *licenseData = [NSData dataWithContentsOfFile:filename];
+		if( licenseData == nil )
+			return NO;
+		
+		if( !APVerifyLicenseData( (CFDataRef ) licenseData ) )
+			return NO;
+		
+		[NSApp willChangeValueForKey:@"registeredString"];
+		NSDictionary *prefs = [[NSUserDefaultsController sharedUserDefaultsController] values];
+		[prefs setValue:licenseData forKey:@"license"];
+		[NSApp didChangeValueForKey:@"registeredString"];
+
+		return YES;
+	} else
+		return [viewController openGameFile:filename];
 }
 
 @end
