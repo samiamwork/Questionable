@@ -72,6 +72,23 @@
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if( [[filename pathExtension] isEqualToString:@"questionablelicense"] ) {
+		
+		NSData *newLicenseData = [NSData dataWithContentsOfFile:filename];
+		if( newLicenseData == nil )
+			return NO;
+		
+		if( !APVerifyLicenseData( (CFDataRef ) newLicenseData ) ) {
+			NSAlert *alert = [[NSAlert alloc] init];
+			[alert addButtonWithTitle:@"OK"];
+			[alert setMessageText:@"This is an invalid license file."];
+			[alert setInformativeText:filename];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert runModal];
+			
+			[alert release];
+			return NO;
+		}
+		
 		NSDictionary *prefs = [[NSUserDefaultsController sharedUserDefaultsController] values];
 		NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData((CFDataRef )[prefs valueForKey:@"license"]);
 		if( APVerifyLicenseData( (CFDataRef )[prefs valueForKey:@"license"] ) ) {
@@ -83,18 +100,12 @@
 			[alert runModal];
 
 			[licenseDict release];
+			[alert release];
 			return NO;
 		}
 		
-		NSData *licenseData = [NSData dataWithContentsOfFile:filename];
-		if( licenseData == nil )
-			return NO;
-		
-		if( !APVerifyLicenseData( (CFDataRef ) licenseData ) )
-			return NO;
-		
 		[NSApp willChangeValueForKey:@"registeredString"];
-		[prefs setValue:licenseData forKey:@"license"];
+		[prefs setValue:newLicenseData forKey:@"license"];
 		[NSApp didChangeValueForKey:@"registeredString"];
 
 		return YES;
