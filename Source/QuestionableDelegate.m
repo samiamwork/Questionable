@@ -90,16 +90,16 @@
 		}
 		
 		NSDictionary *prefs = [[NSUserDefaultsController sharedUserDefaultsController] values];
-		NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData((CFDataRef )[prefs valueForKey:@"license"]);
-		if( APVerifyLicenseData( (CFDataRef )[prefs valueForKey:@"license"] ) ) {
+		NSDictionary *currentLicenseDict = (NSDictionary *)APCreateDictionaryForLicenseData((CFDataRef )[prefs valueForKey:@"license"]);
+		if( currentLicenseDict != nil ) {
 			NSAlert *alert = [[NSAlert alloc] init];
 			[alert addButtonWithTitle:@"OK"];
 			[alert setMessageText:@"You already have a valid license for this application."];
-			[alert setInformativeText:[NSString stringWithFormat:@"Licensed to: %@ (%@)", [licenseDict valueForKey:@"Name"], [licenseDict valueForKey:@"Email"]]];
+			[alert setInformativeText:[NSString stringWithFormat:@"Licensed to: %@ (%@)", [currentLicenseDict valueForKey:@"Name"], [currentLicenseDict valueForKey:@"Email"]]];
 			[alert setAlertStyle:NSInformationalAlertStyle];
 			[alert runModal];
 
-			[licenseDict release];
+			[currentLicenseDict release];
 			[alert release];
 			return NO;
 		}
