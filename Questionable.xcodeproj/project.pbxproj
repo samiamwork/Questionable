@@ -44,6 +44,8 @@
 		3EE136480BCAF37B0062334B /* players.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136450BCAF37B0062334B /* players.tiff */; };
 		3EE136490BCAF37B0062334B /* questions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136460BCAF37B0062334B /* questions.tiff */; };
 		3EE136510BCAF5D90062334B /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136500BCAF5D90062334B /* Stop.tiff */; };
+		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
+		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
@@ -146,6 +148,10 @@
 		3EE136450BCAF37B0062334B /* players.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = players.tiff; sourceTree = "<group>"; };
 		3EE136460BCAF37B0062334B /* questions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questions.tiff; sourceTree = "<group>"; };
 		3EE136500BCAF5D90062334B /* Stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop.tiff; sourceTree = "<group>"; };
+		3EE136750BCB55910062334B /* AquaticPrime.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AquaticPrime.c; sourceTree = "<group>"; };
+		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
+		3EE1367B0BCB5A800062334B /* NSApplicationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationExtensions.h; sourceTree = "<group>"; };
+		3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSApplicationExtensions.m; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
@@ -485,6 +491,8 @@
 		45FC53AB08FBFB490091ABDF /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				3EE136750BCB55910062334B /* AquaticPrime.c */,
+				3EE136760BCB55910062334B /* AquaticPrime.h */,
 				3E11DC7C0B84EF61000DC73F /* TIPGradient.c */,
 				3E11DC7D0B84EF61000DC73F /* TIPGradient.h */,
 				3EE2AE730B811B7200EFBE3D /* TIPFileArchiver.h */,
@@ -508,6 +516,8 @@
 				45FC53AC08FBFB490091ABDF /* main.m */,
 				45FC53B308FBFB5B0091ABDF /* QuestionableDelegate.h */,
 				45FC53B408FBFB5B0091ABDF /* QuestionableDelegate.m */,
+				3EE1367B0BCB5A800062334B /* NSApplicationExtensions.h */,
+				3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -687,6 +697,8 @@
 				3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */,
 				3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */,
 				3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */,
+				3EE136770BCB55910062334B /* AquaticPrime.c in Sources */,
+				3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +818,10 @@
 			buildSettings = {
 				APPLICATION_VERSION = 1.0a1;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"$(inherited)",
+				);
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
@@ -819,6 +835,10 @@
 					i386,
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"$(inherited)",
+				);
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
