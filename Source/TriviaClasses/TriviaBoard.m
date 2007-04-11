@@ -7,6 +7,7 @@
 //
 
 #import "TriviaBoard.h"
+#import "AquaticPrime.h"
 
 #define MAXCATEGORIES 5
 
@@ -99,14 +100,16 @@
 	
 	[newBoard setTitle:[aBoardDictionary valueForKey:@"title"]];
 	
-	NSMutableArray *aCategoryArray = [NSMutableArray array];
+	//NSMutableArray *aCategoryArray = [NSMutableArray array];
 	
 	NSEnumerator *categoryEnumerator = [[aBoardDictionary valueForKey:@"categories"] objectEnumerator];
 	NSDictionary *aCategoryDictionary;
-	while( (aCategoryDictionary = [categoryEnumerator nextObject]) )
-		[aCategoryArray addObject:[TriviaCategory categoryFromDictionary:aCategoryDictionary inPath:aPath]];
+	while( (aCategoryDictionary = [categoryEnumerator nextObject]) ) {
+		//[aCategoryArray addObject:[TriviaCategory categoryFromDictionary:aCategoryDictionary inPath:aPath]];
+		[newBoard addCategory:[TriviaCategory categoryFromDictionary:aCategoryDictionary inPath:aPath]];
+	}
 	
-	[newBoard setCategories:aCategoryArray];
+	//[newBoard setCategories:aCategoryArray];
 	
 	return [newBoard autorelease];
 }
@@ -227,6 +230,18 @@
 }
 - (BOOL)isFull
 {
+	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
+	NSData *badData = [NSData data];
+	
+	// if unregistered limit the number of categories to MAX-1
+	if( APVerifyLicenseData((CFDataRef )badData) ||
+		!APVerifyLicenseData((CFDataRef )licenseData) ) {
+		if( [theCategories count] < MAXCATEGORIES-1 )
+			return NO;
+		
+		return YES;
+	}
+	
 	if( [theCategories count] < MAXCATEGORIES )
 		return NO;
 	

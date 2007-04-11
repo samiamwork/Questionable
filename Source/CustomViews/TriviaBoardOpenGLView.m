@@ -42,6 +42,7 @@
 		
 		//Trivia Objects
 		_mainBoard = nil;
+		_categories = nil;
 		_question = nil;
 		_players = nil;
 		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseInOut];
@@ -327,13 +328,13 @@
 {
 	float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
 	NSSize boardSize;
-	boardSize.width = [[_mainBoard categories] count]*_questionTitleSize.width + ([[_mainBoard categories] count]-1)*_boardPaddingSize.width;
+	boardSize.width = [_categories count]*_questionTitleSize.width + ([_categories count]-1)*_boardPaddingSize.width;
 	boardSize.height = _questionTitleSize.height + 5.0f*(_questionPointSize.height + _boardPaddingSize.height);
 	
 	glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
 	unsigned int categoryIndex;
-	for( categoryIndex = 0; categoryIndex < [[_mainBoard categories] count]; categoryIndex++ ) {
-		TriviaCategory *aCategory = [[_mainBoard categories] objectAtIndex:categoryIndex];
+	for( categoryIndex = 0; categoryIndex < [_categories count]; categoryIndex++ ) {
+		TriviaCategory *aCategory = [_categories objectAtIndex:categoryIndex];
 		[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
 		
 		glPushMatrix();
@@ -477,8 +478,23 @@
 	[_mainBoard release];
 	_mainBoard = [newBoard retain];
 	
+	[_categories release];
+	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
+	NSData *badData = [NSData data];
+	// if unregistered insert the "unregistered" category
+	if( APVerifyLicenseData((CFDataRef )badData) ||
+		!APVerifyLicenseData((CFDataRef )licenseData) ) {
+		TriviaCategory *dummyCategory = [[TriviaCategory alloc] init];
+		[dummyCategory setTitle:@"Unregistered"];
+		_categories = [[_mainBoard categories] arrayByAddingObject:dummyCategory];
+		[dummyCategory release];
+	} else {
+		_categories = [NSArray arrayWithArray:[_mainBoard categories]];
+	}
+	[_categories retain];
+	
 	[_categoryTitleStrings removeAllObjects];
-	NSEnumerator *categoryEnumerator = [[_mainBoard categories] objectEnumerator];
+	NSEnumerator *categoryEnumerator = [_categories objectEnumerator];
 	TriviaCategory *aCategory;
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
@@ -540,7 +556,7 @@
 		return;
 	// for transition animations
 	theViewState = newState;
-	
+		
 	if( _transitionTimer != nil )
 		[_transitionTimer invalidate];
 	_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(transitionUpdate:) userInfo:nil repeats:YES];

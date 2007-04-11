@@ -95,7 +95,7 @@ void APBlacklistAdd(CFStringRef blacklistEntry)
 
 CFDictionaryRef APCreateDictionaryForLicenseData(CFDataRef data)
 {
-	if (!rsaKey->n || !rsaKey->e)
+	if (!rsaKey || !rsaKey->n || !rsaKey->e)
 		return NULL;
 		
 	// Make the property list from the data

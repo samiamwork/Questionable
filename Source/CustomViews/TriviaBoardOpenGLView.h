@@ -35,6 +35,9 @@ typedef enum TIPTriviaBoardViewState {
 	
 	//Trivia Objects
 	TriviaBoard *_mainBoard;
+	// this is needed because our working array will be different
+	// than the one passed if the program is unregistered.
+	NSArray *_categories;
 	TriviaQuestion *_question;
 	NSArray *_players;
 	

@@ -95,7 +95,7 @@
 			NSAlert *alert = [[NSAlert alloc] init];
 			[alert addButtonWithTitle:@"OK"];
 			[alert setMessageText:@"You already have a valid license for this application."];
-			[alert setInformativeText:[NSString stringWithFormat:@"Licensed to: %@ (%@)", [currentLicenseDict valueForKey:@"Name"], [currentLicenseDict valueForKey:@"Email"]]];
+			[alert setInformativeText:[NSString stringWithFormat:@"Licensed to:\n%@ (%@)", [currentLicenseDict valueForKey:@"Name"], [currentLicenseDict valueForKey:@"Email"]]];
 			[alert setAlertStyle:NSInformationalAlertStyle];
 			[alert runModal];
 
