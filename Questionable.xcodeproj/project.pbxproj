@@ -46,6 +46,8 @@
 		3EE136510BCAF5D90062334B /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136500BCAF5D90062334B /* Stop.tiff */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
+		3EE139940BCDF5740062334B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE139920BCDF5740062334B /* Preferences.nib */; };
+		3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1399A0BCDF5A90062334B /* Preferences.m */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
@@ -152,6 +154,9 @@
 		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
 		3EE1367B0BCB5A800062334B /* NSApplicationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationExtensions.h; sourceTree = "<group>"; };
 		3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSApplicationExtensions.m; sourceTree = "<group>"; };
+		3EE139930BCDF5740062334B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		3EE139990BCDF5A90062334B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		3EE1399A0BCDF5A90062334B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
@@ -434,6 +439,8 @@
 		3EE2AFE80B82891400EFBE3D /* WindowControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3EE139990BCDF5A90062334B /* Preferences.h */,
+				3EE1399A0BCDF5A90062334B /* Preferences.m */,
 				3E4D099F0B83A081004620B8 /* TriviaWindowController.h */,
 				3E4D09A00B83A081004620B8 /* TriviaWindowController.m */,
 				3EE2B0080B829F8C00EFBE3D /* FullscreenSheetController.h */,
@@ -483,6 +490,7 @@
 				3EE2B0120B82A13300EFBE3D /* FullscreenSheet.nib */,
 				3EE2AE870B811C9100EFBE3D /* SaveProgress.nib */,
 				45FC53A808FBFB490091ABDF /* MainMenu.nib */,
+				3EE139920BCDF5740062334B /* Preferences.nib */,
 				45FC53AA08FBFB490091ABDF /* Info.plist */,
 			);
 			path = Resources;
@@ -592,6 +600,7 @@
 				3EE136480BCAF37B0062334B /* players.tiff in Resources */,
 				3EE136490BCAF37B0062334B /* questions.tiff in Resources */,
 				3EE136510BCAF5D90062334B /* Stop.tiff in Resources */,
+				3EE139940BCDF5740062334B /* Preferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,12 +708,21 @@
 				3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */,
 				3EE136770BCB55910062334B /* AquaticPrime.c in Sources */,
 				3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */,
+				3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3EE139920BCDF5740062334B /* Preferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EE139930BCDF5740062334B /* English */,
+			);
+			name = Preferences.nib;
+			sourceTree = "<group>";
+		};
 		3EE2AE870B811C9100EFBE3D /* SaveProgress.nib */ = {
 			isa = PBXVariantGroup;
 			children = (

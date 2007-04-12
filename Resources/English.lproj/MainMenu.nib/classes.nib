@@ -7,6 +7,13 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {showPanel = id; }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefWindow = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
             ACTIONS = {revertToText = id; }; 
             CLASS = QuestionView; 
             LANGUAGE = ObjC; 
