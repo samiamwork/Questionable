@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		3E11DC2E0B84EB0E000DC73F /* TIPGameTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC290B84EB0E000DC73F /* TIPGameTimerView.m */; };
 		3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */; };
-		3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */; };
-		3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */; };
 		3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */; };
 		3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */; };
 		3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */; };
@@ -48,6 +46,8 @@
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
 		3EE139940BCDF5740062334B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE139920BCDF5740062334B /* Preferences.nib */; };
 		3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1399A0BCDF5A90062334B /* Preferences.m */; };
+		3EE139A00BCE00A40062334B /* fullscreenIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */; };
+		3EE139A10BCE00A40062334B /* loadQuestions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1399F0BCE00A30062334B /* loadQuestions.tiff */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
@@ -100,8 +100,6 @@
 		3E11DC290B84EB0E000DC73F /* TIPGameTimerView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGameTimerView.m; sourceTree = "<group>"; };
 		3E11DC2A0B84EB0E000DC73F /* TriviaBoardSimpleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaBoardSimpleView.h; sourceTree = "<group>"; };
 		3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardSimpleView.m; sourceTree = "<group>"; };
-		3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fullscreenIcon.pdf; sourceTree = "<group>"; };
-		3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = loadQuestions.pdf; sourceTree = "<group>"; };
 		3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPCGUtils.c; sourceTree = "<group>"; };
 		3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPCGUtils.h; sourceTree = "<group>"; };
 		3E11DC480B84EE9A000DC73F /* TIPFreeWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPFreeWindow.h; sourceTree = "<group>"; };
@@ -157,6 +155,8 @@
 		3EE139930BCDF5740062334B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		3EE139990BCDF5A90062334B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		3EE1399A0BCDF5A90062334B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = fullscreenIcon.tiff; sourceTree = "<group>"; };
+		3EE1399F0BCE00A30062334B /* loadQuestions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = loadQuestions.tiff; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
@@ -348,6 +348,8 @@
 		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */,
+				3EE1399F0BCE00A30062334B /* loadQuestions.tiff */,
 				3EE136500BCAF5D90062334B /* Stop.tiff */,
 				3EE136440BCAF37B0062334B /* controls.tiff */,
 				3EE136450BCAF37B0062334B /* players.tiff */,
@@ -363,8 +365,6 @@
 				3E903DDE0BC8361C009B6F93 /* Play.tiff */,
 				3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */,
 				3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */,
-				3E11DC3A0B84EE08000DC73F /* fullscreenIcon.pdf */,
-				3E11DC3B0B84EE08000DC73F /* loadQuestions.pdf */,
 				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
 				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
 			);
@@ -582,8 +582,6 @@
 				3EE2AFF60B828AB300EFBE3D /* jewel red.pdf in Resources */,
 				3EE2B0000B829D9300EFBE3D /* Questionable.icns in Resources */,
 				3EE2B0140B82A13300EFBE3D /* FullscreenSheet.nib in Resources */,
-				3E11DC3F0B84EE08000DC73F /* fullscreenIcon.pdf in Resources */,
-				3E11DC400B84EE08000DC73F /* loadQuestions.pdf in Resources */,
 				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
 				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
 				3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */,
@@ -601,6 +599,8 @@
 				3EE136490BCAF37B0062334B /* questions.tiff in Resources */,
 				3EE136510BCAF5D90062334B /* Stop.tiff in Resources */,
 				3EE139940BCDF5740062334B /* Preferences.nib in Resources */,
+				3EE139A00BCE00A40062334B /* fullscreenIcon.tiff in Resources */,
+				3EE139A10BCE00A40062334B /* loadQuestions.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

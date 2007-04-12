@@ -71,14 +71,14 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierLoad] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Load",@"Load")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Load",@"Load")];
-		[toolbarItem setImage:[NSImage imageNamed:@"loadQuestions.pdf"]];
+		[toolbarItem setImage:[NSImage imageNamed:@"loadQuestions.tiff"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(load:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierFullscreen] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierFullscreen] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
-		[toolbarItem setImage:[NSImage imageNamed:@"fullscreenIcon.pdf"]];
+		[toolbarItem setImage:[NSImage imageNamed:@"fullscreenIcon.tiff"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(toggleFullscreen:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlay] ) {
