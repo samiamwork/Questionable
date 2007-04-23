@@ -66,5 +66,9 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>AppleScriptInfo.sdef</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Questionable Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Questionable Help</string>
 </dict>
 </plist>

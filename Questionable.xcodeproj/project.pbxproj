@@ -22,32 +22,35 @@
 		3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */; };
 		3E4D099D0B83A070004620B8 /* TriviaGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D099A0B83A070004620B8 /* TriviaGameController.m */; };
 		3E4D09A10B83A081004620B8 /* TriviaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D09A00B83A081004620B8 /* TriviaWindowController.m */; };
-		3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */; };
-		3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */; };
-		3E903DDF0BC8361C009B6F93 /* Pause.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DDD0BC8361C009B6F93 /* Pause.tiff */; };
-		3E903DE00BC8361C009B6F93 /* Play.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DDE0BC8361C009B6F93 /* Play.tiff */; };
-		3E903DE70BC8409D009B6F93 /* Minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DE50BC8409D009B6F93 /* Minus.tiff */; };
-		3E903DE80BC8409D009B6F93 /* Plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DE60BC8409D009B6F93 /* Plus.tiff */; };
-		3E903DEE0BC8440E009B6F93 /* ButtonSet.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */; };
+		3E806E920BD5C8DC0068BD88 /* ButtonSet.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E7F0BD5C8DC0068BD88 /* ButtonSet.tiff */; };
+		3E806E930BD5C8DC0068BD88 /* controls.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E800BD5C8DC0068BD88 /* controls.tiff */; };
+		3E806E940BD5C8DC0068BD88 /* Correct.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E810BD5C8DC0068BD88 /* Correct.tiff */; };
+		3E806E950BD5C8DC0068BD88 /* fullscreenIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */; };
+		3E806E960BD5C8DC0068BD88 /* Incorrect.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */; };
+		3E806E970BD5C8DC0068BD88 /* jewel green.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E840BD5C8DC0068BD88 /* jewel green.pdf */; };
+		3E806E980BD5C8DC0068BD88 /* jewel red.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E850BD5C8DC0068BD88 /* jewel red.pdf */; };
+		3E806E990BD5C8DC0068BD88 /* loadQuestions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */; };
+		3E806E9A0BD5C8DC0068BD88 /* Minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E870BD5C8DC0068BD88 /* Minus.tiff */; };
+		3E806E9B0BD5C8DC0068BD88 /* NoSound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E880BD5C8DC0068BD88 /* NoSound.tiff */; };
+		3E806E9C0BD5C8DC0068BD88 /* Pause.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E890BD5C8DC0068BD88 /* Pause.tiff */; };
+		3E806E9D0BD5C8DC0068BD88 /* Play.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8A0BD5C8DC0068BD88 /* Play.tiff */; };
+		3E806E9E0BD5C8DC0068BD88 /* players.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8B0BD5C8DC0068BD88 /* players.tiff */; };
+		3E806E9F0BD5C8DC0068BD88 /* Plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8C0BD5C8DC0068BD88 /* Plus.tiff */; };
+		3E806EA00BD5C8DC0068BD88 /* QuestionMediaMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8D0BD5C8DC0068BD88 /* QuestionMediaMinus.tiff */; };
+		3E806EA10BD5C8DC0068BD88 /* QuestionPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8E0BD5C8DC0068BD88 /* QuestionPlus.tiff */; };
+		3E806EA20BD5C8DC0068BD88 /* questions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E8F0BD5C8DC0068BD88 /* questions.tiff */; };
+		3E806EA30BD5C8DC0068BD88 /* Sound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E900BD5C8DC0068BD88 /* Sound.tiff */; };
+		3E806EA40BD5C8DC0068BD88 /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E910BD5C8DC0068BD88 /* Stop.tiff */; };
+		3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */ = {isa = PBXBuildFile; fileRef = 3E806FA70BD6C82E0068BD88 /* Questionable Help */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
 		3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */; };
 		3EB0257F0B8BDB7F00A095F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */; };
-		3EE1360F0BCAD1440062334B /* Correct.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1360D0BCAD1440062334B /* Correct.tiff */; };
-		3EE136100BCAD1440062334B /* Incorrect.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1360E0BCAD1440062334B /* Incorrect.tiff */; };
-		3EE136150BCAD4800062334B /* NoSound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136130BCAD4800062334B /* NoSound.tiff */; };
-		3EE136160BCAD4800062334B /* Sound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136140BCAD4800062334B /* Sound.tiff */; };
-		3EE136470BCAF37B0062334B /* controls.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136440BCAF37B0062334B /* controls.tiff */; };
-		3EE136480BCAF37B0062334B /* players.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136450BCAF37B0062334B /* players.tiff */; };
-		3EE136490BCAF37B0062334B /* questions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136460BCAF37B0062334B /* questions.tiff */; };
-		3EE136510BCAF5D90062334B /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE136500BCAF5D90062334B /* Stop.tiff */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
 		3EE139940BCDF5740062334B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE139920BCDF5740062334B /* Preferences.nib */; };
 		3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1399A0BCDF5A90062334B /* Preferences.m */; };
-		3EE139A00BCE00A40062334B /* fullscreenIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */; };
-		3EE139A10BCE00A40062334B /* loadQuestions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3EE1399F0BCE00A30062334B /* loadQuestions.tiff */; };
 		3EE2ADD70B81097400EFBE3D /* TIPGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */; };
 		3EE2AE160B810C5900EFBE3D /* TIPSegmentedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE130B810C5900EFBE3D /* TIPSegmentedTableView.m */; };
 		3EE2AE170B810C5900EFBE3D /* TIPTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AE150B810C5900EFBE3D /* TIPTextCell.m */; };
@@ -73,8 +76,6 @@
 		3EE2AFE50B8288B300EFBE3D /* TIPInputElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFE10B8288B300EFBE3D /* TIPInputElement.m */; };
 		3EE2AFE60B8288B300EFBE3D /* TIPInputManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFE30B8288B300EFBE3D /* TIPInputManager.m */; };
 		3EE2AFEB0B82891400EFBE3D /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2AFEA0B82891400EFBE3D /* SaveProgressController.m */; };
-		3EE2AFF50B828AB300EFBE3D /* jewel green.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */; };
-		3EE2AFF60B828AB300EFBE3D /* jewel red.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */; };
 		3EE2B0000B829D9300EFBE3D /* Questionable.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3EE2AFFF0B829D9300EFBE3D /* Questionable.icns */; };
 		3EE2B0050B829F2900EFBE3D /* TriviaOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B0040B829F2900EFBE3D /* TriviaOutlineViewController.m */; };
 		3EE2B00A0B829F8C00EFBE3D /* FullscreenSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B0090B829F8C00EFBE3D /* FullscreenSheetController.m */; };
@@ -124,13 +125,26 @@
 		3E4D099A0B83A070004620B8 /* TriviaGameController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaGameController.m; sourceTree = "<group>"; };
 		3E4D099F0B83A081004620B8 /* TriviaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaWindowController.h; sourceTree = "<group>"; };
 		3E4D09A00B83A081004620B8 /* TriviaWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaWindowController.m; sourceTree = "<group>"; };
-		3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionMediaMinus.tiff; sourceTree = "<group>"; };
-		3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionPlus.tiff; sourceTree = "<group>"; };
-		3E903DDD0BC8361C009B6F93 /* Pause.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Pause.tiff; sourceTree = "<group>"; };
-		3E903DDE0BC8361C009B6F93 /* Play.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play.tiff; sourceTree = "<group>"; };
-		3E903DE50BC8409D009B6F93 /* Minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Minus.tiff; sourceTree = "<group>"; };
-		3E903DE60BC8409D009B6F93 /* Plus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Plus.tiff; sourceTree = "<group>"; };
-		3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ButtonSet.tiff; sourceTree = "<group>"; };
+		3E806E7F0BD5C8DC0068BD88 /* ButtonSet.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ButtonSet.tiff; sourceTree = "<group>"; };
+		3E806E800BD5C8DC0068BD88 /* controls.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = controls.tiff; sourceTree = "<group>"; };
+		3E806E810BD5C8DC0068BD88 /* Correct.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Correct.tiff; sourceTree = "<group>"; };
+		3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = fullscreenIcon.tiff; sourceTree = "<group>"; };
+		3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Incorrect.tiff; sourceTree = "<group>"; };
+		3E806E840BD5C8DC0068BD88 /* jewel green.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel green.pdf"; sourceTree = "<group>"; };
+		3E806E850BD5C8DC0068BD88 /* jewel red.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel red.pdf"; sourceTree = "<group>"; };
+		3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = loadQuestions.tiff; sourceTree = "<group>"; };
+		3E806E870BD5C8DC0068BD88 /* Minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Minus.tiff; sourceTree = "<group>"; };
+		3E806E880BD5C8DC0068BD88 /* NoSound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = NoSound.tiff; sourceTree = "<group>"; };
+		3E806E890BD5C8DC0068BD88 /* Pause.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Pause.tiff; sourceTree = "<group>"; };
+		3E806E8A0BD5C8DC0068BD88 /* Play.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play.tiff; sourceTree = "<group>"; };
+		3E806E8B0BD5C8DC0068BD88 /* players.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = players.tiff; sourceTree = "<group>"; };
+		3E806E8C0BD5C8DC0068BD88 /* Plus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Plus.tiff; sourceTree = "<group>"; };
+		3E806E8D0BD5C8DC0068BD88 /* QuestionMediaMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionMediaMinus.tiff; sourceTree = "<group>"; };
+		3E806E8E0BD5C8DC0068BD88 /* QuestionPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = QuestionPlus.tiff; sourceTree = "<group>"; };
+		3E806E8F0BD5C8DC0068BD88 /* questions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questions.tiff; sourceTree = "<group>"; };
+		3E806E900BD5C8DC0068BD88 /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
+		3E806E910BD5C8DC0068BD88 /* Stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop.tiff; sourceTree = "<group>"; };
+		3E806FA80BD6C82E0068BD88 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Questionable Help"; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -140,14 +154,6 @@
 		3EB025400B8BBC8200A095F9 /* TriviaBoardOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaBoardOpenGLView.h; sourceTree = "<group>"; };
 		3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardOpenGLView.m; sourceTree = "<group>"; };
 		3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		3EE1360D0BCAD1440062334B /* Correct.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Correct.tiff; sourceTree = "<group>"; };
-		3EE1360E0BCAD1440062334B /* Incorrect.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Incorrect.tiff; sourceTree = "<group>"; };
-		3EE136130BCAD4800062334B /* NoSound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = NoSound.tiff; sourceTree = "<group>"; };
-		3EE136140BCAD4800062334B /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
-		3EE136440BCAF37B0062334B /* controls.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = controls.tiff; sourceTree = "<group>"; };
-		3EE136450BCAF37B0062334B /* players.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = players.tiff; sourceTree = "<group>"; };
-		3EE136460BCAF37B0062334B /* questions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questions.tiff; sourceTree = "<group>"; };
-		3EE136500BCAF5D90062334B /* Stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop.tiff; sourceTree = "<group>"; };
 		3EE136750BCB55910062334B /* AquaticPrime.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AquaticPrime.c; sourceTree = "<group>"; };
 		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
 		3EE1367B0BCB5A800062334B /* NSApplicationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationExtensions.h; sourceTree = "<group>"; };
@@ -155,8 +161,6 @@
 		3EE139930BCDF5740062334B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		3EE139990BCDF5A90062334B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		3EE1399A0BCDF5A90062334B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
-		3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = fullscreenIcon.tiff; sourceTree = "<group>"; };
-		3EE1399F0BCE00A30062334B /* loadQuestions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = loadQuestions.tiff; sourceTree = "<group>"; };
 		3EE2ADD00B81097400EFBE3D /* TIPGradientTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradientTableView.h; sourceTree = "<group>"; };
 		3EE2ADD10B81097400EFBE3D /* TIPGradientTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPGradientTableView.m; sourceTree = "<group>"; };
 		3EE2AE120B810C5900EFBE3D /* TIPSegmentedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPSegmentedTableView.h; sourceTree = "<group>"; };
@@ -204,8 +208,6 @@
 		3EE2AFE30B8288B300EFBE3D /* TIPInputManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPInputManager.m; sourceTree = "<group>"; };
 		3EE2AFE90B82891400EFBE3D /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
 		3EE2AFEA0B82891400EFBE3D /* SaveProgressController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SaveProgressController.m; sourceTree = "<group>"; };
-		3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel green.pdf"; sourceTree = "<group>"; };
-		3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel red.pdf"; sourceTree = "<group>"; };
 		3EE2AFFF0B829D9300EFBE3D /* Questionable.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Questionable.icns; sourceTree = "<group>"; };
 		3EE2B0030B829F2900EFBE3D /* TriviaOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaOutlineViewController.h; sourceTree = "<group>"; };
 		3EE2B0040B829F2900EFBE3D /* TriviaOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaOutlineViewController.m; sourceTree = "<group>"; };
@@ -319,6 +321,32 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		3E806E7E0BD5C8DC0068BD88 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3E806E7F0BD5C8DC0068BD88 /* ButtonSet.tiff */,
+				3E806E800BD5C8DC0068BD88 /* controls.tiff */,
+				3E806E810BD5C8DC0068BD88 /* Correct.tiff */,
+				3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */,
+				3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */,
+				3E806E840BD5C8DC0068BD88 /* jewel green.pdf */,
+				3E806E850BD5C8DC0068BD88 /* jewel red.pdf */,
+				3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */,
+				3E806E870BD5C8DC0068BD88 /* Minus.tiff */,
+				3E806E880BD5C8DC0068BD88 /* NoSound.tiff */,
+				3E806E890BD5C8DC0068BD88 /* Pause.tiff */,
+				3E806E8A0BD5C8DC0068BD88 /* Play.tiff */,
+				3E806E8B0BD5C8DC0068BD88 /* players.tiff */,
+				3E806E8C0BD5C8DC0068BD88 /* Plus.tiff */,
+				3E806E8D0BD5C8DC0068BD88 /* QuestionMediaMinus.tiff */,
+				3E806E8E0BD5C8DC0068BD88 /* QuestionPlus.tiff */,
+				3E806E8F0BD5C8DC0068BD88 /* questions.tiff */,
+				3E806E900BD5C8DC0068BD88 /* Sound.tiff */,
+				3E806E910BD5C8DC0068BD88 /* Stop.tiff */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		3EE2ADDD0B8109AC00EFBE3D /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,32 +371,6 @@
 				3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */,
 			);
 			path = CustomViews;
-			sourceTree = "<group>";
-		};
-		3EE2ADFC0B810B4A00EFBE3D /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				3EE1399E0BCE00A30062334B /* fullscreenIcon.tiff */,
-				3EE1399F0BCE00A30062334B /* loadQuestions.tiff */,
-				3EE136500BCAF5D90062334B /* Stop.tiff */,
-				3EE136440BCAF37B0062334B /* controls.tiff */,
-				3EE136450BCAF37B0062334B /* players.tiff */,
-				3EE136460BCAF37B0062334B /* questions.tiff */,
-				3EE136130BCAD4800062334B /* NoSound.tiff */,
-				3EE136140BCAD4800062334B /* Sound.tiff */,
-				3EE1360D0BCAD1440062334B /* Correct.tiff */,
-				3EE1360E0BCAD1440062334B /* Incorrect.tiff */,
-				3E903DED0BC8440E009B6F93 /* ButtonSet.tiff */,
-				3E903DE50BC8409D009B6F93 /* Minus.tiff */,
-				3E903DE60BC8409D009B6F93 /* Plus.tiff */,
-				3E903DDD0BC8361C009B6F93 /* Pause.tiff */,
-				3E903DDE0BC8361C009B6F93 /* Play.tiff */,
-				3E903DD40BC82B4D009B6F93 /* QuestionMediaMinus.tiff */,
-				3E903DD50BC82B4D009B6F93 /* QuestionPlus.tiff */,
-				3EE2AFF30B828AB300EFBE3D /* jewel green.pdf */,
-				3EE2AFF40B828AB300EFBE3D /* jewel red.pdf */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		3EE2AE110B810C5900EFBE3D /* SegmentedTable */ = {
@@ -482,8 +484,9 @@
 		45FC53A508FBFB490091ABDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E806FA70BD6C82E0068BD88 /* Questionable Help */,
+				3E806E7E0BD5C8DC0068BD88 /* Images */,
 				3EE2AFFF0B829D9300EFBE3D /* Questionable.icns */,
-				3EE2ADFC0B810B4A00EFBE3D /* Images */,
 				65464FC00A9A486600F418E3 /* AppleScriptInfo.sdef */,
 				45FC53A608FBFB490091ABDF /* InfoPlist.strings */,
 				3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */,
@@ -578,29 +581,30 @@
 				45FC53AF08FBFB490091ABDF /* MainMenu.nib in Resources */,
 				65464FC10A9A486600F418E3 /* AppleScriptInfo.sdef in Resources */,
 				3EE2AE890B811C9100EFBE3D /* SaveProgress.nib in Resources */,
-				3EE2AFF50B828AB300EFBE3D /* jewel green.pdf in Resources */,
-				3EE2AFF60B828AB300EFBE3D /* jewel red.pdf in Resources */,
 				3EE2B0000B829D9300EFBE3D /* Questionable.icns in Resources */,
 				3EE2B0140B82A13300EFBE3D /* FullscreenSheet.nib in Resources */,
 				3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */,
-				3E903DD60BC82B4D009B6F93 /* QuestionMediaMinus.tiff in Resources */,
-				3E903DD70BC82B4D009B6F93 /* QuestionPlus.tiff in Resources */,
-				3E903DDF0BC8361C009B6F93 /* Pause.tiff in Resources */,
-				3E903DE00BC8361C009B6F93 /* Play.tiff in Resources */,
-				3E903DE70BC8409D009B6F93 /* Minus.tiff in Resources */,
-				3E903DE80BC8409D009B6F93 /* Plus.tiff in Resources */,
-				3E903DEE0BC8440E009B6F93 /* ButtonSet.tiff in Resources */,
-				3EE1360F0BCAD1440062334B /* Correct.tiff in Resources */,
-				3EE136100BCAD1440062334B /* Incorrect.tiff in Resources */,
-				3EE136150BCAD4800062334B /* NoSound.tiff in Resources */,
-				3EE136160BCAD4800062334B /* Sound.tiff in Resources */,
-				3EE136470BCAF37B0062334B /* controls.tiff in Resources */,
-				3EE136480BCAF37B0062334B /* players.tiff in Resources */,
-				3EE136490BCAF37B0062334B /* questions.tiff in Resources */,
-				3EE136510BCAF5D90062334B /* Stop.tiff in Resources */,
 				3EE139940BCDF5740062334B /* Preferences.nib in Resources */,
-				3EE139A00BCE00A40062334B /* fullscreenIcon.tiff in Resources */,
-				3EE139A10BCE00A40062334B /* loadQuestions.tiff in Resources */,
+				3E806E920BD5C8DC0068BD88 /* ButtonSet.tiff in Resources */,
+				3E806E930BD5C8DC0068BD88 /* controls.tiff in Resources */,
+				3E806E940BD5C8DC0068BD88 /* Correct.tiff in Resources */,
+				3E806E950BD5C8DC0068BD88 /* fullscreenIcon.tiff in Resources */,
+				3E806E960BD5C8DC0068BD88 /* Incorrect.tiff in Resources */,
+				3E806E970BD5C8DC0068BD88 /* jewel green.pdf in Resources */,
+				3E806E980BD5C8DC0068BD88 /* jewel red.pdf in Resources */,
+				3E806E990BD5C8DC0068BD88 /* loadQuestions.tiff in Resources */,
+				3E806E9A0BD5C8DC0068BD88 /* Minus.tiff in Resources */,
+				3E806E9B0BD5C8DC0068BD88 /* NoSound.tiff in Resources */,
+				3E806E9C0BD5C8DC0068BD88 /* Pause.tiff in Resources */,
+				3E806E9D0BD5C8DC0068BD88 /* Play.tiff in Resources */,
+				3E806E9E0BD5C8DC0068BD88 /* players.tiff in Resources */,
+				3E806E9F0BD5C8DC0068BD88 /* Plus.tiff in Resources */,
+				3E806EA00BD5C8DC0068BD88 /* QuestionMediaMinus.tiff in Resources */,
+				3E806EA10BD5C8DC0068BD88 /* QuestionPlus.tiff in Resources */,
+				3E806EA20BD5C8DC0068BD88 /* questions.tiff in Resources */,
+				3E806EA30BD5C8DC0068BD88 /* Sound.tiff in Resources */,
+				3E806EA40BD5C8DC0068BD88 /* Stop.tiff in Resources */,
+				3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +719,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3E806FA70BD6C82E0068BD88 /* Questionable Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3E806FA80BD6C82E0068BD88 /* English */,
+			);
+			name = "Questionable Help";
+			sourceTree = "<group>";
+		};
 		3EE139920BCDF5740062334B /* Preferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
