@@ -79,6 +79,12 @@
 	_dirtyTexture = YES;
 }
 
+- (void)fitInSize:(NSSize)aSize
+{
+	[_text fitTextInRect:NSMakeRect(0.0f,0.0f,aSize.width,aSize.height)];
+	_dirtyTexture = YES;
+}
+
 - (void)setColor:(NSColor *)newColor
 {
 	[_textColor release];

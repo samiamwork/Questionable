@@ -172,7 +172,8 @@
 	StringTexture *aCategoryTitle;
 	while( (aCategoryTitle = [categoryTitleEnumerator nextObject]) ) {
 		[aCategoryTitle setWidth:_titleStringSize.width];
-		[aCategoryTitle setFontSize:_titleStringSize.height];
+		//[aCategoryTitle setFontSize:_titleStringSize.height];
+		[aCategoryTitle fitInSize:NSMakeSize(ceilf(_questionTitleSize.width*0.9f),ceilf(_questionTitleSize.height*0.9f))];
 	}
 	
 	NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
@@ -185,10 +186,12 @@
 	if( _questionTitleString != nil ) {
 		[_questionTitleString setWidth:[_QATitleBox size].width];
 		[_questionTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
+		//[_questionTitleString fitInSize:NSMakeSize(ceilf([_QATitleBox size].width*0.9f),ceilf([_QATitleBox size].height*0.9f))];
 	}
 	if( _questionString != nil ) {
 		[_questionString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		[_questionString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+		//[_questionString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
 	}
 	
 	if( _answerTitleString != nil ) {
@@ -197,7 +200,8 @@
 	}
 	if( _answerString != nil ) {
 		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+		//[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
+		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
 	}
 	
 	
@@ -499,6 +503,7 @@
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
 		[aStringTexture setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f]];
+		[aStringTexture fitInSize:NSMakeSize(ceilf(_questionTitleSize.width*0.9f),ceilf(_questionTitleSize.height*0.9f))];
 		[_categoryTitleStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}	
@@ -610,8 +615,10 @@
 {
 	// generate a texture for the question we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
-	if( [_question question] != nil )
+	if( [_question question] != nil ) {
 		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
+		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+	}
 	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }
@@ -620,8 +627,10 @@
 {
 	// generate a texture for the answer we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
-	if( [_question answer] != nil )
+	if( [_question answer] != nil ) {
 		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
+		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+	}
 	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_answerTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }

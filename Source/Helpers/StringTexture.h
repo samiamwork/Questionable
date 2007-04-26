@@ -32,5 +32,6 @@
 - (void)generateTexture;
 - (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width;
 - (void)drawCenteredInSize:(NSSize)aSize;
+- (void)fitInSize:(NSSize)aSize;
 - (NSSize)naturalSize;
 @end

@@ -397,6 +397,9 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 #define MINIMUM_STEPSIZE 0.5f
 - (void)fitTextInRect:(NSRect)rect
 {
+	if( textLength == 0 )
+		return;
+	
 	[self setWidth:rect.size.width];
 	[self setFontSize:ceilf(rect.size.height/(float)lineCount)];
 	float stepSize = fontSize;
