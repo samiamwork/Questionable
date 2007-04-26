@@ -41,6 +41,11 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 
 - (void)awakeFromNib
 {
+	[[self window] setExcludedFromWindowsMenu:YES];
+	[gameWindow setExcludedFromWindowsMenu:YES];
+	
+	[[self window] setDelegate:self];
+	[gameWindow setDelegate:self];
 	[self setupToolbar];
 }
 

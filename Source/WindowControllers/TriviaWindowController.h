@@ -44,6 +44,7 @@
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaGameController *gameController;
 	IBOutlet TIPGameTimerView *gameTimerView;
+		
 	NSToolbarItem *playToolbarItem;
 	
 	
