@@ -388,6 +388,10 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	CGColorSpaceRelease(colorSpaceRef);
 }
 
+- (unsigned int)lineCount
+{
+	return (unsigned int)lineCount;
+}
 - (NSSize)containerSize
 {
 	NSSize containerSize = NSMakeSize(lineWidth,FixedToFloat(totalHeight));

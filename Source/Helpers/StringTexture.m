@@ -85,6 +85,11 @@
 	_dirtyTexture = YES;
 }
 
+- (TIPTextContainer *)textContainer
+{
+	return _text;
+}
+
 - (void)setColor:(NSColor *)newColor
 {
 	[_textColor release];
@@ -125,12 +130,7 @@
 		return;
 	}
 	[_text drawTextInRect:NSMakeRect(0.0f,0.0f,textSize.width,textSize.height) inContext:bitmapContext];
-	/*
-	CGContextMoveToPoint(bitmapContext,0.0f,0.0f);
-	CGContextAddLineToPoint(bitmapContext,textSize.width,textSize.height);
-	CGContextSetRGBStrokeColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
-	CGContextStrokePath(bitmapContext);
-	 */
+	
 	CGContextRelease( bitmapContext );
 	
 	_textureSize = textSize;

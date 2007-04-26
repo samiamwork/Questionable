@@ -33,5 +33,6 @@
 - (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width;
 - (void)drawCenteredInSize:(NSSize)aSize;
 - (void)fitInSize:(NSSize)aSize;
+- (TIPTextContainer *)textContainer;
 - (NSSize)naturalSize;
 @end
