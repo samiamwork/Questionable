@@ -277,10 +277,12 @@
 	
 	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.1f,bounds.size.height*0.1f);
 	[aTextContainer fitTextInRect:textRect];
+	if( [aTextContainer lineCount] > 1 )
+		[aTextContainer setAlignment:kTIPTextAlignmentLeft];
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
 		[aTextContainer setFontSize:textRect.size.height/5.0f];
 	[aTextContainer setColor:[NSColor colorWithCalibratedWhite:0.31f alpha:0.9f]];
-	[aTextContainer drawTextInRect:bounds
+	[aTextContainer drawTextInRect:textRect
 						 inContext:currentContext];
 }
 
