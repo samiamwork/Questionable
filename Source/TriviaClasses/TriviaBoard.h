@@ -28,6 +28,8 @@
 - (BOOL)allUsed;
 - (BOOL)isFull;
 - (BOOL)categoryChange;
+- (void)setUsed;
+- (void)setUnused;
 
 - (NSArray *)categoryTitles;
 - (TriviaQuestion *)getQuestion:(unsigned)questionIndex inCategory:(unsigned)categoryIndex;

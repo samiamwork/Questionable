@@ -248,6 +248,16 @@
 	return YES;
 }
 
+- (void)setUsed
+{
+	[theCategories makeObjectsPerformSelector:@selector(setUsed)];
+}
+
+- (void)setUnused
+{
+	[theCategories makeObjectsPerformSelector:@selector(setUnused)];
+}
+
 - (BOOL)categoryChange
 {
 	return YES;

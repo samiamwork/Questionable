@@ -19,6 +19,8 @@
 
 - (BOOL)allUsed;
 - (BOOL)isFull;
+- (void)setUsed;
+- (void)setUnused;
 
 - (NSString *)title;
 - (void)setTitle:(NSString *)newTitle;

@@ -217,6 +217,22 @@
 	return YES;
 }
 
+- (void)setUsed
+{
+	NSEnumerator *questionEnumerator = [theQuestions objectEnumerator];
+	TriviaQuestion *aQuestion;
+	while( (aQuestion = [questionEnumerator nextObject]) )
+		[aQuestion setUsed:YES];
+}
+
+- (void)setUnused
+{
+	NSEnumerator *questionEnumerator = [theQuestions objectEnumerator];
+	TriviaQuestion *aQuestion;
+	while( (aQuestion = [questionEnumerator nextObject]) )
+		[aQuestion setUsed:NO];
+}
+
 - (NSString *)description
 {
 	return theTitle;

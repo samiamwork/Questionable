@@ -233,6 +233,7 @@
 	}
 	
 	[questionController checkinBoard];
+	[currentBoard setUnused];
 	currentBoard = nil;
 	[simpleBoardView setBoard:nil];
 	
