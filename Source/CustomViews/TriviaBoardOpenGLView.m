@@ -192,6 +192,8 @@
 		[_questionString setWidth:ceilf([_QATextBox size].width*0.8f)];
 		//[_questionString setFontSize:ceilf([_QATextBox size].height/8.0f)];
 		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/2.0f )
+			[_questionString setFontSize:ceilf([_QATextBox size].height/2.0f)];
 	}
 	
 	if( _answerTitleString != nil ) {
@@ -202,6 +204,8 @@
 		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
 		//[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
 		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/2.0f )
+			[_answerString setFontSize:ceilf([_QATextBox size].height/2.0f)];
 	}
 	
 	
@@ -618,6 +622,8 @@
 	if( [_question question] != nil ) {
 		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/4.0f )
+			[_questionString setFontSize:ceilf([_QATextBox size].height/4.0f)];
 		if( [[_questionString textContainer] lineCount] > 1 )
 			[[_questionString textContainer] setAlignment:kTIPTextAlignmentLeft];
 	}
@@ -632,6 +638,8 @@
 	if( [_question answer] != nil ) {
 		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/4.0f )
+			[_answerString setFontSize:ceilf([_QATextBox size].height/4.0f)];
 		if( [[_answerString textContainer] lineCount] > 1 )
 			[[_answerString textContainer] setAlignment:kTIPTextAlignmentLeft];
 	}
