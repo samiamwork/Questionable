@@ -99,6 +99,7 @@
                 gameController = TriviaGameController; 
                 gameTimerView = TIPGameTimerView; 
                 gameWindow = NSWindow; 
+                playMenuItem = NSMenuItem; 
                 questionController = TriviaOutlineViewController; 
             }; 
             SUPERCLASS = NSWindowController; 

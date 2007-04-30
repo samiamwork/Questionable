@@ -41,12 +41,12 @@
 	//IBOutlet NSWindow *controlWindow;
 	IBOutlet NSWindow *gameWindow;
 	IBOutlet NSMenuItem *fullscreenMenuItem;
+	IBOutlet NSMenuItem *playMenuItem;
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaGameController *gameController;
 	IBOutlet TIPGameTimerView *gameTimerView;
 		
 	NSToolbarItem *playToolbarItem;
-	
 	
 	FullscreenSheetController *fullscreenController;
 }

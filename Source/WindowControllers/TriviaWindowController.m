@@ -163,17 +163,23 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	if( ![gameController startRound] )
 		return;
 	
-	[sender setImage:[NSImage imageNamed:@"Pause"]];
-	[sender setLabel:@"Pause"];
-	[sender setAction:@selector(pause:)];
+	[playToolbarItem setImage:[NSImage imageNamed:@"Pause"]];
+	[playToolbarItem setLabel:@"Pause"];
+	[playToolbarItem setAction:@selector(pause:)];
+	
+	[playMenuItem setTitle:@"Pause"];
+	[playMenuItem setAction:@selector(pause:)];
 }
 
 - (IBAction)pause:(id)sender
 {
 	[gameController pauseRound];
-	[sender setImage:[NSImage imageNamed:@"Play"]];
-	[sender setLabel:@"Play"];
-	[sender setAction:@selector(play:)];
+	[playToolbarItem setImage:[NSImage imageNamed:@"Play"]];
+	[playToolbarItem setLabel:@"Play"];
+	[playToolbarItem setAction:@selector(play:)];
+	
+	[playMenuItem setTitle:@"Play"];
+	[playMenuItem setAction:@selector(play:)];
 }
 
 - (IBAction)stop:(id)sender
@@ -183,6 +189,9 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 		[playToolbarItem setImage:[NSImage imageNamed:@"Play"]];
 		[playToolbarItem setLabel:@"Play"];
 		[playToolbarItem setAction:@selector(play:)];
+		
+		[playMenuItem setTitle:@"Play"];
+		[playMenuItem setAction:@selector(play:)];
 	}
 }
 
