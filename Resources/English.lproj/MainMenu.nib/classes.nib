@@ -67,6 +67,7 @@
                 addCategory = id; 
                 addItem = id; 
                 deleteItem = id; 
+                new = id; 
                 openGame = id; 
                 revert = id; 
                 saveAs = id; 

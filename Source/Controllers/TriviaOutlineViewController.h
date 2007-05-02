@@ -46,6 +46,7 @@
 - (IBAction)saveGame:(id)sender;
 - (IBAction)saveAs:(id)sender;
 - (IBAction)revert:(id)sender;
+- (IBAction)new:(id)sender;
 
 - (TriviaBoard *)currentBoard;
 - (void)setCurrentBoard:(TriviaBoard *)newBoard;

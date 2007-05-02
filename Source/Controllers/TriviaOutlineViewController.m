@@ -270,7 +270,7 @@
 
 - (IBAction)saveGame:(id)sender
 {
-	[theQuestionDoc saveDocument:self];
+	[theQuestionDoc saveDocument:sender];
 }
 
 - (IBAction)saveAs:(id)sender
@@ -287,6 +287,28 @@
 	[theOutlineView reloadData];
 }
 
+- (IBAction)new:(id)sender
+{
+	[theQuestionDoc close];
+	[theQuestionDoc release];
+	
+	NSError *anError;
+	theQuestionDoc = [[TriviaQuestionDocument alloc] initWithType:@"TriviaDocumentTest" error:&anError];
+	
+	[self addBoard:self];
+	
+	[theOutlineView reloadData];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuitem
+{
+	if( [menuitem action] == @selector(revert:) ) {
+		if( [theQuestionDoc fileURL] == nil )
+			return NO;
+	}
+	
+	return YES;
+}
 #pragma mark Game Methods
 
 - (TriviaBoard *)checkoutBoard
