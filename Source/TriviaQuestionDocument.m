@@ -24,8 +24,10 @@
 {
 	NSEnumerator *boardEnumerator = [theBoards objectEnumerator];
 	TriviaBoard *aBoard;
-	while( (aBoard = [boardEnumerator nextObject]) )
+	while( (aBoard = [boardEnumerator nextObject]) ) {
+		//printf("retain count = %d\n", [aBoard retainCount]);
 		[aBoard removeObserver:self forKeyPath:@"anyPropertyChanged"];
+	}
 	
 	[theBoards release];
 
@@ -63,7 +65,8 @@
 	NSDictionary *aBoardDictionary;
 	while( (aBoardDictionary = [boardEnumerator nextObject]) ) {
 		TriviaBoard *aBoard = [TriviaBoard boardFromDictionary:aBoardDictionary inPath:[path stringByAppendingPathComponent:@"media"]];
-		[theBoards addObject:aBoard];
+		//[theBoards addObject:aBoard];
+		[self addBoard:aBoard];
 	}
 	
 	[self setFileURL:absoluteURL];
@@ -159,7 +162,6 @@
 {
 	if( ![keyPath isEqualToString:@"anyPropertyChanged"] )
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-	
 	[self updateChangeCount:NSChangeDone];
 }
 

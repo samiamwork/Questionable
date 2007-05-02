@@ -96,6 +96,7 @@
 	
 	if( currentBoard != nil )
 		[currentBoard removeObserver:self forKeyPath:@"anyPropertyChanged"];
+
 	currentBoard = newBoard;
 }
 
@@ -270,6 +271,20 @@
 - (IBAction)saveGame:(id)sender
 {
 	[theQuestionDoc saveDocument:self];
+}
+
+- (IBAction)saveAs:(id)sender
+{
+	[theQuestionDoc saveDocumentAs:sender];
+}
+
+- (IBAction)revert:(id)sender
+{
+	[self setCurrentBoard:nil];
+	[theQuestionDoc revertDocumentToSaved:sender];
+	//TriviaBoard *newBoard = [[theQuestionDoc boards] objectAtIndex:0];
+	//[self setCurrentBoard:newBoard];
+	[theOutlineView reloadData];
 }
 
 #pragma mark Game Methods

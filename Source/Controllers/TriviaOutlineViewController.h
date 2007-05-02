@@ -44,6 +44,8 @@
 - (IBAction)deleteItem:(id)sender;
 - (IBAction)openGame:(id)sender;
 - (IBAction)saveGame:(id)sender;
+- (IBAction)saveAs:(id)sender;
+- (IBAction)revert:(id)sender;
 
 - (TriviaBoard *)currentBoard;
 - (void)setCurrentBoard:(TriviaBoard *)newBoard;

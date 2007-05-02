@@ -68,6 +68,8 @@
                 addItem = id; 
                 deleteItem = id; 
                 openGame = id; 
+                revert = id; 
+                saveAs = id; 
                 saveGame = id; 
             }; 
             CLASS = TriviaOutlineViewController; 

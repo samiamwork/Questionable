@@ -15,7 +15,7 @@
 
 + (void)initialize
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"title",nil];
+	NSArray *keys = [NSArray arrayWithObjects:@"title",@"questionChange",nil];
 	[TriviaCategory setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
 }
 
@@ -46,6 +46,11 @@
 
 - (void)dealloc
 {
+	NSEnumerator *questionEnumerator = [theQuestions objectEnumerator];
+	TriviaQuestion *aQuestion;
+	while( (aQuestion = [questionEnumerator nextObject]) )
+		[aQuestion removeObserver:self forKeyPath:@"anyPropertyChanged"];
+	
 	[theQuestions release];
 	[theTitle release];
 	
@@ -149,10 +154,21 @@
 {
 	if( newQuestions == theQuestions || [newQuestions count] > MAXQUESTIONS )
 		return;
+	[self willChangeValueForKey:@"questionChange"];
+	NSEnumerator *questionEnumerator = [theQuestions objectEnumerator];
+	TriviaQuestion *aQuestion;
+	while( (aQuestion = [questionEnumerator nextObject]) )
+		[aQuestion removeObserver:self forKeyPath:@"anyPropertyChanged"];
 	
 	[theQuestions release];
 	theQuestions = [[NSMutableArray alloc] initWithArray:newQuestions];
-	[theQuestions makeObjectsPerformSelector:@selector(setParent:) withObject:self];
+	
+	questionEnumerator = [theQuestions objectEnumerator];
+	while( (aQuestion = [questionEnumerator nextObject]) ) {
+		[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
+		[aQuestion setParent:self];
+	}
+	[self didChangeValueForKey:@"questionChange"];
 }
 
 - (void)addQuestion:(TriviaQuestion *)newQuestion
@@ -160,6 +176,7 @@
 	if( newQuestion == nil || [self isFull] )
 		return;
 	[newQuestion setParent:self];
+	[newQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[theQuestions addObject:newQuestion];
 }
 - (void)removeQuestion:(TriviaQuestion *)aQuestion
@@ -171,7 +188,9 @@
 	if( questionIndex == NSNotFound )
 		return;
 	
+	[aQuestion removeObserver:self forKeyPath:@"anyPropertyChanged"];
 	TriviaQuestion *replacementQuestion = [[TriviaQuestion alloc] init];
+	[replacementQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[theQuestions replaceObjectAtIndex:questionIndex withObject:replacementQuestion];
 	[replacementQuestion release];
 }
@@ -181,6 +200,7 @@
 	if( [self isFull] && foundIndex == NSNotFound )
 		return;
 	
+	[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	if( foundIndex != NSNotFound )
 		[theQuestions exchangeObjectAtIndex:anIndex withObjectAtIndex:foundIndex];
 	else
@@ -236,6 +256,19 @@
 - (NSString *)description
 {
 	return theTitle;
+}
+
+#pragma mark KVO
+- (BOOL)questionChange
+{
+	return YES;
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if( [keyPath isEqualToString:@"anyPropertyChanged"] ) {
+		[self willChangeValueForKey:@"questionChange"];
+		[self didChangeValueForKey:@"questionChange"];
+	}
 }
 
 @end
