@@ -16,6 +16,8 @@
 		3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC510B84EE9A000DC73F /* TriviaTimer.m */; };
 		3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC7C0B84EF61000DC73F /* TIPGradient.c */; };
 		3E11DCB30B84F90A000DC73F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E11DCB20B84F90A000DC73F /* QuartzCore.framework */; };
+		3E226DF60BE83C1D0084D133 /* QuestionableIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */; };
+		3E226DF70BE83C1D0084D133 /* QuestionableLicenseIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */; };
 		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
 		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
 		3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */; };
@@ -114,6 +116,8 @@
 		3E11DC7C0B84EF61000DC73F /* TIPGradient.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TIPGradient.c; sourceTree = "<group>"; };
 		3E11DC7D0B84EF61000DC73F /* TIPGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPGradient.h; sourceTree = "<group>"; };
 		3E11DCB20B84F90A000DC73F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableIcon.icns; sourceTree = "<group>"; };
+		3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableLicenseIcon.icns; sourceTree = "<group>"; };
 		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
 		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
 		3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GetInput.nib; path = English.lproj/GetInput.nib; sourceTree = "<group>"; };
@@ -484,6 +488,8 @@
 		45FC53A508FBFB490091ABDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */,
+				3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */,
 				3E806FA70BD6C82E0068BD88 /* Questionable Help */,
 				3E806E7E0BD5C8DC0068BD88 /* Images */,
 				3EE2AFFF0B829D9300EFBE3D /* Questionable.icns */,
@@ -605,6 +611,8 @@
 				3E806EA30BD5C8DC0068BD88 /* Sound.tiff in Resources */,
 				3E806EA40BD5C8DC0068BD88 /* Stop.tiff in Resources */,
 				3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */,
+				3E226DF60BE83C1D0084D133 /* QuestionableIcon.icns in Resources */,
+				3E226DF70BE83C1D0084D133 /* QuestionableLicenseIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
