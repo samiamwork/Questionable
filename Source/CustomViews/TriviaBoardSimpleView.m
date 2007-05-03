@@ -213,7 +213,6 @@
 		NSRect insetTitleRect = NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f);
 		[thisText fitTextInRect:insetTitleRect];
 		[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
-		[thisText drawTextInRect:NSMakeRect(currentRect.origin.x+0.5f,currentRect.origin.y-0.5f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
 		[thisText drawTextInRect:insetTitleRect inContext:currentContext];
 		
 		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
