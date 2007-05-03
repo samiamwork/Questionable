@@ -92,4 +92,5 @@ typedef enum TIPTriviaBoardViewState {
 - (void)showAnswer;
 
 - (void)setBoardViewState:(TIPTriviaBoardViewState)newState;
+- (void)refresh;
 @end

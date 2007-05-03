@@ -229,8 +229,12 @@
 - (void)drawCenteredInSize:(NSSize)aSize
 {
 	NSPoint offset;
-	offset.x = (aSize.width - _textureSize.width)/2.0f;
-	offset.y = (aSize.height - _textureSize.height)/2.0f;
+	// we take the size from the container directly because the string
+	//may have changed since we last generated the texture so that size
+	//is not reliable.
+	NSSize textSize = [_text containerSize];
+	offset.x = (aSize.width - textSize.width)/2.0f;
+	offset.y = (aSize.height - textSize.height)/2.0f;
 	[self drawAtPoint:offset withWidth:_textureSize.width];
 }
 

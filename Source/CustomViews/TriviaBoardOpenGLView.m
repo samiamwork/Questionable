@@ -301,7 +301,7 @@
 	[_placeholderBox setLineWidth:ceilf([_placeholderBox size].width*0.05f)];
 	[self regenerateStringTextures];
 	
-	[self setNeedsDisplay:YES];
+	//[self setNeedsDisplay:YES];
 }
 
 - (void)firstFrameSetup
@@ -427,7 +427,7 @@
 		[self firstFrameSetup];
 	
 	NSSize boundSize = [self bounds].size;
-	if( _contextSize.width != boundSize.width || _contextSize.height != boundSize.height )
+	if( _needsReshape || _contextSize.width != boundSize.width || _contextSize.height != boundSize.height )
 		[self doReshape];
 	
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -557,6 +557,18 @@
 - (TriviaQuestion *)question
 {
 	return _question;
+}
+
+- (void)refresh
+{
+	if( _questionString != nil )
+		[_questionString setString:(NSString *)[_question question]];
+	
+	if( _answerString != nil )
+		[_answerString setString:(NSString *)[_question answer]];
+	
+	_needsReshape = YES;
+	[self setNeedsDisplay:YES];
 }
 
 - (void)setBoardViewState:(TIPTriviaBoardViewState)newState

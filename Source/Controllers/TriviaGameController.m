@@ -179,6 +179,8 @@
 {
 	// if we're running then pause/unpause
 	if( ![roundTimer stopped] ) {
+		if( [roundTimer paused] )
+			[mainBoardView refresh];
 		[self pauseRound];
 		return YES;
 	}
