@@ -179,11 +179,12 @@
 		[buttonCell drawWithFrame:buttonRect inView:controlView];
 	}
 
-	NSSize textSize = [stringValue sizeWithAttributes:style];
+	NSString *firstLine = [[stringValue substringWithRange:[stringValue paragraphRangeForRange:NSMakeRange(0,1)]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSSize textSize = [firstLine sizeWithAttributes:style];
 	
 	float dy = (textRect.size.height - textSize.height)/2.0f;
 	NSRect insetRect = NSInsetRect(textRect,4.0f,dy);
-	[stringValue drawInRect:insetRect withAttributes:style];
+	[firstLine drawInRect:insetRect withAttributes:style];
 }
 
 @end

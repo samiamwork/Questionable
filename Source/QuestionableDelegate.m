@@ -121,4 +121,8 @@
 		return [viewController openGameFile:filename];
 }
 
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+}
+
 @end
