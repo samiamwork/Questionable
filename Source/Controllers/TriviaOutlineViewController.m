@@ -73,7 +73,8 @@
 	id aSelectedItem = [theOutlineView itemAtRow:[theOutlineView selectedRow]];
 	[self selectTabForItem:aSelectedItem];
 	
-	[theQuestionView bind:@"question" toObject:theQuestionController withKeyPath:@"selection.question" options:nil];
+	NSDictionary *bindingOptions = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],NSContinuouslyUpdatesValueBindingOption,nil];
+	[theQuestionView bind:@"question" toObject:theQuestionController withKeyPath:@"selection.question" options:bindingOptions];
 	
 	[theOutlineView registerForDraggedTypes:[NSArray arrayWithObject:TriviaOutlinePboardType]];
 

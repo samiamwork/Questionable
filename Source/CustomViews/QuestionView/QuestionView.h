@@ -26,6 +26,8 @@
 	IBOutlet NSButton *theSlowRevealButton;
 	
 	NSObjectController *theQuestionController;
+	NSString *theKVOKeyPath;
+	NSDictionary *theKVOOptions;
 }
 
 - (id)question;

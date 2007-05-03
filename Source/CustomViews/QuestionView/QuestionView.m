@@ -16,6 +16,8 @@
     if( (self = [super initWithFrame:frame]) ) {
 		theQuestion = @"";
 		theQuestionController = nil;
+		theKVOKeyPath = nil;
+		theKVOOptions = nil;
 		
 		NSRect bounds = [self bounds];
 		
@@ -83,7 +85,7 @@
 	if( [theQuestion isKindOfClass:[NSString class]] ) {
 		newView = theTextScrollView;
 		//if( theCurrentView != newView )
-		[[theTextScrollView documentView] setString:(NSString *)theQuestion];
+		//[[theTextScrollView documentView] setString:(NSString *)theQuestion];
 	} else if( [theQuestion isKindOfClass:[NSImage class]] ) {
 		newView = theImageView;
 		[theImageView setImage:(NSImage *)theQuestion];
@@ -132,7 +134,7 @@
 {
 	if( newQuestion == theQuestion )
 		return;
-
+	
 	[theQuestion release];
 	theQuestion = [newQuestion retain];
 
@@ -141,6 +143,9 @@
 
 #pragma mark Text Methods
 
+// when the question is text then we bind to it directly so we
+// have no need of this function.
+/*
 - (void)textDidChange:(NSNotification *)aNotification
 {
 	NSText *textObject = [aNotification object];
@@ -150,7 +155,7 @@
 	else
 		[self setQuestion:[textObject string]];
 }
-
+*/
 #pragma mark Action Methods
 
 - (IBAction)revertToText:(id)sender
@@ -234,9 +239,19 @@
 	if( newQuestion == nil )
 		return NO;
 
-	if( theQuestionController != nil )
+	if( theQuestionController != nil ) {
+		
+		// if the new question class is text type and the old was not
+		// then we need to just bind directly to the text field.
+		if( [newQuestion isKindOfClass:[NSString class]] && ![newQuestion isKindOfClass:[NSString class]] )
+			[[theTextScrollView documentView] bind:@"value" toObject:theQuestionController withKeyPath:theKVOKeyPath options:theKVOOptions];
+		// if the new question is not text and the old was then we need to unbind
+		// from the text box.
+		else if( [newQuestion isKindOfClass:[NSString class]] && ![newQuestion isKindOfClass:[NSString class]] )
+			[[theTextScrollView documentView] unbind:@"value"];
+		
 		[theQuestionController setValue:newQuestion forKeyPath:@"selection.question"];
-	else
+	} else
 		[self setQuestion:newQuestion];
 	
 	[newQuestion release];
@@ -250,16 +265,36 @@
 
 - (void)bind:(NSString *)binding toObject:(id)observableController withKeyPath:(NSString *)keyPath options:(NSDictionary *)options
 {
-	if( [binding isEqualToString:@"question"] )
+	if( [binding isEqualToString:@"question"] ) {
 		theQuestionController = observableController;
+		if( [theQuestion isKindOfClass:[NSString class]] )
+			[[theTextScrollView documentView] bind:@"value" toObject:theQuestionController withKeyPath:keyPath options:options];
+		
+		if( options != theKVOOptions ) {
+			[theKVOOptions release];
+			theKVOOptions = [options retain];
+		}
+		if( keyPath != theKVOKeyPath ) {
+			[theKVOKeyPath release];
+			theKVOKeyPath = [keyPath retain];
+		}
+	}
 
 	[super bind:binding toObject:observableController withKeyPath:keyPath options:options];
 }
 
 - (void)unbind:(NSString *)binding
 {
-	if( [binding isEqualToString:@"question"] )
+	if( [binding isEqualToString:@"question"] ) {
 		theQuestionController = nil;
+		[theKVOKeyPath release];
+		theKVOKeyPath = nil;
+		[theKVOOptions release];
+		theKVOOptions = nil;
+		
+		if( [theQuestion isKindOfClass:[NSString class]] )
+			[[theTextScrollView documentView] unbind:@"value"];
+	}
 	
 	[super unbind:binding];
 }
