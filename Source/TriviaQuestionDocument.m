@@ -157,6 +157,40 @@
 	[theBoards removeObject:aBoard];
 }
 
+// returns false if canceled
+- (BOOL)promptIfUnsavedChanges
+{
+	if( ![self isDocumentEdited] )
+		return YES;
+	
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert addButtonWithTitle:NSLocalizedString(@"Save", @"Save")];
+	NSButton *alertButton = [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
+	[alertButton setKeyEquivalent:@"\E"];
+	alertButton = [alert addButtonWithTitle:NSLocalizedString(@"Don't Save", @"Don't Save")];
+	[alertButton setKeyEquivalent:@"d"];
+	[alertButton setKeyEquivalentModifierMask:NSCommandKeyMask];
+	[alert setMessageText:@"These questions have unsaved changes. Would you like to save?"];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	
+	int result = [alert runModal];
+	switch( result ) {
+		case NSAlertFirstButtonReturn:
+			[self saveDocument:nil];
+			break;
+		case NSAlertThirdButtonReturn:
+			// do nothing (i.e. don't save).
+			break;
+		case NSAlertSecondButtonReturn:
+		default:
+			// canceled
+			return NO;
+			break;
+	}
+	
+	return YES;
+}
+
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

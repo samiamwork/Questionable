@@ -33,6 +33,8 @@
 	IBOutlet NSObjectController *theQuestionController;
 }
 
+- (TriviaQuestionDocument *)document;
+
 - (TriviaBoard *)checkoutBoard;
 - (void)checkinBoard;
 

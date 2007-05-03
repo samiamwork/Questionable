@@ -9,6 +9,7 @@
 #import "QuestionableDelegate.h"
 #import "NSApplicationExtensions.h"
 #import "AquaticPrime.h"
+#import "TriviaQuestionDocument.h"
 
 @implementation QuestionableDelegate
 
@@ -123,6 +124,9 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
+	if( ![[viewController document] promptIfUnsavedChanges] )
+		return NSTerminateCancel;
+	return NSTerminateNow;
 }
 
 @end

@@ -233,39 +233,10 @@
 	[self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:theOutlineView]];
 }
 
-- (int)unsavedChangesAlert
-{
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert addButtonWithTitle:NSLocalizedString(@"Save", @"Save")];
-	NSButton *alertButton = [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
-	[alertButton setKeyEquivalent:@"\E"];
-	alertButton = [alert addButtonWithTitle:NSLocalizedString(@"Don't Save", @"Don't Save")];
-	[alertButton setKeyEquivalent:@"d"];
-	[alertButton setKeyEquivalentModifierMask:NSCommandKeyMask];
-	[alert setMessageText:@"These questions have unsaved changes. Would you like to save?"];
-	[alert setAlertStyle:NSWarningAlertStyle];
-	
-	return [alert runModal];
-}
-
 - (BOOL)openGameFile:(NSString *)filename
 {
-	if( [theQuestionDoc isDocumentEdited] ) {
-		int result = [self unsavedChangesAlert];
-		
-		switch( result ) {
-			case NSAlertFirstButtonReturn:
-				[self saveGame:nil];
-				break;
-			case NSAlertThirdButtonReturn:
-				// do nothing (i.e. don't save).
-				break;
-			case NSAlertSecondButtonReturn:
-			default:
-				return NO;
-				break;
-		}
-	}
+	if( ![theQuestionDoc promptIfUnsavedChanges] )
+		return NO;
 		
 	NSString *extension = [filename pathExtension];
 	if( ![extension isEqualToString:@"triviaqm"] )
@@ -322,23 +293,8 @@
 
 - (IBAction)new:(id)sender
 {
-	if( [theQuestionDoc isDocumentEdited] ) {
-		int result = [self unsavedChangesAlert];
-		
-		switch( result ) {
-			case NSAlertFirstButtonReturn:
-				[self saveGame:nil];
-				break;
-			case NSAlertThirdButtonReturn:
-				// do nothing (i.e. don't save).
-				break;
-			case NSAlertSecondButtonReturn:
-			default:
-				return;
-				break;
-		}	
-		
-	}
+	if( ![theQuestionDoc promptIfUnsavedChanges] )
+		return;
 	
 	[theQuestionDoc close];
 	[theQuestionDoc release];
@@ -360,6 +316,12 @@
 	
 	return YES;
 }
+
+- (TriviaQuestionDocument *)document
+{
+	return theQuestionDoc;
+}
+
 #pragma mark Game Methods
 
 - (TriviaBoard *)checkoutBoard

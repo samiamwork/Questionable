@@ -19,4 +19,6 @@
 - (void)addBoard:(TriviaBoard *)aBoard;
 - (void)removeBoard:(TriviaBoard *)aBoard;
 
+// returns false if canceled
+- (BOOL)promptIfUnsavedChanges;
 @end
