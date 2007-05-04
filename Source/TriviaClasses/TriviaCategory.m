@@ -15,7 +15,7 @@
 
 + (void)initialize
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"title",@"questionChange",nil];
+	NSArray *keys = [NSArray arrayWithObjects:@"title",@"questions",@"questionChange",nil];
 	[TriviaCategory setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
 }
 
@@ -197,14 +197,19 @@
 - (void)insertObject:(TriviaQuestion *)aQuestion inQuestionsAtIndex:(unsigned int)anIndex
 {
 	unsigned foundIndex = [theQuestions indexOfObject:aQuestion];
-	if( [self isFull] && foundIndex == NSNotFound )
+	if( ([self isFull] && foundIndex == NSNotFound) || anIndex == foundIndex )
 		return;
 	
-	[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
-	if( foundIndex != NSNotFound )
-		[theQuestions exchangeObjectAtIndex:anIndex withObjectAtIndex:foundIndex];
-	else
-		[theQuestions insertObject:aQuestion atIndex:anIndex];
+	[theQuestions insertObject:aQuestion atIndex:anIndex];
+	if( foundIndex == NSNotFound ) {
+		[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
+	} else {
+		if( anIndex <= foundIndex )
+			[theQuestions removeObjectAtIndex:foundIndex+1];
+		else
+			[theQuestions removeObjectAtIndex:foundIndex];
+	}
+		
 }
 
 - (id)parent

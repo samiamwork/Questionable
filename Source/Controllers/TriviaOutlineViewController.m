@@ -449,54 +449,72 @@
 	return NO;
 }
 
+- (void)swapQuestion:(TriviaQuestion *)questionOne withQuestion:(TriviaQuestion *)questionTwo
+{
+	[questionOne retain];
+	[questionTwo retain];
+
+	TriviaCategory *questionOneParent = [questionOne parent];
+	TriviaCategory *questionTwoParent = [questionTwo parent];
+	
+	unsigned questionOneIndex = [[questionOneParent questions] indexOfObject:questionOne];
+	unsigned questionTwoIndex = [[questionTwoParent questions] indexOfObject:questionTwo];
+
+	[[questionOneParent questions] addObject:questionTwo];
+	[[questionOneParent questions] exchangeObjectAtIndex:questionOneIndex withObjectAtIndex:[[questionOneParent questions] count]-1];
+	[[questionOneParent questions] removeObjectAtIndex:[[questionOneParent questions] count]-1];
+	//set the new parent ourselves since we're going straight to the array
+	[questionTwo setParent:questionOneParent];
+
+	[[questionTwoParent questions] addObject:questionOne];
+	[[questionTwoParent questions] exchangeObjectAtIndex:questionTwoIndex withObjectAtIndex:[[questionTwoParent questions] count]-1];
+	[[questionTwoParent questions] removeObjectAtIndex:[[questionTwoParent questions] count]-1];
+	[questionOne setParent:questionTwoParent];
+
+	[questionTwo release];
+	[questionOne release];
+	
+	// we changed the document outside of KVO methods so the document won't notice.
+	[theQuestionDoc updateChangeCount:NSChangeDone];
+}
+
 - (BOOL)canDropQuestion:(TriviaQuestion *)aQuestion onItem:(id)item atIndex:(int)anIndex andDoIt:(BOOL)doIt
 {
+	// if we're dropping it in a category that is our parent or isn't already full...
 	if( [item isKindOfClass:[TriviaCategory class]] && (![(TriviaCategory *)item isFull] || item == [aQuestion parent])) {
 		if( doIt ) {
 			TriviaCategory *aCategory = (TriviaCategory *)item;
 			
 			if( item == [aQuestion parent] && anIndex == NSOutlineViewDropOnItemIndex ) {
-				// do nothing
+				// we do not allow drops on our parent category
+				return NO;
 			} else if( anIndex == NSOutlineViewDropOnItemIndex ) {
+				// we allow drops on other categories
 				[aCategory addQuestion:aQuestion];
 			} else {
+				// we're dropping between questions in our own category
+				[aCategory insertObject:aQuestion inQuestionsAtIndex:anIndex];
+				/*
 				[aQuestion retain];
 				[[aQuestion parent] removeQuestion:aQuestion];
 				[aCategory insertObject:aQuestion inQuestionsAtIndex:anIndex];
 				[aQuestion release];
+				 */
 			}
 		}
 		return YES;
 	}
 	
+	// if we're dropping it on a question...
 	if( [item isKindOfClass:[TriviaQuestion class]] && anIndex == NSOutlineViewDropOnItemIndex && item != aQuestion ) {
 		if( doIt ) {
 			TriviaQuestion *anotherQuestion = (TriviaQuestion *)item;
-			unsigned aQuestionIndex = [[[aQuestion parent] questions] indexOfObject:aQuestion];
 			unsigned anotherQuestionIndex = [[[anotherQuestion parent] questions] indexOfObject:anotherQuestion];
-
+			
 			if( [anotherQuestion parent] == [aQuestion parent] ) {
 				[[anotherQuestion parent] insertObject:aQuestion inQuestionsAtIndex:anotherQuestionIndex];
 			} else {
-				[aQuestion retain];
-				[anotherQuestion retain];
-				
-				TriviaCategory *aQuestionParent = [aQuestion parent];
-				TriviaCategory *anotherQuestionParent = [anotherQuestion parent];
-				
-				[[aQuestionParent questions] addObject:anotherQuestion];
-				[[aQuestionParent questions] exchangeObjectAtIndex:aQuestionIndex withObjectAtIndex:[[aQuestionParent questions] count]-1];
-				[[aQuestionParent questions] removeObjectAtIndex:[[aQuestionParent questions] count]-1];
-				//set the new parent ourselves since we're going straight to the array
-				[anotherQuestion setParent:aQuestionParent];
-				
-				[[anotherQuestionParent questions] addObject:aQuestion];
-				[[anotherQuestionParent questions] exchangeObjectAtIndex:anotherQuestionIndex withObjectAtIndex:[[anotherQuestionParent questions] count]-1];
-				[[anotherQuestionParent questions] removeObjectAtIndex:[[anotherQuestionParent questions] count]-1];
-				[aQuestion setParent:anotherQuestionParent];
-				
-				[anotherQuestion release];
-				[aQuestion release];
+				[self swapQuestion:aQuestion withQuestion:anotherQuestion];
 			}
 		}
 		return YES;
