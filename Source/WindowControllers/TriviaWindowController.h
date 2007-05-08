@@ -57,4 +57,5 @@
 - (IBAction)pause:(id)sender;
 - (IBAction)stop:(id)sender;
 
+- (void)resetPlayButtons;
 @end

@@ -9,6 +9,9 @@
 #import "TriviaGameController.h"
 #import "TriviaSoundController.h"
 
+@interface NSObject (TriviaGameControllerDelegate)
+- (void)willStopGame:(TriviaGameController *)aGameController;
+@end
 
 @implementation TriviaGameController
 
@@ -51,6 +54,16 @@
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
 }
+
+- (id)delegate
+{
+	return delegate;
+}
+- (void)setDelegate:(id)newDelegate
+{
+	delegate = newDelegate;
+}
+
 #pragma mark question methods
 
 - (void)showQuestion
@@ -245,6 +258,9 @@
 	// reset question timer if it's running.
 	[questionTimer stop];
 	[roundTimerProgress setStopped:YES];
+	
+	if( delegate != nil && [delegate respondsToSelector:@selector(willStopGame:)] )
+		[delegate willStopGame:self];
 }
 
 #pragma mark game timers

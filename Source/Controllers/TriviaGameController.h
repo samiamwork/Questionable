@@ -44,7 +44,11 @@
 	TriviaBoard *currentBoard;
 	TriviaPlayer *buzzedPlayer;
 	
+	id delegate;
 }
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 - (void)questionSelected:(unsigned)questionIndex inCategory:(unsigned)categoryIndex;
 - (BOOL)startRound;

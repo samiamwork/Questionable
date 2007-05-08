@@ -47,6 +47,8 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	[[self window] setDelegate:self];
 	[gameWindow setDelegate:self];
 	[self setupToolbar];
+	
+	[gameController setDelegate:self];
 }
 
 - (void)setupToolbar
@@ -171,9 +173,8 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	[playMenuItem setAction:@selector(pause:)];
 }
 
-- (IBAction)pause:(id)sender
+- (void)resetPlayButtons
 {
-	[gameController pauseRound];
 	[playToolbarItem setImage:[NSImage imageNamed:@"Play"]];
 	[playToolbarItem setLabel:@"Play"];
 	[playToolbarItem setAction:@selector(play:)];
@@ -182,22 +183,26 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	[playMenuItem setAction:@selector(play:)];
 }
 
+- (IBAction)pause:(id)sender
+{
+	[gameController pauseRound];
+	[self resetPlayButtons];
+}
+
 - (IBAction)stop:(id)sender
 {
 	[gameController stopRound];
-	if( playToolbarItem != nil && [[playToolbarItem label] isEqualToString:@"Pause"] ) {
-		[playToolbarItem setImage:[NSImage imageNamed:@"Play"]];
-		[playToolbarItem setLabel:@"Play"];
-		[playToolbarItem setAction:@selector(play:)];
-		
-		[playMenuItem setTitle:@"Play"];
-		[playMenuItem setAction:@selector(play:)];
-	}
+	[self resetPlayButtons];
 }
 
 - (void)load:(id)sender
 {
 	[questionController openGame:self];
+}
+
+- (void)willStopGame:(TriviaGameController *)aGameController
+{
+	[self resetPlayButtons];
 }
 
 @end

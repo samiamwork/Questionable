@@ -50,6 +50,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 correctButton = NSButton; 
+                delegate = id; 
                 incorrectButton = NSButton; 
                 mainBoardView = TriviaBoardOpenGLView; 
                 playerController = TriviaPlayerController; 
