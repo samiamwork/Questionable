@@ -33,14 +33,13 @@
 
 - (void)dealloc
 {
-	[super dealloc];
-
-	//[description release];
 	[elements removeAllObjects];
 	
 	// close device interface
 	if( deviceInterface != NULL )
 		(*deviceInterface)->close( deviceInterface );
+	
+	[super dealloc];
 }
 
 + (id)deviceWithIOObject:(io_object_t)ioObject
@@ -141,6 +140,7 @@
 	// don't need it anymore
 	IODestroyPlugInInterface( pluginInterface );
 	// open it for access
+	// kIOHIDOptionsTypeSeizeDevice
 	result = (*deviceInterface)->open( deviceInterface, 0 );
 	if( result != S_OK ) {
 		printf("Could not open device for access!\n");

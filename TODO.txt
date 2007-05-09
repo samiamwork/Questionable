@@ -3,6 +3,7 @@
 ~ Add help book.
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
+~ get exclusive access of mice (won't use them otherwise)
 
 - Cosmetic -
 ~ Add slight shine to board items.

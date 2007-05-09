@@ -173,10 +173,8 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 	if( aDevice ) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"TIPInputDeviceDisconnected" object:aDevice];
 		[deviceArray removeObject:aDevice];
-		//printf("device removed!\n");
 	}
-	
-	//printf("device count = %d\n", [deviceArray count]);	
+
 }
 #pragma mark C USB functions
 
