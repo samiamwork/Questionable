@@ -494,12 +494,6 @@
 			} else {
 				// we're dropping between questions in our own category
 				[aCategory insertObject:aQuestion inQuestionsAtIndex:anIndex];
-				/*
-				[aQuestion retain];
-				[[aQuestion parent] removeQuestion:aQuestion];
-				[aCategory insertObject:aQuestion inQuestionsAtIndex:anIndex];
-				[aQuestion release];
-				 */
 			}
 		}
 		return YES;

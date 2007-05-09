@@ -200,6 +200,7 @@
 	if( ([self isFull] && foundIndex == NSNotFound) || anIndex == foundIndex )
 		return;
 	
+	[self willChangeValueForKey:@"questionChange"];
 	[theQuestions insertObject:aQuestion atIndex:anIndex];
 	if( foundIndex == NSNotFound ) {
 		[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
@@ -209,7 +210,8 @@
 		else
 			[theQuestions removeObjectAtIndex:foundIndex];
 	}
-		
+	
+	[self didChangeValueForKey:@"questionChange"];
 }
 
 - (id)parent
