@@ -109,6 +109,7 @@
 	if( newElement == inputElement )
 		return;
 	
+	//printf("%s: u = %ld, up = %ld\n", [theName cString], [newElement usage], [newElement usagePage] );
 	if( inputElement != nil )
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 														name:@"TIPInputDeviceDisconnected"

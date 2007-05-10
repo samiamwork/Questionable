@@ -45,6 +45,8 @@
 - (id)device;
 - (void)setDevice:(id)newDevice;
 
+- (long)usagePage;
+- (long)usage;
 
 - (long)getValue;
 - (void)setReferenceValue;

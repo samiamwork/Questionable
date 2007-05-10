@@ -121,8 +121,11 @@
 	if( descriptionElements ) {
 		NSEnumerator *elementEnumerator = [descriptionElements objectEnumerator];
 		NSDictionary *elementDescription;
-		while( (elementDescription = [elementEnumerator nextObject]) )
-			[elements addObject:[TIPInputElement elementWithDictionary:elementDescription device:self]];
+		while( (elementDescription = [elementEnumerator nextObject]) ) {
+			TIPInputElement *newElement = [TIPInputElement elementWithDictionary:elementDescription device:self];
+			if( [newElement usage] != -1 )
+				[elements addObject:newElement];
+		}
 	}
 	[description release];
 	

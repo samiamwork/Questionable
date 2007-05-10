@@ -93,8 +93,11 @@
 			NSEnumerator *elementEnumerator = [elements objectEnumerator];
 			NSDictionary *elementDict;
 			
-			while( (elementDict = [elementEnumerator nextObject]) )
-				[newElement->collectionElements addObject:[TIPInputElement elementWithDictionary:elementDict device:aDevice]];
+			while( (elementDict = [elementEnumerator nextObject]) ) {
+				TIPInputElement *newCollectionElement = [TIPInputElement elementWithDictionary:elementDict device:aDevice];
+				if( [newCollectionElement usage] != -1 )
+					[newElement->collectionElements addObject:newCollectionElement];
+			}
 				
 			break;
 		default:
@@ -165,6 +168,15 @@
 		return;
 	
 	device = newDevice;
+}
+
+- (long)usagePage
+{
+	return usagePage;
+}
+- (long)usage
+{
+	return usage;
 }
 
 - (long)getValue
