@@ -7,7 +7,7 @@
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>29</key>
-		<string>384 345 328 44 0 0 1280 832 </string>
+		<string>267 350 375 44 0 0 1280 832 </string>
 		<key>379</key>
 		<string>607 527 65 87 0 0 1280 832 </string>
 	</dict>
@@ -21,8 +21,8 @@
 	</array>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>379</integer>
 		<integer>21</integer>
+		<integer>379</integer>
 		<integer>360</integer>
 		<integer>29</integer>
 	</array>

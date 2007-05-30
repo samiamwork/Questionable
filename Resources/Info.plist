@@ -43,10 +43,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
 	<string>${EXECUTABLE_NAME} ${APPLICATION_VERSION}, ©2007 theidiotproject</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>Questionable Help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>Questionable Help</string>
 	<key>CFBundleIconFile</key>
 	<string>Questionable</string>
 	<key>CFBundleIdentifier</key>
@@ -74,5 +70,9 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>AppleScriptInfo.sdef</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Questionable Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>QuestionableHelp</string>
 </dict>
 </plist>
