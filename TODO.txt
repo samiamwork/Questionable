@@ -12,3 +12,17 @@
 [BUGS]
 ~*! Using revert on a change file will result in a message logged about releasing the board while observers are still registered. I have no idea why they are registered still.
 ~ Players scores are messed up?
+
+Help
+----
+
+getting started: find out how to quickly get a game started
+Creating questions: saving, loading
+adding players: assigning buttons, adjusting score, changing the name
+begin: setting times, start, buzzers
+
+
+the interface: learn about the interface in detail
+host control window
+game board window: toolbar, controls, players, questions
+
