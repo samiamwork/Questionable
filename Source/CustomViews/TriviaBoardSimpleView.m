@@ -195,10 +195,29 @@
 	qSize.width = bounds.size.width/(float)[[mainBoard categories] count];
 	CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
 	
+	//draw category bar gradient
+	TIPMutableGradientRef categoryGradient = TIPMutableGradientCreate();
+	//TIPGradientAddRGBColorStop(categoryGradient, 0.0f, 0.44f,0.44f,0.44f,1.0f);
+	//TIPGradientAddRGBColorStop(categoryGradient, 0.51f, 0.3f,0.3f,0.3f,1.0f);
+	//TIPGradientAddRGBColorStop(categoryGradient, 0.52f, 0.42f,0.42f,0.42f,1.0f);
+	//TIPGradientAddRGBColorStop(categoryGradient, 1.0f, 0.44f,0.44f,0.44f,1.0f);
+	TIPGradientAddRGBColorStop(categoryGradient, 0.0f, 0.76f,0.76f,0.76f,1.0f);
+	TIPGradientAddRGBColorStop(categoryGradient, 0.39f, 0.37f,0.37f,0.37f,1.0f);
+	TIPGradientAddRGBColorStop(categoryGradient, 0.83f, 0.47f,0.47f,0.47f,1.0f);
+	TIPGradientAddRGBColorStop(categoryGradient, 1.0f, 0.69f,0.69f,0.69f,1.0f);
+	TIPGradientAxialFillRect(currentContext, categoryGradient, CGRectMake(0.0f,bounds.size.height-titleHeight,bounds.size.width,titleHeight),90.0f);
+	TIPGradientRelease(categoryGradient);
+	
 	CGContextSetLineWidth(currentContext,4.0f);
 	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
 	
 	CGContextSetLineWidth(currentContext,3.0f);
+	CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
+	CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
+	CGContextAddLineToPoint(currentContext,currentRect.origin.x+bounds.size.width,currentRect.origin.y);
+	CGContextStrokePath(currentContext);
+	
+	
 	unsigned categoryIndex;
 	for( categoryIndex = 0; categoryIndex<[[mainBoard categories] count]; categoryIndex++ ) {
 		TIPTextContainer *thisText = [titleArray objectAtIndex:categoryIndex];
@@ -206,18 +225,17 @@
 		currentRect.size.height = titleHeight;
 		currentRect.origin.y = bounds.size.height - titleHeight;
 		
-		CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
-		CGContextFillRect(currentContext,currentRect);
+		//CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
+		//CGContextFillRect(currentContext,currentRect);
 		
 		[thisText setFontSize:currentRect.size.height/2.0f];
 		NSRect insetTitleRect = NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f);
 		[thisText fitTextInRect:insetTitleRect];
-		[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
+		//[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
+		[thisText setColor:[NSColor whiteColor]];
+		CGContextSetBlendMode(currentContext,kCGBlendModeOverlay);
 		[thisText drawTextInRect:insetTitleRect inContext:currentContext];
-		
-		CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
-		CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
-		CGContextStrokePath(currentContext);
+		CGContextSetBlendMode(currentContext,kCGBlendModeNormal);
 		
 		currentRect.origin.y -= qSize.height;
 		currentRect.size.height = qSize.height;
@@ -227,26 +245,27 @@
 			if( ! [aQuestion used] ) {
 				TIPTextContainer *aPointText = [pointArray objectAtIndex:questionIndex];
 				[aPointText setFontSize:qSize.height*0.7f];
-				//[aPointText setColor:[NSColor blackColor]];
-				//[aPointText drawTextInRect:NSMakeRect(currentRect.origin.x+1.0f,currentRect.origin.y-1.0f,currentRect.size.width,currentRect.size.height) inContext:currentContext];
-				//[aPointText setColor:[NSColor whiteColor]];
 				[aPointText drawTextInRect:*(NSRect *)&currentRect inContext:currentContext];
 			}
-			/*
-			if( questionIndex != questionsPerCategory-1 ) {
-				CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
-				CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,currentRect.origin.y);
-				CGContextStrokePath(currentContext);
-			}
-			 */
 			
 			currentRect.origin.y -= qSize.height;
 		}
 		
 		if( categoryIndex != [[mainBoard categories] count]-1 ) {
-			CGContextMoveToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y);
-			CGContextAddLineToPoint(currentContext,currentRect.origin.x+currentRect.size.width,bounds.origin.y+bounds.size.height);
+			CGContextSetLineWidth(currentContext, 1.0f);
+			
+			float lineXPosition = currentRect.origin.x+currentRect.size.width;
+			CGContextSetRGBStrokeColor(currentContext,0.75f,0.75f,0.75f,1.0f);
+			CGContextMoveToPoint(currentContext,lineXPosition-0.5f,bounds.origin.y);
+			CGContextAddLineToPoint(currentContext,lineXPosition-0.5f,bounds.origin.y+bounds.size.height);
 			CGContextStrokePath(currentContext);
+			
+			CGContextSetRGBStrokeColor(currentContext,0.4f,0.4f,0.4f,1.0f);
+			CGContextMoveToPoint(currentContext,lineXPosition+0.5f,bounds.origin.y);
+			CGContextAddLineToPoint(currentContext,lineXPosition+0.5f,bounds.origin.y+bounds.size.height);
+			CGContextStrokePath(currentContext);
+			
+			CGContextSetLineWidth(currentContext, 4.0f);
 		}
 		
 		currentRect.origin.x += qSize.width;
