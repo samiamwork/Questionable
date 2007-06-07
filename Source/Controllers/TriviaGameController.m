@@ -258,6 +258,10 @@
 	// reset question timer if it's running.
 	[questionTimer stop];
 	[roundTimerProgress setStopped:YES];
+	if( buzzedPlayer != nil ) {
+		[buzzedPlayer setEnabled:YES];
+		buzzedPlayer = nil;
+	}
 	
 	if( delegate != nil && [delegate respondsToSelector:@selector(willStopGame:)] )
 		[delegate willStopGame:self];

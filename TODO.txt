@@ -11,18 +11,9 @@
 
 [BUGS]
 ~*! Using revert on a change file will result in a message logged about releasing the board while observers are still registered. I have no idea why they are registered still.
-~ Have a player buzz in, then stop the game before they answer. Start the game again and the player will not be able to buzz in until time runs out once. Then the timer will buzz and then reset and the player can buzz in.
+
 
 Help
 ----
 
-getting started: find out how to quickly get a game started
-Creating questions: saving, loading
-adding players: assigning buttons, adjusting score, changing the name
-begin: setting times, start, buzzers
-
-
-the interface: learn about the interface in detail
-host control window
-game board window: toolbar, controls, players, questions
-
+Preferences
