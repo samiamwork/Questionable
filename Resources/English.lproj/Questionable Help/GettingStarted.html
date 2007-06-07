@@ -7,39 +7,157 @@
 		<title>Questionable Help</title>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<meta name="robots" content="noindex" />
+		<META NAME="DESCRIPTION" CONTENT="How to get a game going from start to finish" />
 		<link href="style/accessTiger.css" rel="stylesheet" media="all" />
 	</head>
 
 	<body>
-		<div id="frame">
-			<a name="access"></a>
-			<div id="contentleft">
-				<center>
-					<img src="images/QuestionableScreen.png" alt="Image of Questionable application" height="150" width="200" border="0" />
-					<h1><img class="icon" src="images/QuestionableLogo.png" alt="Questionable icon" border="0" /> Questionable</h1>
-					<h4><a href="http://www.theidiotproject.com">www.theidiotproject.com</a></h4>
-				</center>
-			</div>
-			<div id="contentcenter"></div>
-			<div id="contentright" class="smlapp">
-				<h2>Have fun.<br /><br /></h2>
-				<p>
-					Questionable lets you construct and play TV-style trivia games.<br />
-					<br />
-				</p>
-				<h2>Getting Started</h2>
-				<p>
-					<a href="GettingStarted.html">Find out how to quickly get a
-					game going.</a><br />
-					<br />
-				</p>
-				<h2>The Interface</h2>
-				<p>
-					<a href="InterfaceDetail.html">Learn about the interface in
-					detail.</a>
-				</p>
-			</div>
+		<div id="navigation">
+			<a href="index.html">Home</a>
+			<a class="here" href="GettingStarted.html">Getting Started</a>
 		</div>
+		<div id="frame">
+			<h1>Getting Started</h1>
+			<br />
+			<p>
+				Follow these directions to learn how to quickly set up a game. But, make sure you
+				first read the section on <a href="RecommendedHardware.html">
+				"Recommended Hardware Configurations"</a>.
+			</p>
+			<div class="figure">
+				<h2>Load or Make Questions</h2>
+				<p>
+					Open a previously created or downloaded trivia file (files with the ".triviaq" extension)
+					by selecting "File->Open" from the menu.
+				</p>
+				<h4>- Or -</h4>
+				<p>
+					Create a new set of your own questions by clicking on the "Questions" tab in the
+					<a href="HostWindow.html">host window</a>. Add new categories (up to five total)
+					by clicking on the plus (+)	button.
+				</p>
+				<img src="images/HilightQuestionTabAdd.png" />
+				<p>
+					Click the disclosure triangle next to the category name to show the questions for
+					a category. Select a question to edit the question and answer text in the area to
+					the right.
+				</p>
+				<img src="images/HilightQuestionTabQuestion.png" />
+				<p>
+					Point values for questions begin at 100 for the top-most question in a category and
+					increase by 100 for each question after. Ending with 500 points for the fifth question
+					in a category.
+				</p>
+				<p>
+					Save sets of categories by selecting "File->Save" from the menu.
+				</p>
+			</div>
+			
+			<div class="figure">
+				<h2>Add and Configure Players</h2>
+				<p>
+					Click on the "Players" tab in the <a href="HostWindow.html">host window</a> to bring up
+					the player list.
+				</p>
+				<img src="images/HilightPlayersTab.png" />
+				<p>
+					Add as many players as desired by clicking the plus (+) button.
+				</p>
+				<img src="images/HilightPlayersTabPlus.png" />
+				<p>
+					Double-click the player names to change to type in your own names instead of the
+					default names of "Player 1", etc.
+				</p>
+				<img src="images/HilightPlayersTabName.png" />
+				<p>
+					Assign a button to each participating player by selecting that player's name and
+					pressing the "Set Buzzer" button.
+				</p>
+				<img src="images/HilightPlayersTabSet.png" />
+				<p>
+					A window will appear that will ask for the player
+					to press a button. At this time ask that player to press any button on their controller
+					that they wish to use to buzz in.
+				</p>
+				<img src="images/HilightPlayersTabWaiting.png" />
+				<p>
+					After the window dissappears, the light next to
+					that player's name should have changed from red to green.
+					Repeat this for each participating player. If the light is still red
+					please try again or check the <a href="TODO.html">Controller Troubleshooting</a>
+					information).
+				</p>
+				<img src="images/HilightPlayersTabLight.png" />
+			</div>
+			
+			<div class="figure">
+				<h2>Press Play and Start the Game</h2>
+				<p>
+					Click the "Controls" tab to bring up the control panel in the
+					<a href="HostWindow.html">host window</a>.
+				</p>
+				<img src="images/HilightControlsTab.png" />
+				<p>
+					Make the <a href="InterfaceDetail.html">game window</a> fullscreen by clicking the "Fullscreen"
+					button in the toolbar or by pressing command-option-f. Select the screen to fill in the sheet that
+					appears over the <a href="InterfaceDetail.html">game window</a> and press the "Fullscreen" button
+					at the bottom of that sheet.
+				</p>
+				<img src="images/HilightControlsTabFullscreen.png" />
+				<p>
+					Click "Play" in the toolbar to begin the game and the list of categories will
+					appear in the center of the window.
+				</p>
+				<img src="images/HilightControlsTabPlay.png" />
+				<p>
+					Select the value of the question you want to
+					show from the category you want by clicking the point value below the question
+					title.
+				</p>
+				<img src="images/HilightControlsTabQuestion.png" />
+				<p>
+					When a question is clicked the text of the question will replace the list of
+					categories in both the <a href="InterfaceDetail.html">game window</a> and the "Controls" tab
+					of the <a href="HostWindow.html">host window</a>. While a question is displayed a player
+					may buzz in using the button they selected on their controller previously. When
+					they buzz in the text of the answer will be replace the text of the question and
+					the name of the player that buzzed in will be shown at the top.
+				</p>
+				<img src="images/HilightControlsTabQuestionText.png" />
+				<p>
+					At this time the player will try to give their answer before time runs out (as
+					counted by the bars on the sides of the host game board). If the player manages
+					to give an answer before time runs out, the host will click one of the two buttons
+					on the right side of the <a href="HostWindow.html">host window</a>. The host will click
+					either the circle button for a correct answer, or the X button for an incorrect
+					answer.
+				</p>
+				<img src="images/HilightControlsTabCorrect.png" />
+				<p>
+					If the player does not answer the question in time or answers incorrectly then the
+					text of the question will return and the other players will be given the chance
+					to buzz in. Players who previously answered the question incorrectly will no be
+					allowed to buzz in to answer the same question again. They will have to wait for
+					a new question.
+				</p>
+				<p>
+					If you need to pause the game at any time please click "Pause" in the toolbar at
+					any time. Press "Play" again to resume normal play when you are ready.
+				</p>
+				<img src="images/HilightControlsTabPause.png" />
+				<p>
+					This will continue until either there are no more questions left to answer or time
+					runs out for the game (as indicated by the timer in the toolbar).
+				</p>
+				<img src="images/HilightControlsTabTimer.png" />
+				<p>
+					You can check players' scores at the end of the game by clicking on the "Players"
+					tab in the <a href="HostWindow.html">host window</a> at any time.
+				</p>
+			</div>
+			
+		</div>
+		<br />
 	</body>
 
 </html>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>Questionable Help</title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="robots" content="noindex" />
+		<META NAME="DESCRIPTION" CONTENT="Detailed info about the Host Window." />
+		<link href="style/accessTiger.css" rel="stylesheet" media="all" />
+	</head>
+
+	<body>
+		<div id="navigation">
+			<a href="index.html">Home</a>
+			<a href="HostWindow.html">Interface</a>
+			<a class="here" href="HostWindow.html">Host Window</a>
+		</div>
+		<div id="frame">
+			<h1>Host Window</h1>
+			<img src="images/MainWindowOverview.png" />
+			<br />
+			<div class="figure">
+				<h2>Toolbar</h2>
+				<img src="images/MainWindowToolbar.png" />
+				<dl>
+					<dt>1. Sound:</dt>
+						<dd>Click to mute event sounds. Click again to unmute.</dd>
+					<dt>2. Load:</dt>
+						<dd>Opens a window to choose a .triviaq file to open.</dd>
+					<dt>3. Fullscreen:</dt>
+						<dd>Fullscreens the game window. Upon clicking a sheet will open over the game window that will allow you to select the screen for it to fill.</dd>
+					<dt>4. Timer:</dt>
+						<dd>When a game is running this will count down the time left.</dd>
+					<dt>5. Play/Pause:</dt>
+						<dd>Click this to begin a game, pause a game, or resume a paused game. When a game is paused all timers are paused and no one is allowed to buzz in.</dd>
+					<dt>6. Stop:</dt>
+						<dd>Click this to stop a running game. When you stop a game all questions used are reset so that when you click Play again all questions are available again.</dd>
+				</dl>
+			</div>
+			
+			<div class="figure">
+				<h2>Main Window</h2>
+				<p>
+					The main window's contents are split up into three tabs: Controls, Questions,
+					and Players.
+				</p>
+				<img src="images/MainWindowTabs.png" />
+			</div>
+			
+			<div class="figure" id="greenFrame">
+				<h2>Controls Tab</h2>
+			</div>
+			<div class="figure" id="detail">
+				<img src="images/MainWindowControlsTab.png" />
+				<dl>
+					<dt>1. Host's Game View:</dt>
+						<dd>
+							This view is multi-purpose. It will allow the host to select questions
+							and will show answers when players buzz in. When a player buzzes in it will
+							also show the players name at the top.
+							<img src="images/HostViewCategories.png" />
+							<img src="images/HostViewQuestion.png" />
+							<img src="images/HostViewAnswer.png" />
+						</dd>
+					<dt>2. Correct and Incorrect Buttons:</dt>
+						<dd>
+							After a player attempts to answer a question click one of these buttons
+							to mark their answer as correct or incorrect. The circle is for "correct"
+							and the X is for "incorrect." These buttons are only enabled (i.e. clickable)
+							from the time a player has buzzes in until the question timer runs out or one of these
+							buttons is clicked.
+						</dd>
+				</dl>
+			</div>
+			
+			<div class="figure" id="blueFrame">
+				<h2>Questions Tab</h2>
+			</div>
+			<div class="figure" id="detail">
+				<img src="images/MainWindowQuestionsTab.png"  />
+				<dl>
+					<dt>1. Categories and Questions:</dt>
+						<dd>
+							This tree view shows you your categories and their associated questions.
+							You can have up to five categories per game and each category has five questions.
+							The point value for each question starts with 100 points for the question at the
+							top and increases by one hundred points for each following question. The fifth
+							question is worth 500 points.
+						</dd>
+					<dt>2. Question Text Input:</dt>
+						<dd>
+							Type the text for the selected question in this box. Press enter to start
+							a new line. You can use this to write multiple-choice questions. Just put
+							each option on it's own line.
+						</dd>
+					<dt>3. Answer Text Input:</dt>
+						<dd>
+							Type the text for the selected question's answer in this box. You can
+							format your text the same as in the question text input box.
+						</dd>
+				</dl>
+			</div>
+			
+			<div class="figure" id="orangeFrame">
+				<h2>Players Tab</h2>
+			</div>
+			<div class="figure" id="detail">
+				<img src="images/MainWindowPlayersTab.png" />
+				<dl>
+					<dt>1. Player Buzzer Status Light:</dt>
+						<dd>
+							This light indicates wheather or not a player has a button assigned
+							to use as a buzzer. This light will be green if they have a buzzer assigned
+							and red if they don't. If the controller that a player is using is removed
+							their light will turn red and it will have to be set again.
+						</dd>
+					<dt>2. Player Name:</dt>
+						<dd>
+							The name of the player. Double-click this name to change it.
+						</dd>
+					<dt>3. Player Points:</dt>
+						<dd>
+							The number of points a player has. Double click this to edit a player's
+							points.
+						</dd>
+					<dt>4. Set Buzzer Button:</dt>
+						<dd>
+							<p>
+								Press this button to set the selected player's buzzer button. Once you
+								press this button a window will appear asking you to have that player
+								press the button that they wish to use as a buzzer.
+							</p>
+							<img src="images/HilightPlayersTabWaiting.png" />
+							<p>
+								When you see this window, instruct that player to press the button they
+								wish to buzz-in with and tell them to remeber that button (if they are using
+								a controller with more than one button). Once they press their button
+								the window will disappear and their status light should change to green.
+								If they take too long or do not press a valid button in time then the window
+								will disappear and their status light will remain red (or if they already
+								had a valid button assigned, their light will remain green but their button
+								will not have changed).
+							</p>
+							<p>
+								For more information on controllers/buzzers please go to the
+								<a href="Controllers.html">Controllers</a> page.
+							</p>
+						</dd>
+					<dt>5. Add and Remove Player Buttons:</dt>
+						<dd>
+							Click the plus (+) button to add a new player. Click the minus (-) button
+							to remove the selected player.
+						</dd>
+				</dl>
+			</div>
+		</div>
+		<br />
+	</body>
+
+</html>
