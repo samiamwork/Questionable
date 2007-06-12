@@ -1,6 +1,4 @@
 ~ undo
-~ warn for unsaved changes at other times.
-~ Add help book.
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
 ~ get exclusive access of mice (won't use them otherwise)

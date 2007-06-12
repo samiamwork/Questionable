@@ -105,6 +105,13 @@
 		_questionmark = [[StringTexture alloc] initWithString:@"?" withWidth:150.0f withFontSize:100.0f];
 		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
 		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
+		/*
+		_placeholderShine = [[RectangularBox alloc] init];
+		[_placeholderShine enableBorder:NO];
+		[_placeholderShine setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.3f]];
+		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
+		 */
     }
 	
     return self;
@@ -139,6 +146,7 @@
 	
 	[_placeholderBox release];
 	[_questionmark release];
+	[_placeholderShine release];
 
 	[super dealloc];
 }
@@ -299,9 +307,14 @@
 	[_placeholderBox setSize:NSMakeSize(_targetSize.height*0.7f,_targetSize.height*0.5f)];
 	[_placeholderBox setCornerRadius:[_placeholderBox size].width/5.0f];
 	[_placeholderBox setLineWidth:ceilf([_placeholderBox size].width*0.05f)];
+	/*
+	NSSize placeholderSize = [_placeholderBox size];
+	[_placeholderShine setCornerRadius:[_placeholderBox cornerRadius]*1.0f];
+	placeholderSize.width *= 0.95f;
+	placeholderSize.height = [_placeholderShine cornerRadius] * 2.0f;
+	[_placeholderShine setSize:placeholderSize];
+	*/
 	[self regenerateStringTextures];
-	
-	//[self setNeedsDisplay:YES];
 }
 
 - (void)firstFrameSetup
@@ -411,7 +424,14 @@
 			// drawn twice as a horrible hack to get it to show up on the first frame
 			[_placeholderBox drawWithString:_questionmark];
 			[_placeholderBox drawWithString:_questionmark];
-			
+			/*
+			glPushMatrix();
+			float xTranslate = ([_placeholderBox size].width - [_placeholderShine size].width)*0.5f;
+			float yTranslate = ([_placeholderBox size].height - [_placeholderShine size].height)*0.9f;
+			glTranslatef(xTranslate,yTranslate,0.0f);
+			[_placeholderShine drawWithString:nil];
+			glPopMatrix();
+			*/
 			glScalef(1.0f,-1.0f,1.0f);
 			glTranslatef( 0.0f, 0.05f*_targetSize.height,0.0f);
 			[_placeholderBox drawWithString:_questionmark];

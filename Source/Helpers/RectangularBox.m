@@ -432,8 +432,12 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
 	int objectIndex;
+	
+	glPushAttrib(GL_COLOR_BUFFER_BIT);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	for( objectIndex = 0; objectIndex < 9; objectIndex++ )
 		glDrawArrays( GL_TRIANGLE_FAN, objectIndex*4, 4 );
+	glPopAttrib();
 	
 	// draw border
 	if( _isBorderEnabled ) {
