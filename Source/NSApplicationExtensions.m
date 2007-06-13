@@ -45,8 +45,8 @@
 	if( licenseDict == nil )
 		return @"Unregistered";
 	
-	NSMutableString *regString = [NSMutableString stringWithFormat:@"%@\n%@\n(%@)",
-		[licenseDict valueForKey:@"Name"],[licenseDict valueForKey:@"Email"],[licenseDict valueForKey:@"ID"]];
+	NSMutableString *regString = [NSMutableString stringWithFormat:@"%@\n%@",
+		[licenseDict valueForKey:@"Name"],[licenseDict valueForKey:@"Email"]];
 	[licenseDict release];
 	return regString;
 }
