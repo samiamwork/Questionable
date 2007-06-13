@@ -113,13 +113,14 @@
 
 - (void)setSize:(NSSize)newSize
 {
+	/*
 	float minSize = 2.0f*(_cornerRadius + 0.5f*_lineWidth);
 	
 	if( newSize.width < minSize )
 		newSize.width = minSize;
 	if( newSize.height < minSize )
 		newSize.height = minSize;
-	
+	*/
 	_boxSize = newSize;
 	_dirtyVerticies = YES;
 }
@@ -251,6 +252,29 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	color4 midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
 	color4 midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
 
+	if( _boxSize.width < _cornerRadius*2.0f ) {
+		switch( _sharpCorners ) {
+			case BoxCornerUpperLeft|BoxCornerLowerLeft:
+				xPoints[2] = xPoints[1];
+				break;
+			case BoxCornerUpperRight|BoxCornerLowerRight:
+			default:
+				xPoints[1] = xPoints[2];
+				break;
+		}
+	}
+	if( _boxSize.height < _cornerRadius*2.0f ) {
+		switch( _sharpCorners ) {
+			case BoxCornerUpperLeft|BoxCornerUpperRight:
+				yPoints[2] = yPoints[1];
+				break;
+			case BoxCornerLowerLeft|BoxCornerLowerRight:
+			default:
+				yPoints[1] = yPoints[2];
+				break;
+		}
+	}
+	
 	if( BoxShadingVertical ) {
 		midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
 		midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
@@ -286,15 +310,17 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	}
 	
 	//right
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
-	
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	if( _boxSize.height > _cornerRadius*2.0f ) {
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 3 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[3],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+	}
 	
 	//lower right
 	if( _sharpCorners & BoxCornerLowerRight ) {
@@ -318,15 +344,17 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	}
 	
 	//lower
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 0];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 0];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
-	
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	if( _boxSize.width > _cornerRadius*2.0f ) {
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 0];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[0]}, (texture2){0.0f,0.0f}, *currentColor );
+		
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+	}
 	
 	//lower left
 	if( _sharpCorners & BoxCornerLowerLeft ) {
@@ -350,15 +378,17 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	}
 	
 	//left
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
-	
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	if( _boxSize.height > _cornerRadius*2.0f ) {
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[1]}, (texture2){_textureSize,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[1]}, (texture2){0.0f,_textureSize}, *currentColor );
+		
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 0 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[0],yPoints[2]}, (texture2){_textureSize,_textureSize}, *currentColor );
+	}
 	
 	//upper left
 	if( _sharpCorners & BoxCornerUpperLeft ) {
@@ -382,15 +412,17 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	}
 	
 	//upper
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
-	
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 3];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
-	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 3];
-	setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	if( _boxSize.width > _cornerRadius*2.0f ) {
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 2];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[2]}, (texture2){0.0f,_textureSize}, *currentColor );
+		
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 2 : 3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[2],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+		currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 3];
+		setArrayElement( &vertexPointer, (vertex2){xPoints[1],yPoints[3]}, (texture2){0.0f,0.0f}, *currentColor );
+	}
 	
 	// hole
 	currentColor = colors[_shadingDirection == BoxShadingHorizontal ? 1 : 1];
@@ -433,18 +465,31 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
 	int objectIndex;
 	
+	//the number of objects to draw depends on if we're wide/high
+	// enough to need the plain rectangular spacers.
+	int objectCount = 9;
+	if( _boxSize.width < _cornerRadius*2.0f )
+		objectCount -= 2;
+	if( _boxSize.height < _cornerRadius*2.0f )
+		objectCount -= 2;
+	if( objectCount == 5 )
+		objectCount --;
+	
 	glPushAttrib(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-	for( objectIndex = 0; objectIndex < 9; objectIndex++ )
+	for( objectIndex = 0; objectIndex < objectCount; objectIndex++ )
 		glDrawArrays( GL_TRIANGLE_FAN, objectIndex*4, 4 );
 	glPopAttrib();
 	
+	// if we drew the hole for the background don't draw it here
+	if( objectCount != 4 )
+		objectCount--;
 	// draw border
 	if( _isBorderEnabled ) {
 		glColor4f(_borderColor.red,_borderColor.green,_borderColor.blue,_borderColor.alpha);
 		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _borderTexture);
 		glDisableClientState(GL_COLOR_ARRAY);
-		for( objectIndex = 0; objectIndex < 8; objectIndex++ )
+		for( objectIndex = 0; objectIndex < objectCount; objectIndex++ )
 			glDrawArrays( GL_TRIANGLE_FAN, objectIndex*4, 4 );
 	}
 	

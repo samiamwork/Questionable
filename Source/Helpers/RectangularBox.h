@@ -71,6 +71,7 @@ typedef enum BoxShadingDirection {
 	
 	BOOL _dirtyTexture;
 	BOOL _dirtyVerticies;
+	
 }
 
 - (id)initWithSize:(NSSize)boxSize withRadius:(float)cornerRadius withLineWidth:(float)lineWidth;
