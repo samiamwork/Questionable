@@ -10,12 +10,12 @@
 #import "TriviaSoundController.h"
 
 static NSString *TriviaToolbarIdentifier = @"Trivia Toolbar Identifier";
-static NSString *TriviaToolbarItemIdentifierMute = @"Trivia Toolbar Item Identifier Mute";
-static NSString *TriviaToolbarItemIdentifierFullscreen = @"Trivia Toolbar Item Identifier Fullscreen";
-static NSString *TriviaToolbarItemIdentifierLoad = @"Trivia Toolbar Item Identifier Load";
 static NSString *TriviaToolbarItemIdentifierPlay = @"Trivia Toolbar Item Identifier Play";
 static NSString *TriviaToolbarItemIdentifierStop = @"Trivia Toolbar Item Identifier Stop";
 static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identifier Timer";
+static NSString *TriviaToolbarItemIdentifierQuestionsTab = @"Trivia Toolbar Item Identifier Questions Tab";
+static NSString *TriviaToolbarItemIdentifierPlayersTab = @"Trivia Toolbar Item Identifier Players Tab";
+static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item Identifier Controls Tab";
 
 @interface TriviaWindowController (Private)
 - (void)setupToolbar;
@@ -67,28 +67,7 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 {
 	NSToolbarItem *toolbarItem = nil;
 	
-	if( [itemIdent isEqual:TriviaToolbarItemIdentifierMute] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierMute] autorelease];
-		[toolbarItem setLabel:NSLocalizedString(@"Sound",@"Sound")];
-		[toolbarItem setPaletteLabel:NSLocalizedString(@"Sound",@"Sound")];
-		[toolbarItem setImage:[NSImage imageNamed:@"Sound.tiff"]];
-		[toolbarItem setTarget:self];
-		[toolbarItem setAction:@selector(toggleSound:)];
-	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierLoad] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierLoad] autorelease];
-		[toolbarItem setLabel:NSLocalizedString(@"Load",@"Load")];
-		[toolbarItem setPaletteLabel:NSLocalizedString(@"Load",@"Load")];
-		[toolbarItem setImage:[NSImage imageNamed:@"loadQuestions.tiff"]];
-		[toolbarItem setTarget:self];
-		[toolbarItem setAction:@selector(load:)];
-	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierFullscreen] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierFullscreen] autorelease];
-		[toolbarItem setLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
-		[toolbarItem setPaletteLabel:NSLocalizedString(@"Fullscreen",@"Fullscreen")];
-		[toolbarItem setImage:[NSImage imageNamed:@"fullscreenIcon.tiff"]];
-		[toolbarItem setTarget:self];
-		[toolbarItem setAction:@selector(toggleFullscreen:)];
-	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlay] ) {
+	if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlay] ) {
 		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Play",@"Play")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Play",@"Play")];
@@ -110,6 +89,30 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 		[toolbarItem setMinSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setMaxSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setView:gameTimerView];
+	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierControlsTab] ) {
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		[toolbarItem setLabel:NSLocalizedString(@"Controls",@"Controls")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Controls",@"Controls")];
+		[toolbarItem setImage:[NSImage imageNamed:@"controls.tif"]];
+		controlsItem = toolbarItem;
+		//[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(pickTab:)];
+	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierQuestionsTab] ) {
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		[toolbarItem setLabel:NSLocalizedString(@"Questions",@"Questions")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Questions",@"Questions")];
+		[toolbarItem setImage:[NSImage imageNamed:@"questionsOff.tif"]];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(pickTab:)];
+		questionsItem = toolbarItem;
+	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlayersTab] ) {
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		[toolbarItem setLabel:NSLocalizedString(@"Players",@"Players")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Players",@"Players")];
+		[toolbarItem setImage:[NSImage imageNamed:@"playersOff.tif"]];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(pickTab:)];
+		playersItem = toolbarItem;
 	} else {
 		toolbarItem = nil;
 	}
@@ -117,10 +120,48 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 	return toolbarItem;
 }
 
+- (void)pickTab:(NSToolbarItem *)clickedTab
+{
+	if( clickedTab == controlsItem ) {
+		[controlsItem setTarget:nil];
+		[controlsItem setImage:[NSImage imageNamed:@"controls.tif"]];
+		
+		[questionsItem setTarget:self];
+		[questionsItem setImage:[NSImage imageNamed:@"questionsOff.tif"]];
+		
+		[playersItem setTarget:self];
+		[playersItem setImage:[NSImage imageNamed:@"playersOff.tif"]];
+		
+		[_controlTabs selectTabViewItemAtIndex:0];
+	} else if( clickedTab == questionsItem ) {
+		[questionsItem setTarget:nil];
+		[questionsItem setImage:[NSImage imageNamed:@"questions.tif"]];
+		
+		[controlsItem setTarget:self];
+		[controlsItem setImage:[NSImage imageNamed:@"controlsOff.tif"]];
+		
+		[playersItem setTarget:self];
+		[playersItem setImage:[NSImage imageNamed:@"playersOff.tif"]];
+		
+		[_controlTabs selectTabViewItemAtIndex:1];
+	} else if( clickedTab == playersItem ) {
+		[playersItem setTarget:nil];
+		[playersItem setImage:[NSImage imageNamed:@"players.tif"]];
+		
+		[questionsItem setTarget:self];
+		[questionsItem setImage:[NSImage imageNamed:@"questionsOff.tif"]];
+		
+		[controlsItem setTarget:self];
+		[controlsItem setImage:[NSImage imageNamed:@"controlsOff.tif"]];
+		
+		[_controlTabs selectTabViewItemAtIndex:2];
+	}
+}
+
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects: TriviaToolbarItemIdentifierMute,
-		TriviaToolbarItemIdentifierLoad, TriviaToolbarItemIdentifierFullscreen,
+	return [NSArray arrayWithObjects: TriviaToolbarItemIdentifierControlsTab,
+		TriviaToolbarItemIdentifierQuestionsTab, TriviaToolbarItemIdentifierPlayersTab,
 		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierTimer,
 		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierPlay,
 		TriviaToolbarItemIdentifierStop, nil];
@@ -141,16 +182,12 @@ static NSString *TriviaToolbarItemIdentifierTimer = @"Trivia Toolbar Item Identi
 }
 
 #pragma mark toolbar actions
-- (void)toggleSound:(id)sender
+- (IBAction)toggleSound:(id)sender
 {
 	if( [[TriviaSoundController defaultController] mute] ) {
 		[[TriviaSoundController defaultController] setMute:NO];
-		[sender setImage:[NSImage imageNamed:@"Sound.tiff"]];
-		//[sender setLabel:@"Mute"];
 	} else {
 		[[TriviaSoundController defaultController] setMute:YES];
-		[sender setImage:[NSImage imageNamed:@"NoSound.tiff"]];
-		//[sender setLabel:@"Unmute"];
 	}
 }
 

@@ -38,15 +38,20 @@
 // don't forget to manage fullscreen outlets and actions
 // see NSToolbar's -items method
 @interface TriviaWindowController : NSWindowController {
-	//IBOutlet NSWindow *controlWindow;
 	IBOutlet NSWindow *gameWindow;
 	IBOutlet NSMenuItem *fullscreenMenuItem;
 	IBOutlet NSMenuItem *playMenuItem;
 	IBOutlet TriviaOutlineViewController *questionController;
 	IBOutlet TriviaGameController *gameController;
 	IBOutlet TIPGameTimerView *gameTimerView;
-		
+	
+	NSToolbarItem *controlsItem;
+	NSToolbarItem *questionsItem;
+	NSToolbarItem *playersItem;
+	
 	NSToolbarItem *playToolbarItem;
+	
+	IBOutlet NSTabView *_controlTabs;
 	
 	FullscreenSheetController *fullscreenController;
 }

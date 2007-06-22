@@ -8,7 +8,6 @@
 
 #import "TIPGameTimerView.h"
 
-
 @implementation TIPGameTimerView
 
 - (id)initWithFrame:(NSRect)frameRect

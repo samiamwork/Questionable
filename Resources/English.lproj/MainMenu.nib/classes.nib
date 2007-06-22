@@ -99,6 +99,7 @@
             CLASS = TriviaWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "_controlTabs" = NSTabView; 
                 fullscreenMenuItem = NSMenuItem; 
                 gameController = TriviaGameController; 
                 gameTimerView = TIPGameTimerView; 
