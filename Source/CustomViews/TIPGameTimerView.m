@@ -185,7 +185,7 @@ NSString *stringForTime(NSTimeInterval aTime)
 	NSRect indicatorRect = NSInsetRect(clockRect,clockRect.size.height*0.1f,clockRect.size.height*0.1f);
 	CGContextSetLineWidth(cxt,clockRect.size.height*0.2f);
 	float secondsLeft = (float)ceil(maxTime-currentTime);
-	float percentDone = ceilf(secondsLeft/(float)maxTime);
+	float percentDone = secondsLeft/(float)maxTime;
 	if( stopped )
 		percentDone = 1.0f;
 	CGContextAddArc(cxt,indicatorRect.origin.x+indicatorRect.size.width/2.0f,indicatorRect.origin.y+indicatorRect.size.height/2.0f,indicatorRect.size.height/2.0f,M_PI_2,M_PI_2-2.0f*M_PI*percentDone,1);
