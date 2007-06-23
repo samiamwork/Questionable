@@ -7,6 +7,12 @@
             LANGUAGE = ObjC; 
             OUTLETS = {prefWindow = NSWindow; }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = PrefsValidator; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_gameLengthField" = NSControl; "_questionLengthField" = NSControl; }; 
+            SUPERCLASS = NSWindowController; 
         }
     ); 
     IBVersion = 1; 

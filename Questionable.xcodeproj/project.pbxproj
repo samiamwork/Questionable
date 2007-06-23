@@ -52,6 +52,7 @@
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
 		3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */; };
 		3EB0257F0B8BDB7F00A095F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */; };
+		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
 		3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2508E0BE961C30032C6F0 /* TODO.txt */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
@@ -165,6 +166,8 @@
 		3EB025400B8BBC8200A095F9 /* TriviaBoardOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaBoardOpenGLView.h; sourceTree = "<group>"; };
 		3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardOpenGLView.m; sourceTree = "<group>"; };
 		3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		3EBE04BB0C2D95A600C8334B /* PrefsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsValidator.h; sourceTree = "<group>"; };
+		3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsValidator.m; sourceTree = "<group>"; };
 		3EC2508E0BE961C30032C6F0 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; wrapsLines = 1; };
 		3EE136750BCB55910062334B /* AquaticPrime.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AquaticPrime.c; sourceTree = "<group>"; };
 		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 				3EE2AFEA0B82891400EFBE3D /* SaveProgressController.m */,
 				3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */,
 				3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */,
+				3EBE04BB0C2D95A600C8334B /* PrefsValidator.h */,
+				3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */,
 			);
 			path = WindowControllers;
 			sourceTree = "<group>";
@@ -752,6 +757,7 @@
 				3EE136770BCB55910062334B /* AquaticPrime.c in Sources */,
 				3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */,
 				3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */,
+				3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
