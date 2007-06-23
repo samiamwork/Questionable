@@ -53,8 +53,8 @@
 		//Display Objects
 		_categoryTitleBox = [[RectangularBox alloc] init];
 		[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
-		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.35f blue:0.5f alpha:1.0f]];
-		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.4f alpha:1.0f]];
+		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
+		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
 		[_categoryTitleBox setLineWidth:1.0f];
 
 		_pointsBox = [[RectangularBox alloc] init];
@@ -63,6 +63,7 @@
 		[_pointsBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
 		[_pointsBox setLineWidth:1.0f];
 		[_pointsBox setCornerRadius:10.0f];
+		[_pointsBox setBorderColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.5f alpha:1.0f]];
 		[_pointsBox setShadingDirection:BoxShadingHorizontal];
 		
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
