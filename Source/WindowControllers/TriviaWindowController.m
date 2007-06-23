@@ -165,7 +165,8 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	return [NSArray arrayWithObjects: TriviaToolbarItemIdentifierControlsTab,
 		TriviaToolbarItemIdentifierQuestionsTab, TriviaToolbarItemIdentifierPlayersTab,
 		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierTimer,
-		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierPlay,
+		//NSToolbarFlexibleSpaceItemIdentifier,
+		TriviaToolbarItemIdentifierPlay,
 		TriviaToolbarItemIdentifierStop, nil];
 }
 

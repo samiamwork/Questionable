@@ -539,6 +539,7 @@
 																	withWidth:_pointStringSize.width
 																 withFontSize:_pointStringSize.height];
 		[aStringTexture setFont:[NSFont fontWithName:@"Helvetica-Bold" size:12.0f]];
+		[aStringTexture setFontSize:_pointStringSize.height];
 		[_questionPointStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}
