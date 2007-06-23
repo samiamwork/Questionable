@@ -29,7 +29,7 @@
 	TIPGradientAxialFillRect(cxt,bgGradient,*(CGRect *)&bounds,90.0f);
 	TIPGradientRelease(bgGradient);
 	
-	CGContextSetRGBStrokeColor(cxt,0.7f,0.7f,0.7f,1.0f);
+	CGContextSetRGBStrokeColor(cxt,0.3f,0.3f,0.3f,1.0f);
 	CGContextSetLineWidth(cxt,1.0f);
 	CGContextMoveToPoint(cxt,bounds.origin.x-0.5f,bounds.origin.y+bounds.size.height);
 	CGContextAddLineToPoint(cxt,bounds.origin.x-0.5f+bounds.size.width,bounds.origin.y+bounds.size.height);

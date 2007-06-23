@@ -107,7 +107,7 @@
 	[titleArray removeAllObjects];
 	while( (thisCategory = [categoryEnumerator nextObject]) ) {
 		TIPTextContainer *newText = [TIPTextContainer containerWithString:[thisCategory title]];
-		[newText setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f]];
+		[newText setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.8f]];
 		
 		[titleArray addObject:newText];
 		if( [[thisCategory questions] count] > questionsPerCategory )
@@ -121,7 +121,6 @@
 		TIPTextContainer *newText = [TIPTextContainer containerWithString:[[NSNumber numberWithInt:questionIndex*100+100] stringValue]];
 		[newText setFont:[NSFont fontWithName:@"Helvetica-Bold" size:15.0f]];
 		[newText setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
-		//[newText setShadowWithOffset:NSMakeSize(2.0f,-2.0f) color:[NSColor colorWithCalibratedWhite:0.0f alpha:1.0f] blur:2.0f];
 		
 		[pointArray addObject:newText];
 	}
@@ -197,10 +196,6 @@
 	
 	//draw category bar gradient
 	TIPMutableGradientRef categoryGradient = TIPMutableGradientCreate();
-	//TIPGradientAddRGBColorStop(categoryGradient, 0.0f, 0.44f,0.44f,0.44f,1.0f);
-	//TIPGradientAddRGBColorStop(categoryGradient, 0.51f, 0.3f,0.3f,0.3f,1.0f);
-	//TIPGradientAddRGBColorStop(categoryGradient, 0.52f, 0.42f,0.42f,0.42f,1.0f);
-	//TIPGradientAddRGBColorStop(categoryGradient, 1.0f, 0.44f,0.44f,0.44f,1.0f);
 	TIPGradientAddRGBColorStop(categoryGradient, 0.0f, 0.76f,0.76f,0.76f,1.0f);
 	TIPGradientAddRGBColorStop(categoryGradient, 0.39f, 0.37f,0.37f,0.37f,1.0f);
 	TIPGradientAddRGBColorStop(categoryGradient, 0.83f, 0.47f,0.47f,0.47f,1.0f);
@@ -208,9 +203,7 @@
 	TIPGradientAxialFillRect(currentContext, categoryGradient, CGRectMake(0.0f,bounds.size.height-titleHeight,bounds.size.width,titleHeight),90.0f);
 	TIPGradientRelease(categoryGradient);
 	
-	CGContextSetLineWidth(currentContext,4.0f);
 	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
-	
 	CGContextSetLineWidth(currentContext,3.0f);
 	CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
 	CGContextMoveToPoint(currentContext,currentRect.origin.x,currentRect.origin.y);
@@ -225,17 +218,12 @@
 		currentRect.size.height = titleHeight;
 		currentRect.origin.y = bounds.size.height - titleHeight;
 		
-		//CGContextSetRGBFillColor(currentContext, 0.5f,0.5f,0.5f,0.1f);
-		//CGContextFillRect(currentContext,currentRect);
-		
 		[thisText setFontSize:currentRect.size.height/2.0f];
 		NSRect insetTitleRect = NSInsetRect(*(NSRect *)&currentRect, 4.0f, 4.0f);
 		[thisText fitTextInRect:insetTitleRect];
-		//[thisText setColor:[NSColor colorWithCalibratedRed:0.3f green:0.3f blue:0.3f alpha:0.9f]];
-		[thisText setColor:[NSColor whiteColor]];
-		CGContextSetBlendMode(currentContext,kCGBlendModeOverlay);
+		//
+		[thisText setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.8f]];
 		[thisText drawTextInRect:insetTitleRect inContext:currentContext];
-		CGContextSetBlendMode(currentContext,kCGBlendModeNormal);
 		
 		currentRect.origin.y -= qSize.height;
 		currentRect.size.height = qSize.height;
@@ -392,10 +380,6 @@
 	TIPGradientRadialFillRect(currentContext,bgGradient,*(CGRect *)&bounds,(CGPoint){bounds.size.width/2.0f,0.0f},sqrtf(bounds.size.width*bounds.size.width/4.0f + bounds.size.height*bounds.size.height));
 	TIPGradientRelease(bgGradient);
 	
-	CGContextSetLineWidth(currentContext,4.0f);
-	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
-	CGContextStrokeRect(currentContext,*(CGRect *)&bounds);
-
 	switch( _viewState ) {
 		case kTriviaSimpleViewBoard:
 			[self drawBoard];
