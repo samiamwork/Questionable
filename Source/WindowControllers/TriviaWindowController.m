@@ -120,7 +120,6 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	return toolbarItem;
 }
 
-
 - (void)pickTab:(NSToolbarItem *)clickedTab
 {
 	if( clickedTab == controlsItem ) {
@@ -158,6 +157,23 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		[_controlTabs selectTabViewItemAtIndex:2];
 	}
 	
+}
+
+- (IBAction)menuPickTab:(id)sender
+{
+	int tag = [(NSMenuItem *)sender tag];
+	switch( tag ) {
+		case 1:
+			[self pickTab:controlsItem];
+			break;
+		case 2:
+			[self pickTab:questionsItem];
+			break;
+		case 3:
+			[self pickTab:playersItem];
+			break;
+	}
+				
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar

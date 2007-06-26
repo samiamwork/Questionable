@@ -57,6 +57,7 @@
 }
 
 - (IBAction)toggleFullscreen:(id)sender;
+- (IBAction)menuPickTab:(id)sender;
 
 - (IBAction)play:(id)sender;
 - (IBAction)pause:(id)sender;

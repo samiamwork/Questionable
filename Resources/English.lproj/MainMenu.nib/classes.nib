@@ -95,7 +95,7 @@
         }, 
         {CLASS = TriviaStatusView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
-            ACTIONS = {pause = id; play = id; stop = id; toggleFullscreen = id; }; 
+            ACTIONS = {menuPickTab = id; pause = id; play = id; stop = id; toggleFullscreen = id; }; 
             CLASS = TriviaWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
