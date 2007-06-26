@@ -3838,6 +3838,11 @@
 				<key>CF$UID</key>
 				<integer>259</integer>
 			</dict>
+			<key>NSCornerView</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>267</integer>
+			</dict>
 			<key>NSFrame</key>
 			<dict>
 				<key>CF$UID</key>
@@ -4042,7 +4047,7 @@
 			<key>NSvFlags</key>
 			<integer>4352</integer>
 		</dict>
-		<string>{565, 0}</string>
+		<string>{565, 357}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4527,7 +4532,7 @@
 			<key>$classname</key>
 			<string>NSTableView</string>
 		</dict>
-		<string>{{1, 17}, {565, 373}}</string>
+		<string>{{1, 17}, {565, 357}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4621,7 +4626,7 @@
 			</array>
 		</dict>
 		<string>{{1, 0}, {565, 17}}</string>
-		<string>{{0, 95}, {567, 391}}</string>
+		<string>{{0, 111}, {567, 375}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4714,7 +4719,7 @@
 			<key>NSvFlags</key>
 			<integer>292</integer>
 		</dict>
-		<string>{{0, 47}, {50, 50}}</string>
+		<string>{{0, 81}, {32, 32}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4805,7 +4810,7 @@
 			<key>NSvFlags</key>
 			<integer>292</integer>
 		</dict>
-		<string>{{0, -1}, {50, 50}}</string>
+		<string>{{31, 81}, {32, 32}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4896,7 +4901,7 @@
 			<key>NSvFlags</key>
 			<integer>289</integer>
 		</dict>
-		<string>{{467, -1}, {100, 98}}</string>
+		<string>{{473, 19}, {74, 74}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -4974,7 +4979,7 @@
 			<key>NS.string</key>
 			<string></string>
 		</dict>
-		<string>{567, 96}</string>
+		<string>{567, 112}</string>
 		<string>{567, 486}</string>
 		<string>Players</string>
 		<string>{{1, 9}, {567, 486}}</string>
