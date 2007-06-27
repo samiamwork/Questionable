@@ -11,6 +11,7 @@
 
 @interface NSObject (TriviaGameControllerDelegate)
 - (void)willStopGame:(TriviaGameController *)aGameController;
+- (void)willPauseGame:(TriviaGameController *)aGameController;
 @end
 
 @implementation TriviaGameController
@@ -123,6 +124,9 @@
 	if( selectedQuestion == nil )
 		return;
 	
+	if( [roundTimer paused] )
+		[self pauseRound];
+	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundCorrectAnswer];
 	
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
@@ -132,9 +136,6 @@
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
-	
-	if( [roundTimer paused] )
-		[self pauseRound];
 }
 - (IBAction)incorrectAnswer:(id)sender
 {
@@ -142,6 +143,9 @@
 		return;
 	if( selectedQuestion == nil)
 		return;
+	
+	if( [roundTimer paused] )
+		[self pauseRound];
 	
 	[buzzedPlayer subtractPoints:(selectedQuestionIndex+1) * 100];
 	buzzedPlayer = nil;
@@ -160,9 +164,6 @@
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
-	
-	if( [roundTimer paused] )
-		[self pauseRound];
 }
 
 - (void)playerBuzzed:(NSNotification *)theNotification
@@ -236,6 +237,9 @@
 	[roundTimer pause];
 	[questionTimer pause];
 	[simpleBoardView pauseTimer];
+	
+	if( delegate != nil && [delegate respondsToSelector:@selector(willPauseGame:)] )
+		[delegate willPauseGame:self];
 }
 - (void)skipForward
 {

@@ -261,4 +261,14 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	[self resetPlayButtons];
 }
 
+- (void)willPauseGame:(TriviaGameController *)aGameController
+{
+	[playToolbarItem setImage:[NSImage imageNamed:@"Pause"]];
+	[playToolbarItem setLabel:@"Pause"];
+	[playToolbarItem setAction:@selector(pause:)];
+	
+	[playMenuItem setTitle:@"Pause"];
+	[playMenuItem setAction:@selector(pause:)];
+}
+
 @end
