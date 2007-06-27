@@ -25,9 +25,9 @@
 	NSString *serial;
 }
 
-+ (id)deviceWithIOObject:(io_object_t)ioObject;
++ (id)deviceWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive;
 
-- (void)connectWithIOObject:(io_object_t)ioObject;
+- (void)connectWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive;
 - (NSArray *)elements;
 - (long)locationID;
 

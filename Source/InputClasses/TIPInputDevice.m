@@ -42,18 +42,18 @@
 	[super dealloc];
 }
 
-+ (id)deviceWithIOObject:(io_object_t)ioObject
++ (id)deviceWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive
 {
 	if( ioObject == IO_OBJECT_NULL )
 		return nil;
 	
 	TIPInputDevice *newDevice = [[[TIPInputDevice alloc] init] autorelease];
-	[newDevice connectWithIOObject:ioObject];
+	[newDevice connectWithIOObject:ioObject exclusive:(BOOL)getExclusive];
 	
 	return newDevice;
 }
 
-- (void)connectWithIOObject:(io_object_t)ioObject
+- (void)connectWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive
 {
 	IOReturn result = kIOReturnSuccess;
 	HRESULT pluginResult = S_OK;
@@ -144,7 +144,10 @@
 	IODestroyPlugInInterface( pluginInterface );
 	// open it for access
 	// kIOHIDOptionsTypeSeizeDevice
-	result = (*deviceInterface)->open( deviceInterface, 0 );
+	if( getExclusive )
+		result = (*deviceInterface)->open( deviceInterface, kIOHIDOptionsTypeSeizeDevice );
+	else
+		result = (*deviceInterface)->open( deviceInterface, 0 );
 	if( result != S_OK ) {
 		printf("Could not open device for access!\n");
 		return;

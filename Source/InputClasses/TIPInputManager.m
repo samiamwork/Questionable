@@ -31,15 +31,18 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		// set up dictionary describing matching devices of interest
 		NSMutableDictionary *HIDMatchingDictionary = (NSMutableDictionary *)IOServiceMatching( kIOHIDDeviceKey );
 		
+		NSNumber *usagePage = [NSNumber numberWithInt:kHIDPage_GenericDesktop];
+		
 		NSMutableArray *deviceUsagePairs = [NSMutableArray array];
 		NSMutableDictionary *joystickDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *gamepadDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
+		NSMutableDictionary *mouseDictionary = [NSMutableDictionary dictionary];
 		
-		NSNumber *usagePage = [NSNumber numberWithInt:kHIDPage_GenericDesktop];
 		[joystickDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[gamepadDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
+		[mouseDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 
 		[joystickDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Joystick] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:joystickDictionary];
@@ -49,6 +52,9 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		
 		[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:keyboardDictionary];
+		
+		[mouseDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Mouse] forKey:@kIOHIDDeviceUsageKey];
+		[deviceUsagePairs addObject:mouseDictionary];
 		
 		[HIDMatchingDictionary setValue:deviceUsagePairs forKey:@kIOHIDDeviceUsagePairsKey];
 		
@@ -73,7 +79,13 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		result = IOServiceAddMatchingNotification( notificationObject, kIOTerminatedNotification, (CFDictionaryRef )HIDMatchingDictionary, HIDRemoveDevices, self, &removedDeviceIterator);
 		
 		// build the device list release the itterator
-		HIDAddDevices( self, addedDeviceIterator);
+		//HIDAddDevices( self, addedDeviceIterator);
+		io_object_t ioObject;
+		while( (ioObject = IOIteratorNext(addedDeviceIterator)) ) {
+			[deviceArray addObject:[TIPInputDevice deviceWithIOObject:ioObject exclusive:NO]];
+			// apparently we need to release it
+			IOObjectRelease(ioObject);
+		}
 		// activate device removal notifications by using the iterator
 		HIDRemoveDevices( self, removedDeviceIterator);
 		
@@ -186,7 +198,7 @@ void HIDAddDevices( void *managerRef, io_iterator_t iterator )
 	while( (ioObject = IOIteratorNext(iterator)) ) {
 		//printf("device added!\n");
 		
-		[manager->deviceArray addObject:[TIPInputDevice deviceWithIOObject:ioObject]];
+		[manager->deviceArray addObject:[TIPInputDevice deviceWithIOObject:ioObject exclusive:YES]];
 		// apparently we need to release it
 		IOObjectRelease(ioObject);
 		
