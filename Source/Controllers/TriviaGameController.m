@@ -132,6 +132,9 @@
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
+	
+	if( [roundTimer paused] )
+		[self pauseRound];
 }
 - (IBAction)incorrectAnswer:(id)sender
 {
@@ -157,11 +160,14 @@
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
+	
+	if( [roundTimer paused] )
+		[self pauseRound];
 }
 
 - (void)playerBuzzed:(NSNotification *)theNotification
 {
-	if( paused )
+	if( [roundTimer stopped] || [roundTimer paused] || [questionTimer paused] )
 		return;
 	if( buzzedPlayer != nil )
 		return;
@@ -229,6 +235,7 @@
 	
 	[roundTimer pause];
 	[questionTimer pause];
+	[simpleBoardView pauseTimer];
 }
 - (void)skipForward
 {

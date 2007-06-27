@@ -44,6 +44,7 @@ typedef enum TriviaSimpleViewState {
 - (void)startTimerOfLength:(NSTimeInterval)theLength;
 - (void)stopTimer;
 - (void)resetTimer;
+- (void)pauseTimer;
 
 - (void)showBoard;
 - (void)showQuestion;

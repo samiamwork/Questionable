@@ -18,6 +18,7 @@
 		_timerAnimation = [[TransitionAnimation alloc] initWithDuration:1.0 animationCurve:NSAnimationLinear];
 		[_timerAnimation setAnimationBlockingMode:NSAnimationNonblocking];
 		[_timerAnimation setDelegate:self];
+		[_timerAnimation setCurrentProgress:0.0];
     }
     return self;
 }
@@ -30,7 +31,7 @@
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 
-	if( ![_timerAnimation isAnimating] )
+	if( _value == 1.0f  || (_value == 0.0f && ![_timerAnimation isAnimating]) )
 		return;
 	
 	bounds.size.height *= 1.0f-_value;
@@ -69,7 +70,13 @@
 }
 - (void)pauseTimer
 {
-	[_timerAnimation stopAnimation];
+	if( ![_timerAnimation isAnimating] && [_timerAnimation currentProgress] == 1.0 )
+		return;
+	
+	if( [_timerAnimation isAnimating] )
+		[_timerAnimation stopAnimation];
+	else
+		[_timerAnimation startAnimation];
 }
 - (void)resumeTimer
 {

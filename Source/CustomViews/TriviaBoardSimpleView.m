@@ -92,6 +92,12 @@
 	[_rightTimerView resetTimer];
 }
 
+- (void)pauseTimer
+{
+	[_leftTimerView pauseTimer];
+	[_rightTimerView pauseTimer];
+}
+
 #pragma mark Board Methods
 
 - (void)setBoard:(TriviaBoard *)newBoard
