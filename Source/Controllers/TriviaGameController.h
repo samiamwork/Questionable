@@ -28,6 +28,8 @@
 	IBOutlet NSButton *correctButton;
 	IBOutlet NSButton *incorrectButton;
 	
+	IBOutlet NSTextField *nameField;
+	
 	TriviaTimer *roundTimer;
 	TriviaTimer *questionTimer;
 	NSTimeInterval roundTimeLength;

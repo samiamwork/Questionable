@@ -127,7 +127,7 @@
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
 	[self showAnswer];
 	
-	[simpleBoardView setPlayerName:nil];
+	[nameField setStringValue:@""];
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
@@ -152,7 +152,7 @@
 		[questionTimer start];
 	}
 	
-	[simpleBoardView setPlayerName:nil];
+	[nameField setStringValue:@""];
 	
 	[incorrectButton setEnabled:NO];
 	[correctButton setEnabled:NO];
@@ -176,8 +176,7 @@
 	
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundBuzzIn];
 	
-	//[mainBoardView addBadgeWithString:[buzzedPlayer name]];
-	[simpleBoardView setPlayerName:[buzzedPlayer name]];
+	[nameField setStringValue:[buzzedPlayer name]];
 	[simpleBoardView showAnswer];
 
 	[incorrectButton setEnabled:YES];

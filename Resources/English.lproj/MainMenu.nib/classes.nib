@@ -6,6 +6,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = PlayerNameView; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
         {
             ACTIONS = {showPanel = id; }; 
             CLASS = Preferences; 
@@ -53,6 +54,7 @@
                 delegate = id; 
                 incorrectButton = NSButton; 
                 mainBoardView = TriviaBoardOpenGLView; 
+                nameField = NSTextField; 
                 playerController = TriviaPlayerController; 
                 questionController = TriviaOutlineViewController; 
                 roundTimerProgress = TIPGameTimerView; 

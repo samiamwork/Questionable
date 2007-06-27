@@ -24,7 +24,6 @@
 		_timerLevel = 4;
 		
 		_question = nil;
-		_playerName = nil;
 		mainBoard = nil;
 		titleArray = [[NSMutableArray alloc] init];
 		pointArray = [[NSMutableArray alloc] init];
@@ -141,19 +140,6 @@
 - (TriviaQuestion *)question
 {
 	return _question;
-}
-
-- (void)setPlayerName:(NSString *)aPlayerName
-{
-	if( aPlayerName == _playerName )
-		return;
-	
-	[_playerName release];
-	_playerName = [aPlayerName retain];
-}
-- (NSString *)playerName
-{
-	return _playerName;
 }
 
 - (void)showBoard
@@ -292,24 +278,6 @@
 						 inContext:currentContext];
 }
 
-- (void)drawPlayerName
-{
-	if( _playerName == nil )
-		return;
-	
-	NSRect bounds = [self bounds];
-	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
-	
-	CGContextSetRGBFillColor(currentContext,0.3f,0.3f,0.4f,0.5f);
-	CGRect boxRect = CGRectMake(bounds.origin.x,bounds.origin.y+bounds.size.height*0.8f,bounds.size.width,bounds.size.height*0.2f);
-	CGContextFillRect(currentContext, boxRect);
-	
-	TIPTextContainer *nameContainer = [TIPTextContainer containerWithString:_playerName color:[NSColor whiteColor] fontName:@"Helvetica"];
-	[nameContainer setFontSize:boxRect.size.height/4.0f];
-	[nameContainer setFitInRect:YES];
-	[nameContainer drawTextInRect:*(NSRect *)&boxRect inContext:currentContext];
-}
-
 #define BAR_PADDING_SCALE 0.025f
 - (void)drawTimer
 {
@@ -391,7 +359,6 @@
 		case kTriviaSimpleViewAnswer: {
 			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
 			[self drawTimer];
-			[self drawPlayerName];
 			} break;
 		default:
 			[self drawPlaceholder];

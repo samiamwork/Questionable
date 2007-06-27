@@ -11,7 +11,6 @@
 		3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC2B0B84EB0E000DC73F /* TriviaBoardSimpleView.m */; };
 		3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC460B84EE9A000DC73F /* TIPCGUtils.c */; };
 		3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */; };
-		3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */; };
 		3E11DC560B84EE9A000DC73F /* TIPTextContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC4F0B84EE9A000DC73F /* TIPTextContainer.m */; };
 		3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC510B84EE9A000DC73F /* TriviaTimer.m */; };
 		3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E11DC7C0B84EF61000DC73F /* TIPGradient.c */; };
@@ -52,6 +51,8 @@
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
 		3EB025420B8BBC8300A095F9 /* TriviaBoardOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */; };
 		3EB0257F0B8BDB7F00A095F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */; };
+		3EB524C90C31D128004A0DA1 /* PlayerNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB524C80C31D128004A0DA1 /* PlayerNameView.m */; };
+		3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */; };
 		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
 		3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2508E0BE961C30032C6F0 /* TODO.txt */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
@@ -112,8 +113,6 @@
 		3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPCGUtils.h; sourceTree = "<group>"; };
 		3E11DC480B84EE9A000DC73F /* TIPFreeWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPFreeWindow.h; sourceTree = "<group>"; };
 		3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPFreeWindow.m; sourceTree = "<group>"; };
-		3E11DC4A0B84EE9A000DC73F /* TIPFullViewTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPFullViewTransition.h; sourceTree = "<group>"; };
-		3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPFullViewTransition.m; sourceTree = "<group>"; };
 		3E11DC4E0B84EE9A000DC73F /* TIPTextContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TIPTextContainer.h; sourceTree = "<group>"; };
 		3E11DC4F0B84EE9A000DC73F /* TIPTextContainer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TIPTextContainer.m; sourceTree = "<group>"; };
 		3E11DC500B84EE9A000DC73F /* TriviaTimer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaTimer.h; sourceTree = "<group>"; };
@@ -166,6 +165,10 @@
 		3EB025400B8BBC8200A095F9 /* TriviaBoardOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaBoardOpenGLView.h; sourceTree = "<group>"; };
 		3EB025410B8BBC8300A095F9 /* TriviaBoardOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaBoardOpenGLView.m; sourceTree = "<group>"; };
 		3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		3EB524C70C31D128004A0DA1 /* PlayerNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerNameView.h; sourceTree = "<group>"; };
+		3EB524C80C31D128004A0DA1 /* PlayerNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerNameView.m; sourceTree = "<group>"; };
+		3EB524D50C31D36C004A0DA1 /* TransitionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionAnimation.h; sourceTree = "<group>"; };
+		3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionAnimation.m; sourceTree = "<group>"; };
 		3EBE04BB0C2D95A600C8334B /* PrefsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsValidator.h; sourceTree = "<group>"; };
 		3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsValidator.m; sourceTree = "<group>"; };
 		3EC2508E0BE961C30032C6F0 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; wrapsLines = 1; };
@@ -327,12 +330,12 @@
 				3E11DC470B84EE9A000DC73F /* TIPCGUtils.h */,
 				3E11DC480B84EE9A000DC73F /* TIPFreeWindow.h */,
 				3E11DC490B84EE9A000DC73F /* TIPFreeWindow.m */,
-				3E11DC4A0B84EE9A000DC73F /* TIPFullViewTransition.h */,
-				3E11DC4B0B84EE9A000DC73F /* TIPFullViewTransition.m */,
 				3E11DC4E0B84EE9A000DC73F /* TIPTextContainer.h */,
 				3E11DC4F0B84EE9A000DC73F /* TIPTextContainer.m */,
 				3E11DC500B84EE9A000DC73F /* TriviaTimer.h */,
 				3E11DC510B84EE9A000DC73F /* TriviaTimer.m */,
+				3EB524D50C31D36C004A0DA1 /* TransitionAnimation.h */,
+				3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -388,6 +391,8 @@
 				3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */,
 				3E3FBABA0BBA19F300B2C457 /* TriviaGradientView.h */,
 				3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */,
+				3EB524C70C31D128004A0DA1 /* PlayerNameView.h */,
+				3EB524C80C31D128004A0DA1 /* PlayerNameView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -743,7 +748,6 @@
 				3E11DC2F0B84EB0E000DC73F /* TriviaBoardSimpleView.m in Sources */,
 				3E11DC520B84EE9A000DC73F /* TIPCGUtils.c in Sources */,
 				3E11DC530B84EE9A000DC73F /* TIPFreeWindow.m in Sources */,
-				3E11DC540B84EE9A000DC73F /* TIPFullViewTransition.m in Sources */,
 				3E11DC560B84EE9A000DC73F /* TIPTextContainer.m in Sources */,
 				3E11DC570B84EE9A000DC73F /* TriviaTimer.m in Sources */,
 				3E11DC7E0B84EF61000DC73F /* TIPGradient.c in Sources */,
@@ -758,6 +762,8 @@
 				3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */,
 				3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */,
 				3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */,
+				3EB524C90C31D128004A0DA1 /* PlayerNameView.m in Sources */,
+				3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
