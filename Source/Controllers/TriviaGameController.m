@@ -73,7 +73,7 @@
 	
 	[simpleBoardView setQuestion:selectedQuestion];
 	[simpleBoardView showQuestion];
-	[simpleBoardView setTimerLevel:4];
+	//[simpleBoardView setTimerLevel:4];
 }
 
 - (void)showAnswer
@@ -86,7 +86,7 @@
 	
 	[mainBoardView showAnswer];
 	[simpleBoardView showAnswer];
-	[simpleBoardView setTimerLevel:0];
+	[simpleBoardView stopTimer];
 	
 	buzzedPlayer = nil;
 	selectedQuestion = nil;
@@ -111,6 +111,7 @@
 	[questionTimer release];
 	questionTimer = [[TriviaTimer timerWithLength:questionTimeLength interval:0.1 target:self selector:@selector(questionTimerFired)] retain];
 	[questionTimer start];
+	[simpleBoardView startTimerOfLength:questionTimeLength];
 	
 	[playerController enableAllPlayers];
 }
@@ -183,6 +184,7 @@
 	[correctButton setEnabled:YES];
 	
 	[questionTimer start];
+	[simpleBoardView resetTimer];
 }
 
 #pragma mark Game Methods
@@ -290,8 +292,9 @@
 		
 		[incorrectButton setEnabled:NO];
 		[correctButton setEnabled:NO];
-	} else
-		[simpleBoardView setTimerLevel:[questionTimer currentLevel]];
+	} else {
+		//[simpleBoardView setTimerLevel:[questionTimer currentLevel]];
+	}
 	
 }
 

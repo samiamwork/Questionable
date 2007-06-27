@@ -21,7 +21,6 @@
 {
 	if( (self = [super initWithFrame:frameRect]) ) {
 		_viewState = kTriviaSimpleViewNothing;
-		_timerLevel = 4;
 		
 		_question = nil;
 		mainBoard = nil;
@@ -30,20 +29,25 @@
 		questionsPerCategory = 0;
 		
 		placeholderMessage = [[TIPTextContainer alloc] init];
-		//[placeholderMessage setText:@"No game has been started yet."];
 		[placeholderMessage setText:@"?"];
 		[placeholderMessage setFontSize:frameRect.size.height/5.0f];
 		[placeholderMessage setAlignment:kTIPTextAlignmentCenter];
 		[placeholderMessage setColor:[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.5f]];
+		
+		_leftTimerView = [[SimpleTimerView alloc] initWithFrame:NSMakeRect(0.0f,0.0f,25.0f,frameRect.size.height)];
+		[_leftTimerView setAutoresizingMask:NSViewHeightSizable|NSViewMaxXMargin];
+		[self addSubview:_leftTimerView];
+		
+		_rightTimerView = [[SimpleTimerView alloc] initWithFrame:NSMakeRect(frameRect.size.width-25.0f,0.0f,25.0f,frameRect.size.height)];
+		[_rightTimerView setAutoresizingMask:NSViewHeightSizable|NSViewMinXMargin];
+		[self addSubview:_rightTimerView];
 	}
 	
 	return self;
 }
 
 - (void)dealloc
-{
-	[super dealloc];
-	
+{	
 	if( mainBoard != nil )
 		[mainBoard release];
 	if( _question != nil )
@@ -52,6 +56,10 @@
 	[placeholderMessage release];
 	[titleArray release];
 	[pointArray release];
+	
+	[_leftTimerView release];
+	
+	[super dealloc];
 }
 
 - (void)setDelegate:(id)newDelegate
@@ -66,20 +74,22 @@
 	return delegate;
 }
 
-- (void)setTimerLevel:(unsigned int)newLevel
+- (void)startTimerOfLength:(NSTimeInterval)theLength
 {
-	if( newLevel == _timerLevel )
-		return;
-	
-	if( newLevel > 4 )
-		newLevel = 4;
-	
-	_timerLevel = newLevel;
-	[self setNeedsDisplay:YES];
+	[_leftTimerView startTimerOfLength:theLength];
+	[_rightTimerView startTimerOfLength:theLength];
 }
-- (unsigned int)timerLevel
+
+- (void)stopTimer
 {
-	return _timerLevel;
+	[_leftTimerView stopTimer];
+	[_rightTimerView stopTimer];
+}
+
+- (void)resetTimer
+{
+	[_leftTimerView resetTimer];
+	[_rightTimerView resetTimer];
 }
 
 #pragma mark Board Methods
@@ -279,6 +289,7 @@
 }
 
 #define BAR_PADDING_SCALE 0.025f
+/*
 - (void)drawTimer
 {
 	if( _timerLevel == 0 )
@@ -299,6 +310,7 @@
 		barRect.origin.y += barRect.size.height+barPadding;
 	}
 }
+*/
 
 - (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect
 {
@@ -354,11 +366,11 @@
 			break;
 		case kTriviaSimpleViewQuestion:
 			[self drawString:(NSString *)[_question question] withTitle:@"Question"];
-			[self drawTimer];
+			//[self drawTimer];
 			break;
 		case kTriviaSimpleViewAnswer: {
 			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
-			[self drawTimer];
+			//[self drawTimer];
 			} break;
 		default:
 			[self drawPlaceholder];

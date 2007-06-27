@@ -53,6 +53,7 @@
 		3EB0257F0B8BDB7F00A095F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB0257E0B8BDB7F00A095F9 /* OpenGL.framework */; };
 		3EB524C90C31D128004A0DA1 /* PlayerNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB524C80C31D128004A0DA1 /* PlayerNameView.m */; };
 		3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */; };
+		3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */; };
 		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
 		3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2508E0BE961C30032C6F0 /* TODO.txt */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
@@ -169,6 +170,8 @@
 		3EB524C80C31D128004A0DA1 /* PlayerNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerNameView.m; sourceTree = "<group>"; };
 		3EB524D50C31D36C004A0DA1 /* TransitionAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionAnimation.h; sourceTree = "<group>"; };
 		3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionAnimation.m; sourceTree = "<group>"; };
+		3EB525E90C31F94D004A0DA1 /* SimpleTimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTimerView.h; sourceTree = "<group>"; };
+		3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTimerView.m; sourceTree = "<group>"; };
 		3EBE04BB0C2D95A600C8334B /* PrefsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsValidator.h; sourceTree = "<group>"; };
 		3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsValidator.m; sourceTree = "<group>"; };
 		3EC2508E0BE961C30032C6F0 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; wrapsLines = 1; };
@@ -393,6 +396,8 @@
 				3E3FBABB0BBA19F300B2C457 /* TriviaGradientView.m */,
 				3EB524C70C31D128004A0DA1 /* PlayerNameView.h */,
 				3EB524C80C31D128004A0DA1 /* PlayerNameView.m */,
+				3EB525E90C31F94D004A0DA1 /* SimpleTimerView.h */,
+				3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -764,6 +769,7 @@
 				3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */,
 				3EB524C90C31D128004A0DA1 /* PlayerNameView.m in Sources */,
 				3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */,
+				3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

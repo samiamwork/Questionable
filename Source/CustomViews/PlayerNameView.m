@@ -26,11 +26,6 @@
 	[super dealloc];
 }
 
-- (void)awakeFromNib
-{
-	[self setStringValue:@"really long string to not fit"];
-}
-
 - (void)animationTick:(TransitionAnimation *)theAnimation
 {
 	

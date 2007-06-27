@@ -10,6 +10,7 @@
 #import "TriviaBoard.h"
 #import "TIPTextContainer.h"
 #import "TIPCGUtils.h"
+#import "SimpleTimerView.h"
 
 typedef enum TriviaSimpleViewState {
 	kTriviaSimpleViewNothing,
@@ -29,8 +30,9 @@ typedef enum TriviaSimpleViewState {
 	NSMutableArray *titleArray;
 	NSMutableArray *pointArray;
 	
-	TriviaSimpleViewState _viewState;
-	unsigned int _timerLevel;
+	TriviaSimpleViewState _viewState;	
+	SimpleTimerView *_leftTimerView;
+	SimpleTimerView *_rightTimerView;
 }
 
 - (void)setDelegate:(id)newDelegate;
@@ -39,8 +41,9 @@ typedef enum TriviaSimpleViewState {
 - (TriviaBoard *)board;
 - (void)setQuestion:(TriviaQuestion *)newQuestion;
 - (TriviaQuestion *)question;
-- (void)setTimerLevel:(unsigned int)newLevel;
-- (unsigned int)timerLevel;
+- (void)startTimerOfLength:(NSTimeInterval)theLength;
+- (void)stopTimer;
+- (void)resetTimer;
 
 - (void)showBoard;
 - (void)showQuestion;
