@@ -1,7 +1,11 @@
+~ Make long player names fit truncated in main game views score display screen.
+~ Update help book
+~ limit inputs to only buttons.
+~ Show timer in main game view
+~ pre-load graphics before begining animation (makes things too jumpy otherwise).
 ~ undo
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
-~ get exclusive access of mice (won't use them otherwise)
 
 - Cosmetic -
 ~ Add slight shine to board items.
