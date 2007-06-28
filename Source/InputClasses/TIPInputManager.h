@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TIPInputDevice.h"
+#import "TriviaSoundController.h"
 
 /*!
 	@class TIPInputManager

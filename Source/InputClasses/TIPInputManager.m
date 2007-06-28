@@ -195,6 +195,7 @@ void HIDAddDevices( void *managerRef, io_iterator_t iterator )
 	TIPInputManager *manager = (TIPInputManager *)managerRef;
 	io_object_t ioObject;
 	
+	NSAutoreleasePool *newPool = [[NSAutoreleasePool alloc] init];
 	while( (ioObject = IOIteratorNext(iterator)) ) {
 		//printf("device added!\n");
 		
@@ -204,6 +205,9 @@ void HIDAddDevices( void *managerRef, io_iterator_t iterator )
 		
 		//printf("Device count = %d\n", [manager->deviceArray count]);
 	}
+	// wait until we've got a nice sound for this
+	//[[TriviaSoundController defaultController] playSound:SoundThemeSoundCorrectAnswer];
+	[newPool release];
 }
 
 void HIDRemoveDevices( void *managerRef, io_iterator_t iterator )
