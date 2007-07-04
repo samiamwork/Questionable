@@ -111,6 +111,7 @@
 	if( mainBoard == nil ) {
 		_viewState = kTriviaSimpleViewNothing;
 		[self setNeedsDisplay:YES];
+		[self stopTimer];
 		return;
 	}
 	
