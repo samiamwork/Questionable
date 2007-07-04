@@ -70,6 +70,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		
 		_fitInRect = NO;
 		_widthDirty = YES;
+		_truncate = NO;
 	}
 	
 	return self;
@@ -159,7 +160,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
 	
 	ATSUClearSoftLineBreaks(defaultLayout,kATSUFromTextBeginning,kATSUToTextEnd);
-	status = ATSUBatchBreakLines(defaultLayout,kATSUFromTextBeginning,kATSUToTextEnd, FloatToFixed(width),NULL);
+	if( _truncate == NO )
+		status = ATSUBatchBreakLines(defaultLayout,kATSUFromTextBeginning,kATSUToTextEnd, FloatToFixed(width),NULL);
 	
 	endOfLines = NULL;
 	lineHeights = NULL;
@@ -386,6 +388,25 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	CGColorRelease(shadowColor);
 	CGColorSpaceRelease(colorSpaceRef);
+}
+
+- (void)setTruncates:(BOOL)shouldTruncate
+{
+	if( shouldTruncate == _truncate )
+		return;
+	
+	_truncate = shouldTruncate;
+	OSStatus status;
+	
+	ATSUAttributeTag layoutTags[] = {kATSULineTruncationTag};
+	ByteCount layoutSizes[] = {sizeof(ATSULineTruncation)};
+	ATSULineTruncation truncate = _truncate ? kATSUTruncateEnd : kATSUTruncateNone;
+	ATSUAttributeValuePtr layoutValues[] = {&truncate};
+	
+	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
+	if(status != noErr)
+		printf(ERR_PREFIX "Could not set truncate!\n");
+	_widthDirty = YES;
 }
 
 - (unsigned int)lineCount

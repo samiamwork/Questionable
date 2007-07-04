@@ -35,6 +35,7 @@ typedef enum _TIPTextAlignment {
 	
 	BOOL _fitInRect;
 	BOOL _widthDirty;
+	BOOL _truncate;
 }
 
 + (id)containerWithString:(NSString *)aString;
@@ -52,6 +53,7 @@ typedef enum _TIPTextAlignment {
 - (void)setColor:(NSColor *)aColor;
 - (void)setText:(NSString *)theText;
 - (void)setShadowWithOffset:(NSSize)anOffset color:(NSColor *)aColor blur:(float)blur;
+- (void)setTruncates:(BOOL)shouldTruncate;
 
 - (unsigned int)lineCount;
 - (NSSize)containerSize;

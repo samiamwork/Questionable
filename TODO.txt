@@ -1,4 +1,4 @@
-~ Make long player names fit truncated in main game views score display screen.
+~ Pausing in the middle of anything other than a question does not work right.
 ~ Update help book
 ~ limit inputs to only buttons.
 ~ Show timer in main game view

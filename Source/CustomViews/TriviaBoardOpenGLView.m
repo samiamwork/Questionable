@@ -195,11 +195,9 @@
 	if( _questionTitleString != nil ) {
 		[_questionTitleString setWidth:[_QATitleBox size].width];
 		[_questionTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
-		//[_questionTitleString fitInSize:NSMakeSize(ceilf([_QATitleBox size].width*0.9f),ceilf([_QATitleBox size].height*0.9f))];
 	}
 	if( _questionString != nil ) {
 		[_questionString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		//[_questionString setFontSize:ceilf([_QATextBox size].height/8.0f)];
 		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
 		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/2.0f )
 			[_questionString setFontSize:ceilf([_QATextBox size].height/2.0f)];
@@ -211,12 +209,10 @@
 	}
 	if( _answerString != nil ) {
 		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		//[_answerString setFontSize:ceilf([_QATextBox size].height/8.0f)];
 		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
 		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/2.0f )
 			[_answerString setFontSize:ceilf([_QATextBox size].height/2.0f)];
-	}
-	
+	}	
 	
 	if( [_playerNameStrings count] != 0 ) {
 		NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
@@ -643,6 +639,8 @@
 	TriviaPlayer *aPlayer;
 	while( (aPlayer = [playerEnumerator nextObject]) ) {
 		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		[[aNameTexture textContainer] setTruncates:YES];
+		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		[_playerNameStrings addObject:aNameTexture];
 		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		[_playerPointStrings addObject:aPointTexture];
