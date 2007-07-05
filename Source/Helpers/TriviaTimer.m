@@ -61,14 +61,6 @@
 {
 	return timeElapsed;
 }
-- (unsigned int)currentLevel
-{
-	float percentLeft = (timeLength-timeElapsed)/timeLength;
-	if( percentLeft < 0.0f )
-		percentLeft = 0.0f;
-	
-	return (unsigned int)(ceilf(4.0f*percentLeft));
-}
 - (void)setTimeInterval:(NSTimeInterval)interval
 {
 	if( interval <= 0.0 )

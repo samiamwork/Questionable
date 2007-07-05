@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+/*
+ * A repeating timer that can be paused, stopped, and restarted.
+ */
 
 @interface TriviaTimer : NSObject {
 	id targetObject;
@@ -28,7 +31,6 @@
 - (NSTimeInterval)timeLength;
 - (void)setTimeLength:(NSTimeInterval)length;
 - (NSTimeInterval)timeElapsed;
-- (unsigned int)currentLevel;
 - (void)setTimeInterval:(NSTimeInterval)interval;
 - (void)setTarget:(id)target selector:(SEL)selector;
 
