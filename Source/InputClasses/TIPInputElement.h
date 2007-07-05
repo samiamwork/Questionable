@@ -47,6 +47,7 @@
 
 - (long)usagePage;
 - (long)usage;
+- (IOHIDElementType)type;
 
 - (long)getValue;
 - (void)setReferenceValue;

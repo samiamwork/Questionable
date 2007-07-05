@@ -123,7 +123,7 @@
 		NSDictionary *elementDescription;
 		while( (elementDescription = [elementEnumerator nextObject]) ) {
 			TIPInputElement *newElement = [TIPInputElement elementWithDictionary:elementDescription device:self];
-			if( [newElement usage] != -1 )
+			if( [newElement usage] != -1 && [newElement type] != kIOHIDElementTypeInput_Axis )
 				[elements addObject:newElement];
 		}
 	}

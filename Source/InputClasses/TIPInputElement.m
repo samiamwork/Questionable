@@ -95,7 +95,7 @@
 			
 			while( (elementDict = [elementEnumerator nextObject]) ) {
 				TIPInputElement *newCollectionElement = [TIPInputElement elementWithDictionary:elementDict device:aDevice];
-				if( [newCollectionElement usage] != -1 )
+				if( [newCollectionElement usage] != -1 && [newCollectionElement type] != kIOHIDElementTypeInput_Axis )
 					[newElement->collectionElements addObject:newCollectionElement];
 			}
 				
@@ -177,6 +177,11 @@
 - (long)usage
 {
 	return usage;
+}
+
+- (IOHIDElementType)type
+{
+	return type;
 }
 
 - (long)getValue
