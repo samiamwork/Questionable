@@ -33,6 +33,14 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[self stop];
+
+	[super dealloc];
+}
+
+
 + (TriviaTimer *)timerWithLength:(NSTimeInterval)length interval:(NSTimeInterval)interval target:(id)target selector:(SEL)selector
 {
 	id newInstance = [[[self class] alloc] init];

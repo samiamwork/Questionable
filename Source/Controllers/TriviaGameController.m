@@ -91,7 +91,9 @@
 	buzzedPlayer = nil;
 	selectedQuestion = nil;
 	
-	displayTimer = [NSTimer scheduledTimerWithTimeInterval:displayTimeLength target:self selector:@selector(answerTimerFired:) userInfo:nil repeats:NO];
+	//displayTimer = [NSTimer scheduledTimerWithTimeInterval:displayTimeLength target:self selector:@selector(answerTimerFired:) userInfo:nil repeats:NO];
+	displayTimer = [[TriviaTimer timerWithLength:displayTimeLength interval:displayTimeLength target:self selector:@selector(answerTimerFired)] retain];
+	[displayTimer start];
 }
 
 - (void)questionSelected:(unsigned)questionIndex inCategory:(unsigned)categoryIndex
@@ -235,6 +237,8 @@
 	[roundTimer pause];
 	[questionTimer pause];
 	[simpleBoardView pauseTimer];
+	[mainBoardView pause];
+	[displayTimer pause];
 	
 	if( delegate != nil && [delegate respondsToSelector:@selector(willPauseGame:)] )
 		[delegate willPauseGame:self];
@@ -253,7 +257,7 @@
 	[roundTimer stop];
 	
 	if( displayTimer != nil) {
-		[displayTimer invalidate];
+		[displayTimer release];
 		displayTimer = nil;
 	}
 	
@@ -306,14 +310,18 @@
 }
 
 // fires only once because we need no indicator for progress
-- (void)answerTimerFired:(NSTimer *)theTimer
+- (void)answerTimerFired
 {
 	[mainBoardView showPlayers];
-	displayTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(playerStatTimerFired:) userInfo:nil repeats:NO];
+	//displayTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(playerStatTimerFired:) userInfo:nil repeats:NO];
+	[displayTimer release];
+	displayTimer = [[TriviaTimer timerWithLength:5.0 interval:5.0 target:self selector:@selector(playerStatTimerFired)] retain];
+	[displayTimer start];
 }
 
-- (void)playerStatTimerFired:(NSTimer *)theTimer
+- (void)playerStatTimerFired
 {
+	[displayTimer release];
 	displayTimer = nil;
 	if( [currentBoard allUsed] )
 		[self stopRound];

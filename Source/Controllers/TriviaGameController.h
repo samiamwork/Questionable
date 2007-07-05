@@ -35,7 +35,7 @@
 	NSTimeInterval roundTimeLength;
 	NSTimeInterval questionTimeLength;
 	
-	NSTimer *displayTimer;
+	TriviaTimer *displayTimer;
 	NSTimeInterval displayTimeLength;
 	
 	BOOL paused;
