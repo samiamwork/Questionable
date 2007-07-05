@@ -70,6 +70,8 @@
 }
 - (void)pauseTimer
 {
+	[_timerAnimation pause];
+	/*
 	if( ![_timerAnimation isAnimating] && [_timerAnimation currentProgress] == 1.0 )
 		return;
 	
@@ -77,6 +79,7 @@
 		[_timerAnimation stopAnimation];
 	else
 		[_timerAnimation startAnimation];
+	 */
 }
 - (void)resumeTimer
 {

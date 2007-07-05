@@ -74,7 +74,6 @@
 	
 	[simpleBoardView setQuestion:selectedQuestion];
 	[simpleBoardView showQuestion];
-	//[simpleBoardView setTimerLevel:4];
 }
 
 - (void)showAnswer
@@ -155,7 +154,6 @@
 	if( [playerController allDisabled] )
 		[self showAnswer];
 	else {
-		//[mainBoardView removeBadgeWithRedraw:YES];
 		[simpleBoardView showQuestion];
 		[questionTimer start];
 	}
@@ -303,8 +301,6 @@
 		
 		[incorrectButton setEnabled:NO];
 		[correctButton setEnabled:NO];
-	} else {
-		//[simpleBoardView setTimerLevel:[questionTimer currentLevel]];
 	}
 	
 }

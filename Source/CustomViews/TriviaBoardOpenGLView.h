@@ -12,6 +12,7 @@
 #import "TriviaBoard.h"
 #import "TriviaPlayer.h"
 #import "RectangularBox.h"
+#import "TransitionAnimation.h"
 
 typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlaceholder,
@@ -43,8 +44,7 @@ typedef enum TIPTriviaBoardViewState {
 	
 	TIPTriviaBoardViewState theViewState;
 	TIPTriviaBoardViewState lastViewState;
-	NSAnimation *_transitionAnimation;
-	NSTimer *_transitionTimer;
+	TransitionAnimation *_transitionAnimation;
 	
 	//display Objects
 	RectangularBox *_categoryTitleBox;
@@ -94,4 +94,6 @@ typedef enum TIPTriviaBoardViewState {
 
 - (void)setBoardViewState:(TIPTriviaBoardViewState)newState;
 - (void)refresh;
+
+- (void)pause;
 @end

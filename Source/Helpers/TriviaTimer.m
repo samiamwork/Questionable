@@ -142,8 +142,8 @@
 - (void)timerFired:(NSTimer *)theTimer
 {
 	[self addElapsedTime];
-	
-	if( timeElapsed > timeLength ) {
+		
+	if( timeElapsed >= timeLength ) {
 		[timer invalidate];
 		timer = nil;
 		
@@ -151,10 +151,8 @@
 		stopped = YES;
 	}
 	
-	if( targetObject == nil )
-		return;
-	
-	[targetObject performSelector:targetSelector];
+	if( targetObject != nil )
+		[targetObject performSelector:targetSelector];
 }
 
 - (void)addElapsedTime

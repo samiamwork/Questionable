@@ -24,4 +24,15 @@
 		[self stopAnimation];
 }
 
+- (void)pause
+{
+	if( [self currentProgress] == 1.0 || [self currentProgress] == 0.0 )
+		return;
+	
+	if( [self isAnimating] )
+		[self stopAnimation];
+	else
+		[self startAnimation];
+	
+}
 @end

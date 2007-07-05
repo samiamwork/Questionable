@@ -45,8 +45,9 @@
 		_categories = nil;
 		_question = nil;
 		_players = nil;
-		_transitionAnimation = [[NSAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseInOut];
+		_transitionAnimation = [[TransitionAnimation alloc] initWithDuration:0.5 animationCurve:NSAnimationEaseInOut];
 		[_transitionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+		[_transitionAnimation setDelegate:self];
 		
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
 		
@@ -477,9 +478,6 @@
 		}
 		
 		lastViewState = theViewState;
-		if( _transitionTimer != nil )
-			[_transitionTimer invalidate];
-		_transitionTimer = nil;
 	}
 	
 	if( theViewState != lastViewState ) {
@@ -595,17 +593,14 @@
 		return;
 	// for transition animations
 	theViewState = newState;
-		
-	if( _transitionTimer != nil )
-		[_transitionTimer invalidate];
-	_transitionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(transitionUpdate:) userInfo:nil repeats:YES];
+	
 	[_transitionAnimation setCurrentProgress:0.0];
 	[_transitionAnimation startAnimation];
 	
 	[self setNeedsDisplay:YES];
 }
 
-- (void)transitionUpdate:(NSTimer *)aTimer
+-  (void)animationTick:(TransitionAnimation *)theAnimation
 {
 	[self setNeedsDisplay:YES];
 }
@@ -677,6 +672,11 @@
 	}
 	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_answerTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
+}
+
+- (void)pause
+{
+	[_transitionAnimation pause];
 }
 
 @end
