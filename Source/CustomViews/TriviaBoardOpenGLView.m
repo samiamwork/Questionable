@@ -116,6 +116,7 @@
 		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
 		
 		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
+		_transitionDoneCallback = nil;
     }
 	
     return self;
@@ -151,6 +152,9 @@
 	[_placeholderBox release];
 	[_questionmark release];
 	[_placeholderShine release];
+	
+	[_qTimer release];
+	[_transitionDoneCallback release];
 
 	[super dealloc];
 }
@@ -411,7 +415,7 @@
 			glPushMatrix();
 			glTranslatef([_QATitleBox size].height/2.0f,[_QATitleBox size].height/2.0f,0.0f);
 			glScalef(_contextSize.height/480.0f,_targetSize.height/480.0f,1.0f);
-			[_qTimer drawPercentage:1.0f];
+			[_qTimer draw];
 			glPopMatrix();
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
 			[_QATextBox drawWithString:_questionString];
@@ -488,6 +492,7 @@
 		}
 		
 		lastViewState = theViewState;
+		[_transitionDoneCallback invoke];
 	}
 	
 	if( theViewState != lastViewState ) {
@@ -585,6 +590,22 @@
 	return _question;
 }
 
+- (void)setProgress:(float)newProgress
+{
+	[_qTimer setProgress:newProgress];
+	if( theViewState == kTIPTriviaBoardViewStateQuestion )
+		[self setNeedsDisplay:YES];
+}
+
+- (void)setTransitionDoneCallback:(NSInvocation *)callback
+{
+	if( callback == _transitionDoneCallback )
+		return;
+	
+	[_transitionDoneCallback release];
+	_transitionDoneCallback = [callback retain];
+}
+
 - (void)refresh
 {
 	if( _questionString != nil )
@@ -666,6 +687,7 @@
 	}
 	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
+	[_qTimer setProgress:1.0f];
 }
 
 - (void)showAnswer

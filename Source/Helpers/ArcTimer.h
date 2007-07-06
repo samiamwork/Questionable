@@ -22,6 +22,7 @@
 	float _radius;
 	
 	DotTexture *_dot;
+	float _progress;
 }
 
 - (id)initWithRadius:(float)radius;
@@ -31,5 +32,6 @@
 - (void)setBGColor:(NSColor *)newColor;
 - (NSColor *)bgColor;
 
-- (void)drawPercentage:(float)percentage;
+- (void)setProgress:(float)newProgress;
+- (float)progress;
 @end

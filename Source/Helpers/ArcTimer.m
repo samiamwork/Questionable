@@ -95,15 +95,24 @@
 	return _bgColor;
 }
 
+- (void)setProgress:(float)newProgress
+{
+	_progress = newProgress;
+}
+- (float)progress
+{
+	return _progress;
+}
+
 //const float dots
 
-- (void)drawPercentage:(float)percentage
+- (void)draw
 {
 	glColor4f(0.3f,0.3f,0.3f,0.3f);
 	
-	float currentPercentage = 0.0f;
+	float currentProgress = 0.0f;
 	int i;
-	for( i=0; i<8 && currentPercentage<percentage; i++ ) {
+	for( i=0; i<8 && currentProgress<_progress; i++ ) {
 		glPushMatrix();
 		glRotatef(i*360.0f/8.0f,0.0f,0.0f,1.0f);
 		glTranslatef(0.0f,_radius - [_dot size].width/2.0f,0.0f);
@@ -111,13 +120,9 @@
 		[_dot drawCentered];
 		
 		glPopMatrix();
-		currentPercentage += 1.0f/8.0f;
+		currentProgress += 1.0f/8.0f;
 	}
 
 }
 
-- (void)draw
-{
-	[self drawPercentage:1.0f];
-}
 @end

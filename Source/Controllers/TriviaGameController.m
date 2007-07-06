@@ -96,6 +96,19 @@
 	[displayTimer start];
 }
 
+- (void)questionReady
+{
+	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
+	questionTimeLength = [[defaults valueForKey:@"lengthOfQuestion"] doubleValue];
+	[questionTimer release];
+	questionTimer = [[TriviaTimer timerWithLength:questionTimeLength interval:0.1 target:self selector:@selector(questionTimerFired)] retain];
+	[questionTimer start];
+	[simpleBoardView startTimerOfLength:questionTimeLength];
+	
+	[playerController enableAllPlayers];
+	[mainBoardView setTransitionDoneCallback:nil];
+}
+
 - (void)questionSelected:(unsigned)questionIndex inCategory:(unsigned)categoryIndex
 {
 	// don't select a new question if we're already answering one
@@ -106,16 +119,11 @@
 	selectedQuestionIndex = questionIndex;
 	selectedQuestion = [currentBoard getQuestion:selectedQuestionIndex inCategory:selectedCategoryIndex];
 	
+	NSInvocation *doneCallback = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(questionReady)]];
+	[doneCallback setSelector:@selector(questionReady)];
+	[doneCallback setTarget:self];
+	[mainBoardView setTransitionDoneCallback:doneCallback];
 	[self showQuestion];
-
-	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
-	questionTimeLength = [[defaults valueForKey:@"lengthOfQuestion"] doubleValue];
-	[questionTimer release];
-	questionTimer = [[TriviaTimer timerWithLength:questionTimeLength interval:0.1 target:self selector:@selector(questionTimerFired)] retain];
-	[questionTimer start];
-	[simpleBoardView startTimerOfLength:questionTimeLength];
-	
-	[playerController enableAllPlayers];
 }
 
 - (IBAction)correctAnswer:(id)sender
@@ -293,6 +301,7 @@
 
 - (void)questionTimerFired
 {
+	[mainBoardView setProgress:1.0f-(float)[questionTimer timeElapsed]/(float)[questionTimer timeLength]];
 	if( [questionTimer stopped] ) {
 		
 		if( buzzedPlayer != nil )
@@ -306,7 +315,7 @@
 		[incorrectButton setEnabled:NO];
 		[correctButton setEnabled:NO];
 	}
-	
+
 }
 
 // fires only once because we need no indicator for progress

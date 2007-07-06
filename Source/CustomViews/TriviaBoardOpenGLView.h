@@ -80,6 +80,7 @@ typedef enum TIPTriviaBoardViewState {
 	float _playerPointPadding;
 	
 	ArcTimer *_qTimer;
+	NSInvocation *_transitionDoneCallback;
 }
 
 - (void)setBoard:(TriviaBoard *)newBoard;
@@ -88,6 +89,9 @@ typedef enum TIPTriviaBoardViewState {
 - (NSArray *)players;
 - (void)setQuestion:(TriviaQuestion *)newQuestion;
 - (TriviaQuestion *)question;
+
+- (void)setProgress:(float)newProgress;
+- (void)setTransitionDoneCallback:(NSInvocation *)callback;
 
 - (void)showBoard;
 - (void)showPlayers;
