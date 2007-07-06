@@ -107,6 +107,7 @@
 		_questionmark = [[StringTexture alloc] initWithString:@"?" withWidth:150.0f withFontSize:100.0f];
 		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
 		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
+		[_questionmark setFontSize:100.0f];
 		
 		_placeholderShine = [[RectangularBox alloc] init];
 		[_placeholderShine enableBorder:NO];
@@ -114,6 +115,7 @@
 		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.1f]];
 		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
 		
+		_qTimer = [[ArcTimer alloc] initWithRadius:100.0f];
     }
 	
     return self;
@@ -312,6 +314,7 @@
 	placeholderSize.height = [_placeholderShine cornerRadius] * 1.5f;
 	[_placeholderShine setSize:placeholderSize];
 	
+	[_qTimer setRadius:0.8f*[_QATitleBox size].height/2.0f];
 	[self regenerateStringTextures];
 }
 
@@ -403,6 +406,10 @@
 		case kTIPTriviaBoardViewStateQuestion:
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
 			[_QATitleBox drawWithString:_questionTitleString];
+			glPushMatrix();
+			glTranslatef([_QATitleBox size].height/2.0f,[_QATitleBox size].height/2.0f,0.0f);
+			[_qTimer drawPercentage:1.0f];
+			glPopMatrix();
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
 			[_QATextBox drawWithString:_questionString];
 			break;
@@ -419,7 +426,7 @@
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
 			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
-			// drawn twice as a horrible hack to get it to show up on the first frame
+			//HACK: drawn twice as a horrible hack to get it to show up on the first frame
 			[_placeholderBox drawWithString:_questionmark];
 			[_placeholderBox drawWithString:_questionmark];
 			
@@ -487,7 +494,7 @@
 	} else {
 		[self drawState:theViewState withProgress:0.0f];
 	}
-	 
+	
 	[_windowedContext flushBuffer];
 }
 

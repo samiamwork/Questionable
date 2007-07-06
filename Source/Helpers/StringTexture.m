@@ -197,7 +197,6 @@
 	NSSize drawnSize = _textureSize;
 	drawnSize.width = width;
 	drawnSize.height *= width/_textureSize.width;
-	
 	glPushAttrib(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();

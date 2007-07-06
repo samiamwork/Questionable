@@ -13,6 +13,7 @@
 #import "TriviaPlayer.h"
 #import "RectangularBox.h"
 #import "TransitionAnimation.h"
+#import "../Helpers/ArcTimer.h"
 
 typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlaceholder,
@@ -77,6 +78,8 @@ typedef enum TIPTriviaBoardViewState {
 	NSSize _playerNameSize;
 	NSSize _playerPointSize;
 	float _playerPointPadding;
+	
+	ArcTimer *_qTimer;
 }
 
 - (void)setBoard:(TriviaBoard *)newBoard;

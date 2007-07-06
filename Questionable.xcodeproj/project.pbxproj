@@ -46,6 +46,8 @@
 		3E806EA30BD5C8DC0068BD88 /* Sound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E900BD5C8DC0068BD88 /* Sound.tiff */; };
 		3E806EA40BD5C8DC0068BD88 /* Stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E910BD5C8DC0068BD88 /* Stop.tiff */; };
 		3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */ = {isa = PBXBuildFile; fileRef = 3E806FA70BD6C82E0068BD88 /* Questionable Help */; };
+		3E8DB74D0C3D769800DC2845 /* ArcTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DB74C0C3D769800DC2845 /* ArcTimer.m */; };
+		3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
@@ -157,6 +159,10 @@
 		3E806E900BD5C8DC0068BD88 /* Sound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sound.tiff; sourceTree = "<group>"; };
 		3E806E910BD5C8DC0068BD88 /* Stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop.tiff; sourceTree = "<group>"; };
 		3E806FA80BD6C82E0068BD88 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Questionable Help"; sourceTree = "<group>"; };
+		3E8DB74B0C3D769800DC2845 /* ArcTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcTimer.h; sourceTree = "<group>"; };
+		3E8DB74C0C3D769800DC2845 /* ArcTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcTimer.m; sourceTree = "<group>"; };
+		3E8DB8440C3DC34100DC2845 /* TextureCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureCanvas.h; sourceTree = "<group>"; };
+		3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureCanvas.m; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -339,6 +345,10 @@
 				3E11DC510B84EE9A000DC73F /* TriviaTimer.m */,
 				3EB524D50C31D36C004A0DA1 /* TransitionAnimation.h */,
 				3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */,
+				3E8DB74B0C3D769800DC2845 /* ArcTimer.h */,
+				3E8DB74C0C3D769800DC2845 /* ArcTimer.m */,
+				3E8DB8440C3DC34100DC2845 /* TextureCanvas.h */,
+				3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -770,6 +780,8 @@
 				3EB524C90C31D128004A0DA1 /* PlayerNameView.m in Sources */,
 				3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */,
 				3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */,
+				3E8DB74D0C3D769800DC2845 /* ArcTimer.m in Sources */,
+				3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
