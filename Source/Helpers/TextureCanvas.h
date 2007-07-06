@@ -12,7 +12,16 @@
 #import <OpenGL/glext.h>
 #import <OpenGL/OpenGL.h>
 
-@interface TextureCanvas : NSObject {
+@protocol TextureScaling
+- (void)setScale:(float)newScale;
+- (void)setSize:(NSSize)newSize;
+- (NSSize)size;
+
+- (void)buildTexture;
+- (void)draw;
+@end
+
+@interface TextureCanvas : NSObject <TextureScaling> {
 	GLuint _texture;
 	NSSize _size;
 	NSSize _textureSize;
@@ -21,12 +30,8 @@
 	BOOL _dirtyTexture;
 }
 
-- (void)setScale:(float)newScale;
-- (float)scale;
-- (void)setSize:(NSSize)newSize;
-- (NSSize)size;
 - (NSSize)textureSize;
-
+-  (float)scale;
 /*
  * Binds the texture for use by openGL.
  * Must call unbind after done.
@@ -34,9 +39,6 @@
 - (void)set;
 - (void)unset;
 
-- (void)buildTexture;
 - (void)drawTexture:(CGContextRef)cxt;
-
-- (void)draw;
 - (void)drawCentered;
 @end

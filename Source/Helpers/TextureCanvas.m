@@ -75,8 +75,9 @@
 - (void)set
 {
 	glPushAttrib(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _texture);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 }
 - (void)unset
 {
@@ -103,7 +104,7 @@
 	
 	// draw BG Texture
 	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize.width,_textureSize.height));
-	
+
 	[self drawTexture:bitmapContext];
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -113,6 +114,7 @@
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	
 	free(bitmapData);
+	CGContextRelease(bitmapContext);
 	_dirtyTexture = NO;
 }
 - (void)drawTexture:(CGContextRef)cxt
@@ -127,6 +129,7 @@
 	
 	[self set];	
 	
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _texture);
 	glBegin(GL_TRIANGLE_STRIP); {
 		glTexCoord2f(0.0f,0.0f); glVertex2f(0.0f,0.0f);
 		glTexCoord2f(_textureSize.width,0.0f); glVertex2f(_size.width,0.0f);

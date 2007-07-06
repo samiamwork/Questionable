@@ -115,7 +115,7 @@
 		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.1f]];
 		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
 		
-		_qTimer = [[ArcTimer alloc] initWithRadius:100.0f];
+		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
     }
 	
     return self;
@@ -314,7 +314,9 @@
 	placeholderSize.height = [_placeholderShine cornerRadius] * 1.5f;
 	[_placeholderShine setSize:placeholderSize];
 	
-	[_qTimer setRadius:0.8f*[_QATitleBox size].height/2.0f];
+	
+	[_qTimer setScale:_targetSize.height/480.0f];
+	
 	[self regenerateStringTextures];
 }
 
@@ -408,6 +410,7 @@
 			[_QATitleBox drawWithString:_questionTitleString];
 			glPushMatrix();
 			glTranslatef([_QATitleBox size].height/2.0f,[_QATitleBox size].height/2.0f,0.0f);
+			glScalef(_contextSize.height/480.0f,_targetSize.height/480.0f,1.0f);
 			[_qTimer drawPercentage:1.0f];
 			glPopMatrix();
 			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);

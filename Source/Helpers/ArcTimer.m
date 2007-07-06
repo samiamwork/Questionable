@@ -8,88 +8,56 @@
 
 #import "ArcTimer.h"
 
+@implementation DotTexture
+- (void)drawTexture:(CGContextRef)cxt
+{
+	float radius = [self size].width*[self scale]/2.0f;
+	CGContextAddArc(cxt,[self textureSize].width/2.0f,[self textureSize].height/2.0f,radius,0.0f,M_PI*2.0f,1);
+	CGContextSetRGBFillColor(cxt,1.0f,1.0f,1.0f,1.0f);
+	CGContextClosePath(cxt);
+	CGContextFillPath(cxt);
+}
+@end
 
 @implementation ArcTimer
 
 - (id)init
 {
 	if( (self = [super init]) ) {
-		_bgTexture = 0;
 		_radius = 10.0f;
 		
 		_bgColor = [[NSColor whiteColor] retain];
-		
-		_textureSize = 0.0f;
-		_dirtyTexture = YES;
+		_dot = [[DotTexture alloc] init];
+		[_dot setSize:NSMakeSize(1.0f,1.0f)];
 	}
 
 	return self;
 }
 
-- (void)deleteTextures
-{
-	if( _bgTexture == 0 )
-		return;
-	
-	glDeleteTextures(1,&_bgTexture);
-	_bgTexture = 0;
-}
-
 - (void)dealloc
 {
 	[_bgColor release];
-	[self deleteTextures];
+	[_dot release];
 
 	[super dealloc];
 }
 
 - (id)initWithRadius:(float)radius{
 	if( (self = [super init]) ) {
+		_dot = [[DotTexture alloc] init];
 		[self setRadius:radius];
-		_dirtyTexture = YES;
 	}
 	
 	return self;
 }
 
-- (void)generateTextures
+- (void)setScale:(float)newScale
 {
-	[self deleteTextures];
-	
-	float circleRadius = ceilf(_radius/5.0f);
-	_textureSize = ceilf(circleRadius + 1.0f)*2.0f;
-	
-	void *bitmapData = calloc( (int)_textureSize*(int)_textureSize*4, 1 );
-	if( bitmapData == NULL ) {
-		printf("could not allocate bitmap data\n");
-		return;
-	}
-	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef bitmapContext = CGBitmapContextCreate(bitmapData,(int)_textureSize,(int)_textureSize,8,(int)_textureSize*4,colorSpace,kCGImageAlphaPremultipliedLast);
-	if( bitmapContext == NULL ) {
-		printf("Could not create bitmapContext\n");
-		return;
-	}
-	CGColorSpaceRelease(colorSpace);
-	
-	// draw BG Texture
-	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
-	
-	CGContextAddArc(bitmapContext,_textureSize/2.0f,_textureSize/2.0f,circleRadius,0.0f,M_PI*2.0f,1);
-	CGContextSetRGBFillColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
-	CGContextClosePath(bitmapContext);
-	CGContextFillPath(bitmapContext);
-	
-	glEnable(GL_TEXTURE_RECTANGLE_EXT);
-	glGenTextures(1, &_bgTexture);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
-	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, _textureSize, _textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmapData);
-	glDisable(GL_TEXTURE_RECTANGLE_EXT);
-	
-	// draw background texture
-	free(bitmapData);
-	_dirtyTexture = NO;
+	[_dot setScale:newScale];
+}
+- (void)buildTexture
+{
+	[_dot buildTexture];
 }
 
 - (void)setRadius:(float)newRadius
@@ -98,11 +66,20 @@
 		return;
 	
 	_radius = newRadius;
-	_dirtyTexture = YES;
+	[_dot setSize:NSMakeSize(ceil(_radius/2.5f),ceil(_radius/2.5f))];
 }
 - (float)radius
 {
 	return _radius;
+}
+
+- (void)setSize:(NSSize)newSize
+{
+	[self setRadius:MIN(newSize.width,newSize.height)/2.0f];
+}
+- (NSSize)size
+{
+	return NSMakeSize(_radius*2.0f,_radius*2.0f);
 }
 
 - (void)setBGColor:(NSColor *)newColor
@@ -122,31 +99,25 @@
 
 - (void)drawPercentage:(float)percentage
 {
-	if( _dirtyTexture )
-		[self generateTextures];
-	
-	glEnable(GL_TEXTURE_RECTANGLE_EXT);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _bgTexture);
-	glColor4f(1.0f,1.0f,1.0f,0.8f);
-	
-	glPushAttrib(GL_COLOR_BUFFER_BIT);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(0.3f,0.3f,0.3f,0.3f);
 	
 	float currentPercentage = 0.0f;
 	int i;
 	for( i=0; i<8 && currentPercentage<percentage; i++ ) {
 		glPushMatrix();
 		glRotatef(i*360.0f/8.0f,0.0f,0.0f,1.0f);
-		glTranslatef(0.0f,_radius - _textureSize/2.0f,0.0f);
-		glBegin(GL_TRIANGLE_STRIP); {
-			glTexCoord2f(0.0f,0.0f); glVertex2f(-_textureSize/2.0f,-_textureSize/2.0f);
-			glTexCoord2f(_textureSize,0.0f); glVertex2f(_textureSize/2.0f,-_textureSize/2.0f);
-			glTexCoord2f(0.0f,_textureSize); glVertex2f(-_textureSize/2.0f,_textureSize/2.0f);
-			glTexCoord2f(_textureSize,_textureSize); glVertex2f(_textureSize/2.0f,_textureSize/2.0f);
-		} glEnd();
+		glTranslatef(0.0f,_radius - [_dot size].width/2.0f,0.0f);
+		
+		[_dot drawCentered];
+		
 		glPopMatrix();
 		currentPercentage += 1.0f/8.0f;
 	}
-	glPopAttrib();
+
+}
+
+- (void)draw
+{
+	[self drawPercentage:1.0f];
 }
 @end

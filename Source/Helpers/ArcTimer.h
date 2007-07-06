@@ -11,20 +11,20 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
 #import <OpenGL/OpenGL.h>
-#import "RectangularBox.h"
+#import "TextureCanvas.h"
 
-@interface ArcTimer : NSObject {
-	GLuint _bgTexture;
+@interface DotTexture : TextureCanvas {
+}
+@end
+
+@interface ArcTimer : NSObject <TextureScaling> {
 	NSColor *_bgColor;
-	
 	float _radius;
-	float _textureSize;
 	
-	BOOL _dirtyTexture;
+	DotTexture *_dot;
 }
 
 - (id)initWithRadius:(float)radius;
-- (void)generateTextures;
 
 - (void)setRadius:(float)newRadius;
 - (float)radius;
