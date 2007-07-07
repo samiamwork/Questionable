@@ -11,6 +11,7 @@
 #define BASE_WIDTH 640.0f
 #define BASE_HEIGHT 480.0f
 #define BASE_SIZE (NSSize){BASE_WIDTH,BASE_HEIGHT}
+#define SCALE_SIZE(a,b) (NSSize){a.width*b,a.height*b}
 
 @implementation TriviaBoardOpenGLView
 
@@ -236,7 +237,7 @@
 		StringTexture *aStringTexture;
 		while( (aStringTexture = [stringEnumerator nextObject]) ) {
 			[aStringTexture setSize:[_playerPointBox size]];
-			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.8f)];
+			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.7f)];
 		}
 	}
 	// 0.5*width
@@ -667,7 +668,7 @@
 	while( (aPlayer = [playerEnumerator nextObject]) ) {
 		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withSize:[_playerNameBox size] withFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		[[aNameTexture textContainer] setTruncates:YES];
-		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.7f)];
 		[_playerNameStrings addObject:aNameTexture];
 		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		[_playerPointStrings addObject:aPointTexture];
@@ -680,7 +681,7 @@
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
 	if( [_question question] != nil ) {
 		// width * 0.8
-		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withSize:[_QATextBox size] withFontSize:ceil([_QATextBox size].height/8.0f)];
+		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withSize:SCALE_SIZE([_QATextBox size],0.9f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 		[_questionString fit];
 		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/4.0f )
 			[_questionString setFontSize:ceilf([_QATextBox size].height/4.0f)];
@@ -699,7 +700,7 @@
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
 	if( [_question answer] != nil ) {
 		// width*0.8
-		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withSize:[_QATextBox size] withFontSize:ceil([_QATextBox size].height/8.0f)];
+		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withSize:SCALE_SIZE([_QATextBox size],0.9f) withFontSize:ceil([_QATextBox size].height/8.0f)];
 		[_answerString fit];
 		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/4.0f )
 			[_answerString setFontSize:ceilf([_QATextBox size].height/4.0f)];
