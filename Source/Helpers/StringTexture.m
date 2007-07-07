@@ -97,10 +97,23 @@
 	_dirtyTexture = YES;
 }
 
+- (void)calculateTextureSize
+{
+	NSSize boxSize = NSMakeSize(ceilf(_size.width*_scale),ceilf(_size.height*_scale));
+	NSSize textSize = [_text containerSize];
+	textSize.width = ceilf(textSize.width);
+	textSize.height = ceilf(textSize.height);
+	if( textSize.height > boxSize.height )
+		textSize = boxSize;
+	
+	_textureSize = textSize;
+}
+
 - (void)setFontSize:(float)newFontSize
 {
 	_fontSize = newFontSize;
 	[_text setFontSize:newFontSize*_scale];
+	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
 - (float)fontSize
@@ -114,36 +127,29 @@
 		return;
 	
 	[self deleteTexture];
-	
-	NSSize boxSize = NSMakeSize(ceilf(_size.width*_scale),ceilf(_size.height*_scale));
-	NSSize textSize = [_text containerSize];
-	textSize.width = ceilf(textSize.width);
-	textSize.height = ceilf(textSize.height);
-	if( textSize.height > boxSize.height )
-		textSize = boxSize;
-	
-	int paddedWidth = (((int)textSize.width/4)+1)*4;
-	void *bitmapData = calloc( paddedWidth*(int)textSize.height, 1 );
+		
+	int paddedWidth = (((int)_textureSize.width/4)+1)*4;
+	void *bitmapData = calloc( paddedWidth*(int)_textureSize.height, 1 );
 	if( bitmapData == NULL ) {
 		printf("could not allocate bitmap data\n");
 		return;
 	}
 	
-	CGContextRef bitmapContext = CGBitmapContextCreate(bitmapData, (int)textSize.width,(int)textSize.height,8,paddedWidth,NULL,kCGImageAlphaOnly);
+	CGContextRef bitmapContext = CGBitmapContextCreate(bitmapData, (int)_textureSize.width,(int)_textureSize.height,8,paddedWidth,NULL,kCGImageAlphaOnly);
 	if( bitmapContext == NULL ) {
 		printf("Could not create bitmapContext\n");
 		return;
 	}
-	[_text drawTextInRect:NSMakeRect(0.0f,0.0f,textSize.width,textSize.height) inContext:bitmapContext];
+	[_text drawTextInRect:NSMakeRect(0.0f,0.0f,_textureSize.width,_textureSize.height) inContext:bitmapContext];
 	
 	CGContextRelease( bitmapContext );
 	
-	_textureSize = textSize;
+	//_textureSize = textSize;
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glGenTextures (1, &_textureID);
 	glBindTexture (GL_TEXTURE_RECTANGLE_EXT, _textureID);
-	glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_ALPHA8, paddedWidth, (int)textSize.height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmapData);
+	glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_ALPHA8, paddedWidth, (int)_textureSize.height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmapData);
 	glReportError()
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	
@@ -156,20 +162,6 @@
 {
 	return _textureSize;
 }
-
-/*
-- (void)drawCenteredInSize:(NSSize)aSize
-{
-	NSPoint offset;
-	// we take the size from the container directly because the string
-	//may have changed since we last generated the texture so that size
-	//is not reliable.
-	NSSize textSize = [_text containerSize];
-	offset.x = (aSize.width - textSize.width)/2.0f;
-	offset.y = (aSize.height - textSize.height)/2.0f;
-	[self drawAtPoint:offset withWidth:_textureSize.width];
-}
-*/
 
 - (NSSize)usableSize
 {
@@ -229,6 +221,7 @@
 	
 	_size = newSize;
 	[_text setWidth:_size.width*_scale];
+	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
 
@@ -241,6 +234,7 @@
 	
 	[self setFontSize:_fontSize];
 	[_text setWidth:_size.width*_scale];
+	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
 

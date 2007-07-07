@@ -504,7 +504,6 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	if( aStringTexture == nil )
 		return;
 	
-	[aStringTexture buildTexture];
 	NSSize stringSize = [aStringTexture usableSize];
 	NSPoint offset = NSMakePoint((_boxSize.width-stringSize.width)/2.0f,(_boxSize.height-stringSize.height)/2.0f);
 	glPushMatrix();
