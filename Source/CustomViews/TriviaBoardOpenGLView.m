@@ -689,7 +689,7 @@
 	}
 	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withSize:[_QATitleBox size] withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
-	//[_questionTitleString
+	[_questionTitleString buildTexture];
 	[_qTimer setProgress:1.0f];
 }
 
