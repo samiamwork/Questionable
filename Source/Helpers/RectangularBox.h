@@ -49,7 +49,7 @@ typedef enum BoxShadingDirection {
 	BoxShadingVertical
 } BoxShadingDirection;
 
-@interface RectangularBox : NSObject {
+@interface RectangularBox : NSObject <TextureScaling> {
 	GLuint _borderTexture;
 	GLuint _bgTexture;
 		

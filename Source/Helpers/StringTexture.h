@@ -12,27 +12,35 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/CGLContext.h>
 #import "TIPTextContainer.h"
+#import "TextureCanvas.h"
 
-
-@interface StringTexture : NSObject {
+@interface StringTexture : NSObject <TextureScaling> {
 	GLuint _textureID;
 	NSSize _textureSize;
 	NSColor *_textColor;
+	
+	float _scale;
+	NSSize _size;
+	float _fontSize;
 	
 	TIPTextContainer *_text;
 	BOOL _dirtyTexture;
 }
 
-- (id)initWithString:(NSString *)aString withWidth:(float)textureWidth withFontSize:(float)fontSize;
+- (id)initWithString:(NSString *)aString withSize:(NSSize)theSize withFontSize:(float)fontSize;
 - (void)setString:(NSString *)newString;
-- (void)setWidth:(float)newWidth;
 - (void)setFont:(NSFont *)newFont;
 - (void)setFontSize:(float)newFontSize;
+- (float)fontSize;
+- (NSSize)usableSize;
 - (void)setColor:(NSColor *)newColor;
-- (void)generateTexture;
-- (void)drawAtPoint:(NSPoint)aPoint withWidth:(float)width;
-- (void)drawCenteredInSize:(NSSize)aSize;
-- (void)fitInSize:(NSSize)aSize;
+//- (void)drawCenteredInSize:(NSSize)aSize;
+- (void)fit;
 - (TIPTextContainer *)textContainer;
-- (NSSize)naturalSize;
+
+- (void)draw;
+- (void)buildTexture;
+- (NSSize)size;
+- (void)setSize:(NSSize)newSize;
+- (void)setScale:(float)newScale;
 @end

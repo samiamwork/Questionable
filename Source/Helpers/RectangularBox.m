@@ -437,7 +437,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	_dirtyVerticies = NO;
 }
 
-- (void)drawWithString:(StringTexture *)aStringTexture
+- (void)draw
 {
 	if ( _borderTexture == 0 )
 		[self generateTextures];
@@ -451,7 +451,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 		[self generateVertexArray];
 	
 	glPushMatrix();
-
+	
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -496,11 +496,21 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	glPopMatrix();
 	
+}
+- (void)drawWithString:(StringTexture *)aStringTexture
+{
+	[self draw];
 	// draw String
 	if( aStringTexture == nil )
 		return;
 	
-	[aStringTexture drawCenteredInSize:_boxSize];
+	[aStringTexture buildTexture];
+	NSSize stringSize = [aStringTexture usableSize];
+	NSPoint offset = NSMakePoint((_boxSize.width-stringSize.width)/2.0f,(_boxSize.height-stringSize.height)/2.0f);
+	glPushMatrix();
+	glTranslated(offset.x,offset.y,0.0f);
+	[aStringTexture draw];
+	glPopMatrix();
 }
 
 @end

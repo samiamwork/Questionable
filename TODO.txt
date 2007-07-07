@@ -1,5 +1,4 @@
 ~ Update help book
-~ Show timer in main game view
 ~ make animation back to placeholder (when stopped) smoother from all points.
 ~ pre-load graphics before begining animation (makes things too jumpy otherwise).
 ~ undo

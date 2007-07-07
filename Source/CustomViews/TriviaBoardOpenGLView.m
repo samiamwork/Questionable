@@ -104,7 +104,7 @@
 		[_placeholderBox setBorderColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
 		[_placeholderBox setStartColor:[NSColor colorWithCalibratedRed:0.5f green:0.7f blue:0.8f alpha:1.0f]];
 		[_placeholderBox setEndColor:[NSColor colorWithCalibratedRed:0.1f green:0.7f blue:0.8f alpha:1.0f]];
-		_questionmark = [[StringTexture alloc] initWithString:@"?" withWidth:150.0f withFontSize:100.0f];
+		_questionmark = [[StringTexture alloc] initWithString:@"?" withSize:NSMakeSize(150.0f,150.0f) withFontSize:100.0f];
 		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
 		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
 		[_questionmark setFontSize:100.0f];
@@ -187,37 +187,36 @@
 	NSEnumerator *categoryTitleEnumerator = [_categoryTitleStrings objectEnumerator];
 	StringTexture *aCategoryTitle;
 	while( (aCategoryTitle = [categoryTitleEnumerator nextObject]) ) {
-		[aCategoryTitle setWidth:_titleStringSize.width];
-		//[aCategoryTitle setFontSize:_titleStringSize.height];
-		[aCategoryTitle fitInSize:NSMakeSize(ceilf(_questionTitleSize.width*0.9f),ceilf(_questionTitleSize.height*0.9f))];
+		[aCategoryTitle setSize:_titleStringSize];
+		[aCategoryTitle fit];
 	}
 	
 	NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
 	StringTexture *aPointString;
 	while( (aPointString = [pointEnumerator nextObject]) ) {
-		[aPointString setWidth:_pointStringSize.width];
+		[aPointString setSize:_pointStringSize];
 		[aPointString setFontSize:_pointStringSize.height];
 	}
 	
 	if( _questionTitleString != nil ) {
-		[_questionTitleString setWidth:[_QATitleBox size].width];
+		[_questionTitleString setSize:[_QATitleBox size]];
 		[_questionTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	}
 	if( _questionString != nil ) {
-		[_questionString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
-		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/2.0f )
+		[_questionString setSize:[_QATextBox size]];
+		[_questionString fit];
+		if( [_questionString fontSize] > [_QATextBox size].height/2.0f )
 			[_questionString setFontSize:ceilf([_QATextBox size].height/2.0f)];
 	}
 	
 	if( _answerTitleString != nil ) {
-		[_answerTitleString setWidth:[_QATitleBox size].width];
+		[_answerTitleString setSize:[_QATitleBox size]];
 		[_answerTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	}
 	if( _answerString != nil ) {
-		[_answerString setWidth:ceilf([_QATextBox size].width*0.8f)];
-		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
-		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/2.0f )
+		[_answerString setSize:[_QATextBox size]];
+		[_answerString fit];
+		if( [_answerString fontSize] > [_QATextBox size].height/2.0f )
 			[_answerString setFontSize:ceilf([_QATextBox size].height/2.0f)];
 	}	
 	
@@ -225,7 +224,7 @@
 		NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
 		StringTexture *aStringTexture;
 		while( (aStringTexture = [stringEnumerator nextObject]) ) {
-			[aStringTexture setWidth:floorf([_playerNameBox size].width)];
+			[aStringTexture setSize:[_playerNameBox size]];
 			[aStringTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		}
 	}
@@ -233,11 +232,12 @@
 		NSEnumerator *stringEnumerator = [_playerPointStrings objectEnumerator];
 		StringTexture *aStringTexture;
 		while( (aStringTexture = [stringEnumerator nextObject]) ) {
-			[aStringTexture setWidth:floorf([_playerPointBox size].width)];
+			[aStringTexture setSize:[_playerPointBox size]];
 			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		}
 	}
-	[_questionmark setWidth:ceilf(_targetSize.width*0.5f)];
+	// 0.5*width
+	[_questionmark setSize:_targetSize];
 	[_questionmark setFontSize:_targetSize.height*0.5f];
 }
 
@@ -286,7 +286,7 @@
 	_questionPointSize.width = _questionTitleSize.width;
 	_questionPointSize.height = floorf( (availableSize.height - _questionTitleSize.height)/5.0f );
 	
-	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f/4.0f));
+	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f));
 	_pointStringSize = NSMakeSize(floorf(_questionPointSize.width*0.9f),floorf(_questionPointSize.height*0.6f));
 	
 	// set new sizes
@@ -433,8 +433,6 @@
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
 			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
-			//HACK: drawn twice as a horrible hack to get it to show up on the first frame
-			[_placeholderBox drawWithString:_questionmark];
 			[_placeholderBox drawWithString:_questionmark];
 			
 			glPushMatrix();
@@ -535,9 +533,9 @@
 	NSEnumerator *categoryEnumerator = [_categories objectEnumerator];
 	TriviaCategory *aCategory;
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
-		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withWidth:_titleStringSize.width withFontSize:_titleStringSize.height];
+		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withSize:_titleStringSize withFontSize:_titleStringSize.height];
 		[aStringTexture setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f]];
-		[aStringTexture fitInSize:NSMakeSize(ceilf(_questionTitleSize.width*0.9f),ceilf(_questionTitleSize.height*0.9f))];
+		[aStringTexture fit];
 		[_categoryTitleStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}	
@@ -546,7 +544,7 @@
 	unsigned int points;
 	for( points = 100; points <= 500; points += 100 ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[[NSNumber numberWithInt:points] stringValue]
-																	withWidth:_pointStringSize.width
+																	withSize:_pointStringSize
 																 withFontSize:_pointStringSize.height];
 		[aStringTexture setFont:[NSFont fontWithName:@"Helvetica-Bold" size:12.0f]];
 		[aStringTexture setFontSize:_pointStringSize.height];
@@ -664,11 +662,11 @@
 	NSEnumerator *playerEnumerator = [topScorers objectEnumerator];
 	TriviaPlayer *aPlayer;
 	while( (aPlayer = [playerEnumerator nextObject]) ) {
-		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withSize:[_playerNameBox size] withFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		[[aNameTexture textContainer] setTruncates:YES];
 		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		[_playerNameStrings addObject:aNameTexture];
-		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withWidth:[_playerNameBox size].width withFontSize:ceilf([_playerPointBox size].height*0.8f)];
+		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.8f)];
 		[_playerPointStrings addObject:aPointTexture];
 	}
 }
@@ -678,15 +676,17 @@
 	// generate a texture for the question we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
 	if( [_question question] != nil ) {
-		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
-		[_questionString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		// width * 0.8
+		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withSize:[_QATextBox size] withFontSize:ceil([_QATextBox size].height/8.0f)];
+		[_questionString fit];
 		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/4.0f )
 			[_questionString setFontSize:ceilf([_QATextBox size].height/4.0f)];
 		if( [[_questionString textContainer] lineCount] > 1 )
 			[[_questionString textContainer] setAlignment:kTIPTextAlignmentLeft];
 	}
-	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
+	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withSize:[_QATitleBox size] withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
+	//[_questionTitleString
 	[_qTimer setProgress:1.0f];
 }
 
@@ -695,14 +695,15 @@
 	// generate a texture for the answer we have
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
 	if( [_question answer] != nil ) {
-		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withWidth:ceilf([_QATextBox size].width*0.8f) withFontSize:ceil([_QATextBox size].height/8.0f)];
-		[_answerString fitInSize:NSMakeSize(ceilf([_QATextBox size].width*0.9f),ceilf([_QATextBox size].height*0.9f))];
+		// width*0.8
+		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withSize:[_QATextBox size] withFontSize:ceil([_QATextBox size].height/8.0f)];
+		[_answerString fit];
 		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/4.0f )
 			[_answerString setFontSize:ceilf([_QATextBox size].height/4.0f)];
 		if( [[_answerString textContainer] lineCount] > 1 )
 			[[_answerString textContainer] setAlignment:kTIPTextAlignmentLeft];
 	}
-	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withWidth:[_QATitleBox size].width withFontSize:ceilf([_QATitleBox size].height*0.7f)];
+	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withSize:[_QATitleBox size] withFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	[_answerTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }
 
