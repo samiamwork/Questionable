@@ -1,6 +1,6 @@
+~ Need to properly deallocate textures not in use.
 ~ Update help book
 ~ make animation back to placeholder (when stopped) smoother from all points.
-~ pre-load graphics before begining animation (makes things too jumpy otherwise).
 ~ undo
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
