@@ -68,15 +68,30 @@
 	return self;
 }
 
+- (void)calculateTextureSize
+{
+	NSSize boxSize = NSMakeSize(ceilf(_size.width*_scale),ceilf(_size.height*_scale));
+	NSSize textSize = [_text containerSize];
+	textSize.width = ceilf(textSize.width);
+	textSize.height = ceilf(textSize.height);
+	if( textSize.height > boxSize.height )
+		textSize = boxSize;
+	
+	_textureSize = textSize;
+}
+
 - (void)setString:(NSString *)newString
 {
 	[_text setText:newString];
+	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
 
 - (void)fit
 {
 	[_text fitTextInRect:NSMakeRect(0.0f,0.0f,_size.width*_scale,_size.height*_scale)];
+	_fontSize = [_text fontSize]/_scale;
+	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
 
@@ -95,18 +110,6 @@
 {
 	[_text setFont:newFont];
 	_dirtyTexture = YES;
-}
-
-- (void)calculateTextureSize
-{
-	NSSize boxSize = NSMakeSize(ceilf(_size.width*_scale),ceilf(_size.height*_scale));
-	NSSize textSize = [_text containerSize];
-	textSize.width = ceilf(textSize.width);
-	textSize.height = ceilf(textSize.height);
-	if( textSize.height > boxSize.height )
-		textSize = boxSize;
-	
-	_textureSize = textSize;
 }
 
 - (void)setFontSize:(float)newFontSize

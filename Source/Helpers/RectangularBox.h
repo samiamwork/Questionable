@@ -61,6 +61,7 @@ typedef enum BoxShadingDirection {
 	float _lineWidth;
 	NSSize _boxSize;
 	float _textureSize;
+	float _scale;
 	
 	BOOL _isBorderEnabled;
 	
@@ -75,13 +76,10 @@ typedef enum BoxShadingDirection {
 }
 
 - (id)initWithSize:(NSSize)boxSize withRadius:(float)cornerRadius withLineWidth:(float)lineWidth;
-- (void)generateTextures;
 - (void)drawWithString:(StringTexture *)aStringTexture;
 
 - (void)setSharpCorners:(BoxCorner)newCorners;
 - (void)setShadingDirection:(BoxShadingDirection)newShadingDirection;
-- (void)setSize:(NSSize)newSize;
-- (NSSize)size;
 - (void)setCornerRadius:(float)newRadius;
 - (float)cornerRadius;
 - (void)setLineWidth:(float)newWidth;

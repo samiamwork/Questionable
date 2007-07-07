@@ -38,9 +38,4 @@
 - (void)fit;
 - (TIPTextContainer *)textContainer;
 
-- (void)draw;
-- (void)buildTexture;
-- (NSSize)size;
-- (void)setSize:(NSSize)newSize;
-- (void)setScale:(float)newScale;
 @end

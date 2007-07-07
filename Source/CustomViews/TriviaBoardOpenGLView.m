@@ -8,6 +8,9 @@
 
 #import "TriviaBoardOpenGLView.h"
 
+#define BASE_WIDTH 640.0f
+#define BASE_HEIGHT 480.0f
+#define BASE_SIZE (NSSize){BASE_WIDTH,BASE_HEIGHT}
 
 @implementation TriviaBoardOpenGLView
 
@@ -36,7 +39,7 @@
 		[_windowedContext setValues:&vsync forParameter:NSOpenGLCPSwapInterval];
 		
 		_preserveTargetAspectRatio = YES;
-		_targetAspectRatio = 640.0f/480.0f;
+		_targetAspectRatio = BASE_WIDTH/BASE_HEIGHT;
 		_needsReshape = NO;
 		_isFirstFrame = YES;
 		

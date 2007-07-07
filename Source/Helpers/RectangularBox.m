@@ -21,6 +21,7 @@
 		_cornerRadius = 0.0f;
 		_lineWidth = 1.0f;
 		_boxSize = NSZeroSize;
+		_scale = 1.0f;
 		
 		_dirtyTexture = YES;
 		_dirtyVerticies = YES;
@@ -113,14 +114,6 @@
 
 - (void)setSize:(NSSize)newSize
 {
-	/*
-	float minSize = 2.0f*(_cornerRadius + 0.5f*_lineWidth);
-	
-	if( newSize.width < minSize )
-		newSize.width = minSize;
-	if( newSize.height < minSize )
-		newSize.height = minSize;
-	*/
 	_boxSize = newSize;
 	_dirtyVerticies = YES;
 }
@@ -165,11 +158,11 @@
 	return _isBorderEnabled;
 }
 
-- (void)generateTextures
+- (void)buildTexture
 {
 	[self deleteTexture];
 	
-	_textureSize = ceilf(_cornerRadius + _lineWidth/2.0f);
+	_textureSize = ceilf((_cornerRadius + _lineWidth/2.0f)*_scale);
 	
 	void *bitmapData = calloc( (int)_textureSize*(int)_textureSize*4, 1 );
 	if( bitmapData == NULL ) {
@@ -189,9 +182,9 @@
 	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
 	
 	CGContextSetRGBStrokeColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
-	CGContextMoveToPoint(bitmapContext,_cornerRadius,0.0f);
-	CGContextAddArcToPoint(bitmapContext,_cornerRadius,_cornerRadius,0.0f,_cornerRadius,_cornerRadius);
-	CGContextSetLineWidth(bitmapContext,_lineWidth);
+	CGContextMoveToPoint(bitmapContext,_cornerRadius*_scale,0.0f);
+	CGContextAddArcToPoint(bitmapContext,_cornerRadius*_scale,_cornerRadius*_scale,0.0f,_cornerRadius*_scale,_cornerRadius*_scale);
+	CGContextSetLineWidth(bitmapContext,_lineWidth*_scale);
 	CGContextStrokePath(bitmapContext);
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -437,16 +430,22 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	_dirtyVerticies = NO;
 }
 
+- (void)setScale:(float)newScale
+{
+	if( newScale == _scale )
+		return;
+	
+	_scale = newScale;
+	_dirtyTexture = YES;
+}
+
 - (void)draw
 {
-	if ( _borderTexture == 0 )
-		[self generateTextures];
-	
+	if( _dirtyTexture )
+		[self buildTexture];
 	if ( _borderTexture == 0)
 		return;
 	
-	if( _dirtyTexture )
-		[self generateTextures];
 	if( _dirtyVerticies )
 		[self generateVertexArray];
 	
