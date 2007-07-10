@@ -157,12 +157,14 @@
 	[newCategory setTitle:@"New Category"];
 
 	[newBoard addCategory:newCategory];
-	//[boards addObject:newBoard];
 	[theQuestionDoc addBoard:newBoard];
 	
 	[newCategory release];
 	[newBoard release];
+	
 	[theOutlineView reloadData];
+	id selectedItem = [theOutlineView itemAtRow:[theOutlineView selectedRow]];
+	[self selectTabForItem:selectedItem];
 }
 
 - (IBAction)addCategory:(id)sender
