@@ -525,7 +525,7 @@
 	if( APVerifyLicenseData((CFDataRef )badData) ||
 		!APVerifyLicenseData((CFDataRef )licenseData) ) {
 		TriviaCategory *dummyCategory = [[TriviaCategory alloc] init];
-		[dummyCategory setTitle:@"Unregistered"];
+		[dummyCategory setTitle:@"Please Register"];
 		_categories = [[_mainBoard categories] arrayByAddingObject:dummyCategory];
 		[dummyCategory release];
 	} else {
