@@ -59,6 +59,7 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	[toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
 	
 	[toolbar setDelegate:self];
+	[toolbar setSelectedItemIdentifier:TriviaToolbarItemIdentifierControlsTab];
 	
 	[[self window] setToolbar:toolbar];
 }
@@ -76,21 +77,21 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		[toolbarItem setAction:@selector(play:)];
 		playToolbarItem = toolbarItem;
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierStop] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierStop] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Stop",@"Stop")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Stop",@"Stop")];
 		[toolbarItem setImage:[NSImage imageNamed:@"Stop"]];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(stop:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierTimer] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierTimer] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Timer",@"Timer")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Timer",@"Timer")];
 		[toolbarItem setMinSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setMaxSize:NSMakeSize(45.0f,45.0f)];
 		[toolbarItem setView:gameTimerView];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierControlsTab] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierControlsTab] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Controls",@"Controls")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Controls",@"Controls")];
 		[toolbarItem setImage:[NSImage imageNamed:@"controls.tif"]];
@@ -98,7 +99,7 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		//[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(pickTab:)];
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierQuestionsTab] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierQuestionsTab] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Questions",@"Questions")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Questions",@"Questions")];
 		[toolbarItem setImage:[NSImage imageNamed:@"questionsOff.tif"]];
@@ -106,7 +107,7 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		[toolbarItem setAction:@selector(pickTab:)];
 		questionsItem = toolbarItem;
 	} else if( [itemIdent isEqual:TriviaToolbarItemIdentifierPlayersTab] ) {
-		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlay] autorelease];
+		toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:TriviaToolbarItemIdentifierPlayersTab] autorelease];
 		[toolbarItem setLabel:NSLocalizedString(@"Players",@"Players")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Players",@"Players")];
 		[toolbarItem setImage:[NSImage imageNamed:@"playersOff.tif"]];
@@ -156,24 +157,39 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		
 		[_controlTabs selectTabViewItemAtIndex:2];
 	}
-	
+
 }
 
 - (IBAction)menuPickTab:(id)sender
 {
 	int tag = [(NSMenuItem *)sender tag];
+	NSToolbarItem *itemToSelect = nil;
 	switch( tag ) {
 		case 1:
-			[self pickTab:controlsItem];
+			itemToSelect = controlsItem;
 			break;
 		case 2:
-			[self pickTab:questionsItem];
+			itemToSelect = questionsItem;
 			break;
 		case 3:
-			[self pickTab:playersItem];
+			itemToSelect = playersItem;
 			break;
+		default:
+			return;
 	}
-				
+	
+	[self pickTab:itemToSelect];
+	[[[self window] toolbar] setSelectedItemIdentifier:[itemToSelect itemIdentifier]];
+}
+
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
+{
+	NSArray *theArray = [NSArray arrayWithObjects:TriviaToolbarItemIdentifierControlsTab,
+		TriviaToolbarItemIdentifierPlayersTab,
+		TriviaToolbarItemIdentifierQuestionsTab,nil];
+	if( theArray == nil )
+		printf("thearray is nil!\n");
+	return theArray;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
