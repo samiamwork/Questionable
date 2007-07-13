@@ -184,12 +184,9 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
 {
-	NSArray *theArray = [NSArray arrayWithObjects:TriviaToolbarItemIdentifierControlsTab,
+	return [NSArray arrayWithObjects:TriviaToolbarItemIdentifierControlsTab,
 		TriviaToolbarItemIdentifierPlayersTab,
 		TriviaToolbarItemIdentifierQuestionsTab,nil];
-	if( theArray == nil )
-		printf("thearray is nil!\n");
-	return theArray;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
@@ -197,7 +194,6 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	return [NSArray arrayWithObjects: TriviaToolbarItemIdentifierControlsTab,
 		TriviaToolbarItemIdentifierQuestionsTab, TriviaToolbarItemIdentifierPlayersTab,
 		NSToolbarFlexibleSpaceItemIdentifier, TriviaToolbarItemIdentifierTimer,
-		//NSToolbarFlexibleSpaceItemIdentifier,
 		TriviaToolbarItemIdentifierPlay,
 		TriviaToolbarItemIdentifierStop, nil];
 }
