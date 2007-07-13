@@ -96,6 +96,8 @@
 		3EE2B0220B82A1A300EFBE3D /* TriviaSoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B01C0B82A1A300EFBE3D /* TriviaSoundController.m */; };
 		3EE2B02F0B82A79700EFBE3D /* BoolToStatusImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B02E0B82A79700EFBE3D /* BoolToStatusImageTransformer.m */; };
 		3EE2B0370B82A8F500EFBE3D /* BoolToStatusStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B0360B82A8F500EFBE3D /* BoolToStatusStringTransformer.m */; };
+		3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */; };
+		3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */; };
 		45FC53AE08FBFB490091ABDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45FC53A608FBFB490091ABDF /* InfoPlist.strings */; };
 		45FC53AF08FBFB490091ABDF /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 45FC53A808FBFB490091ABDF /* MainMenu.nib */; };
 		45FC53B108FBFB490091ABDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FC53AC08FBFB490091ABDF /* main.m */; };
@@ -251,6 +253,10 @@
 		3EE2B02E0B82A79700EFBE3D /* BoolToStatusImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoolToStatusImageTransformer.m; sourceTree = "<group>"; };
 		3EE2B0350B82A8F500EFBE3D /* BoolToStatusStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoolToStatusStringTransformer.h; sourceTree = "<group>"; };
 		3EE2B0360B82A8F500EFBE3D /* BoolToStatusStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoolToStatusStringTransformer.m; sourceTree = "<group>"; };
+		3EE93D320C4752A300C03A8F /* TriviaSceneBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaSceneBoard.h; sourceTree = "<group>"; };
+		3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneBoard.m; sourceTree = "<group>"; };
+		3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaScenePlaceholder.h; sourceTree = "<group>"; };
+		3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaScenePlaceholder.m; sourceTree = "<group>"; };
 		45FC53A708FBFB490091ABDF /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45FC53A908FBFB490091ABDF /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		45FC53AA08FBFB490091ABDF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -349,6 +355,10 @@
 				3E8DB74C0C3D769800DC2845 /* ArcTimer.m */,
 				3E8DB8440C3DC34100DC2845 /* TextureCanvas.h */,
 				3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */,
+				3EE93D320C4752A300C03A8F /* TriviaSceneBoard.h */,
+				3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */,
+				3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */,
+				3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -782,6 +792,8 @@
 				3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */,
 				3E8DB74D0C3D769800DC2845 /* ArcTimer.m in Sources */,
 				3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */,
+				3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */,
+				3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

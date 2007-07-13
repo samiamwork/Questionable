@@ -56,23 +56,9 @@
 		theViewState = lastViewState = kTIPTriviaBoardViewStatePlaceholder;
 		
 		//Display Objects
-		_categoryTitleBox = [[RectangularBox alloc] init];
-		[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
-		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
-		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
-		[_categoryTitleBox setLineWidth:1.0f];
-
-		_pointsBox = [[RectangularBox alloc] init];
-		[_pointsBox setSharpCorners:BoxCornerAll];
-		[_pointsBox setStartColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
-		[_pointsBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
-		[_pointsBox setLineWidth:1.0f];
-		[_pointsBox setCornerRadius:10.0f];
-		[_pointsBox setBorderColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.5f alpha:1.0f]];
-		[_pointsBox setShadingDirection:BoxShadingHorizontal];
+		_boardScene = [[TriviaSceneBoard alloc] init];
+		_placeholderScene = [[TriviaScenePlaceholder alloc] init];
 		
-		_categoryTitleStrings = [[NSMutableArray alloc] init];
-		_questionPointStrings = [[NSMutableArray alloc] init];
 		_questionTitleString = nil;
 		_answerTitleString = nil;
 		_questionString = nil;
@@ -103,22 +89,6 @@
 		_playerNameStrings = [[NSMutableArray alloc] init];
 		_playerPointStrings = [[NSMutableArray alloc] init];
 		
-		_placeholderBox = [[RectangularBox alloc] init];
-		[_placeholderBox setLineWidth:10.0f];
-		[_placeholderBox setBorderColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
-		[_placeholderBox setStartColor:[NSColor colorWithCalibratedRed:0.5f green:0.7f blue:0.8f alpha:1.0f]];
-		[_placeholderBox setEndColor:[NSColor colorWithCalibratedRed:0.1f green:0.7f blue:0.8f alpha:1.0f]];
-		_questionmark = [[StringTexture alloc] initWithString:@"?" withSize:NSMakeSize(150.0f,150.0f) withFontSize:100.0f];
-		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
-		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
-		[_questionmark setFontSize:100.0f];
-		
-		_placeholderShine = [[RectangularBox alloc] init];
-		[_placeholderShine enableBorder:NO];
-		[_placeholderShine setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
-		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.1f]];
-		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
-		
 		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
 		_transitionDoneCallback = nil;
     }
@@ -137,25 +107,20 @@
 	[_transitionAnimation release];
 	
 	//Display Objects
-	[_categoryTitleBox release];
-	[_pointsBox release];
+	[_boardScene release];
+	[_placeholderScene release];
+	
 	[_QATitleBox release];
 	[_QATextBox release];
 	[_questionString release];
 	[_answerString release];
 	[_answerTitleString release];
 	[_questionTitleString release];
-	[_categoryTitleStrings release];
-	[_questionPointStrings release];
 	
 	[_playerNameBox release];
 	[_playerPointBox release];
 	[_playerNameStrings release];
 	[_playerPointStrings release];
-	
-	[_placeholderBox release];
-	[_questionmark release];
-	[_placeholderShine release];
 	
 	[_qTimer release];
 	[_transitionDoneCallback release];
@@ -188,20 +153,6 @@
 
 - (void)regenerateStringTextures
 {
-	NSEnumerator *categoryTitleEnumerator = [_categoryTitleStrings objectEnumerator];
-	StringTexture *aCategoryTitle;
-	while( (aCategoryTitle = [categoryTitleEnumerator nextObject]) ) {
-		[aCategoryTitle setSize:_titleStringSize];
-		[aCategoryTitle fit];
-	}
-	
-	NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
-	StringTexture *aPointString;
-	while( (aPointString = [pointEnumerator nextObject]) ) {
-		[aPointString setSize:_pointStringSize];
-		[aPointString setFontSize:_pointStringSize.height];
-	}
-	
 	if( _questionTitleString != nil ) {
 		[_questionTitleString setSize:[_QATitleBox size]];
 		[_questionTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
@@ -240,9 +191,7 @@
 			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.7f)];
 		}
 	}
-	// 0.5*width
-	[_questionmark setSize:_targetSize];
-	[_questionmark setFontSize:_targetSize.height*0.5f];
+
 }
 
 - (void)doReshape
@@ -280,24 +229,14 @@
 	
 	_needsReshape = NO;
 	
+	[_boardScene setSize:_targetSize];
+	[_placeholderScene setSize:_targetSize];
+	
 	// recalculate display metrics
 	_boardPaddingSize = NSMakeSize(15.0f,-2.0f);
 	_boardMarginSize = NSMakeSize(10.0f,25.0f);
 	NSSize availableSize = NSMakeSize(_targetSize.width - 2.0f*_boardMarginSize.width - 4.0f*_boardPaddingSize.width,
 									  _targetSize.height - 2.0f*_boardMarginSize.height - 5.0f*_boardPaddingSize.height);
-	_questionTitleSize.width = floorf(availableSize.width/5.0f);
-	_questionTitleSize.height = floorf(availableSize.height/5.0f);
-	_questionPointSize.width = _questionTitleSize.width;
-	_questionPointSize.height = floorf( (availableSize.height - _questionTitleSize.height)/5.0f );
-	
-	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),floorf(_questionTitleSize.height*0.9f));
-	_pointStringSize = NSMakeSize(floorf(_questionPointSize.width*0.9f),floorf(_questionPointSize.height*0.6f));
-	
-	// set new sizes
-	[_categoryTitleBox setSize:_questionTitleSize];
-	[_categoryTitleBox setCornerRadius:floorf(_questionTitleSize.height*0.2f)];
-	
-	[_pointsBox setSize:_questionPointSize];
 	
 	[_QATitleBox setSize:NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width, availableSize.height*0.2f)];
 	[_QATitleBox setCornerRadius:[_QATitleBox size].height*0.4f];
@@ -311,17 +250,6 @@
 	[_playerNameBox setSize:_playerNameSize];
 	[_playerPointBox setSize:_playerPointSize];
 	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
-	
-	[_placeholderBox setSize:NSMakeSize(_targetSize.height*0.7f,_targetSize.height*0.5f)];
-	[_placeholderBox setCornerRadius:[_placeholderBox size].width/5.0f];
-	[_placeholderBox setLineWidth:ceilf([_placeholderBox size].width*0.05f)];
-	
-	NSSize placeholderSize = [_placeholderBox size];
-	[_placeholderShine setCornerRadius:[_placeholderBox cornerRadius]*1.1f];
-	placeholderSize.width *= 0.95f;
-	placeholderSize.height = [_placeholderShine cornerRadius] * 1.5f;
-	[_placeholderShine setSize:placeholderSize];
-	
 	
 	[_qTimer setScale:_targetSize.height/480.0f];
 	
@@ -356,62 +284,13 @@
 	}
 }
 
-- (NSSize)drawBoard
-{
-	float startHorizontal = _boardMarginSize.width + (_targetSize.width - 2.0f*_boardMarginSize.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*_boardPaddingSize.width)/2.0f;
-	NSSize boardSize;
-	boardSize.width = [_categories count]*_questionTitleSize.width + ([_categories count]-1)*_boardPaddingSize.width;
-	boardSize.height = _questionTitleSize.height + 5.0f*(_questionPointSize.height + _boardPaddingSize.height);
-	
-	glTranslatef(startHorizontal,_targetSize.height-_boardMarginSize.height-_questionTitleSize.height,0.0f);
-	unsigned int categoryIndex;
-	for( categoryIndex = 0; categoryIndex < [_categories count]; categoryIndex++ ) {
-		TriviaCategory *aCategory = [_categories objectAtIndex:categoryIndex];
-		[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
-		
-		glPushMatrix();
-		glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
-		unsigned int questionIndex;
-		for( questionIndex = 0; questionIndex < [[aCategory questions] count]; questionIndex++ ) {
-			StringTexture *aStringTexture = nil;
-			if( ! [[[aCategory questions] objectAtIndex:questionIndex] used] )
-				aStringTexture = [_questionPointStrings objectAtIndex:questionIndex];
-			[_pointsBox drawWithString:aStringTexture];
-			glTranslatef(0.0f,-(_boardPaddingSize.height+_questionPointSize.height),0.0f);
-		}
-		glPopMatrix();
-		glTranslatef(_questionTitleSize.width+_boardPaddingSize.width,0.0f,0.0f);
-	}
-	
-	return boardSize;
-}
-
-- (void)drawShine:(NSSize)featureSize
-{
-	glBegin(GL_TRIANGLE_STRIP); {
-		float shadowHeight = _targetSize.height*0.2f;
-		glColor4f(0.0f,0.0f,0.0f,0.7f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glVertex3f(featureSize.width,0.0f,0.0f);
-		
-		glColor4f(0.0f,0.0f,0.0f,1.0f);
-		glVertex3f(0.0f, shadowHeight,0.0f);
-		glVertex3f(featureSize.width, shadowHeight,0.0f);
-		
-		if( shadowHeight < featureSize.height ) {
-			glVertex3f(0.0f, featureSize.height,0.0f);
-			glVertex3f(featureSize.width, featureSize.height,0.0f);
-		}
-	} glEnd();
-}
-
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
 {
 	glPushMatrix();
 	glTranslatef(_contextSize.width*progress,0.0f,0.0f);
 	switch( aState ) {
 		case kTIPTriviaBoardViewStateBoard:
-			[self drawBoard];
+			[_boardScene draw];
 			break;
 		case kTIPTriviaBoardViewStateQuestion:
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
@@ -436,20 +315,7 @@
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
-			glTranslatef( (_targetSize.width-[_placeholderBox size].width)/2.0f, (_targetSize.height-[_placeholderBox size].height)/2.0f,0.0f);
-			[_placeholderBox drawWithString:_questionmark];
-			
-			glPushMatrix();
-			float xTranslate = ([_placeholderBox size].width - [_placeholderShine size].width)*0.5f;
-			float yTranslate = ([_placeholderBox size].height - [_placeholderShine size].height)*0.95f;
-			glTranslatef(xTranslate,yTranslate,0.0f);
-			[_placeholderShine drawWithString:nil];
-			glPopMatrix();
-			
-			glScalef(1.0f,-1.0f,1.0f);
-			glTranslatef( 0.0f, 0.05f*_targetSize.height,0.0f);
-			[_placeholderBox drawWithString:_questionmark];
-			[self drawShine:[_placeholderBox size]];
+			[_placeholderScene draw];
 			break;
 	}
 	glPopMatrix();
@@ -532,29 +398,7 @@
 		_categories = [NSArray arrayWithArray:[_mainBoard categories]];
 	}
 	[_categories retain];
-	
-	[_categoryTitleStrings removeAllObjects];
-	NSEnumerator *categoryEnumerator = [_categories objectEnumerator];
-	TriviaCategory *aCategory;
-	while( (aCategory = [categoryEnumerator nextObject]) ) {
-		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withSize:_titleStringSize withFontSize:_titleStringSize.height];
-		[aStringTexture setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f]];
-		[aStringTexture fit];
-		[_categoryTitleStrings addObject:aStringTexture];
-		[aStringTexture release];
-	}	
-	
-	[_questionPointStrings removeAllObjects];
-	unsigned int points;
-	for( points = 100; points <= 500; points += 100 ) {
-		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[[NSNumber numberWithInt:points] stringValue]
-																	withSize:_pointStringSize
-																 withFontSize:_pointStringSize.height];
-		[aStringTexture setFont:[NSFont fontWithName:@"Helvetica-Bold" size:12.0f]];
-		[aStringTexture setFontSize:_pointStringSize.height];
-		[_questionPointStrings addObject:aStringTexture];
-		[aStringTexture release];
-	}
+	[_boardScene setCategories:_categories];
 	
 	[self setNeedsDisplay:YES];
 }

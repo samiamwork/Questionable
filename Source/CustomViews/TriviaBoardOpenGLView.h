@@ -14,6 +14,8 @@
 #import "RectangularBox.h"
 #import "TransitionAnimation.h"
 #import "../Helpers/ArcTimer.h"
+#import "TriviaSceneBoard.h"
+#import "TriviaScenePlaceholder.h"
 
 typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlaceholder,
@@ -48,32 +50,23 @@ typedef enum TIPTriviaBoardViewState {
 	TransitionAnimation *_transitionAnimation;
 	
 	//display Objects
-	RectangularBox *_categoryTitleBox;
-	RectangularBox *_pointsBox;
 	RectangularBox *_QATitleBox;
 	RectangularBox *_QATextBox;
 	StringTexture *_questionTitleString;
 	StringTexture *_answerTitleString;
 	StringTexture *_questionString;
 	StringTexture *_answerString;
-	NSMutableArray *_categoryTitleStrings;
-	NSMutableArray *_questionPointStrings;
 	
 	RectangularBox *_playerNameBox;
 	RectangularBox *_playerPointBox;
 	NSMutableArray *_playerNameStrings;
 	NSMutableArray *_playerPointStrings;
 	
-	RectangularBox *_placeholderBox;
-	RectangularBox *_placeholderShine;
-	StringTexture *_questionmark;
+	TriviaScenePlaceholder *_placeholderScene;
+	TriviaSceneBoard *_boardScene;
 	//display metrics
-	NSSize _questionTitleSize;
-	NSSize _questionPointSize;
 	NSSize _boardPaddingSize;
 	NSSize _boardMarginSize;
-	NSSize _titleStringSize;
-	NSSize _pointStringSize;
 	
 	NSSize _playerNameSize;
 	NSSize _playerPointSize;
