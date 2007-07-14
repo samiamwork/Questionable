@@ -98,6 +98,7 @@
 		3EE2B0370B82A8F500EFBE3D /* BoolToStatusStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B0360B82A8F500EFBE3D /* BoolToStatusStringTransformer.m */; };
 		3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */; };
 		3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */; };
+		3EE93E8C0C48299D00C03A8F /* TriviaSceneQA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */; };
 		45FC53AE08FBFB490091ABDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45FC53A608FBFB490091ABDF /* InfoPlist.strings */; };
 		45FC53AF08FBFB490091ABDF /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 45FC53A808FBFB490091ABDF /* MainMenu.nib */; };
 		45FC53B108FBFB490091ABDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FC53AC08FBFB490091ABDF /* main.m */; };
@@ -257,6 +258,8 @@
 		3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneBoard.m; sourceTree = "<group>"; };
 		3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaScenePlaceholder.h; sourceTree = "<group>"; };
 		3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaScenePlaceholder.m; sourceTree = "<group>"; };
+		3EE93E8A0C48299D00C03A8F /* TriviaSceneQA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaSceneQA.h; sourceTree = "<group>"; };
+		3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneQA.m; sourceTree = "<group>"; };
 		45FC53A708FBFB490091ABDF /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45FC53A908FBFB490091ABDF /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		45FC53AA08FBFB490091ABDF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 				3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */,
 				3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */,
 				3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */,
+				3EE93E8A0C48299D00C03A8F /* TriviaSceneQA.h */,
+				3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -794,6 +799,7 @@
 				3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */,
 				3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */,
 				3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */,
+				3EE93E8C0C48299D00C03A8F /* TriviaSceneQA.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

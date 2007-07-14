@@ -58,25 +58,8 @@
 		//Display Objects
 		_boardScene = [[TriviaSceneBoard alloc] init];
 		_placeholderScene = [[TriviaScenePlaceholder alloc] init];
-		
-		_questionTitleString = nil;
-		_answerTitleString = nil;
-		_questionString = nil;
-		_answerString = nil;
-		
-		_QATitleBox = [[RectangularBox alloc] init];
-		[_QATitleBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.25f blue:0.55f alpha:1.0f]];
-		[_QATitleBox setEndColor:[NSColor colorWithCalibratedRed:0.3f green:0.35f blue:0.65f alpha:1.0f]];
-		[_QATitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
-		[_QATitleBox setLineWidth:1.0f];
-		_QATextBox = [[RectangularBox alloc] init];
-		[_QATextBox setStartColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
-		[_QATextBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
-		[_QATextBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight];
-		[_QATextBox setLineWidth:1.0f];
-		
-		_questionString = nil;
-		_answerString = nil;
+		_questionScene = nil;
+		_answerScene = nil;
 		
 		_playerNameBox = [[RectangularBox alloc] init];
 		[_playerNameBox setSharpCorners:BoxCornerAll];
@@ -89,7 +72,6 @@
 		_playerNameStrings = [[NSMutableArray alloc] init];
 		_playerPointStrings = [[NSMutableArray alloc] init];
 		
-		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
 		_transitionDoneCallback = nil;
     }
 	
@@ -109,20 +91,14 @@
 	//Display Objects
 	[_boardScene release];
 	[_placeholderScene release];
-	
-	[_QATitleBox release];
-	[_QATextBox release];
-	[_questionString release];
-	[_answerString release];
-	[_answerTitleString release];
-	[_questionTitleString release];
+	[_questionScene release];
+	[_answerScene release];
 	
 	[_playerNameBox release];
 	[_playerPointBox release];
 	[_playerNameStrings release];
 	[_playerPointStrings release];
 	
-	[_qTimer release];
 	[_transitionDoneCallback release];
 
 	[super dealloc];
@@ -153,27 +129,6 @@
 
 - (void)regenerateStringTextures
 {
-	if( _questionTitleString != nil ) {
-		[_questionTitleString setSize:[_QATitleBox size]];
-		[_questionTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
-	}
-	if( _questionString != nil ) {
-		[_questionString setSize:[_QATextBox size]];
-		[_questionString fit];
-		if( [_questionString fontSize] > [_QATextBox size].height/2.0f )
-			[_questionString setFontSize:ceilf([_QATextBox size].height/2.0f)];
-	}
-	
-	if( _answerTitleString != nil ) {
-		[_answerTitleString setSize:[_QATitleBox size]];
-		[_answerTitleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
-	}
-	if( _answerString != nil ) {
-		[_answerString setSize:[_QATextBox size]];
-		[_answerString fit];
-		if( [_answerString fontSize] > [_QATextBox size].height/2.0f )
-			[_answerString setFontSize:ceilf([_QATextBox size].height/2.0f)];
-	}	
 	
 	if( [_playerNameStrings count] != 0 ) {
 		NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
@@ -231,18 +186,12 @@
 	
 	[_boardScene setSize:_targetSize];
 	[_placeholderScene setSize:_targetSize];
+	[_questionScene setSize:_targetSize];
+	[_answerScene setSize:_targetSize];
 	
 	// recalculate display metrics
 	_boardPaddingSize = NSMakeSize(15.0f,-2.0f);
 	_boardMarginSize = NSMakeSize(10.0f,25.0f);
-	NSSize availableSize = NSMakeSize(_targetSize.width - 2.0f*_boardMarginSize.width - 4.0f*_boardPaddingSize.width,
-									  _targetSize.height - 2.0f*_boardMarginSize.height - 5.0f*_boardPaddingSize.height);
-	
-	[_QATitleBox setSize:NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width, availableSize.height*0.2f)];
-	[_QATitleBox setCornerRadius:[_QATitleBox size].height*0.4f];
-	
-	[_QATextBox setSize:NSMakeSize([_QATitleBox size].width,availableSize.height*0.8f)];
-	[_QATextBox setCornerRadius:[_QATitleBox cornerRadius]];
 	
 	_playerNameSize = NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.5f));
 	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.3f));
@@ -250,9 +199,7 @@
 	[_playerNameBox setSize:_playerNameSize];
 	[_playerPointBox setSize:_playerPointSize];
 	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
-	
-	[_qTimer setScale:_targetSize.height/480.0f];
-	
+		
 	[self regenerateStringTextures];
 }
 
@@ -293,21 +240,10 @@
 			[_boardScene draw];
 			break;
 		case kTIPTriviaBoardViewStateQuestion:
-			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
-			[_QATitleBox drawWithString:_questionTitleString];
-			glPushMatrix();
-			glTranslatef([_QATitleBox size].height/2.0f,[_QATitleBox size].height/2.0f,0.0f);
-			glScalef(_contextSize.height/480.0f,_targetSize.height/480.0f,1.0f);
-			[_qTimer draw];
-			glPopMatrix();
-			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
-			[_QATextBox drawWithString:_questionString];
+			[_questionScene draw];
 			break;
 		case kTIPTriviaBoardViewStateAnswer:
-			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_QATitleBox size].height,0.0f);
-			[_QATitleBox drawWithString:_answerTitleString];
-			glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
-			[_QATextBox drawWithString:_answerString];
+			[_answerScene draw];
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
 			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_playerNameBox size].height,0.0f);
@@ -336,18 +272,12 @@
 	if( lastViewState != theViewState && ![_transitionAnimation isAnimating] ) {
 		switch(lastViewState) {
 			case kTIPTriviaBoardViewStateQuestion:
-				if( _questionString != nil )
-					[_questionString release];
-				_questionString = nil;
-				[_questionTitleString release];
-				_questionTitleString = nil;
+				[_questionScene release];
+				_questionScene = nil;
 				break;
 			case kTIPTriviaBoardViewStateAnswer:
-				if( _answerString != nil )
-					[_answerString release];
-				_answerString = nil;
-				[_answerTitleString release];
-				_answerTitleString = nil;
+				[_answerScene release];
+				_answerScene = nil;
 				break;
 			case kTIPTriviaBoardViewStatePlayers:
 				[_playerNameStrings removeAllObjects];
@@ -428,8 +358,6 @@
 	
 	[_question release];
 	_question = [newQuestion retain];
-	
-	
 }
 - (TriviaQuestion *)question
 {
@@ -438,7 +366,8 @@
 
 - (void)setProgress:(float)newProgress
 {
-	[_qTimer setProgress:newProgress];
+	if( _questionScene != nil )
+		[_questionScene setProgress:newProgress];
 	if( theViewState == kTIPTriviaBoardViewStateQuestion )
 		[self setNeedsDisplay:YES];
 }
@@ -454,12 +383,13 @@
 
 - (void)refresh
 {
+	/*
 	if( _questionString != nil )
 		[_questionString setString:(NSString *)[_question question]];
 	
 	if( _answerString != nil )
 		[_answerString setString:(NSString *)[_question answer]];
-	
+	*/
 	_needsReshape = YES;
 	[self setNeedsDisplay:YES];
 }
@@ -522,37 +452,22 @@
 - (void)showQuestion
 {
 	// generate a texture for the question we have
+	_questionScene = [[TriviaSceneQA alloc] init];
+	[_questionScene setTitle:@"Questsion" text:(NSString *)[_question question]];
+	[_questionScene setSize:_targetSize];
+	[_questionScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
-	if( [_question question] != nil ) {
-		// width * 0.8
-		_questionString = [[StringTexture alloc] initWithString:(NSString *)[_question question] withSize:SCALE_SIZE([_QATextBox size],0.9f) withFontSize:ceil([_QATextBox size].height/8.0f)];
-		[_questionString fit];
-		if( [[_questionString textContainer] fontSize] > [_QATextBox size].height/4.0f )
-			[_questionString setFontSize:ceilf([_QATextBox size].height/4.0f)];
-		if( [[_questionString textContainer] lineCount] > 1 )
-			[[_questionString textContainer] setAlignment:kTIPTextAlignmentLeft];
-	}
-	_questionTitleString = [[StringTexture alloc] initWithString:@"Question" withSize:[_QATitleBox size] withFontSize:ceilf([_QATitleBox size].height*0.7f)];
-	[_questionTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
-	[_questionTitleString buildTexture];
-	[_qTimer setProgress:1.0f];
 }
 
 - (void)showAnswer
 {
 	// generate a texture for the answer we have
+	_answerScene = [[TriviaSceneQA alloc] init];
+	[_answerScene setTitle:@"Answer" text:[_question answer]];
+	[_answerScene setSize:_targetSize];
+	[_answerScene setProgress:0.0f];
+	[_answerScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
-	if( [_question answer] != nil ) {
-		// width*0.8
-		_answerString = [[StringTexture alloc] initWithString:(NSString *)[_question answer] withSize:SCALE_SIZE([_QATextBox size],0.9f) withFontSize:ceil([_QATextBox size].height/8.0f)];
-		[_answerString fit];
-		if( [[_answerString textContainer] fontSize] > [_QATextBox size].height/4.0f )
-			[_answerString setFontSize:ceilf([_QATextBox size].height/4.0f)];
-		if( [[_answerString textContainer] lineCount] > 1 )
-			[[_answerString textContainer] setAlignment:kTIPTextAlignmentLeft];
-	}
-	_answerTitleString = [[StringTexture alloc] initWithString:@"Answer" withSize:[_QATitleBox size] withFontSize:ceilf([_QATitleBox size].height*0.7f)];
-	[_answerTitleString setColor:[NSColor colorWithCalibratedWhite:0.9f alpha:0.9f]];
 }
 
 - (void)pause

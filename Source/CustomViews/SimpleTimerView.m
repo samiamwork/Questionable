@@ -42,9 +42,9 @@
 - (void)setValue:(float)newValue
 {
 	if( newValue > 1.0f )
-		newValue == 1.0f;
+		newValue = 1.0f;
 	if( newValue < 0.0f )
-		newValue == 0.0f;
+		newValue = 0.0f;
 	
 	if( newValue == _value )
 		return;
