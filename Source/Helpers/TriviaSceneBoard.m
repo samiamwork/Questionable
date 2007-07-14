@@ -88,6 +88,18 @@
 {
 	_scale = newScale;
 	// set new scale for other texture scaling objects
+	
+	[_categoryTitleBox setScale:_scale];
+	[_pointsBox setScale:_scale];
+	
+	NSEnumerator *categoryEnumerator = [_categoryTitleStrings objectEnumerator];
+	StringTexture *aStringTexture;
+	while( (aStringTexture = [categoryEnumerator nextObject]) )
+		[aStringTexture setScale:_scale];
+	
+	NSEnumerator *pointEnumerator = [_questionPointStrings objectEnumerator];
+	while( (aStringTexture = [pointEnumerator nextObject]) )
+		[aStringTexture setScale:_scale];
 }
 
 #define POINTPADDING ((NSSize){15.0f, -2.0f})

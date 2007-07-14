@@ -17,6 +17,7 @@
 #import "TriviaSceneBoard.h"
 #import "TriviaScenePlaceholder.h"
 #import "TriviaSceneQA.h"
+#import "TriviaScenePlayers.h"
 
 typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlaceholder,
@@ -50,24 +51,12 @@ typedef enum TIPTriviaBoardViewState {
 	TIPTriviaBoardViewState lastViewState;
 	TransitionAnimation *_transitionAnimation;
 	
-	//display Objects
-	RectangularBox *_playerNameBox;
-	RectangularBox *_playerPointBox;
-	NSMutableArray *_playerNameStrings;
-	NSMutableArray *_playerPointStrings;
-	
+	//display Objects	
 	TriviaScenePlaceholder *_placeholderScene;
 	TriviaSceneBoard *_boardScene;
 	TriviaSceneQA *_questionScene;
 	TriviaSceneQA *_answerScene;
-	
-	//display metrics
-	NSSize _boardPaddingSize;
-	NSSize _boardMarginSize;
-	
-	NSSize _playerNameSize;
-	NSSize _playerPointSize;
-	float _playerPointPadding;
+	TriviaScenePlayers *_playersScene;
 	
 	NSInvocation *_transitionDoneCallback;
 }

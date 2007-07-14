@@ -60,18 +60,8 @@
 		_placeholderScene = [[TriviaScenePlaceholder alloc] init];
 		_questionScene = nil;
 		_answerScene = nil;
-		
-		_playerNameBox = [[RectangularBox alloc] init];
-		[_playerNameBox setSharpCorners:BoxCornerAll];
-		[_playerNameBox setLineWidth:1.0f];
-		[_playerNameBox setCornerRadius:5.0f];
-		_playerPointBox = [[RectangularBox alloc] init];
-		[_playerPointBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight|BoxCornerLowerLeft];
-		[_playerPointBox setLineWidth:1.0f];
-		[_playerPointBox setCornerRadius:5.0f];
-		_playerNameStrings = [[NSMutableArray alloc] init];
-		_playerPointStrings = [[NSMutableArray alloc] init];
-		
+		_playersScene = nil;
+
 		_transitionDoneCallback = nil;
     }
 	
@@ -93,12 +83,8 @@
 	[_placeholderScene release];
 	[_questionScene release];
 	[_answerScene release];
-	
-	[_playerNameBox release];
-	[_playerPointBox release];
-	[_playerNameStrings release];
-	[_playerPointStrings release];
-	
+	[_playersScene release];
+
 	[_transitionDoneCallback release];
 
 	[super dealloc];
@@ -125,28 +111,6 @@
 	}
 	
 	return outputRect;
-}
-
-- (void)regenerateStringTextures
-{
-	
-	if( [_playerNameStrings count] != 0 ) {
-		NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
-		StringTexture *aStringTexture;
-		while( (aStringTexture = [stringEnumerator nextObject]) ) {
-			[aStringTexture setSize:[_playerNameBox size]];
-			[aStringTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
-		}
-	}
-	if( [_playerPointStrings count] != 0 ) {
-		NSEnumerator *stringEnumerator = [_playerPointStrings objectEnumerator];
-		StringTexture *aStringTexture;
-		while( (aStringTexture = [stringEnumerator nextObject]) ) {
-			[aStringTexture setSize:[_playerPointBox size]];
-			[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.7f)];
-		}
-	}
-
 }
 
 - (void)doReshape
@@ -188,19 +152,8 @@
 	[_placeholderScene setSize:_targetSize];
 	[_questionScene setSize:_targetSize];
 	[_answerScene setSize:_targetSize];
+	[_playersScene setSize:_targetSize];
 	
-	// recalculate display metrics
-	_boardPaddingSize = NSMakeSize(15.0f,-2.0f);
-	_boardMarginSize = NSMakeSize(10.0f,25.0f);
-	
-	_playerNameSize = NSMakeSize(_targetSize.width-2.0f*_boardMarginSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.5f));
-	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.3f));
-	_playerPointPadding = ceilf(((_targetSize.height-_boardMarginSize.height*2.0f)/4.0f)*0.2f);
-	[_playerNameBox setSize:_playerNameSize];
-	[_playerPointBox setSize:_playerPointSize];
-	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
-		
-	[self regenerateStringTextures];
 }
 
 - (void)firstFrameSetup
@@ -220,17 +173,6 @@
 	_needsReshape = YES;
 }
 
-- (void)drawPlayerStatus
-{
-	unsigned int playerIndex;
-	for( playerIndex = 0; playerIndex < [_playerNameStrings count] && playerIndex < 4; playerIndex++ ) {
-		[_playerNameBox drawWithString:[_playerNameStrings objectAtIndex:playerIndex]];
-		glTranslatef(0.0f,-[_playerPointBox size].height,0.0f);
-		[_playerPointBox drawWithString:[_playerPointStrings objectAtIndex:playerIndex]];
-		glTranslatef(0.0f,-([_playerNameBox size].height+_playerPointPadding),0.0f);
-	}
-}
-
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
 {
 	glPushMatrix();
@@ -246,8 +188,7 @@
 			[_answerScene draw];
 			break;
 		case kTIPTriviaBoardViewStatePlayers:
-			glTranslatef(_boardMarginSize.width,_targetSize.height-_boardMarginSize.height-[_playerNameBox size].height,0.0f);
-			[self drawPlayerStatus];
+			[_playersScene draw];
 			break;
 		case kTIPTriviaBoardViewStatePlaceholder:
 		default:
@@ -280,8 +221,8 @@
 				_answerScene = nil;
 				break;
 			case kTIPTriviaBoardViewStatePlayers:
-				[_playerNameStrings removeAllObjects];
-				[_playerPointStrings removeAllObjects];
+				[_playersScene release];
+				_playersScene = nil;
 				break;
 			case kTIPTriviaBoardViewStatePlaceholder:
 				break;
@@ -383,13 +324,7 @@
 
 - (void)refresh
 {
-	/*
-	if( _questionString != nil )
-		[_questionString setString:(NSString *)[_question question]];
-	
-	if( _answerString != nil )
-		[_answerString setString:(NSString *)[_question answer]];
-	*/
+	// update any values currently on display
 	_needsReshape = YES;
 	[self setNeedsDisplay:YES];
 }
@@ -429,32 +364,22 @@
 
 - (void)showPlayers
 {
+	_playersScene = [[TriviaScenePlayers alloc] init];
+	[_playersScene setSize:_targetSize];
+	//[_playersScene setScale:_scale];
+	[_playersScene setPlayers:_players];
+	[_playersScene buildTexture];
+	
 	[self setBoardViewState:kTIPTriviaBoardViewStatePlayers];
-	
-	NSMutableArray *topScorers = [NSMutableArray arrayWithArray:_players];
-	[topScorers sortUsingSelector:@selector(sortByPoints:)];
-	
-	while( [topScorers count] > 4 )
-		[topScorers removeObjectAtIndex:4];
-	
-	NSEnumerator *playerEnumerator = [topScorers objectEnumerator];
-	TriviaPlayer *aPlayer;
-	while( (aPlayer = [playerEnumerator nextObject]) ) {
-		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withSize:[_playerNameBox size] withFontSize:ceilf([_playerNameBox size].height*0.8f)];
-		[[aNameTexture textContainer] setTruncates:YES];
-		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.7f)];
-		[_playerNameStrings addObject:aNameTexture];
-		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.8f)];
-		[_playerPointStrings addObject:aPointTexture];
-	}
 }
 
 - (void)showQuestion
 {
 	// generate a texture for the question we have
 	_questionScene = [[TriviaSceneQA alloc] init];
-	[_questionScene setTitle:@"Questsion" text:(NSString *)[_question question]];
+	[_questionScene setTitle:@"Question" text:(NSString *)[_question question]];
 	[_questionScene setSize:_targetSize];
+	//[_questionScene setScale:_scale];
 	[_questionScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
 }
@@ -465,6 +390,7 @@
 	_answerScene = [[TriviaSceneQA alloc] init];
 	[_answerScene setTitle:@"Answer" text:[_question answer]];
 	[_answerScene setSize:_targetSize];
+	//[_answerScene setScale:_scale];
 	[_answerScene setProgress:0.0f];
 	[_answerScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];
