@@ -240,6 +240,7 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	[playMenuItem setTitle:@"Pause"];
 	[playMenuItem setAction:@selector(pause:)];
 	
+	[[[self window] toolbar] setSelectedItemIdentifier:TriviaToolbarItemIdentifierControlsTab];
 	[self pickTab:controlsItem];
 }
 
