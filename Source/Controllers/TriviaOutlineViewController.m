@@ -22,7 +22,6 @@
 - (id)init
 {
 	if( (self = [super init]) ) {
-		//boards = [[NSMutableArray alloc] init];
 		NSError *anError;
 		theQuestionDoc = [[TriviaQuestionDocument alloc] initWithType:@"TriviaDocumentTest" error:&anError];
 
@@ -78,6 +77,7 @@
 	
 	[theOutlineView registerForDraggedTypes:[NSArray arrayWithObject:TriviaOutlinePboardType]];
 
+	[[triviaWindowController window] setTitle:[NSString stringWithFormat:@"Host (%@)",[theQuestionDoc displayName]]];
 }
 
 #pragma mark Acessor Methods
@@ -244,13 +244,12 @@
 	if( ![extension isEqualToString:@"triviaqm"] )
 		return NO;
 	
-	[theQuestionDoc close];
-	[theQuestionDoc release];
-	
 	NSError *anError = nil;
-	theQuestionDoc = [[TriviaQuestionDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filename] ofType:@"TriviaDocument" error:&anError];
+	TriviaQuestionDocument *newDocument = [[TriviaQuestionDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filename] ofType:@"TriviaDocument" error:&anError];
 	if( anError != nil )
 		return NO;
+	[self setDocument:newDocument];
+	[[triviaWindowController window] setTitle:[NSString stringWithFormat:@"Host (%@)",[theQuestionDoc displayName]]];
 	
 	[theOutlineView reloadData];
 	
@@ -277,11 +276,13 @@
 - (IBAction)saveGame:(id)sender
 {
 	[theQuestionDoc saveDocument:sender];
+	[[triviaWindowController window] setTitle:[NSString stringWithFormat:@"Host (%@)",[theQuestionDoc displayName]]];
 }
 
 - (IBAction)saveAs:(id)sender
 {
 	[theQuestionDoc saveDocumentAs:sender];
+	[[triviaWindowController window] setTitle:[NSString stringWithFormat:@"Host (%@)",[theQuestionDoc displayName]]];
 }
 
 - (IBAction)revert:(id)sender
@@ -307,6 +308,8 @@
 	[self addBoard:self];
 	
 	[theOutlineView reloadData];
+	
+	[[triviaWindowController window] setTitle:[NSString stringWithFormat:@"Host (%@)",[theQuestionDoc displayName]]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuitem
@@ -322,6 +325,16 @@
 - (TriviaQuestionDocument *)document
 {
 	return theQuestionDoc;
+}
+
+- (void)setDocument:(TriviaQuestionDocument *)newDocument
+{
+	if( newDocument == theQuestionDoc )
+		return;
+	
+	[theQuestionDoc close];
+	[theQuestionDoc release];
+	theQuestionDoc = [newDocument retain];
 }
 
 #pragma mark Game Methods

@@ -34,6 +34,7 @@
 }
 
 - (TriviaQuestionDocument *)document;
+- (void)setDocument:(TriviaQuestionDocument *)newDocument;
 
 - (TriviaBoard *)checkoutBoard;
 - (void)checkinBoard;
