@@ -158,6 +158,8 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 		[_controlTabs selectTabViewItemAtIndex:2];
 	}
 
+	// make sure the new item is now selected in the toolbar
+	[[[self window] toolbar] setSelectedItemIdentifier:[clickedTab itemIdentifier]];
 }
 
 - (IBAction)menuPickTab:(id)sender
@@ -179,7 +181,6 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	}
 	
 	[self pickTab:itemToSelect];
-	[[[self window] toolbar] setSelectedItemIdentifier:[itemToSelect itemIdentifier]];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
@@ -240,7 +241,6 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	[playMenuItem setTitle:@"Pause"];
 	[playMenuItem setAction:@selector(pause:)];
 	
-	[[[self window] toolbar] setSelectedItemIdentifier:TriviaToolbarItemIdentifierControlsTab];
 	[self pickTab:controlsItem];
 }
 
