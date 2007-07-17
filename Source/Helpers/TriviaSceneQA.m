@@ -169,7 +169,7 @@
 	[_QATextBox drawWithString:_textString];
 	glPopMatrix();
 	
-	glTranslatef(([_QATitleBox size].width-[_shine size].width)/2.0f,([_QATitleBox size].height-[_shine size].height)*1.05f,0.0f);
+	glTranslatef(([_QATitleBox size].width-[_shine size].width)/2.0f,([_QATitleBox size].height-[_shine size].height)*0.95f,0.0f);
 	[_shine draw];
 }
 
