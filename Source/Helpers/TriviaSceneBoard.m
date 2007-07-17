@@ -32,6 +32,12 @@
 		[_pointsBox setBorderColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.5f alpha:1.0f]];
 		[_pointsBox setShadingDirection:BoxShadingHorizontal];
 		
+		_shine = [[RectangularBox alloc] init];
+		[_shine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
+		[_shine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
+		[_shine setSharpCorners:BoxCornerLowerLeft | BoxCornerLowerRight];
+		[_shine enableBorder:NO];
+		
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
 		_questionPointStrings = [[NSMutableArray alloc] init];
 		_categories = nil;
@@ -57,6 +63,7 @@
 {
 	[_categoryTitleBox release];
 	[_pointsBox release];
+	[_shine release];
 	
 	[_categoryTitleStrings release];
 	[_questionPointStrings release];
@@ -91,6 +98,7 @@
 	
 	[_categoryTitleBox setScale:_scale];
 	[_pointsBox setScale:_scale];
+	[_shine setScale:_scale];
 	
 	NSEnumerator *categoryEnumerator = [_categoryTitleStrings objectEnumerator];
 	StringTexture *aStringTexture;
@@ -128,6 +136,9 @@
 	[_categoryTitleBox setCornerRadius:floorf(_questionTitleSize.height*0.2f)];
 	
 	[_pointsBox setSize:_questionPointSize];
+	
+	[_shine setSize:NSMakeSize(_questionTitleSize.width*0.9f,_questionTitleSize.height*0.25f)];
+	[_shine setCornerRadius:[_categoryTitleBox cornerRadius]*0.8f];
 	
 	// strings
 	_titleStringSize = NSMakeSize(floorf(_questionTitleSize.width*0.9f),
@@ -175,6 +186,10 @@
 	for( categoryIndex = 0; categoryIndex < [_categoryTitleStrings count]; categoryIndex++ ) {
 		TriviaCategory *aCategory = [_categories objectAtIndex:categoryIndex];
 		[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
+		glPushMatrix();
+		glTranslatef(([_categoryTitleBox size].width-[_shine size].width)/2.0f,([_categoryTitleBox size].height-[_shine size].height)*0.97f,0.0f);
+		[_shine draw];
+		glPopMatrix();
 		
 		glPushMatrix();
 		glTranslatef(0.0f,-(POINTPADDING.height+_questionPointSize.height),0.0f);

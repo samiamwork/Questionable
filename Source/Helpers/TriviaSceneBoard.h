@@ -16,6 +16,7 @@
 	
 	RectangularBox *_categoryTitleBox;
 	RectangularBox *_pointsBox;
+	RectangularBox *_shine;
 	
 	NSSize _questionTitleSize;
 	NSSize _questionPointSize;
