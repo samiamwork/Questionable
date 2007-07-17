@@ -181,13 +181,18 @@ NSString *stringForTime(NSTimeInterval aTime)
 	CGContextFillPath(cxt);
 	CGPathRelease(circle);
 	// draw indicator circle
-	CGContextSetRGBStrokeColor(cxt,0.35f,0.35f,0.37f,1.0f);
 	NSRect indicatorRect = NSInsetRect(clockRect,clockRect.size.height*0.1f,clockRect.size.height*0.1f);
 	CGContextSetLineWidth(cxt,clockRect.size.height*0.2f);
 	float secondsLeft = (float)ceil(maxTime-currentTime);
 	float percentDone = secondsLeft/(float)maxTime;
 	if( stopped )
 		percentDone = 1.0f;
+	if( percentDone < 1.0f ) {
+		CGContextSetRGBStrokeColor(cxt,0.9f,0.1f,0.1f,1.0f);
+		CGContextAddArc(cxt,indicatorRect.origin.x+indicatorRect.size.width/2.0f,indicatorRect.origin.y+indicatorRect.size.height/2.0f,indicatorRect.size.height/2.0f,M_PI_2,M_PI_2-2.0f*M_PI*(1.0-percentDone),0);
+		CGContextStrokePath(cxt);
+	}
+	CGContextSetRGBStrokeColor(cxt,0.35f,0.35f,0.37f,1.0f);
 	CGContextAddArc(cxt,indicatorRect.origin.x+indicatorRect.size.width/2.0f,indicatorRect.origin.y+indicatorRect.size.height/2.0f,indicatorRect.size.height/2.0f,M_PI_2,M_PI_2-2.0f*M_PI*percentDone,1);
 	CGContextStrokePath(cxt);
 	
