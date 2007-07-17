@@ -18,6 +18,8 @@
 		
 		_playerNameBox = [[RectangularBox alloc] init];
 		[_playerNameBox setSharpCorners:BoxCornerUpperRight|BoxCornerLowerRight];
+		[_playerNameBox setStartColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
+		[_playerNameBox setEndColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
 		[_playerNameBox setLineWidth:1.0f];
 		[_playerNameBox setCornerRadius:5.0f];
 		_playerPointBox = [[RectangularBox alloc] init];
@@ -69,6 +71,7 @@
 		[_playerNameStrings addObject:aNameTexture];
 		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.5f)];
 		[aPointTexture setScale:_scale];
+		[aPointTexture setColor:[NSColor whiteColor]];
 		[_playerPointStrings addObject:aPointTexture];
 	}
 }
