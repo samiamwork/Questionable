@@ -2,7 +2,6 @@
 ~ License Agreement
 ~ Paypal
 ~ More Limits
-~ make animation back to placeholder (when stopped) smoother from all points.
 ~ undo
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
