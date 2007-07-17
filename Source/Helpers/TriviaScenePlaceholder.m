@@ -29,7 +29,7 @@
 		_placeholderShine = [[RectangularBox alloc] init];
 		[_placeholderShine enableBorder:NO];
 		[_placeholderShine setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
-		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.1f]];
+		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
 		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
 		
 		[self setSize:NSMakeSize(640.0f,480.0f)];
@@ -72,8 +72,8 @@
 	[_placeholderBox setLineWidth:ceilf([_placeholderBox size].width*0.05f)];
 	
 	NSSize placeholderSize = [_placeholderBox size];
-	[_placeholderShine setCornerRadius:[_placeholderBox cornerRadius]*1.1f];
-	placeholderSize.width *= 0.95f;
+	[_placeholderShine setCornerRadius:[_placeholderBox cornerRadius]*0.68f];
+	placeholderSize.width *= 0.87f;
 	placeholderSize.height = [_placeholderShine cornerRadius] * 1.5f;
 	[_placeholderShine setSize:placeholderSize];
 	
@@ -99,9 +99,9 @@
 	
 	glPushMatrix();
 	float xTranslate = ([_placeholderBox size].width - [_placeholderShine size].width)*0.5f;
-	float yTranslate = ([_placeholderBox size].height - [_placeholderShine size].height)*0.95f;
+	float yTranslate = ([_placeholderBox size].height - [_placeholderShine size].height)*0.98f;
 	glTranslatef(xTranslate,yTranslate,0.0f);
-	[_placeholderShine drawWithString:nil];
+	[_placeholderShine draw];
 	glPopMatrix();
 	
 	glScalef(1.0f,-1.0f,1.0f);
