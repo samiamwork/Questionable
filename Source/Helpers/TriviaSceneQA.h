@@ -17,6 +17,7 @@
 	
 	RectangularBox *_QATitleBox;
 	RectangularBox *_QATextBox;
+	RectangularBox *_shine;
 	StringTexture *_titleString;
 	StringTexture *_textString;
 	

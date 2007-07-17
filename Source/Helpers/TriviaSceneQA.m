@@ -25,10 +25,16 @@
 		[_QATitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
 		[_QATitleBox setLineWidth:1.0f];
 		_QATextBox = [[RectangularBox alloc] init];
-		[_QATextBox setStartColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
-		[_QATextBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
+		[_QATextBox setEndColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
+		[_QATextBox setStartColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
 		[_QATextBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight];
 		[_QATextBox setLineWidth:1.0f];
+		
+		_shine = [[RectangularBox alloc] init];
+		[_shine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
+		[_shine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
+		[_shine setSharpCorners:BoxCornerLowerLeft | BoxCornerLowerRight];
+		[_shine enableBorder:NO];
 		
 		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
 		
@@ -42,6 +48,7 @@
 {
 	[_QATitleBox release];
 	[_QATextBox release];
+	[_shine release];
 	[_titleString release];
 	[_textString release];
 	
@@ -89,6 +96,7 @@
 	
 	[_QATitleBox setScale:_scale];
 	[_QATextBox setScale:_scale];
+	[_shine setScale:_scale];
 	[_titleString setScale:_scale];
 	[_textString setScale:_scale];
 	
@@ -111,6 +119,9 @@
 	
 	[_QATextBox setSize:NSMakeSize([_QATitleBox size].width,availableSize.height*0.8f)];
 	[_QATextBox setCornerRadius:[_QATitleBox cornerRadius]];
+	
+	[_shine setSize:NSMakeSize([_QATitleBox size].width*0.95f,availableSize.height*0.1f)];
+	[_shine setCornerRadius:[_QATitleBox cornerRadius]*0.8f];
 	
 	[_qTimer setScale:_size.height/480.0f];
 	
@@ -138,6 +149,7 @@
 {
 	[_QATitleBox buildTexture];
 	[_QATextBox buildTexture];
+	[_shine buildTexture];
 	[_titleString buildTexture];
 	[_textString buildTexture];
 }
@@ -152,8 +164,13 @@
 		[_qTimer draw];
 		glPopMatrix();
 	}
+	glPushMatrix();
 	glTranslatef(0.0f,-[_QATextBox size].height+[_QATextBox lineWidth],0.0f);
 	[_QATextBox drawWithString:_textString];
+	glPopMatrix();
+	
+	glTranslatef(([_QATitleBox size].width-[_shine size].width)/2.0f,([_QATitleBox size].height-[_shine size].height)*1.05f,0.0f);
+	[_shine draw];
 }
 
 @end
