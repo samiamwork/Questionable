@@ -121,10 +121,11 @@
 		[_titleString setFontSize:ceilf([_QATitleBox size].height*0.7f)];
 	}
 	if( _textString != nil ) {
-		[_textString setSize:SCALE_SIZE([_QATextBox size],0.8f)];
+		[_textString setSize:NSMakeSize([_QATextBox size].width*0.9f,[_QATextBox size].height*0.8f)];
+		//[_textString setSize:SCALE_SIZE([_QATextBox size],0.8f)];
 		[_textString fit];
-		if( [_textString fontSize] > [_QATextBox size].height/2.0f )
-			[_textString setFontSize:ceilf([_QATextBox size].height/2.0f)];
+		if( [_textString fontSize] > [_QATextBox size].height/4.0f )
+			[_textString setFontSize:ceilf([_QATextBox size].height/4.0f)];
 	}
 	
 }

@@ -506,7 +506,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	NSSize stringSize = [aStringTexture usableSize];
 	NSPoint offset = NSMakePoint((_boxSize.width-stringSize.width)/2.0f,(_boxSize.height-stringSize.height)/2.0f);
 	glPushMatrix();
-	glTranslated(offset.x,offset.y,0.0f);
+	glTranslatef(offset.x,offset.y,0.0f);
 	[aStringTexture draw];
 	glPopMatrix();
 }
