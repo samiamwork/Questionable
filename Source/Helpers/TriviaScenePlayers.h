@@ -16,6 +16,7 @@
 	
 	RectangularBox *_playerNameBox;
 	RectangularBox *_playerPointBox;
+	RectangularBox *_shine;
 	NSMutableArray *_playerNameStrings;
 	NSMutableArray *_playerPointStrings;
 	

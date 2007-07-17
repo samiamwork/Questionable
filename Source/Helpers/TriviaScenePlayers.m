@@ -17,13 +17,20 @@
 		_scale = 1.0f;
 		
 		_playerNameBox = [[RectangularBox alloc] init];
-		[_playerNameBox setSharpCorners:BoxCornerAll];
+		[_playerNameBox setSharpCorners:BoxCornerUpperRight|BoxCornerLowerRight];
 		[_playerNameBox setLineWidth:1.0f];
 		[_playerNameBox setCornerRadius:5.0f];
 		_playerPointBox = [[RectangularBox alloc] init];
-		[_playerPointBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight|BoxCornerLowerLeft];
+		[_playerPointBox setSharpCorners:BoxCornerUpperLeft|BoxCornerLowerLeft];
 		[_playerPointBox setLineWidth:1.0f];
 		[_playerPointBox setCornerRadius:5.0f];
+		
+		_shine = [[RectangularBox alloc] init];
+		[_shine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
+		[_shine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
+		[_shine setSharpCorners:BoxCornerLowerLeft | BoxCornerLowerRight];
+		[_shine enableBorder:NO];
+		
 		_playerNameStrings = [[NSMutableArray alloc] init];
 		_playerPointStrings = [[NSMutableArray alloc] init];
 		
@@ -37,6 +44,7 @@
 {
 	[_playerNameBox release];
 	[_playerPointBox release];
+	[_shine release];
 	[_playerNameStrings release];
 	[_playerPointStrings release];
 
@@ -59,7 +67,7 @@
 		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.7f)];
 		[aNameTexture setScale:_scale];
 		[_playerNameStrings addObject:aNameTexture];
-		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.8f)];
+		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.5f)];
 		[aPointTexture setScale:_scale];
 		[_playerPointStrings addObject:aPointTexture];
 	}
@@ -72,8 +80,10 @@
 	if( newScale == _scale )
 		return;
 	
+	_scale = newScale;
 	[_playerNameBox setScale:_scale];
 	[_playerPointBox setScale:_scale];
+	[_shine setScale:_scale];
 	
 	// there are always the same amount of point strings as there are player names
 	// so we can do them together
@@ -93,12 +103,19 @@
 	
 	_size = newSize;
 	
-	_playerNameSize = NSMakeSize(_size.width-2.0f*BOARDMARGINS.width,ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.5f));
-	_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.3f));
+	NSSize availableSize = NSMakeSize(_size.width-2.0f*BOARDMARGINS.width, _size.height - 2.0f*BOARDMARGINS.height);
+	//_playerNameSize = NSMakeSize(_size.width-2.0f*BOARDMARGINS.width,ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.5f));
+	//_playerPointSize = NSMakeSize(_playerNameSize.width,ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.3f));
+	_playerNameSize = NSMakeSize(availableSize.width*0.7f,ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.8f));
+	_playerPointSize = NSMakeSize(availableSize.width*0.3f,_playerNameSize.height);
 	_playerPointPadding = ceilf(((_size.height-BOARDMARGINS.height*2.0f)/4.0f)*0.2f);
 	[_playerNameBox setSize:_playerNameSize];
+	[_playerNameBox setCornerRadius:ceilf(_playerPointSize.height*0.3f)];
 	[_playerPointBox setSize:_playerPointSize];
-	[_playerPointBox setCornerRadius:ceilf(_playerPointSize.height*0.4f)];
+	[_playerPointBox setCornerRadius:[_playerNameBox cornerRadius]];
+	
+	[_shine setSize:NSMakeSize(availableSize.width*0.965f,_playerNameSize.height*0.4f)];
+	[_shine setCornerRadius:[_playerNameBox cornerRadius]*0.8f];
 	
 	NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
 	StringTexture *aStringTexture;
@@ -110,7 +127,7 @@
 	NSEnumerator *pointEnumerator = [_playerPointStrings objectEnumerator];
 	while( (aStringTexture = [pointEnumerator nextObject]) ) {
 		[aStringTexture setSize:[_playerPointBox size]];
-		[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.7f)];
+		[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.5f)];
 	}
 
 }
@@ -123,6 +140,7 @@
 {
 	[_playerNameBox buildTexture];
 	[_playerPointBox buildTexture];
+	[_shine buildTexture];
 	[_playerNameStrings makeObjectsPerformSelector:@selector(buildTexture)];
 	[_playerPointStrings makeObjectsPerformSelector:@selector(buildTexture)];
 }
@@ -132,9 +150,15 @@
 	glTranslatef(BOARDMARGINS.width,_size.height-BOARDMARGINS.height-[_playerNameBox size].height,0.0f);
 	unsigned int playerIndex;
 	for( playerIndex = 0; playerIndex < [_playerNameStrings count] && playerIndex < 4; playerIndex++ ) {
+		glPushMatrix();
 		[_playerNameBox drawWithString:[_playerNameStrings objectAtIndex:playerIndex]];
-		glTranslatef(0.0f,-[_playerPointBox size].height,0.0f);
+		glTranslatef([_playerNameBox size].width,0.0f,0.0f);
 		[_playerPointBox drawWithString:[_playerPointStrings objectAtIndex:playerIndex]];
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(([_playerNameBox size].width+[_playerPointBox size].width-[_shine size].width)/2.0f,([_playerNameBox size].height-[_shine size].height)*0.95f,0.0f);
+		[_shine draw];
+		glPopMatrix();
 		glTranslatef(0.0f,-([_playerNameBox size].height+_playerPointPadding),0.0f);
 	}
 }

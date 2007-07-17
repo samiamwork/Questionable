@@ -2,14 +2,12 @@
 ~ License Agreement
 ~ Paypal
 ~ More Limits
-~ Need to properly deallocate textures not in use.
 ~ make animation back to placeholder (when stopped) smoother from all points.
 ~ undo
 ~ remove border on window when fullscreen.
 ~ Add title to player scores view
 
 - Cosmetic -
-~ Add slight shine to board items.
 ~ use pixel shaders to do pretty effects (detect ability).
 
 [BUGS]
