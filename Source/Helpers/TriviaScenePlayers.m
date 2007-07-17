@@ -64,13 +64,15 @@
 	NSEnumerator *playerEnumerator = [topScorers objectEnumerator];
 	TriviaPlayer *aPlayer;
 	while( (aPlayer = [playerEnumerator nextObject]) ) {
-		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withSize:[_playerNameBox size] withFontSize:ceilf([_playerNameBox size].height*0.8f)];
+		StringTexture *aNameTexture = [[StringTexture alloc] initWithString:[aPlayer name] withSize:NSMakeSize([_playerNameBox size].width*0.9f,[_playerNameBox size].height) withFontSize:ceilf([_playerNameBox size].height*0.8f)];
 		[[aNameTexture textContainer] setTruncates:YES];
 		[aNameTexture setFontSize:ceilf([_playerNameBox size].height*0.7f)];
 		[aNameTexture setScale:_scale];
+		[[aNameTexture textContainer] setAlignment:kTIPTextAlignmentLeft];
 		[_playerNameStrings addObject:aNameTexture];
-		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:[_playerNameBox size] withFontSize:ceilf([_playerPointBox size].height*0.5f)];
+		StringTexture *aPointTexture = [[StringTexture alloc] initWithString:[NSString stringWithFormat:@"%d",[aPlayer points]] withSize:NSMakeSize([_playerPointBox size].width*0.8f,[_playerPointBox size].height) withFontSize:ceilf([_playerPointBox size].height*0.5f)];
 		[aPointTexture setScale:_scale];
+		[[aPointTexture textContainer] setAlignment:kTIPTextAlignmentRight];
 		[aPointTexture setColor:[NSColor whiteColor]];
 		[_playerPointStrings addObject:aPointTexture];
 	}
@@ -123,13 +125,13 @@
 	NSEnumerator *stringEnumerator = [_playerNameStrings objectEnumerator];
 	StringTexture *aStringTexture;
 	while( (aStringTexture = [stringEnumerator nextObject]) ) {
-		[aStringTexture setSize:[_playerNameBox size]];
+		[aStringTexture setSize:NSMakeSize([_playerNameBox size].width*0.9f,[_playerNameBox size].height)];
 		[aStringTexture setFontSize:ceilf([_playerNameBox size].height*0.8f)];
 	}
 	
 	NSEnumerator *pointEnumerator = [_playerPointStrings objectEnumerator];
 	while( (aStringTexture = [pointEnumerator nextObject]) ) {
-		[aStringTexture setSize:[_playerPointBox size]];
+		[aStringTexture setSize:NSMakeSize([_playerPointBox size].width*0.8f,[_playerPointBox size].height)];
 		[aStringTexture setFontSize:ceilf([_playerPointBox size].height*0.5f)];
 	}
 
