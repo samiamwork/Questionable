@@ -256,6 +256,12 @@
 	_mainBoard = [newBoard retain];
 	
 	[_categories release];
+	_categories = nil;
+	if( _mainBoard == nil ) {
+		[self setNeedsDisplay:YES];
+		return;
+	}
+	
 	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
 	NSData *badData = [NSData data];
 	// if unregistered insert the "unregistered" category
