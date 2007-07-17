@@ -121,11 +121,7 @@
 {
 	_size = newSize;
 	// set new sizes for other texture scaling objects
-	//NSSize boardPaddingSize = POINTPADDING;
-	//NSSize boardMarginSize = BOARDMARGINS;
 	NSSize availableSize = AVAILABLESIZE;
-		/*NSMakeSize(_size.width - 2.0f*boardMarginSize.width - 4.0f*boardPaddingSize.width,
-									  _size.height - 2.0f*boardMarginSize.height - 5.0f*boardPaddingSize.height); */
 	
 	_questionTitleSize = NSMakeSize(floorf(availableSize.width/5.0f),
 										  floorf(availableSize.height/5.0f));
@@ -169,6 +165,7 @@
 	// build texture for other texture scaling objects
 	[_categoryTitleBox buildTexture];
 	[_pointsBox buildTexture];
+	[_shine buildTexture];
 	
 	[_categoryTitleStrings makeObjectsPerformSelector:@selector(buildTexture)];
 	[_questionPointStrings makeObjectsPerformSelector:@selector(buildTexture)];
