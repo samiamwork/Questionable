@@ -83,10 +83,14 @@
 	while( (aCategory = [categoryEnumerator nextObject]) ) {
 		StringTexture *aStringTexture = [[StringTexture alloc] initWithString:[aCategory title] withSize:_titleStringSize withFontSize:_titleStringSize.height];
 		[aStringTexture setColor:[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f]];
+		[aStringTexture setSize:_titleStringSize];
+		[aStringTexture setScale:_scale];
+		[aStringTexture setFontSize:_titleStringSize.height/2.0f];
 		[aStringTexture fit];
 		[_categoryTitleStrings addObject:aStringTexture];
 		[aStringTexture release];
 	}
+	[self setSize:_size];
 }
 
 #pragma mark Texture Scaling
@@ -144,6 +148,7 @@
 	while( (aCategoryTitle = [categoryTitleEnumerator nextObject]) ) {
 		[aCategoryTitle setSize:_titleStringSize];
 		[aCategoryTitle fit];
+		//[aCategoryTitle setFontSize:_titleStringSize.height/5.0f];
 	}
 	
 	_pointStringSize = NSMakeSize(floorf(_questionPointSize.width*0.9f),

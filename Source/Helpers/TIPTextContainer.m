@@ -425,25 +425,15 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	if( textLength == 0 )
 		return;
 	
+	unsigned int targetLineCount = lineCount;
 	[self setWidth:rect.size.width];
-	[self setFontSize:ceilf(rect.size.height/(float)lineCount)];
-	float stepSize = fontSize;
-	if( stepSize <= 1 ) {
-		stepSize = 2;
-		[self setFontSize:(float)stepSize];
-	}
-	int passCount = 0;
-	while( stepSize > MINIMUM_STEPSIZE || stepSize < -MINIMUM_STEPSIZE || FixedToFloat(totalHeight) > rect.size.height ) {
-		if( FixedToFloat(totalHeight) < rect.size.height ) {
-			[self setFontSize:fontSize+stepSize];
-		} else {
-			if( stepSize > MINIMUM_STEPSIZE )
-				stepSize /= 2.0f;
-			[self setFontSize:fontSize-stepSize];
-		}
-		passCount++;
-	}
+	[self setFontSize:ceilf(rect.size.height/(float)targetLineCount)];
 	
+	while( FixedToFloat(totalHeight) > rect.size.height ) {
+		targetLineCount++;
+		[self setFontSize:ceilf(rect.size.height/(float)targetLineCount)];
+	}
+
 #ifdef MINIMUM_FONTSIZE
 	if( fontSize < MINIMUM_FONTSIZE )
 		[self setFontSize:MINIMUM_FONTSIZE];

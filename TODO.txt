@@ -1,4 +1,6 @@
 ~ Make questions for unregistered category.
+~ Make text fit better in small places (and perhaps widen available space?).
+~ widen category title text field.
 ~ License Agreement
 ~ Paypal
 ~ More Limits

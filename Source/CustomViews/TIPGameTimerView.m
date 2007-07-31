@@ -208,7 +208,8 @@ NSString *stringForTime(NSTimeInterval aTime)
 	TIPTextContainer *theText = timeContainer;
 	if( stopped )
 		theText = stoppedContainer;
-	[theText fitTextInRect:textRect];
+	//[theText fitTextInRect:textRect];
+	[theText setFontSize:textRect.size.height*0.7f];
 	[theText drawTextInRect:textRect inContext:cxt];
 	
 	// draw shine
