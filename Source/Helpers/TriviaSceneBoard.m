@@ -18,7 +18,7 @@
 		_scale = 1.0f;
 		
 		_categoryTitleBox = [[RectangularBox alloc] init];
-		[_categoryTitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
+		[_categoryTitleBox setSharpCorners:BoxCornerUpperRight | BoxCornerLowerRight];
 		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
 		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
 		[_categoryTitleBox setLineWidth:1.0f];
@@ -30,12 +30,12 @@
 		[_pointsBox setLineWidth:1.0f];
 		[_pointsBox setCornerRadius:10.0f];
 		[_pointsBox setBorderColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.5f alpha:1.0f]];
-		[_pointsBox setShadingDirection:BoxShadingHorizontal];
+		//[_pointsBox setShadingDirection:BoxShadingHorizontal];
 		
 		_shine = [[RectangularBox alloc] init];
 		[_shine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
 		[_shine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
-		[_shine setSharpCorners:BoxCornerLowerLeft | BoxCornerLowerRight];
+		[_shine setSharpCorners:BoxCornerUpperRight | BoxCornerLowerRight];
 		[_shine enableBorder:NO];
 		
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
@@ -114,12 +114,9 @@
 		[aStringTexture setScale:_scale];
 }
 
-#define POINTPADDING ((NSSize){15.0f, -2.0f})
+#define POINTPADDING ((NSSize){-2.0f, 15.0f})
 #define BOARDMARGINS ((NSSize){10.0f, 25.0f})
 #define AVAILABLESIZE (NSMakeSize(_size.width - 2.0f*BOARDMARGINS.width - 4.0f*POINTPADDING.width, _size.height - 2.0f*BOARDMARGINS.height - 5.0f*POINTPADDING.height))
-#define QUESTIONTITLESIZE (NSMakeSize(floorf(AVAILABLESIZE.width/5.0f),floorf(AVAILABLESIZE.height/5.0f)))
-#define QUESTIONPOINTSIZE (NSMakeSize(QUESTIONTITLESIZE.width,floorf( (AVAILABLESIZE.height - QUESTIONTITLESIZE.height)/5.0f )))
-#define TITLESTRINGSIZE 
 
 - (void)setSize:(NSSize)newSize
 {
@@ -127,17 +124,17 @@
 	// set new sizes for other texture scaling objects
 	NSSize availableSize = AVAILABLESIZE;
 	
-	_questionTitleSize = NSMakeSize(floorf(availableSize.width/5.0f),
-										  floorf(availableSize.height/5.0f));
-	_questionPointSize = NSMakeSize(_questionTitleSize.width,
-										  floorf( (availableSize.height - _questionTitleSize.height)/5.0f ));
+	_questionTitleSize = NSMakeSize(floorf(availableSize.width*0.3f),
+									floorf(availableSize.height/5.0f));
+	_questionPointSize = NSMakeSize(floorf( (availableSize.width - _questionTitleSize.width)/5.0f ),
+									_questionTitleSize.height);
 	
 	[_categoryTitleBox setSize:_questionTitleSize];
 	[_categoryTitleBox setCornerRadius:floorf(_questionTitleSize.height*0.2f)];
 	
 	[_pointsBox setSize:_questionPointSize];
 	
-	[_shine setSize:NSMakeSize(_questionTitleSize.width*0.9f,_questionTitleSize.height*0.25f)];
+	[_shine setSize:NSMakeSize(_questionTitleSize.width*0.95f,_questionTitleSize.height*0.25f)];
 	[_shine setCornerRadius:[_categoryTitleBox cornerRadius]*0.8f];
 	
 	// strings
@@ -178,33 +175,38 @@
 
 - (void)draw
 {
-	float startHorizontal = BOARDMARGINS.width + (_size.width - 2.0f*BOARDMARGINS.width - (float)[_categoryTitleStrings count]*_questionTitleSize.width - (float)([_categoryTitleStrings count]-1)*POINTPADDING.width)/2.0f;
+	float emptyHeight = _size.height;
+	// space used by categories
+	emptyHeight -= (float)[_categoryTitleStrings count]*_questionTitleSize.height;
+	// space used by the space between categories
+	emptyHeight -= (float)([_categoryTitleStrings count]-1)*POINTPADDING.height;
+	
 	NSSize boardSize;
 	boardSize.width = [_categoryTitleStrings count]*_questionTitleSize.width + ([_categoryTitleStrings count]-1)*POINTPADDING.width;
 	boardSize.height = _questionTitleSize.height + 5.0f*(_questionPointSize.height + POINTPADDING.height);
 	
-	glTranslatef(startHorizontal,_size.height-BOARDMARGINS.height-_questionTitleSize.height,0.0f);
+	glTranslatef(BOARDMARGINS.width, _size.height - emptyHeight/2.0f - _questionTitleSize.height,0.0f);
 	unsigned int categoryIndex;
 	for( categoryIndex = 0; categoryIndex < [_categoryTitleStrings count]; categoryIndex++ ) {
 		TriviaCategory *aCategory = [_categories objectAtIndex:categoryIndex];
 		[_categoryTitleBox drawWithString:[_categoryTitleStrings objectAtIndex:categoryIndex]];
 		glPushMatrix();
-		glTranslatef(([_categoryTitleBox size].width-[_shine size].width)/2.0f,([_categoryTitleBox size].height-[_shine size].height)*0.97f,0.0f);
+		glTranslatef(([_categoryTitleBox size].width-[_shine size].width),([_categoryTitleBox size].height-[_shine size].height)*0.97f,0.0f);
 		[_shine draw];
 		glPopMatrix();
 		
 		glPushMatrix();
-		glTranslatef(0.0f,-(POINTPADDING.height+_questionPointSize.height),0.0f);
+		glTranslatef((POINTPADDING.width+_questionTitleSize.width),0.0f,0.0f);
 		unsigned int questionIndex;
 		for( questionIndex = 0; questionIndex < 5; questionIndex++ ) {
 			StringTexture *aStringTexture = nil;
 			if( ! [[[aCategory questions] objectAtIndex:questionIndex] used] )
 				aStringTexture = [_questionPointStrings objectAtIndex:questionIndex];
 			[_pointsBox drawWithString:aStringTexture];
-			glTranslatef(0.0f,-(POINTPADDING.height+_questionPointSize.height),0.0f);
+			glTranslatef((POINTPADDING.width+_questionPointSize.width),0.0f,0.0f);
 		}
 		glPopMatrix();
-		glTranslatef(_questionTitleSize.width+POINTPADDING.width,0.0f,0.0f);
+		glTranslatef(0.0f,-(_questionTitleSize.height+POINTPADDING.height),0.0f);
 	}
 }
 

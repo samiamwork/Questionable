@@ -57,6 +57,7 @@
 		3EB524D70C31D36C004A0DA1 /* TransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB524D60C31D36C004A0DA1 /* TransitionAnimation.m */; };
 		3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */; };
 		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
+		3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */; };
 		3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2508E0BE961C30032C6F0 /* TODO.txt */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
@@ -96,7 +97,6 @@
 		3EE2B0220B82A1A300EFBE3D /* TriviaSoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B01C0B82A1A300EFBE3D /* TriviaSoundController.m */; };
 		3EE2B02F0B82A79700EFBE3D /* BoolToStatusImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B02E0B82A79700EFBE3D /* BoolToStatusImageTransformer.m */; };
 		3EE2B0370B82A8F500EFBE3D /* BoolToStatusStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE2B0360B82A8F500EFBE3D /* BoolToStatusStringTransformer.m */; };
-		3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */; };
 		3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */; };
 		3EE93E8C0C48299D00C03A8F /* TriviaSceneQA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */; };
 		3EE93FAE0C4943CA00C03A8F /* TriviaScenePlayers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE93FAD0C4943CA00C03A8F /* TriviaScenePlayers.m */; };
@@ -184,6 +184,8 @@
 		3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTimerView.m; sourceTree = "<group>"; };
 		3EBE04BB0C2D95A600C8334B /* PrefsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsValidator.h; sourceTree = "<group>"; };
 		3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsValidator.m; sourceTree = "<group>"; };
+		3EBF58780C5FAE1800786813 /* TriviaSceneBoard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaSceneBoard.h; sourceTree = "<group>"; };
+		3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneBoard.m; sourceTree = "<group>"; };
 		3EC2508E0BE961C30032C6F0 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; wrapsLines = 1; };
 		3EE136750BCB55910062334B /* AquaticPrime.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AquaticPrime.c; sourceTree = "<group>"; };
 		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
@@ -255,8 +257,6 @@
 		3EE2B02E0B82A79700EFBE3D /* BoolToStatusImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoolToStatusImageTransformer.m; sourceTree = "<group>"; };
 		3EE2B0350B82A8F500EFBE3D /* BoolToStatusStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoolToStatusStringTransformer.h; sourceTree = "<group>"; };
 		3EE2B0360B82A8F500EFBE3D /* BoolToStatusStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoolToStatusStringTransformer.m; sourceTree = "<group>"; };
-		3EE93D320C4752A300C03A8F /* TriviaSceneBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaSceneBoard.h; sourceTree = "<group>"; };
-		3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneBoard.m; sourceTree = "<group>"; };
 		3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaScenePlaceholder.h; sourceTree = "<group>"; };
 		3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaScenePlaceholder.m; sourceTree = "<group>"; };
 		3EE93E8A0C48299D00C03A8F /* TriviaSceneQA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaSceneQA.h; sourceTree = "<group>"; };
@@ -361,10 +361,10 @@
 				3E8DB74C0C3D769800DC2845 /* ArcTimer.m */,
 				3E8DB8440C3DC34100DC2845 /* TextureCanvas.h */,
 				3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */,
-				3EE93D320C4752A300C03A8F /* TriviaSceneBoard.h */,
-				3EE93D330C4752A300C03A8F /* TriviaSceneBoard.m */,
 				3EE93E0C0C480F8F00C03A8F /* TriviaScenePlaceholder.h */,
 				3EE93E0D0C480F8F00C03A8F /* TriviaScenePlaceholder.m */,
+				3EBF58780C5FAE1800786813 /* TriviaSceneBoard.h */,
+				3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */,
 				3EE93E8A0C48299D00C03A8F /* TriviaSceneQA.h */,
 				3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */,
 				3EE93FAC0C4943CA00C03A8F /* TriviaScenePlayers.h */,
@@ -802,10 +802,10 @@
 				3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */,
 				3E8DB74D0C3D769800DC2845 /* ArcTimer.m in Sources */,
 				3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */,
-				3EE93D340C4752A300C03A8F /* TriviaSceneBoard.m in Sources */,
 				3EE93E0E0C480F8F00C03A8F /* TriviaScenePlaceholder.m in Sources */,
 				3EE93E8C0C48299D00C03A8F /* TriviaSceneQA.m in Sources */,
 				3EE93FAE0C4943CA00C03A8F /* TriviaScenePlayers.m in Sources */,
+				3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

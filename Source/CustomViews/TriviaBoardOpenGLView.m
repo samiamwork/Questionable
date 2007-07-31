@@ -153,7 +153,14 @@
 	[_questionScene setSize:_targetSize];
 	[_answerScene setSize:_targetSize];
 	[_playersScene setSize:_targetSize];
-	
+	/*
+	float newScale = _targetSize.width/640.0f;
+	[_boardScene setScale:newScale];
+	[_placeholderScene setScale:newScale];
+	[_questionScene setScale:newScale];
+	[_answerScene setScale:newScale];
+	[_playersScene setScale:newScale];
+	 */
 }
 
 - (void)firstFrameSetup
