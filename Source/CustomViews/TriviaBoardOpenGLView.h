@@ -38,6 +38,7 @@ typedef enum TIPTriviaBoardViewState {
 	
 	NSSize _targetSize;
 	NSSize _contextSize;
+	float _scale;
 	
 	//Trivia Objects
 	TriviaBoard *_mainBoard;

@@ -61,6 +61,7 @@
 		_questionScene = nil;
 		_answerScene = nil;
 		_playersScene = nil;
+		_scale = 1.0f;
 
 		_transitionDoneCallback = nil;
     }
@@ -145,22 +146,17 @@
 	}
 	
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	_scale = _targetSize.width/640.0f;
+	glScalef(_scale,_scale,_scale);
+	
+	[_boardScene setScale:_scale];
+	[_placeholderScene setScale:_scale];
+	[_questionScene setScale:_scale];
+	[_answerScene setScale:_scale];
+	[_playersScene setScale:_scale];
 	
 	_needsReshape = NO;
-	
-	[_boardScene setSize:_targetSize];
-	[_placeholderScene setSize:_targetSize];
-	[_questionScene setSize:_targetSize];
-	[_answerScene setSize:_targetSize];
-	[_playersScene setSize:_targetSize];
-	/*
-	float newScale = _targetSize.width/640.0f;
-	[_boardScene setScale:newScale];
-	[_placeholderScene setScale:newScale];
-	[_questionScene setScale:newScale];
-	[_answerScene setScale:newScale];
-	[_playersScene setScale:newScale];
-	 */
 }
 
 - (void)firstFrameSetup
@@ -183,7 +179,7 @@
 - (void)drawState:(TIPTriviaBoardViewState)aState withProgress:(float)progress
 {
 	glPushMatrix();
-	glTranslatef(_contextSize.width*progress,0.0f,0.0f);
+	glTranslatef((_contextSize.width/_scale)*progress,0.0f,0.0f);
 	switch( aState ) {
 		case kTIPTriviaBoardViewStateBoard:
 			[_boardScene draw];
@@ -378,8 +374,8 @@
 - (void)showPlayers
 {
 	_playersScene = [[TriviaScenePlayers alloc] init];
-	[_playersScene setSize:_targetSize];
-	//[_playersScene setScale:_scale];
+	//[_playersScene setSize:_targetSize];
+	[_playersScene setScale:_scale];
 	[_playersScene setPlayers:_players];
 	[_playersScene buildTexture];
 	
@@ -391,8 +387,8 @@
 	// generate a texture for the question we have
 	_questionScene = [[TriviaSceneQA alloc] init];
 	[_questionScene setTitle:@"Question" text:(NSString *)[_question question]];
-	[_questionScene setSize:_targetSize];
-	//[_questionScene setScale:_scale];
+	//[_questionScene setSize:_targetSize];
+	[_questionScene setScale:_scale];
 	[_questionScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateQuestion];
 }
@@ -402,8 +398,8 @@
 	// generate a texture for the answer we have
 	_answerScene = [[TriviaSceneQA alloc] init];
 	[_answerScene setTitle:@"Answer" text:[_question answer]];
-	[_answerScene setSize:_targetSize];
-	//[_answerScene setScale:_scale];
+	//[_answerScene setSize:_targetSize];
+	[_answerScene setScale:_scale];
 	[_answerScene setProgress:0.0f];
 	[_answerScene buildTexture];
 	[self setBoardViewState:kTIPTriviaBoardViewStateAnswer];

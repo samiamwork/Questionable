@@ -160,7 +160,7 @@
 	if( [_qTimer progress] != 0.0f ) {
 		glPushMatrix();
 		glTranslatef([_QATitleBox size].height/2.0f,[_QATitleBox size].height/2.0f,0.0f);
-		glScalef(_size.height/480.0f,_size.height/480.0f,1.0f);
+		//glScalef(_size.height/480.0f,_size.height/480.0f,1.0f);
 		[_qTimer draw];
 		glPopMatrix();
 	}

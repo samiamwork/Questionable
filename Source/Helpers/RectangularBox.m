@@ -180,11 +180,12 @@
 	
 	// draw Border Texture
 	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
+	CGContextScaleCTM(bitmapContext,_scale,_scale);
 	
 	CGContextSetRGBStrokeColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
-	CGContextMoveToPoint(bitmapContext,_cornerRadius*_scale,0.0f);
-	CGContextAddArcToPoint(bitmapContext,_cornerRadius*_scale,_cornerRadius*_scale,0.0f,_cornerRadius*_scale,_cornerRadius*_scale);
-	CGContextSetLineWidth(bitmapContext,_lineWidth*_scale);
+	CGContextMoveToPoint(bitmapContext,_cornerRadius,0.0f);
+	CGContextAddArcToPoint(bitmapContext,_cornerRadius,_cornerRadius,0.0f,_cornerRadius,_cornerRadius);
+	CGContextSetLineWidth(bitmapContext,_lineWidth);
 	CGContextStrokePath(bitmapContext);
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -194,7 +195,7 @@
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 
 	// draw background texture
-	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize,_textureSize));
+	CGContextClearRect(bitmapContext,CGRectMake(0.0f,0.0f,_textureSize/_scale,_textureSize/_scale));
 
 	CGContextSetRGBFillColor(bitmapContext,1.0f,1.0f,1.0f,1.0f);
 	CGContextMoveToPoint(bitmapContext,0.0f,0.0f);
@@ -240,8 +241,8 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 
 - (void)generateVertexArray
 {
-	float xPoints[4] = { 0.0f, _textureSize, _boxSize.width-_textureSize, _boxSize.width };
-	float yPoints[4] = { 0.0f, _textureSize, _boxSize.height-_textureSize, _boxSize.height };
+	float xPoints[4] = { 0.0f, _textureSize/_scale, _boxSize.width-_textureSize/_scale, _boxSize.width };
+	float yPoints[4] = { 0.0f, _textureSize/_scale, _boxSize.height-_textureSize/_scale, _boxSize.height };
 	color4 midColor1 = blendColors( _startColor, _endColor, yPoints[1]/_boxSize.height );
 	color4 midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
 
@@ -437,6 +438,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	
 	_scale = newScale;
 	_dirtyTexture = YES;
+	_dirtyVerticies = YES;
 }
 
 - (void)draw
