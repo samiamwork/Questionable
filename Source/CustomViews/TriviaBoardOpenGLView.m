@@ -135,12 +135,15 @@
 	
 	if( !_preserveTargetAspectRatio ) {
 		glOrtho(0.0f, _contextSize.width, 0.0f, _contextSize.height, 300.0f, -300.0f);
+		_adjustedOrigin = NSMakePoint(0.0f,0.0f);
 	} else if( _targetSize.width < _contextSize.width ) {
 		float dx = (_contextSize.width - _targetSize.width)/2.0f;
 		glOrtho(0.0f-dx, _targetSize.width+dx, 0.0f, _contextSize.height, 300.0f, -300.0f);
+		_adjustedOrigin = NSMakePoint(-dx,0.0f);
 	} else if( _targetSize.height < _contextSize.height ) {
 		float dy = (_contextSize.height - _targetSize.height)/2.0f;
 		glOrtho(0.0f, _contextSize.width, 0.0f-dy, _targetSize.height+dy, 300.0f, -300.0f);
+		_adjustedOrigin = NSMakePoint(0.0f,-dy);
 	} else {
 		glOrtho(0.0f, _contextSize.width, 0.0f, _contextSize.height, 300.0f, -300.0f);
 	}
@@ -236,6 +239,18 @@
 		lastViewState = theViewState;
 		[_transitionDoneCallback invoke];
 	}
+	
+	glPushMatrix();
+	glScalef(1.0f/_scale,1.0f/_scale,1.0f/_scale);
+	glBegin(GL_TRIANGLE_STRIP); {
+		glColor4f(0.3f,0.3f,0.3f,1.0f);
+		glVertex2f(_adjustedOrigin.x, _adjustedOrigin.y);
+		glVertex2f(_adjustedOrigin.x+_contextSize.width, _adjustedOrigin.y);
+		glColor4f(0.0f,0.0f,0.0f,1.0f);
+		glVertex2f(_adjustedOrigin.x,_adjustedOrigin.y+_contextSize.height);
+		glVertex2f(_adjustedOrigin.x+_contextSize.width,_adjustedOrigin.y+_contextSize.height);
+	} glEnd();
+	glPopMatrix();
 	
 	if( theViewState != lastViewState ) {
 		float progress = [_transitionAnimation currentValue];

@@ -103,7 +103,7 @@
 	glTranslatef(xTranslate,yTranslate,0.0f);
 	[_placeholderShine draw];
 	glPopMatrix();
-	
+	/*
 	glScalef(1.0f,-1.0f,1.0f);
 	glTranslatef( 0.0f, 0.05f*_size.height,0.0f);
 	[_placeholderBox drawWithString:_questionmark];
@@ -124,6 +124,7 @@
 			glVertex3f([_placeholderBox size].width, [_placeholderBox size].height,0.0f);
 		}
 	} glEnd();
+	 */
 }
 
 @end

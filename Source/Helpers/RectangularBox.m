@@ -210,7 +210,6 @@
 	glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, _textureSize, _textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmapData);
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	
-	
 	CGContextRelease( bitmapContext );
 	free(bitmapData);
 	_dirtyTexture = NO;
