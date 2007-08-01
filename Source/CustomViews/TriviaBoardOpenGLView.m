@@ -247,8 +247,8 @@
 		glVertex2f(_adjustedOrigin.x, _adjustedOrigin.y);
 		glVertex2f(_adjustedOrigin.x+_contextSize.width, _adjustedOrigin.y);
 		glColor4f(0.0f,0.0f,0.0f,1.0f);
-		glVertex2f(_adjustedOrigin.x,_adjustedOrigin.y+_contextSize.height);
-		glVertex2f(_adjustedOrigin.x+_contextSize.width,_adjustedOrigin.y+_contextSize.height);
+		glVertex2f(_adjustedOrigin.x,_adjustedOrigin.y+_contextSize.height*0.4f);
+		glVertex2f(_adjustedOrigin.x+_contextSize.width,_adjustedOrigin.y+_contextSize.height*0.4f);
 	} glEnd();
 	glPopMatrix();
 	

@@ -103,28 +103,6 @@
 	glTranslatef(xTranslate,yTranslate,0.0f);
 	[_placeholderShine draw];
 	glPopMatrix();
-	/*
-	glScalef(1.0f,-1.0f,1.0f);
-	glTranslatef( 0.0f, 0.05f*_size.height,0.0f);
-	[_placeholderBox drawWithString:_questionmark];
-	//[self drawShine:[_placeholderBox size]];
-	
-	glBegin(GL_TRIANGLE_STRIP); {
-		float shadowHeight = _size.height*0.2f;
-		glColor4f(0.0f,0.0f,0.0f,0.7f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glVertex3f([_placeholderBox size].width,0.0f,0.0f);
-		
-		glColor4f(0.0f,0.0f,0.0f,1.0f);
-		glVertex3f(0.0f, shadowHeight,0.0f);
-		glVertex3f([_placeholderBox size].width, shadowHeight,0.0f);
-		
-		if( shadowHeight < [_placeholderBox size].height ) {
-			glVertex3f(0.0f, [_placeholderBox size].height,0.0f);
-			glVertex3f([_placeholderBox size].width, [_placeholderBox size].height,0.0f);
-		}
-	} glEnd();
-	 */
 }
 
 @end
