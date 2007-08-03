@@ -287,6 +287,14 @@
 		!APVerifyLicenseData((CFDataRef )licenseData) ) {
 		TriviaCategory *dummyCategory = [[TriviaCategory alloc] init];
 		[dummyCategory setTitle:@"Please Register"];
+		
+		NSEnumerator *questionEnumerator = [[dummyCategory questions] objectEnumerator];
+		TriviaQuestion *aQuestion;
+		while( (aQuestion = [questionEnumerator nextObject]) ) {
+			[aQuestion setQuestion:@"How much does Questionable cost?"];
+			[aQuestion setAnswer:@"$25"];
+		}
+		
 		_categories = [[_mainBoard categories] arrayByAddingObject:dummyCategory];
 		[dummyCategory release];
 	} else {
