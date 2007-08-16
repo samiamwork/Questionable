@@ -609,7 +609,6 @@
 				3EC250240BE919C70032C6F0 /* Strip Symbols */,
 				45D4CC230A828F9E00804A18 /* Remove Headers */,
 				3EFF82790B55914B0049AD7D /* Set SVN Revision Number */,
-				3EFF827B0B5591720049AD7D /* Make DMG */,
 			);
 			buildRules = (
 			);
@@ -708,22 +707,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/usr/bin/perl -w";
 			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
-		};
-		3EFF827B0B5591720049AD7D /* Make DMG */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app",
-			);
-			name = "Make DMG";
-			outputPaths = (
-				"$(SRCROOT)/build/$(PRODUCT_NAME).dmg",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ $BUILD_STYLE != \"Release\" ]; then\n\texit\nfi\n\n#unmount any volumes that look like this one\nhdiutil detach /Volumes/$PRODUCT_NAME\n\n# if a previous copy of the image exists, remove it\nrm -f build/$PRODUCT_NAME.dmg\n\n# create the image.\nhdiutil create build/$PRODUCT_NAME.dmg -srcfolder $BUILT_PRODUCTS_DIR -fs HFS+ -volname \"$PRODUCT_NAME\"";
 		};
 		45D4CC230A828F9E00804A18 /* Remove Headers */ = {
 			isa = PBXShellScriptBuildPhase;
