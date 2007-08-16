@@ -286,6 +286,7 @@
 	
 	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.1f,bounds.size.height*0.1f);
 	[aTextContainer fitTextInRect:textRect];
+	//printf("%s\n", [aTextContainer text
 	if( [aTextContainer lineCount] > 1 )
 		[aTextContainer setAlignment:kTIPTextAlignmentLeft];
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
@@ -294,30 +295,6 @@
 	[aTextContainer drawTextInRect:textRect
 						 inContext:currentContext];
 }
-
-#define BAR_PADDING_SCALE 0.025f
-/*
-- (void)drawTimer
-{
-	if( _timerLevel == 0 )
-		return;
-	
-	NSRect bounds = [self bounds];
-	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
-	float barPadding = ceilf(bounds.size.height*BAR_PADDING_SCALE);
-	CGRect barRect = CGRectMake(0.0,0.0f,ceilf(bounds.size.width*0.025f),(bounds.size.height-barPadding*3.0f)/4.0f);
-	CGContextSetRGBFillColor(currentContext,0.2f,0.2f,0.2f,0.2f);
-	
-	unsigned int currentLevel;
-	for( currentLevel=0; currentLevel < _timerLevel; currentLevel++ ) {
-		CGContextFillRect(currentContext,barRect);
-		barRect.origin.x += bounds.size.width-barRect.size.width;
-		CGContextFillRect(currentContext,barRect);
-		barRect.origin.x = 0.0f;
-		barRect.origin.y += barRect.size.height+barPadding;
-	}
-}
-*/
 
 - (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect
 {

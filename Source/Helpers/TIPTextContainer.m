@@ -46,7 +46,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		lineCount = 0;
 		fontSize  = 0.0f;
 		leading = FloatToFixed(0.0f);
-		lineWidth = 0.0f;
+		lineWidth = 500.0f;
 		fontName = nil;
 		
 		lineHeights = NULL;
@@ -98,13 +98,14 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	unsigned thisLine;
 	ATSUTextMeasurement ascent;
 	ATSUTextMeasurement descent;
+	ATSUTextMeasurement textBefore, textAfter;
 	
 	totalHeight = 0;
 	// now calculate the line heights
 	for( thisLine=0; thisLine<lineCount; thisLine++) {
-		
-		status = ATSUGetLineControl(defaultLayout, endOfLines[thisLine], kATSULineAscentTag, sizeof(ATSUTextMeasurement), &ascent, NULL);
-		status = ATSUGetLineControl(defaultLayout, endOfLines[thisLine], kATSULineDescentTag, sizeof(ATSUTextMeasurement), &descent, NULL);
+		status = ATSUGetUnjustifiedBounds(defaultLayout, endOfLines[thisLine],endOfLines[thisLine+1]-endOfLines[thisLine], &textBefore, &textAfter, &ascent, &descent);
+		if( status != noErr )
+			printf("error: %s\n", GetMacOSStatusCommentString(status));
 		lineHeights[thisLine] = ascent + descent + leading;
 		
 		if( thisLine==0 )
@@ -114,6 +115,9 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	// correct the total height so that it reflects the true height (leading is not part of the text).
 	totalHeight -= leading;
+	
+	float floatHeight = FixedToFloat(totalHeight);
+	floatHeight = 0;
 }
 
 #pragma mark creation
@@ -483,7 +487,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		ATSUDrawText(defaultLayout, endOfLines[thisLine], endOfLines[thisLine+1]-endOfLines[thisLine], fX, fY);
 		fY -= lineHeights[thisLine];
 	}
-
+	
 	CGContextRestoreGState(cxt);
 }
 
