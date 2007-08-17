@@ -286,7 +286,7 @@
 	
 	NSRect textRect = NSInsetRect(bounds,bounds.size.height*0.1f,bounds.size.height*0.1f);
 	[aTextContainer fitTextInRect:textRect];
-	//printf("%s\n", [aTextContainer text
+	
 	if( [aTextContainer lineCount] > 1 )
 		[aTextContainer setAlignment:kTIPTextAlignmentLeft];
 	if( [aTextContainer fontSize] > textRect.size.height/5.0f)
@@ -350,12 +350,10 @@
 			break;
 		case kTriviaSimpleViewQuestion:
 			[self drawString:(NSString *)[_question question] withTitle:@"Question"];
-			//[self drawTimer];
 			break;
-		case kTriviaSimpleViewAnswer: {
+		case kTriviaSimpleViewAnswer:
 			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
-			//[self drawTimer];
-			} break;
+			break;
 		default:
 			[self drawPlaceholder];
 	}
