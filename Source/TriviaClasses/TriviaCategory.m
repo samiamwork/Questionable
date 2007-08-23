@@ -28,7 +28,8 @@
 {
 	if( (self = [super init]) ) {
 
-		theTitle = @"New Category";
+		theTitle = nil;
+		[self setTitle:@"New Category"];
 		theQuestions = [[NSMutableArray alloc] init];
 		
 		int questionNumber;
@@ -59,8 +60,10 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	TriviaCategory *copyTriviaCategory = [[TriviaCategory alloc] init];
-	copyTriviaCategory->theQuestions = [theQuestions copyWithZone:zone];
+	TriviaCategory *copyTriviaCategory = [[TriviaCategory allocWithZone:zone] init];
+	NSArray *copyQuestions = [theQuestions copyWithZone:zone];
+	[copyTriviaCategory setQuestions:copyQuestions];
+	[copyQuestions release];
 	[copyTriviaCategory setTitle:[self title]];
 	[copyTriviaCategory setParent:[self parent]];
 	
@@ -173,11 +176,13 @@
 
 - (void)addQuestion:(TriviaQuestion *)newQuestion
 {
+	[self willChangeValueForKey:@"questionChange"];
 	if( newQuestion == nil || [self isFull] )
 		return;
 	[newQuestion setParent:self];
 	[newQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[theQuestions addObject:newQuestion];
+	[self didChangeValueForKey:@"questionChange"];
 }
 - (void)removeQuestion:(TriviaQuestion *)aQuestion
 {

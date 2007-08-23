@@ -28,7 +28,6 @@
 		[self addBoard:self];
 		
 		checkedoutBoard = nil;
-		
 	}
 
 	return self;

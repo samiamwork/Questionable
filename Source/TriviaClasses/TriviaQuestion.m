@@ -30,8 +30,8 @@ typedef enum TriviaQuestionType {
 - (id)init
 {
 	if( (self = [super init]) ) {
-		theQuestion = @"";
-		theAnswer = @"";
+		theQuestion = nil;
+		theAnswer = nil;
 		_used = NO;
 		_slowReveal = NO;
 		
@@ -51,12 +51,13 @@ typedef enum TriviaQuestionType {
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	TriviaQuestion *copyTriviaQuestion = [[TriviaQuestion alloc] init];
-	[copyTriviaQuestion setQuestion:[self question]];
-	[copyTriviaQuestion setAnswer:[self answer]];
-	[copyTriviaQuestion setUsed:[self used]];
-	[copyTriviaQuestion setSlowReveal:[self slowReveal]];
-	[copyTriviaQuestion setParent:nil];
+	TriviaQuestion *copyTriviaQuestion = [[TriviaQuestion allocWithZone:zone] init];
+	[copyTriviaQuestion setQuestion:theQuestion];
+	[copyTriviaQuestion setAnswer:theAnswer];
+	[copyTriviaQuestion setUsed:_used];
+	[copyTriviaQuestion setSlowReveal:_slowReveal];
+	// watch out! this was nil
+	[copyTriviaQuestion setParent:theParent];
 	
 	return copyTriviaQuestion;
 }
