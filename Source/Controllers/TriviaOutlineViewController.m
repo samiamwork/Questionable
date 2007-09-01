@@ -136,15 +136,6 @@
 	currentQuestion = newQuestion;
 }
 
-- (id)draggedItem
-{
-	return theDraggedItem;
-}
-- (void)setDraggedItem:(id)newDraggedItem
-{
-	theDraggedItem = newDraggedItem;
-}
-
 #pragma mark Actions
 
 - (IBAction)addBoard:(id)sender
@@ -496,13 +487,12 @@
 {
 	// if we're dropping it in a category that is our parent or isn't already full...
 	if( [item isKindOfClass:[TriviaCategory class]] && (![(TriviaCategory *)item isFull] || item == [aQuestion questionParent])) {
+		if( item == [aQuestion questionParent] && anIndex == NSOutlineViewDropOnItemIndex )
+			return NO;
 		if( doIt ) {
 			TriviaCategory *aCategory = (TriviaCategory *)item;
 			
-			if( item == [aQuestion questionParent] && anIndex == NSOutlineViewDropOnItemIndex ) {
-				// we do not allow drops on our parent category
-				return NO;
-			} else if( anIndex == NSOutlineViewDropOnItemIndex ) {
+			if( anIndex == NSOutlineViewDropOnItemIndex ) {
 				// we allow drops on other categories
 				[aCategory addQuestion:aQuestion];
 			} else {
@@ -517,10 +507,19 @@
 	if( [item isKindOfClass:[TriviaQuestion class]] && anIndex == NSOutlineViewDropOnItemIndex && item != aQuestion ) {
 		if( doIt ) {
 			TriviaQuestion *anotherQuestion = (TriviaQuestion *)item;
-			unsigned anotherQuestionIndex = [[[anotherQuestion questionParent] questions] indexOfObject:anotherQuestion];
+			int anotherQuestionIndex = [[[anotherQuestion questionParent] questions] indexOfObject:anotherQuestion];
 			
 			if( [anotherQuestion questionParent] == [aQuestion questionParent] ) {
-				[[anotherQuestion questionParent] insertObject:aQuestion inQuestionsAtIndex:anotherQuestionIndex];
+				NSMutableArray *questionArray = [[aQuestion questionParent] questions];
+				int aQuestionIndex = [questionArray indexOfObject:aQuestion];
+				[aQuestion retain];
+				[anotherQuestion retain];
+				
+				[questionArray replaceObjectAtIndex:aQuestionIndex withObject:anotherQuestion];
+				[questionArray replaceObjectAtIndex:anotherQuestionIndex withObject:aQuestion];
+				
+				[anotherQuestion release];
+				[aQuestion release];
 			} else {
 				[self swapQuestion:aQuestion withQuestion:anotherQuestion];
 			}
@@ -531,12 +530,14 @@
 	return NO;
 }
 
+
+// Actually DO the drop
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)anIndex
 {
 	if( [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:TriviaOutlinePboardType]] == nil )
 		return NO;
 	
-	id aDraggedItem = [(TriviaOutlineViewController *)[[info draggingSource] dataSource] draggedItem];
+	id aDraggedItem = theDraggedItem;
 	if( aDraggedItem == nil )
 		return NO;
 	
@@ -560,12 +561,15 @@
 	return result;
 }
 
+// Can we drop it here?
+// Retarget it if necessary.
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)anIndex
 {
 	id targetItem = item;
 	BOOL dropIsAllowed = NO;
-	id aDraggedItem = [(TriviaOutlineViewController *)[[info draggingSource] dataSource] draggedItem];
+	id aDraggedItem = theDraggedItem;
 	
+	// Can't drop the item on itself or above and below
 	if(aDraggedItem == item && anIndex == NSOutlineViewDropOnItemIndex)
 		return NO;
 	
@@ -596,6 +600,7 @@
 	return (dropIsAllowed ? NSDragOperationGeneric : NSDragOperationNone);
 }
 
+// BEGIN drag
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
 {
 	if( [items count] != 1 )
@@ -603,7 +608,7 @@
 	
 	[pboard declareTypes:[NSArray arrayWithObject:TriviaOutlinePboardType] owner:self];
 	[pboard setData:[NSData data] forType:TriviaOutlinePboardType];
-	[self setDraggedItem:[items objectAtIndex:0]];
+	theDraggedItem = [items objectAtIndex:0];
 	
 	return YES;
 }

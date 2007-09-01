@@ -60,6 +60,4 @@
 - (TriviaQuestion *)currentQuestion;
 - (void)setCurrentQuestion:(TriviaQuestion *)newQuestion;
 
-- (id)draggedItem;
-- (void)setDraggedItem:(id)newDraggedItem;
 @end

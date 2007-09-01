@@ -52,6 +52,7 @@ typedef enum TriviaQuestionType {
 
 - (id)copyWithZone:(NSZone *)zone
 {
+	//HACK: we can only get away with this because it's only NSCell that calls this and will never modify it
 	/*
 	TriviaQuestion *copyTriviaQuestion = [[TriviaQuestion allocWithZone:zone] init];
 	[copyTriviaQuestion setQuestion:theQuestion];
