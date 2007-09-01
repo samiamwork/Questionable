@@ -14,6 +14,7 @@
 	NSString *theTitle;
 	NSMutableArray *theQuestions;
 	
+	BOOL _isCopy;
 	id parent;
 }
 

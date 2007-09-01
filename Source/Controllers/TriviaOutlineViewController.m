@@ -223,7 +223,7 @@
 		TriviaBoard *parentBoard = (TriviaBoard *)[(TriviaCategory *)selectedItem parent];
 		[parentBoard removeCategory:selectedItem];
 	} else if( [selectedItem isKindOfClass:[TriviaQuestion class]] ) {
-		TriviaCategory *parentCategory = (TriviaCategory *)[(TriviaQuestion *)selectedItem parent];
+		TriviaCategory *parentCategory = (TriviaCategory *)[(TriviaQuestion *)selectedItem questionParent];
 		[parentCategory removeQuestion:selectedItem];
 	} else {
 		NSBeep();
@@ -468,8 +468,8 @@
 	[questionOne retain];
 	[questionTwo retain];
 
-	TriviaCategory *questionOneParent = [questionOne parent];
-	TriviaCategory *questionTwoParent = [questionTwo parent];
+	TriviaCategory *questionOneParent = [questionOne questionParent];
+	TriviaCategory *questionTwoParent = [questionTwo questionParent];
 	
 	unsigned questionOneIndex = [[questionOneParent questions] indexOfObject:questionOne];
 	unsigned questionTwoIndex = [[questionTwoParent questions] indexOfObject:questionTwo];
@@ -478,12 +478,12 @@
 	[[questionOneParent questions] exchangeObjectAtIndex:questionOneIndex withObjectAtIndex:[[questionOneParent questions] count]-1];
 	[[questionOneParent questions] removeObjectAtIndex:[[questionOneParent questions] count]-1];
 	//set the new parent ourselves since we're going straight to the array
-	[questionTwo setParent:questionOneParent];
+	[questionTwo setQuestionParent:questionOneParent];
 
 	[[questionTwoParent questions] addObject:questionOne];
 	[[questionTwoParent questions] exchangeObjectAtIndex:questionTwoIndex withObjectAtIndex:[[questionTwoParent questions] count]-1];
 	[[questionTwoParent questions] removeObjectAtIndex:[[questionTwoParent questions] count]-1];
-	[questionOne setParent:questionTwoParent];
+	[questionOne setQuestionParent:questionTwoParent];
 
 	[questionTwo release];
 	[questionOne release];
@@ -495,11 +495,11 @@
 - (BOOL)canDropQuestion:(TriviaQuestion *)aQuestion onItem:(id)item atIndex:(int)anIndex andDoIt:(BOOL)doIt
 {
 	// if we're dropping it in a category that is our parent or isn't already full...
-	if( [item isKindOfClass:[TriviaCategory class]] && (![(TriviaCategory *)item isFull] || item == [aQuestion parent])) {
+	if( [item isKindOfClass:[TriviaCategory class]] && (![(TriviaCategory *)item isFull] || item == [aQuestion questionParent])) {
 		if( doIt ) {
 			TriviaCategory *aCategory = (TriviaCategory *)item;
 			
-			if( item == [aQuestion parent] && anIndex == NSOutlineViewDropOnItemIndex ) {
+			if( item == [aQuestion questionParent] && anIndex == NSOutlineViewDropOnItemIndex ) {
 				// we do not allow drops on our parent category
 				return NO;
 			} else if( anIndex == NSOutlineViewDropOnItemIndex ) {
@@ -517,10 +517,10 @@
 	if( [item isKindOfClass:[TriviaQuestion class]] && anIndex == NSOutlineViewDropOnItemIndex && item != aQuestion ) {
 		if( doIt ) {
 			TriviaQuestion *anotherQuestion = (TriviaQuestion *)item;
-			unsigned anotherQuestionIndex = [[[anotherQuestion parent] questions] indexOfObject:anotherQuestion];
+			unsigned anotherQuestionIndex = [[[anotherQuestion questionParent] questions] indexOfObject:anotherQuestion];
 			
-			if( [anotherQuestion parent] == [aQuestion parent] ) {
-				[[anotherQuestion parent] insertObject:aQuestion inQuestionsAtIndex:anotherQuestionIndex];
+			if( [anotherQuestion questionParent] == [aQuestion questionParent] ) {
+				[[anotherQuestion questionParent] insertObject:aQuestion inQuestionsAtIndex:anotherQuestionIndex];
 			} else {
 				[self swapQuestion:aQuestion withQuestion:anotherQuestion];
 			}
@@ -573,7 +573,7 @@
 		
 		dropIsAllowed = [self canDropBoard:(TriviaBoard *)aDraggedItem onItem:targetItem atIndex:anIndex andDoIt:NO];
 		if( [item isKindOfClass:[TriviaQuestion class]] ) {
-			[outlineView setDropItem:[[(TriviaQuestion *)item parent] parent] dropChildIndex:NSOutlineViewDropOnItemIndex];
+			[outlineView setDropItem:[[(TriviaQuestion *)item questionParent] parent] dropChildIndex:NSOutlineViewDropOnItemIndex];
 			return NSDragOperationGeneric;
 		} else if( [item isKindOfClass:[TriviaCategory class]] ) {
 			[outlineView setDropItem:[(TriviaCategory *)item parent] dropChildIndex:NSOutlineViewDropOnItemIndex];
@@ -584,7 +584,7 @@
 		
 		dropIsAllowed = [self canDropCategory:(TriviaCategory *)aDraggedItem onItem:targetItem atIndex:anIndex andDoIt:NO];
 		if( [item isKindOfClass:[TriviaQuestion class]] ) {
-			[outlineView setDropItem:[(TriviaQuestion *)item parent] dropChildIndex:NSOutlineViewDropOnItemIndex];
+			[outlineView setDropItem:[(TriviaQuestion *)item questionParent] dropChildIndex:NSOutlineViewDropOnItemIndex];
 			return NSDragOperationGeneric;
 		}
 		

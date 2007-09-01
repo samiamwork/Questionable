@@ -36,6 +36,7 @@ typedef enum TriviaQuestionType {
 		_slowReveal = NO;
 		
 		theParent = nil;
+		_isCopy = NO;
 	}
 	
 	return self;
@@ -51,15 +52,19 @@ typedef enum TriviaQuestionType {
 
 - (id)copyWithZone:(NSZone *)zone
 {
+	/*
 	TriviaQuestion *copyTriviaQuestion = [[TriviaQuestion allocWithZone:zone] init];
 	[copyTriviaQuestion setQuestion:theQuestion];
+	copyTriviaQuestion->_isCopy = YES;
 	[copyTriviaQuestion setAnswer:theAnswer];
 	[copyTriviaQuestion setUsed:_used];
 	[copyTriviaQuestion setSlowReveal:_slowReveal];
 	// watch out! this was nil
-	[copyTriviaQuestion setParent:theParent];
+	[copyTriviaQuestion setQuestionParent:nil];
 	
 	return copyTriviaQuestion;
+	 */
+	return [self retain];
 }
 
 - (NSString *)description
@@ -85,7 +90,7 @@ typedef enum TriviaQuestionType {
 		[self setUsed:[decoder decodeBoolForKey:@"used"]];
 		[self setSlowReveal:[decoder decodeBoolForKey:@"slowReveal"]];
 		
-		[self setParent:nil];
+		[self setQuestionParent:nil];
 	}
 	
 	return self;
@@ -216,11 +221,11 @@ typedef enum TriviaQuestionType {
 	_slowReveal = willSlowReveal;
 }
 
-- (id)parent
+- (id)questionParent
 {
 	return theParent;
 }
-- (void)setParent:(id)newParent
+- (void)setQuestionParent:(id)newParent
 {
 	theParent = newParent;
 }

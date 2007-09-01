@@ -60,14 +60,21 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
+	//HACK: we can only get away with this because it's only NSCell that calls this and will never modify it
+	/*
 	TriviaCategory *copyTriviaCategory = [[TriviaCategory allocWithZone:zone] init];
 	NSArray *copyQuestions = [theQuestions copyWithZone:zone];
+	copyTriviaCategory->theQuestions = nil;
 	[copyTriviaCategory setQuestions:copyQuestions];
 	[copyQuestions release];
+	
 	[copyTriviaCategory setTitle:[self title]];
 	[copyTriviaCategory setParent:[self parent]];
+	copyTriviaCategory->_isCopy = YES;
 	
 	return copyTriviaCategory;
+	 */
+	return [self retain];
 }
 
 #pragma mark NSCoding
@@ -169,7 +176,7 @@
 	questionEnumerator = [theQuestions objectEnumerator];
 	while( (aQuestion = [questionEnumerator nextObject]) ) {
 		[aQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
-		[aQuestion setParent:self];
+		[aQuestion setQuestionParent:self];
 	}
 	[self didChangeValueForKey:@"questionChange"];
 }
@@ -179,7 +186,7 @@
 	[self willChangeValueForKey:@"questionChange"];
 	if( newQuestion == nil || [self isFull] )
 		return;
-	[newQuestion setParent:self];
+	[newQuestion setQuestionParent:self];
 	[newQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
 	[theQuestions addObject:newQuestion];
 	[self didChangeValueForKey:@"questionChange"];

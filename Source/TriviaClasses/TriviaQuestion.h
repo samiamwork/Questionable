@@ -20,6 +20,7 @@
 	BOOL _slowReveal;
 	
 	id theParent;
+	BOOL _isCopy;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
@@ -39,7 +40,7 @@
 - (BOOL)slowReveal;
 - (void)setSlowReveal:(BOOL)willSlowReveal;
 
-- (id)parent;
-- (void)setParent:(id)newParent;
+- (id)questionParent;
+- (void)setQuestionParent:(id)newParent;
 
 @end
