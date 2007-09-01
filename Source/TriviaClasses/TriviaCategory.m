@@ -203,6 +203,7 @@
 	[aQuestion removeObserver:self forKeyPath:@"anyPropertyChanged"];
 	TriviaQuestion *replacementQuestion = [[TriviaQuestion alloc] init];
 	[replacementQuestion addObserver:self forKeyPath:@"anyPropertyChanged" options:NSKeyValueObservingOptionNew context:nil];
+	[replacementQuestion setQuestionParent:self];
 	[theQuestions replaceObjectAtIndex:questionIndex withObject:replacementQuestion];
 	[replacementQuestion release];
 }
