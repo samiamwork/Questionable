@@ -78,8 +78,6 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 
 - (void)dealloc
 {
-	[super dealloc];
-	
 	if(textBuffer)
 		free(textBuffer);
 	if(fontName)
@@ -89,7 +87,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	ATSUDisposeStyle(defaultStyle);
 	ATSUDisposeTextLayout(defaultLayout);
-	
+
+	[super dealloc];
 }
 
 - (void)recalculateLineHeights

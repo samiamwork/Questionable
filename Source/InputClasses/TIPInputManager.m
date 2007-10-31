@@ -95,10 +95,9 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 }
 
 - (void) dealloc {
-	// nothing yet
-	[super dealloc];
-	
 	[deviceArray release];
+	
+	[super dealloc];
 }
 
 + (TIPInputManager *)defaultManager

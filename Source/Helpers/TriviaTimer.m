@@ -102,13 +102,15 @@
 
 - (void)stop
 {
+	[timer invalidate];
+	timer = nil;
+	
 	if( stopped )
 		return;
 	
 	if( !paused )
 		[self addElapsedTime];
 	
-	[timer invalidate];
 	stopped = YES;
 }
 - (void)pause

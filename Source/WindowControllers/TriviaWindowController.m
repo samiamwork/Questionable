@@ -33,14 +33,14 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 }
 
 - (void)dealloc
-{
-	[super dealloc];
-	
+{	
 	[fullscreenController release];
+	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
+	[[self window] setFrameAutosaveName:@"HostWindow"];
 	[[self window] setExcludedFromWindowsMenu:YES];
 	[gameWindow setExcludedFromWindowsMenu:YES];
 	

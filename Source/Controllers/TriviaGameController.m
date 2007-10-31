@@ -41,7 +41,9 @@
 //TODO: fill this out
 - (void)dealloc
 {
+	[roundTimer stop];
 	[roundTimer release];
+	[questionTimer stop];
 	[questionTimer release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
@@ -92,11 +94,15 @@
 	selectedQuestion = nil;
 	
 	//displayTimer = [NSTimer scheduledTimerWithTimeInterval:displayTimeLength target:self selector:@selector(answerTimerFired:) userInfo:nil repeats:NO];
-	displayTimer = [[TriviaTimer timerWithLength:displayTimeLength interval:displayTimeLength target:self selector:@selector(answerTimerFired)] retain];
+	//displayTimer = [[TriviaTimer timerWithLength:displayTimeLength interval:displayTimeLength target:self selector:@selector(answerTimerFired)] retain];
+	displayTimer = [[TriviaTimer alloc] init];
+	[displayTimer setTimeLength:displayTimeLength];
+	[displayTimer setTimeInterval:displayTimeLength];
+	[displayTimer setTarget:self selector:@selector(answerTimerFired)];
 	[displayTimer start];
 }
 
-- (void)questionReady
+- (void)triviaBoardViewTransitionDone:(TriviaBoardOpenGLView *)aView
 {
 	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
 	questionTimeLength = [[defaults valueForKey:@"lengthOfQuestion"] doubleValue];
@@ -106,7 +112,8 @@
 	[simpleBoardView startTimerOfLength:questionTimeLength];
 	
 	[playerController enableAllPlayers];
-	[mainBoardView setTransitionDoneCallback:nil];
+	//[mainBoardView setTransitionDoneCallback:nil];
+	[mainBoardView setDelegate:nil];
 }
 
 - (void)questionSelected:(unsigned)questionIndex inCategory:(unsigned)categoryIndex
@@ -119,10 +126,13 @@
 	selectedQuestionIndex = questionIndex;
 	selectedQuestion = [currentBoard getQuestion:selectedQuestionIndex inCategory:selectedCategoryIndex];
 	
+	/*
 	NSInvocation *doneCallback = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(questionReady)]];
 	[doneCallback setSelector:@selector(questionReady)];
 	[doneCallback setTarget:self];
-	[mainBoardView setTransitionDoneCallback:doneCallback];
+	 */
+	//[mainBoardView setTransitionDoneCallback:doneCallback];
+	[mainBoardView setDelegate:self];
 	[self showQuestion];
 }
 
@@ -216,6 +226,7 @@
 
 	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
 	roundTimeLength = [[defaults valueForKey:@"lengthOfGame"] doubleValue]*60.0;
+	[roundTimer stop];
 	[roundTimer release];
 	roundTimer = [[TriviaTimer timerWithLength:roundTimeLength interval:1.0 target:self selector:@selector(roundTimerFired)] retain];
 	
@@ -265,6 +276,7 @@
 	[roundTimer stop];
 	
 	if( displayTimer != nil) {
+		[displayTimer stop];
 		[displayTimer release];
 		displayTimer = nil;
 	}
@@ -323,15 +335,24 @@
 {
 	[mainBoardView showPlayers];
 	//displayTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(playerStatTimerFired:) userInfo:nil repeats:NO];
+	[displayTimer stop];
 	[displayTimer release];
-	displayTimer = [[TriviaTimer timerWithLength:5.0 interval:5.0 target:self selector:@selector(playerStatTimerFired)] retain];
+	//displayTimer = [[TriviaTimer timerWithLength:5.0 interval:5.0 target:self selector:@selector(playerStatTimerFired)] retain];
+	displayTimer = [[TriviaTimer alloc] init];
+
+	[displayTimer setTimeLength:5.0];
+	[displayTimer setTimeInterval:5.0];
+	[displayTimer setTarget:self selector:@selector(playerStatTimerFired)];
+	
 	[displayTimer start];
 }
 
 - (void)playerStatTimerFired
 {
+	[displayTimer stop];
 	[displayTimer release];
 	displayTimer = nil;
+
 	if( [currentBoard allUsed] )
 		[self stopRound];
 	else {

@@ -8,6 +8,10 @@
 
 #import "TriviaBoardOpenGLView.h"
 
+@interface NSObject (Delegate)
+- (void)triviaBoardViewTransitionDone:(TriviaBoardOpenGLView *)aView;
+@end
+
 #define BASE_WIDTH 640.0f
 #define BASE_HEIGHT 480.0f
 #define BASE_SIZE (NSSize){BASE_WIDTH,BASE_HEIGHT}
@@ -63,7 +67,8 @@
 		_playersScene = nil;
 		_scale = 1.0f;
 
-		_transitionDoneCallback = nil;
+		//_transitionDoneCallback = nil;
+		_delegate = nil;
     }
 	
     return self;
@@ -86,7 +91,7 @@
 	[_answerScene release];
 	[_playersScene release];
 
-	[_transitionDoneCallback release];
+	//[_transitionDoneCallback release];
 
 	[super dealloc];
 }
@@ -237,7 +242,13 @@
 		}
 		
 		lastViewState = theViewState;
-		[_transitionDoneCallback invoke];
+		// TODO: change this to use a delegate
+		if( _delegate && [_delegate respondsToSelector:@selector(triviaBoardViewTransitionDone:)] )
+			[_delegate triviaBoardViewTransitionDone:self];
+		/*
+		if( _transitionDoneCallback )
+			[_transitionDoneCallback invoke];
+		 */
 	}
 	
 	glPushMatrix();
@@ -344,7 +355,7 @@
 	if( theViewState == kTIPTriviaBoardViewStateQuestion )
 		[self setNeedsDisplay:YES];
 }
-
+/*
 - (void)setTransitionDoneCallback:(NSInvocation *)callback
 {
 	if( callback == _transitionDoneCallback )
@@ -352,6 +363,12 @@
 	
 	[_transitionDoneCallback release];
 	_transitionDoneCallback = [callback retain];
+}
+*/
+- (void)setDelegate:(id)theDelegate
+{
+	// weak reference
+	_delegate = theDelegate;
 }
 
 - (void)refresh

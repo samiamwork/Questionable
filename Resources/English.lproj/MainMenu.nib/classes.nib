@@ -1,116 +1,292 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {"" = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = PlayerNameView; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
-        {
-            ACTIONS = {showPanel = id; }; 
-            CLASS = Preferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {prefWindow = NSWindow; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {revertToText = id; }; 
-            CLASS = QuestionView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {theQuestion = id; theSlowRevealButton = NSButton; theTextButton = NSButton; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {
-            CLASS = QuestionableDelegate; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {viewController = TriviaOutlineViewController; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = TIPFreeWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
-        {CLASS = TIPGameTimerView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = TIPGradientTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {
-            CLASS = TIPSegmentedTableView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {managedTabs = NSTabView; }; 
-            SUPERCLASS = TIPSideGradientTableView; 
-        }, 
-        {CLASS = TIPSideGradientTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {CLASS = TriviaBoardOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            CLASS = TriviaBoardSimpleView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {CLASS = TriviaBoardView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            ACTIONS = {correctAnswer = id; incorrectAnswer = id; }; 
-            CLASS = TriviaGameController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                correctButton = NSButton; 
-                delegate = id; 
-                incorrectButton = NSButton; 
-                mainBoardView = TriviaBoardOpenGLView; 
-                nameField = NSTextField; 
-                playerController = TriviaPlayerController; 
-                questionController = TriviaOutlineViewController; 
-                roundTimerProgress = TIPGameTimerView; 
-                simpleBoardView = TriviaBoardSimpleView; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = TriviaGradientView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = TriviaOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {
-            ACTIONS = {
-                addBoard = id; 
-                addCategory = id; 
-                addItem = id; 
-                deleteItem = id; 
-                new = id; 
-                openGame = id; 
-                revert = id; 
-                saveAs = id; 
-                saveGame = id; 
-            }; 
-            CLASS = TriviaOutlineViewController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                theDraggedItem = id; 
-                theOutlineView = TriviaOutlineView; 
-                theQuestionController = NSObjectController; 
-                theQuestionView = QuestionView; 
-                theTabView = NSTabView; 
-                triviaWindowController = NSWindowController; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {addPlayer = id; registerInput = id; removePlayer = id; }; 
-            CLASS = TriviaPlayerController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {playerArrayController = NSArrayController; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = TriviaStatusView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            ACTIONS = {menuPickTab = id; pause = id; play = id; stop = id; toggleFullscreen = id; }; 
-            CLASS = TriviaWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_controlTabs" = NSTabView; 
-                fullscreenMenuItem = NSMenuItem; 
-                gameController = TriviaGameController; 
-                gameTimerView = TIPGameTimerView; 
-                gameWindow = NSWindow; 
-                playMenuItem = NSMenuItem; 
-                questionController = TriviaOutlineViewController; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>correctAnswer</key>
+				<string>id</string>
+				<key>incorrectAnswer</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TriviaGameController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>correctButton</key>
+				<string>NSButton</string>
+				<key>delegate</key>
+				<string>id</string>
+				<key>incorrectButton</key>
+				<string>NSButton</string>
+				<key>mainBoardView</key>
+				<string>TriviaBoardOpenGLView</string>
+				<key>nameField</key>
+				<string>NSTextField</string>
+				<key>playerController</key>
+				<string>TriviaPlayerController</string>
+				<key>questionController</key>
+				<string>TriviaOutlineViewController</string>
+				<key>roundTimerProgress</key>
+				<string>TIPGameTimerView</string>
+				<key>simpleBoardView</key>
+				<string>TriviaBoardSimpleView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TriviaBoardOpenGLView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TIPFreeWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindow</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TriviaGradientView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addBoard</key>
+				<string>id</string>
+				<key>addCategory</key>
+				<string>id</string>
+				<key>addItem</key>
+				<string>id</string>
+				<key>deleteItem</key>
+				<string>id</string>
+				<key>new</key>
+				<string>id</string>
+				<key>openGame</key>
+				<string>id</string>
+				<key>revert</key>
+				<string>id</string>
+				<key>saveAs</key>
+				<string>id</string>
+				<key>saveGame</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TriviaOutlineViewController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>theDraggedItem</key>
+				<string>id</string>
+				<key>theOutlineView</key>
+				<string>TriviaOutlineView</string>
+				<key>theQuestionController</key>
+				<string>NSObjectController</string>
+				<key>theQuestionView</key>
+				<string>QuestionView</string>
+				<key>theTabView</key>
+				<string>NSTabView</string>
+				<key>triviaWindowController</key>
+				<string>NSWindowController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>PlayerNameView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key></key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addPlayer</key>
+				<string>id</string>
+				<key>registerInput</key>
+				<string>id</string>
+				<key>removePlayer</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TriviaPlayerController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>playerArrayController</key>
+				<string>NSArrayController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TIPGameTimerView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TriviaOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>QuestionableDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>viewController</key>
+				<string>TriviaOutlineViewController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TriviaBoardSimpleView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>Preferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>prefWindow</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>revertToText</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>QuestionView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>theQuestion</key>
+				<string>id</string>
+				<key>theSlowRevealButton</key>
+				<string>NSButton</string>
+				<key>theTextButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>menuPickTab</key>
+				<string>id</string>
+				<key>pause</key>
+				<string>id</string>
+				<key>play</key>
+				<string>id</string>
+				<key>stop</key>
+				<string>id</string>
+				<key>toggleFullscreen</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TriviaWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_controlTabs</key>
+				<string>NSTabView</string>
+				<key>fullscreenMenuItem</key>
+				<string>NSMenuItem</string>
+				<key>gameController</key>
+				<string>TriviaGameController</string>
+				<key>gameTimerView</key>
+				<string>TIPGameTimerView</string>
+				<key>gameWindow</key>
+				<string>NSWindow</string>
+				<key>playMenuItem</key>
+				<string>NSMenuItem</string>
+				<key>questionController</key>
+				<string>TriviaOutlineViewController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

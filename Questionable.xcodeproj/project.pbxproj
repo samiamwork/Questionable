@@ -626,9 +626,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 45FC538608FBF91C0091ABDF /* Build configuration list for PBXProject "Questionable" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Sample */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Questionable */,
 			);
@@ -884,7 +886,7 @@
 		45FC538408FBF91C0091ABDF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_VERSION = 1.0.1;
+				APPLICATION_VERSION = 1.0.2;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -913,6 +915,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Resources/Info.plist;
+				OTHER_LDFLAGS = "$(inherited)";
 				PREBINDING = NO;
 				PRODUCT_NAME = Questionable;
 				WARNING_CFLAGS = "$(inherited)";
@@ -937,7 +940,7 @@
 		45FC538808FBF91C0091ABDF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_VERSION = 1.0a1;
+				APPLICATION_VERSION = 1.0.2;
 				ARCHS = (
 					ppc,
 					i386,

@@ -60,7 +60,8 @@ typedef enum TIPTriviaBoardViewState {
 	TriviaSceneQA *_answerScene;
 	TriviaScenePlayers *_playersScene;
 	
-	NSInvocation *_transitionDoneCallback;
+	//NSInvocation *_transitionDoneCallback;
+	id _delegate;
 }
 
 - (void)setBoard:(TriviaBoard *)newBoard;
@@ -71,7 +72,8 @@ typedef enum TIPTriviaBoardViewState {
 - (TriviaQuestion *)question;
 
 - (void)setProgress:(float)newProgress;
-- (void)setTransitionDoneCallback:(NSInvocation *)callback;
+//- (void)setTransitionDoneCallback:(NSInvocation *)callback;
+- (void)setDelegate:(id)theDelegate;
 
 - (void)showBoard;
 - (void)showPlayers;

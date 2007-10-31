@@ -35,7 +35,9 @@
 		//hasPreferredState = NO;
 		hasNullState = NO;
 		
-		name = @"not initaized";
+		name = nil;
+		[self setName:@"not initialized"];
+		//name = [[NSString alloc] initWithString:@"not initaized"];
 		collectionElements = nil;
 		device = nil;
 	}
@@ -45,9 +47,9 @@
 
 - (void)dealloc
 {
-	[super dealloc];
-
 	[name release];
+	
+	[super dealloc];
 }
 
 + (id)elementWithDictionary:(NSDictionary *)description device:(id)aDevice

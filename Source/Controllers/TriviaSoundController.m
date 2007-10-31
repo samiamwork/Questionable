@@ -47,14 +47,14 @@ NSString *SoundThemeNameDefault = @"Default Theme";
 }
 
 - (void)dealloc
-{
-	[super dealloc];
-	
+{	
 	if( availableSounds )
 		[availableSounds release];
 	
 	[soundNames release];
 	[themes release];
+	
+	[super dealloc];
 }
 
 + (TriviaSoundController *)defaultController
