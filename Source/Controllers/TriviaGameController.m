@@ -175,8 +175,9 @@
 		[self showAnswer];
 	else {
 		[simpleBoardView showQuestion];
+		[questionTimer setTimeLength:questionTimeLength/2.0];
 		[questionTimer start];
-		[simpleBoardView startTimerOfLength:questionTimeLength];
+		[simpleBoardView startTimerOfLength:questionTimeLength/2.0];
 	}
 	
 	[nameField setStringValue:@""];
@@ -209,8 +210,9 @@
 	[incorrectButton setEnabled:YES];
 	[correctButton setEnabled:YES];
 	
+	[questionTimer setTimeLength:questionTimeLength];
 	[questionTimer start];
-	[simpleBoardView resetTimer];
+	[simpleBoardView startTimerOfLength:questionTimeLength];
 }
 
 #pragma mark Game Methods
