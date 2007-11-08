@@ -176,6 +176,7 @@
 	else {
 		[simpleBoardView showQuestion];
 		[questionTimer start];
+		[simpleBoardView startTimerOfLength:questionTimeLength];
 	}
 	
 	[nameField setStringValue:@""];
