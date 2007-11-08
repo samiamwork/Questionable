@@ -49,7 +49,7 @@
 }
 
 - (void)willChange:(NSKeyValueChange)change valuesAtIndexes:(NSIndexSet *)indexes forKey:(NSString *)key
-{	
+{
 	if( [key isEqualToString:@"players"] && change == NSKeyValueChangeRemoval ) {
 		
 		TriviaPlayer *playerToRemove;
@@ -88,9 +88,10 @@
 	[newPlayer setName:[NSString stringWithFormat:@"Player %d", [players count]+1]];
 	
 	[players addObject:newPlayer];
-	
+
 	// tell the object controllers that it's changed
 	[self setPlayers:players];
+	[playerArrayController setSelectionIndex:[players count]-1];
 }
 
 - (IBAction)removePlayer:(id)sender
@@ -176,5 +177,17 @@
 	[_playerToGetButtonFor setInputElement:foundElement];
 	[_playerToGetButtonFor release];
 	_playerToGetButtonFor = nil;
+	
+	unsigned int selectedPlayerIndex = [playerArrayController selectionIndex];
+	unsigned int originalSelectedPlayer = selectedPlayerIndex;
+	
+	do {
+		selectedPlayerIndex++;
+		if( selectedPlayerIndex >= [players count] )
+			selectedPlayerIndex = 0;
+	} while( selectedPlayerIndex != originalSelectedPlayer && [[players objectAtIndex:selectedPlayerIndex] isConnected] );
+	
+	if( selectedPlayerIndex != originalSelectedPlayer )
+		[playerArrayController setSelectionIndex:selectedPlayerIndex];
 }
 @end
