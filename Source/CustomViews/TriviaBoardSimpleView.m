@@ -349,10 +349,10 @@
 			[self drawBoard];
 			break;
 		case kTriviaSimpleViewQuestion:
-			[self drawString:(NSString *)[_question question] withTitle:@"Question"];
+			[self drawString:(NSString *)[_question question] withTitle:NSLocalizedString(@"Question",@"Question")];
 			break;
 		case kTriviaSimpleViewAnswer:
-			[self drawString:(NSString *)[_question answer] withTitle:@"Answer"];
+			[self drawString:(NSString *)[_question answer] withTitle:NSLocalizedString(@"Answer",@"Answer")];
 			break;
 		default:
 			[self drawPlaceholder];

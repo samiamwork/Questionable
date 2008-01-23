@@ -48,7 +48,7 @@
 {
 	[self deleteTexture];
 	[_text release];
-	[_textColor release];
+	[_textColor release];		
 
 	[super dealloc];
 }
@@ -157,7 +157,7 @@
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	
 	free(bitmapData);
-
+	
 	_dirtyTexture = NO;
 }
 

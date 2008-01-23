@@ -17,6 +17,7 @@
 		3E11DCB30B84F90A000DC73F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E11DCB20B84F90A000DC73F /* QuartzCore.framework */; };
 		3E226DF60BE83C1D0084D133 /* QuestionableIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */; };
 		3E226DF70BE83C1D0084D133 /* QuestionableLicenseIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */; };
+		3E3EF1780D47189C00A25F61 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E3EF1760D47189C00A25F61 /* Localizable.strings */; };
 		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
 		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
 		3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FBA980BBA017200B2C457 /* TriviaStatusView.m */; };
@@ -58,7 +59,6 @@
 		3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */; };
 		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
 		3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */; };
-		3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EC2508E0BE961C30032C6F0 /* TODO.txt */; };
 		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
 		3EE139940BCDF5740062334B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE139920BCDF5740062334B /* Preferences.nib */; };
@@ -129,6 +129,7 @@
 		3E11DCB20B84F90A000DC73F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableIcon.icns; sourceTree = "<group>"; };
 		3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableLicenseIcon.icns; sourceTree = "<group>"; };
+		3E3EF1770D47189C00A25F61 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
 		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
 		3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GetInput.nib; path = English.lproj/GetInput.nib; sourceTree = "<group>"; };
@@ -545,6 +546,7 @@
 		45FC53A508FBFB490091ABDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E3EF1760D47189C00A25F61 /* Localizable.strings */,
 				3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */,
 				3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */,
 				3E806FA70BD6C82E0068BD88 /* Questionable Help */,
@@ -669,13 +671,13 @@
 				3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */,
 				3E226DF60BE83C1D0084D133 /* QuestionableIcon.icns in Resources */,
 				3E226DF70BE83C1D0084D133 /* QuestionableLicenseIcon.icns in Resources */,
-				3EC2508F0BE961C30032C6F0 /* TODO.txt in Resources */,
 				3E444DE70C2C4C2000F70169 /* controls.tif in Resources */,
 				3E444DE80C2C4C2000F70169 /* controlsOff.tif in Resources */,
 				3E444DE90C2C4C2000F70169 /* players.tif in Resources */,
 				3E444DEA0C2C4C2000F70169 /* playersOff.tif in Resources */,
 				3E444DEB0C2C4C2000F70169 /* questions.tif in Resources */,
 				3E444DEC0C2C4C2000F70169 /* questionsOff.tif in Resources */,
+				3E3EF1780D47189C00A25F61 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,6 +799,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3E3EF1760D47189C00A25F61 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3E3EF1770D47189C00A25F61 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		3E806FA70BD6C82E0068BD88 /* Questionable Help */ = {
 			isa = PBXVariantGroup;
 			children = (

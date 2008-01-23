@@ -426,7 +426,7 @@
 {
 	// generate a texture for the question we have
 	_questionScene = [[TriviaSceneQA alloc] init];
-	[_questionScene setTitle:@"Question" text:(NSString *)[_question question]];
+	[_questionScene setTitle:NSLocalizedString(@"Question",@"Question") text:(NSString *)[_question question]];
 	//[_questionScene setSize:_targetSize];
 	[_questionScene setScale:_scale];
 	[_questionScene buildTexture];
@@ -437,7 +437,7 @@
 {
 	// generate a texture for the answer we have
 	_answerScene = [[TriviaSceneQA alloc] init];
-	[_answerScene setTitle:@"Answer" text:[_question answer]];
+	[_answerScene setTitle:NSLocalizedString(@"Answer",@"Answer") text:[_question answer]];
 	//[_answerScene setSize:_targetSize];
 	[_answerScene setScale:_scale];
 	[_answerScene setProgress:0.0f];
