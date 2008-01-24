@@ -8,34 +8,28 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString *SoundThemeSoundGameStart;
-extern NSString *SoundThemeSoundGameEnd;
-extern NSString *SoundThemeSoundRoundStart;
-extern NSString *SoundThemeSoundRoundEnd;
-extern NSString *SoundThemeSoundBuzzIn;
-extern NSString *SoundThemeSoundCorrectAnswer;
-extern NSString *SoundThemeSoundIncorrectAnswer;
-extern NSString *SoundThemeSoundTimeUp;
-
-extern NSString *SoundThemeNameDefault;
+extern NSString* const SoundThemeSoundGameStart;
+extern NSString* const SoundThemeSoundGameEnd;
+extern NSString* const SoundThemeSoundRoundStart;
+extern NSString* const SoundThemeSoundRoundEnd;
+extern NSString* const SoundThemeSoundBuzzIn;
+extern NSString* const SoundThemeSoundCorrectAnswer;
+extern NSString* const SoundThemeSoundIncorrectAnswer;
+extern NSString* const SoundThemeSoundTimeUp;
 
 
 // shared singleton object
 
 @interface TriviaSoundController : NSObject {
-	//TODO: loading them this way does not allow more than one theme loaded at once
-	// this will not work well with a document system
-	
-	// etc.
-	BOOL mute;
-	// dictionary of dictionaries containing available themes
-	NSMutableDictionary *themes;
-	NSMutableDictionary *selectedTheme;
-	// for later adding the ability to construct your own themes
-	NSMutableArray *availableSounds;
+
+	BOOL _mute;
+	// contains the actual NSSound files keyed by sound name.
+	NSMutableDictionary *_soundTheme;
+	// Sound files available to use as sounds.
+	NSMutableDictionary *_availableSounds;
 	
 	// the names of the sounds
-	NSArray *soundNames;
+	NSArray *_soundNames;
 }
 
 + (TriviaSoundController *)defaultController;
@@ -43,10 +37,7 @@ extern NSString *SoundThemeNameDefault;
 - (BOOL)mute;
 - (void)setMute:(BOOL)willMute;
 
-- (NSArray *)themes;
-
-- (void)setSelectedTheme:(NSString *)aThemeName;
-- (NSString *)selectedTheme;
-
--  (void)playSound:(NSString *)soundName;
+- (NSArray *)availableSounds;
+- (void)setSound:(NSString *)soundName toSoundFileNamed:(NSString *)soundFile;
+- (void)playSound:(NSString *)soundName;
 @end

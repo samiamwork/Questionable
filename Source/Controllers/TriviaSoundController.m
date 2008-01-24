@@ -8,39 +8,57 @@
 
 #import "TriviaSoundController.h"
 
-NSString *SoundThemeSoundGameStart = @"Game Start";
-NSString *SoundThemeSoundGameEnd = @"Game End";
-NSString *SoundThemeSoundRoundStart = @"Round Start";
-NSString *SoundThemeSoundRoundEnd = @"Round End";
-NSString *SoundThemeSoundBuzzIn = @"Buzz In";
-NSString *SoundThemeSoundCorrectAnswer = @"Correct Answer";
-NSString *SoundThemeSoundIncorrectAnswer = @"Incorrect Answer";
-NSString *SoundThemeSoundTimeUp = @"Time Up";
+NSString* const SoundThemeSoundGameStart = @"Game Start";
+NSString* const SoundThemeSoundGameEnd = @"Game End";
+NSString* const SoundThemeSoundRoundStart = @"Round Start";
+NSString* const SoundThemeSoundRoundEnd = @"Round End";
+NSString* const SoundThemeSoundBuzzIn = @"Buzz In";
+NSString* const SoundThemeSoundCorrectAnswer = @"Correct Answer";
+NSString* const SoundThemeSoundIncorrectAnswer = @"Incorrect Answer";
+NSString* const SoundThemeSoundTimeUp = @"Time Up";
 
-NSString *SoundThemeNameDefault = @"Default Theme";
 
 @interface TriviaSoundController (Private)
-- (void)readThemes;
+- (void)loadSounds;
 @end
 
 @implementation TriviaSoundController
+
++ (void)initialize
+{
+	NSMutableDictionary *themeSoundNames = [NSMutableDictionary dictionary];
+	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameStart];
+	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameEnd];
+	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundStart];
+	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundEnd];
+	[themeSoundNames setValue:@"Ping" forKey:SoundThemeSoundBuzzIn];
+	[themeSoundNames setValue:@"Glass" forKey:SoundThemeSoundCorrectAnswer];
+	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundIncorrectAnswer];
+	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundTimeUp];
+	
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:themeSoundNames,@"sounds",nil]];
+}
 
 - (id)init
 {
 	if( (self = [super init]) ) {
 		
-		selectedTheme = nil;
-		// not used yet...
-		availableSounds = nil;
+		_soundTheme = [[NSMutableDictionary alloc] init];
+		// Hard coding this is a bad idea but I know of no other way.
+		NSMutableDictionary *systemDir = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSArray array],@"files",[NSDate distantPast],@"lastChange",nil];
+		NSMutableDictionary *userDir = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSArray array],@"files",[NSDate distantPast],@"lastChange",nil];
+		_availableSounds = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+							systemDir,@"/System/Library/Sounds",
+							userDir,[@"~/Library/Sounds" stringByExpandingTildeInPath],
+							nil];
+		[self availableSounds];
 		
-		mute = NO;
-		themes = [[NSMutableDictionary alloc] init];
+		_mute = NO;
 		
-		soundNames = [[NSArray alloc] initWithObjects:SoundThemeSoundGameStart, SoundThemeSoundGameEnd,
+		_soundNames = [[NSArray alloc] initWithObjects:SoundThemeSoundGameStart, SoundThemeSoundGameEnd,
 			SoundThemeSoundRoundStart, SoundThemeSoundRoundEnd, SoundThemeSoundBuzzIn, SoundThemeSoundCorrectAnswer,
 			SoundThemeSoundIncorrectAnswer, SoundThemeSoundTimeUp, nil];
-		[self readThemes];
-		[self setSelectedTheme:SoundThemeNameDefault];
+		[self loadSounds];
 	}
 	
 	return self;
@@ -48,12 +66,9 @@ NSString *SoundThemeNameDefault = @"Default Theme";
 
 - (void)dealloc
 {	
-	if( availableSounds )
-		[availableSounds release];
-	
-	[soundNames release];
-	[themes release];
-	
+	[_availableSounds release];	
+	[_soundNames release];
+	[_soundTheme release];
 	[super dealloc];
 }
 
@@ -71,87 +86,127 @@ NSString *SoundThemeNameDefault = @"Default Theme";
 	return g_soundController;
 }
 
-- (void)readThemes
+- (void)loadSounds
 {
-	// reset themes dictionary
-	[themes removeAllObjects];
+	NSMutableDictionary *sounds = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"]];
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	
-	// setup default theme
-	NSMutableDictionary *aTheme = [NSMutableDictionary dictionary];
-	[aTheme setObject:SoundThemeNameDefault forKey:@"name"];
+	NSString *soundName = nil;
+	NSEnumerator *soundEnumerator = [_soundNames objectEnumerator];
+	while( (soundName = [soundEnumerator nextObject]) ) {
+		
+		NSString *soundFile = [sounds valueForKey:soundName];
+		NSString *pathAndFile = nil;
+		NSEnumerator *dirEnumerator = [_availableSounds keyEnumerator];
+		NSString *thePath;
+		while( (thePath = [dirEnumerator nextObject]) ) {
+			pathAndFile = [thePath stringByAppendingPathComponent:soundFile];
+			if( [defaultManager fileExistsAtPath:pathAndFile] )
+				break;
+		}
+		
+		if( thePath ) {
+		
+			// Loading the sound via "soundNamed:" keeps me from having to worry about
+			// loading a sound twice.
+			[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
+			
+		} else {
+			[sounds setValue:nil forKey:soundName];
+			[_soundTheme setValue:nil forKey:soundName];
+		}
+	}
 	
-	
-	NSMutableDictionary *themeSoundNames = [NSMutableDictionary dictionary];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameStart];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameEnd];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundStart];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundEnd];
-	[themeSoundNames setValue:@"Ping" forKey:SoundThemeSoundBuzzIn];
-	[themeSoundNames setValue:@"Glass" forKey:SoundThemeSoundCorrectAnswer];
-	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundIncorrectAnswer];
-	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundTimeUp];
-	
-	[aTheme setValue:themeSoundNames forKey:@"soundNames"];
-	
-	[themes setValue:aTheme forKey:SoundThemeNameDefault];
-	//TODO: load other themes from bundle...
-
+	[[NSUserDefaults standardUserDefaults] setValue:sounds forKey:@"sounds"];
 }
 
 # pragma mark Accessor Methods
 
 - (BOOL)mute
 {
-	return mute;
+	return _mute;
 }
 - (void)setMute:(BOOL)willMute
 {
-	mute = willMute;
+	_mute = willMute;
 	
 	//TODO: stop any playing sounds
 }
 
-- (NSArray *)themes
+- (NSArray *)audioFilesInDirectory:(NSString *)theDirectory
 {
-	return [themes allKeys];
+	NSMutableArray *audioFiles = [NSMutableArray array];
+	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSEnumerator *fileEnumerator = [[defaultManager directoryContentsAtPath:theDirectory] objectEnumerator];
+	NSString *file;
+	while( (file = [fileEnumerator nextObject]) ) {
+		BOOL isDirectory;
+		// at the moment I'm only allowing .aiff sounds because that is what the system
+		// expects to find in the system sound directories.
+		if( [[[file pathExtension] lowercaseString] isEqualToString:@"aiff"] &&
+		   [defaultManager fileExistsAtPath:[theDirectory stringByAppendingPathComponent:file] isDirectory:&isDirectory] &&
+		   !isDirectory ) {
+			
+			[audioFiles addObject:[file stringByDeletingPathExtension]];
+			
+		}
+	}
+	
+	return audioFiles;
 }
 
-- (void)setSelectedTheme:(NSString *)aThemeName
+- (NSArray *)availableSounds
 {
-	if( [[selectedTheme valueForKey:@"name"] isEqualToString:aThemeName] )
-		return;
+	NSMutableArray *sounds = [NSMutableArray array];
+	NSEnumerator *soundDirEnumerator = [_availableSounds keyEnumerator];
+	NSString *dir;
+	while( (dir = [soundDirEnumerator nextObject]) ) {
+		NSMutableDictionary *dirDict = [_availableSounds objectForKey:dir];
+		NSDate *lastChanged = [dirDict objectForKey:@"lastChanged"];
+		NSDate *dirModified = [[[NSFileManager defaultManager] fileAttributesAtPath:dir traverseLink:YES] objectForKey:NSFileModificationDate];
+		if( [dirModified laterDate:lastChanged] != lastChanged ) {
+			[dirDict setValue:[self audioFilesInDirectory:dir] forKey:@"files"];
+			[dirDict setValue:dirModified forKey:@"lastChanged"];
+		}
+		[sounds addObjectsFromArray:[dirDict valueForKey:@"files"]];
+	}
 	
-	NSDictionary *newTheme = [themes objectForKey:aThemeName];
-	if( !newTheme )
-		return;
-	
-	// unload old theme's sounds because we only want one loaded at a time
-	[selectedTheme setValue:nil forKey:@"soundObjects"];
-	selectedTheme = [themes valueForKey:aThemeName];
-	
-	NSMutableDictionary *soundObjects = [NSMutableDictionary dictionary];
-	NSEnumerator *soundEnumerator = [soundNames objectEnumerator];
-	NSString *soundName;
-	while( (soundName = [soundEnumerator nextObject]) )
-		[soundObjects setValue:[NSSound soundNamed:[[newTheme valueForKey:@"soundNames"] valueForKey:soundName]] forKey:soundName];
-	
-	[selectedTheme setValue:soundObjects forKey:@"soundObjects"];
-	//[newTheme setValue:[NSNumber numberWithBool:YES] forKey:@"loaded"];
+	[sounds sortUsingSelector:@selector(localizedCompare:)];
+	return sounds;
 }
-- (NSString *)selectedTheme
+
+- (void)setSound:(NSString *)soundName toSoundFileNamed:(NSString *)soundFile
 {
-	return [selectedTheme valueForKey:@"name"];
+	if( ![_soundNames containsObject:soundName] )
+		return;
+	
+	NSMutableDictionary *sounds = [[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"];
+	if( !soundFile || [soundFile length] == 0 ) {
+		[sounds setValue:nil forKey:soundName];
+		return;
+	}
+	
+	// make sure it's a sound file we know about
+	NSEnumerator *directoryEnumerator = [_availableSounds keyEnumerator];
+	NSString *dir;
+	while( (dir = [directoryEnumerator nextObject]) ) {
+		if( [(NSArray *)[[_availableSounds valueForKey:dir] valueForKey:@"files"] containsObject:soundFile] )
+			break;
+	}
+	
+	if( !dir )
+		soundFile = nil;
+	
+	[sounds setValue:soundFile forKey:soundName];
 }
 
 -  (void)playSound:(NSString *)soundName
 {
-	if( mute )
+	if( _mute )
 		return;
 	
-	NSDictionary *soundObjects = [selectedTheme valueForKey:@"soundObjects"];
-	if( !soundObjects )
-		return;
-	NSSound *soundToPlay = [soundObjects valueForKey:soundName];
+	NSSound *soundToPlay = [_soundTheme valueForKey:soundName];
 	if( !soundToPlay )
 		return;
 	
