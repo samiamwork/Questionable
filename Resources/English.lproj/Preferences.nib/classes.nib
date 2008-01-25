@@ -1,19 +1,92 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {showPanel = id; }; 
-            CLASS = Preferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {prefWindow = NSWindow; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = PrefsValidator; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"_gameLengthField" = NSControl; "_questionLengthField" = NSControl; }; 
-            SUPERCLASS = NSWindowController; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>PrefsValidator</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_gameLengthField</key>
+				<string>NSTextField</string>
+				<key>_questionLengthField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>buzzInSoundSelected</key>
+				<string>id</string>
+				<key>correctAnswerSoundSelected</key>
+				<string>id</string>
+				<key>gameEndSoundSelected</key>
+				<string>id</string>
+				<key>gameStartSoundSelected</key>
+				<string>id</string>
+				<key>incorrectAnswerSoundSelected</key>
+				<string>id</string>
+				<key>showPanel</key>
+				<string>id</string>
+				<key>soundSelected</key>
+				<string>id</string>
+				<key>timeUpSoundSelected</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>Preferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>buzzInPopUp</key>
+				<string>NSPopUpButton</string>
+				<key>correctAnswerPopUp</key>
+				<string>NSPopUpButton</string>
+				<key>gameEndPopUp</key>
+				<string>NSPopUpButton</string>
+				<key>gameStartPopUp</key>
+				<string>NSPopUpButton</string>
+				<key>incorrectAnswerPopUp</key>
+				<string>NSPopUpButton</string>
+				<key>prefWindow</key>
+				<string>NSWindow</string>
+				<key>timeUpPopUp</key>
+				<string>NSPopUpButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

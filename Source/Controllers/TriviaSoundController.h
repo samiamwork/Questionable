@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString* const SoundThemeSoundGameStart;
-extern NSString* const SoundThemeSoundGameEnd;
-extern NSString* const SoundThemeSoundRoundStart;
-extern NSString* const SoundThemeSoundRoundEnd;
-extern NSString* const SoundThemeSoundBuzzIn;
-extern NSString* const SoundThemeSoundCorrectAnswer;
-extern NSString* const SoundThemeSoundIncorrectAnswer;
-extern NSString* const SoundThemeSoundTimeUp;
+extern NSString* SoundThemeSoundGameStart;
+extern NSString* SoundThemeSoundGameEnd;
+extern NSString* SoundThemeSoundBuzzIn;
+extern NSString* SoundThemeSoundCorrectAnswer;
+extern NSString* SoundThemeSoundIncorrectAnswer;
+extern NSString* SoundThemeSoundTimeUp;
 
 
 // shared singleton object
@@ -38,6 +36,7 @@ extern NSString* const SoundThemeSoundTimeUp;
 - (void)setMute:(BOOL)willMute;
 
 - (NSArray *)availableSounds;
+- (NSString *)getSoundNameForSound:(NSString *)soundName;
 - (void)setSound:(NSString *)soundName toSoundFileNamed:(NSString *)soundFile;
 - (void)playSound:(NSString *)soundName;
 @end

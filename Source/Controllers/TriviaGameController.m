@@ -227,6 +227,7 @@
 		return YES;
 	}
 
+	[[TriviaSoundController defaultController] playSound:SoundThemeSoundGameStart];
 	NSDictionary *defaults = [[NSUserDefaultsController sharedUserDefaultsController] values];
 	roundTimeLength = [[defaults valueForKey:@"lengthOfGame"] doubleValue]*60.0;
 	[roundTimer stop];
@@ -277,6 +278,7 @@
 - (void)stopRound
 {
 	[roundTimer stop];
+	[[TriviaSoundController defaultController] playSound:SoundThemeSoundGameEnd];
 	
 	if( displayTimer != nil) {
 		[displayTimer stop];

@@ -8,14 +8,12 @@
 
 #import "TriviaSoundController.h"
 
-NSString* const SoundThemeSoundGameStart = @"Game Start";
-NSString* const SoundThemeSoundGameEnd = @"Game End";
-NSString* const SoundThemeSoundRoundStart = @"Round Start";
-NSString* const SoundThemeSoundRoundEnd = @"Round End";
-NSString* const SoundThemeSoundBuzzIn = @"Buzz In";
-NSString* const SoundThemeSoundCorrectAnswer = @"Correct Answer";
-NSString* const SoundThemeSoundIncorrectAnswer = @"Incorrect Answer";
-NSString* const SoundThemeSoundTimeUp = @"Time Up";
+NSString* SoundThemeSoundGameStart = @"SoundGameStart";
+NSString* SoundThemeSoundGameEnd = @"SoundGameEnd";
+NSString* SoundThemeSoundBuzzIn = @"SoundBuzzIn";
+NSString* SoundThemeSoundCorrectAnswer = @"SoundCorrectAnswer";
+NSString* SoundThemeSoundIncorrectAnswer = @"SoundIncorrectAnswer";
+NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 
 
 @interface TriviaSoundController (Private)
@@ -27,16 +25,15 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 + (void)initialize
 {
 	NSMutableDictionary *themeSoundNames = [NSMutableDictionary dictionary];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameStart];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundGameEnd];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundStart];
-	[themeSoundNames setValue:nil forKey:SoundThemeSoundRoundEnd];
+	[themeSoundNames setValue:@"" forKey:SoundThemeSoundGameStart];
+	[themeSoundNames setValue:@"" forKey:SoundThemeSoundGameEnd];
 	[themeSoundNames setValue:@"Ping" forKey:SoundThemeSoundBuzzIn];
 	[themeSoundNames setValue:@"Glass" forKey:SoundThemeSoundCorrectAnswer];
 	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundIncorrectAnswer];
 	[themeSoundNames setValue:@"Basso" forKey:SoundThemeSoundTimeUp];
 	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:themeSoundNames,@"sounds",nil]];
+	//[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:themeSoundNames,@"sounds",nil]];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:themeSoundNames];
 }
 
 - (id)init
@@ -56,7 +53,7 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 		_mute = NO;
 		
 		_soundNames = [[NSArray alloc] initWithObjects:SoundThemeSoundGameStart, SoundThemeSoundGameEnd,
-			SoundThemeSoundRoundStart, SoundThemeSoundRoundEnd, SoundThemeSoundBuzzIn, SoundThemeSoundCorrectAnswer,
+			SoundThemeSoundBuzzIn, SoundThemeSoundCorrectAnswer,
 			SoundThemeSoundIncorrectAnswer, SoundThemeSoundTimeUp, nil];
 		[self loadSounds];
 	}
@@ -77,9 +74,6 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 	static TriviaSoundController *g_soundController = nil;
 	
 	if( g_soundController == nil ) {
-		// I wanted an autorelease here before but normally you don't have to
-		// release singletons because they're going to stay around the whole
-		// time anyway and there will only be one of them.
 		g_soundController = [[TriviaSoundController alloc] init];
 	}
 	
@@ -88,21 +82,23 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 
 - (void)loadSounds
 {
-	NSMutableDictionary *sounds = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"]];
+	//NSMutableDictionary *sounds = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"]];
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	
 	NSString *soundName = nil;
 	NSEnumerator *soundEnumerator = [_soundNames objectEnumerator];
 	while( (soundName = [soundEnumerator nextObject]) ) {
 		
-		NSString *soundFile = [sounds valueForKey:soundName];
+		NSString *soundFile = [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
 		NSString *pathAndFile = nil;
 		NSEnumerator *dirEnumerator = [_availableSounds keyEnumerator];
-		NSString *thePath;
-		while( (thePath = [dirEnumerator nextObject]) ) {
-			pathAndFile = [thePath stringByAppendingPathComponent:soundFile];
-			if( [defaultManager fileExistsAtPath:pathAndFile] )
-				break;
+		NSString *thePath = nil;
+		if( soundFile && [soundFile length] != 0 ) {
+			while( (thePath = [dirEnumerator nextObject]) ) {
+				pathAndFile = [thePath stringByAppendingPathComponent:[soundFile stringByAppendingPathExtension:@"aiff"]];
+				if( [defaultManager fileExistsAtPath:pathAndFile] )
+					break;
+			}
 		}
 		
 		if( thePath ) {
@@ -112,12 +108,12 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 			[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
 			
 		} else {
-			[sounds setValue:nil forKey:soundName];
+			[[NSUserDefaults standardUserDefaults] setValue:nil forKey:soundName];
 			[_soundTheme setValue:nil forKey:soundName];
 		}
 	}
 	
-	[[NSUserDefaults standardUserDefaults] setValue:sounds forKey:@"sounds"];
+	//[[NSUserDefaults standardUserDefaults] setValue:sounds forKey:@"sounds"];
 }
 
 # pragma mark Accessor Methods
@@ -173,7 +169,16 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 	}
 	
 	[sounds sortUsingSelector:@selector(localizedCompare:)];
+	[sounds insertObject:@"" atIndex:0];
+
 	return sounds;
+}
+
+- (NSString *)getSoundNameForSound:(NSString *)soundName
+{
+	if( ![_soundNames containsObject:soundName] )
+		return nil;
+	return [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
 }
 
 - (void)setSound:(NSString *)soundName toSoundFileNamed:(NSString *)soundFile
@@ -181,9 +186,9 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 	if( ![_soundNames containsObject:soundName] )
 		return;
 	
-	NSMutableDictionary *sounds = [[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"];
+	//NSMutableDictionary *sounds = [ valueForKey:@"sounds"];
 	if( !soundFile || [soundFile length] == 0 ) {
-		[sounds setValue:nil forKey:soundName];
+		[[NSUserDefaults standardUserDefaults] setValue:@"" forKey:soundName];
 		return;
 	}
 	
@@ -197,8 +202,10 @@ NSString* const SoundThemeSoundTimeUp = @"Time Up";
 	
 	if( !dir )
 		soundFile = nil;
+	else
+		[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
 	
-	[sounds setValue:soundFile forKey:soundName];
+	[[NSUserDefaults standardUserDefaults] setValue:soundFile forKey:soundName];
 }
 
 -  (void)playSound:(NSString *)soundName
