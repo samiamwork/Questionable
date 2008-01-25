@@ -178,6 +178,7 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 {
 	if( ![_soundNames containsObject:soundName] )
 		return nil;
+		
 	return [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
 }
 
@@ -186,7 +187,6 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 	if( ![_soundNames containsObject:soundName] )
 		return;
 	
-	//NSMutableDictionary *sounds = [ valueForKey:@"sounds"];
 	if( !soundFile || [soundFile length] == 0 ) {
 		[[NSUserDefaults standardUserDefaults] setValue:@"" forKey:soundName];
 		return;
@@ -200,10 +200,13 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 			break;
 	}
 	
-	if( !dir )
+	if( !dir ) {
 		soundFile = nil;
-	else
+		// since the file is nil we need to unload the sound file.
+		[_soundTheme setValue:nil forKey:soundName];
+	} else {
 		[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
+	}
 	
 	[[NSUserDefaults standardUserDefaults] setValue:soundFile forKey:soundName];
 }

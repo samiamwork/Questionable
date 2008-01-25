@@ -26,51 +26,53 @@
 
 		[prefWindow center];
     }
-    [prefWindow makeKeyAndOrderFront:nil];
+    
+	[prefWindow makeKeyAndOrderFront:nil];
+	_availableSounds = nil;
+}
+
+- (void)setPopUp:(NSPopUpButton *)popUp withMenuToCopy:(NSMenu *)theMenu forSoundNamed:(NSString *)soundName
+{
+	[popUp setMenu:[[theMenu copyWithZone:NULL] autorelease]];
+	NSString *soundFile = [[TriviaSoundController defaultController] getSoundNameForSound:soundName];
+	[popUp selectItemWithTitle: soundFile ? soundFile : @"" ];
+}
+
+- (void)fillPopUps
+{
+	// Fill up all the Popup menu's with the available sounds and select the one that's selected in each.
+	TriviaSoundController *soundController = [TriviaSoundController defaultController];
+	
+	NSArray *newAvailableSounds = [soundController availableSounds];
+	[_availableSounds release];
+	_availableSounds = [newAvailableSounds retain];
+	NSEnumerator *soundEnumerator = [_availableSounds objectEnumerator];
+	NSString *sound;
+	NSMenu *soundMenu = [[NSMenu alloc] init];
+	while( (sound = [soundEnumerator nextObject]) )
+		[soundMenu addItemWithTitle:sound action:NULL keyEquivalent:@""];
+
+	[self setPopUp:gameStartPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundGameStart];
+	[self setPopUp:gameEndPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundGameEnd];
+	[self setPopUp:timeUpPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundTimeUp];
+	[self setPopUp:buzzInPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundBuzzIn];
+	[self setPopUp:correctAnswerPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundCorrectAnswer];
+	[self setPopUp:incorrectAnswerPopUp withMenuToCopy:soundMenu forSoundNamed:SoundThemeSoundIncorrectAnswer];
+	
+	[soundMenu release];
+	
 }
 
 - (void)awakeFromNib
 {
 	if( !prefWindow )
 		return;
-	
-	// Fill up all the Popup menu's with the available sounds and select the one that's selected in each.
-	TriviaSoundController *soundController = [TriviaSoundController defaultController];
-	
-	NSArray *availableSounds = [soundController availableSounds];
-	NSEnumerator *soundEnumerator = [availableSounds objectEnumerator];
-	NSString *sound;
-	NSMenu *soundMenu = [[NSMenu alloc] init];
-	while( (sound = [soundEnumerator nextObject]) ) {
-		[soundMenu addItemWithTitle:sound action:NULL keyEquivalent:@""];
-	}
-	
-	NSString *soundName;
-	[gameStartPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundGameStart];
-	[gameStartPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[gameEndPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundGameEnd];
-	[gameEndPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[buzzInPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundBuzzIn];
-	[buzzInPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[timeUpPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundTimeUp];
-	[timeUpPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[correctAnswerPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundCorrectAnswer];
-	[correctAnswerPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[incorrectAnswerPopUp setMenu:[[soundMenu copyWithZone:NULL] autorelease]];
-	soundName = [soundController getSoundNameForSound:SoundThemeSoundIncorrectAnswer];
-	[incorrectAnswerPopUp selectItemWithTitle: soundName ? soundName : @"" ];
-	
-	[soundMenu release];
+	[self fillPopUps];
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+	[self fillPopUps];
 }
 
 - (void)setSound:(NSString *)soundName fromPopUp:(NSPopUpButton *)popUp
@@ -82,6 +84,7 @@
 	
 	[[TriviaSoundController defaultController] playSound:soundName];
 }
+
 - (IBAction)gameStartSoundSelected:(id)sender
 {
 	[self setSound:SoundThemeSoundGameStart fromPopUp:sender];

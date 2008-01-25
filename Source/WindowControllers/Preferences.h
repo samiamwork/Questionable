@@ -18,6 +18,8 @@
 	IBOutlet NSPopUpButton *buzzInPopUp;
 	IBOutlet NSPopUpButton *correctAnswerPopUp;
 	IBOutlet NSPopUpButton *incorrectAnswerPopUp;
+	
+	NSArray *_availableSounds;
 }
 
 - (IBAction)showPanel:(id)sender;
