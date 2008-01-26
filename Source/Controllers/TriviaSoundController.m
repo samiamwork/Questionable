@@ -39,7 +39,7 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 - (id)init
 {
 	if( (self = [super init]) ) {
-		
+		_sounds = [[NSMutableDictionary alloc] init];
 		_soundTheme = [[NSMutableDictionary alloc] init];
 		// Hard coding this is a bad idea but I know of no other way.
 		NSMutableDictionary *systemDir = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSArray array],@"files",[NSDate distantPast],@"lastChange",nil];
@@ -80,40 +80,35 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 	return g_soundController;
 }
 
-- (void)loadSounds
+// Returns nil if the file is not in any directory we care about.
+// EXPECTS _availableSounds to be valid.
+- (NSString *)pathToSoundFile:(NSString *)soundName
 {
-	//NSMutableDictionary *sounds = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] valueForKey:@"sounds"]];
-	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	if( !soundName || [soundName length] == 0 )
+		return nil;
 	
-	NSString *soundName = nil;
-	NSEnumerator *soundEnumerator = [_soundNames objectEnumerator];
-	while( (soundName = [soundEnumerator nextObject]) ) {
-		
-		NSString *soundFile = [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
-		NSString *pathAndFile = nil;
-		NSEnumerator *dirEnumerator = [_availableSounds keyEnumerator];
-		NSString *thePath = nil;
-		if( soundFile && [soundFile length] != 0 ) {
-			while( (thePath = [dirEnumerator nextObject]) ) {
-				pathAndFile = [thePath stringByAppendingPathComponent:[soundFile stringByAppendingPathExtension:@"aiff"]];
-				if( [defaultManager fileExistsAtPath:pathAndFile] )
-					break;
-			}
-		}
-		
-		if( thePath ) {
-		
-			// Loading the sound via "soundNamed:" keeps me from having to worry about
-			// loading a sound twice.
-			[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
-			
-		} else {
-			[[NSUserDefaults standardUserDefaults] setValue:nil forKey:soundName];
-			[_soundTheme setValue:nil forKey:soundName];
-		}
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSEnumerator *dirEnumerator = [_availableSounds keyEnumerator];
+	NSString *dir = nil;
+	NSString *fullPath = nil;
+	while( (dir = [dirEnumerator nextObject]) ) {
+		fullPath = [dir stringByAppendingPathComponent:[soundName stringByAppendingPathExtension:@"aiff"]];
+		if( [fileManager fileExistsAtPath:fullPath] )
+			break;
 	}
 	
-	//[[NSUserDefaults standardUserDefaults] setValue:sounds forKey:@"sounds"];
+	return dir ? fullPath : nil;
+}
+
+- (void)loadSounds
+{
+	NSString *soundName = nil;
+	NSEnumerator *soundEnumerator = [_soundNames objectEnumerator];
+	while( (soundName = [soundEnumerator nextObject]) ) {	
+		NSString *soundFile = [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
+		[self setSound:soundName toSoundFileNamed:soundFile];
+	}
+	
 }
 
 # pragma mark Accessor Methods
@@ -154,6 +149,10 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 
 - (NSArray *)availableSounds
 {
+	// because we want to upload any sounds that no longer exist we are going to unload
+	// the theme dict.
+	[_soundTheme removeAllObjects];
+	
 	NSMutableArray *sounds = [NSMutableArray array];
 	NSEnumerator *soundDirEnumerator = [_availableSounds keyEnumerator];
 	NSString *dir;
@@ -166,6 +165,16 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 			[dirDict setValue:dirModified forKey:@"lastChanged"];
 		}
 		[sounds addObjectsFromArray:[dirDict valueForKey:@"files"]];
+	}
+	
+	// reload sounds (they should all still be cached in the _sounds dict)
+	[self loadSounds];
+	NSEnumerator *soundFileEnumerator = [_sounds keyEnumerator];
+	NSString *soundFile;
+	while( (soundFile = [soundFileEnumerator nextObject]) ) {
+		NSSound *theSound = [_sounds valueForKey:soundFile];
+		if( theSound && [theSound retainCount] == 1 )
+			[_sounds removeObjectForKey:soundFile];
 	}
 	
 	[sounds sortUsingSelector:@selector(localizedCompare:)];
@@ -182,6 +191,20 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 	return [[NSUserDefaults standardUserDefaults] stringForKey:soundName];
 }
 
+- (void)setSound:(NSString *)soundName toSound:(NSSound *)theSound
+{
+	NSSound *oldSound = [_soundTheme valueForKey:soundName];
+	[_soundTheme setValue:theSound forKey:soundName];
+	// If the retainCount for this sound is one, then the only reference to this
+	// sound is in the _sounds dict and is not in use, so it needs to be unloaded.
+	if( oldSound && [oldSound retainCount] == 1 )
+		[_sounds setValue:nil forKey:soundName];
+}
+
+// attempts to load the sound into the _soundTheme dict.
+// if the sound file is not represented on the disk, it will not load the sound file.
+// if the sound file is on the disk then it will try to use an already loaded version,
+// before finally giving up and loading it from disk.
 - (void)setSound:(NSString *)soundName toSoundFileNamed:(NSString *)soundFile
 {
 	if( ![_soundNames containsObject:soundName] )
@@ -191,23 +214,26 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 		[[NSUserDefaults standardUserDefaults] setValue:@"" forKey:soundName];
 		return;
 	}
-	
-	// make sure it's a sound file we know about
-	NSEnumerator *directoryEnumerator = [_availableSounds keyEnumerator];
-	NSString *dir;
-	while( (dir = [directoryEnumerator nextObject]) ) {
-		if( [(NSArray *)[[_availableSounds valueForKey:dir] valueForKey:@"files"] containsObject:soundFile] )
-			break;
-	}
-	
-	if( !dir ) {
-		soundFile = nil;
+
+	NSString *soundFilePath = [self pathToSoundFile:soundFile];
+	if( !soundFilePath ) {
 		// since the file is nil we need to unload the sound file.
-		[_soundTheme setValue:nil forKey:soundName];
-	} else {
-		[_soundTheme setValue:[NSSound soundNamed:soundFile] forKey:soundName];
+		[self setSound:soundName toSound:nil];
+		[[NSUserDefaults standardUserDefaults] setValue:@"" forKey:soundName];
+		return;
 	}
 	
+	// if the sound is already loaded use that object
+	NSSound *loadedSound = [_sounds valueForKey:soundFile];
+	if( loadedSound )
+		[self setSound:soundName toSound:loadedSound];
+	else {
+		NSSound *newSound = [[NSSound alloc] initWithContentsOfFile:soundFilePath byReference:YES];
+		[_soundTheme setValue:newSound forKey:soundName];
+		[_sounds setValue:newSound forKey:soundFile];
+		[newSound release];
+	}
+
 	[[NSUserDefaults standardUserDefaults] setValue:soundFile forKey:soundName];
 }
 

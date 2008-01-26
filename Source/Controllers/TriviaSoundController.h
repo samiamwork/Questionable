@@ -28,6 +28,8 @@ extern NSString* SoundThemeSoundTimeUp;
 	
 	// the names of the sounds
 	NSArray *_soundNames;
+	// mapping of sound name to NSSound to keep track of loaded files.
+	NSMutableDictionary *_sounds;
 }
 
 + (TriviaSoundController *)defaultController;
