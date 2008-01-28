@@ -95,6 +95,9 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 		fullPath = [dir stringByAppendingPathComponent:[soundName stringByAppendingPathExtension:@"aiff"]];
 		if( [fileManager fileExistsAtPath:fullPath] )
 			break;
+		fullPath = [dir stringByAppendingPathComponent:[soundName stringByAppendingPathExtension:@"wav"]];
+		if( [fileManager fileExistsAtPath:fullPath] )
+			break;
 	}
 	
 	return dir ? fullPath : nil;
@@ -133,9 +136,10 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 	NSString *file;
 	while( (file = [fileEnumerator nextObject]) ) {
 		BOOL isDirectory;
-		// at the moment I'm only allowing .aiff sounds because that is what the system
+		// at the moment I'm only allowing .aiff and .wav sounds because that is what the system
 		// expects to find in the system sound directories.
-		if( [[[file pathExtension] lowercaseString] isEqualToString:@"aiff"] &&
+		NSString* extension = [[file pathExtension] lowercaseString];
+		if( ([extension isEqualToString:@"aiff"] || [extension isEqualToString:@"wav"])&&
 		   [defaultManager fileExistsAtPath:[theDirectory stringByAppendingPathComponent:file] isDirectory:&isDirectory] &&
 		   !isDirectory ) {
 			
@@ -211,6 +215,7 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 		return;
 	
 	if( !soundFile || [soundFile length] == 0 ) {
+		[self setSound:soundName toSound:nil];
 		[[NSUserDefaults standardUserDefaults] setValue:@"" forKey:soundName];
 		return;
 	}
