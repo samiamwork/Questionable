@@ -42,7 +42,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>${EXECUTABLE_NAME} ${APPLICATION_VERSION}, ©2007 theidiotproject</string>
+	<string>${EXECUTABLE_NAME} ${APPLICATION_VERSION}, ©2008 theidiotproject</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Questionable Help</string>
 	<key>CFBundleHelpBookName</key>
