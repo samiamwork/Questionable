@@ -24,6 +24,7 @@
 	ArcTimer *_qTimer;
 }
 
+- (void)updateColors;
 - (void)setTitle:(NSString *)aTitle text:(NSString *)aText;
 - (void)setProgress:(float)newProgress;
 @end

@@ -19,6 +19,14 @@
 
 @implementation TriviaBoardOpenGLView
 
++ (void)initialize
+{
+	NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
+	[defaultDict setValue:[NSNumber numberWithFloat:0.6429f] forKey:@"DefaultHue"];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
+	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultDict];
+}
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -69,6 +77,8 @@
 
 		//_transitionDoneCallback = nil;
 		_delegate = nil;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
 	
     return self;
@@ -92,8 +102,19 @@
 	[_playersScene release];
 
 	//[_transitionDoneCallback release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
+}
+
+- (void)defaultsChanged:(NSNotification*)notification
+{
+	[_boardScene updateColors];
+	[_placeholderScene updateColors];
+	[_questionScene updateColors];
+	[_answerScene updateColors];
+	[_playersScene updateColors];
+	[self setNeedsDisplay:YES];
 }
 
 - (NSRect)fitRect:(NSRect)inputRect inRect:(NSRect)inRect

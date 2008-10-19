@@ -28,5 +28,5 @@
 }
 
 - (void)setCategories:(NSArray *)newCategories;
-
+- (void)updateColors;
 @end

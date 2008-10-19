@@ -17,6 +17,8 @@
 		3E11DCB30B84F90A000DC73F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E11DCB20B84F90A000DC73F /* QuartzCore.framework */; };
 		3E226DF60BE83C1D0084D133 /* QuestionableIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */; };
 		3E226DF70BE83C1D0084D133 /* QuestionableLicenseIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */; };
+		3E2AC3F90EAAF29800D0151A /* NSColor+Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2AC3630EAAE34300D0151A /* NSColor+Defaults.m */; };
+		3E2AC4BA0EAB069100D0151A /* TIPChromaticGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2AC4B90EAB069100D0151A /* TIPChromaticGradientView.m */; };
 		3E3EF1780D47189C00A25F61 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E3EF1760D47189C00A25F61 /* Localizable.strings */; };
 		3E3FB8BE0BB879F100B2C457 /* TriviaPlayerGetInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */; };
 		3E3FB8D20BB87E9A00B2C457 /* GetInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3FB8D10BB87E9A00B2C457 /* GetInput.nib */; };
@@ -129,6 +131,10 @@
 		3E11DCB20B84F90A000DC73F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		3E226DF40BE83C1D0084D133 /* QuestionableIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableIcon.icns; sourceTree = "<group>"; };
 		3E226DF50BE83C1D0084D133 /* QuestionableLicenseIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = QuestionableLicenseIcon.icns; sourceTree = "<group>"; };
+		3E2AC3620EAAE34300D0151A /* NSColor+Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Defaults.h"; sourceTree = "<group>"; };
+		3E2AC3630EAAE34300D0151A /* NSColor+Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Defaults.m"; sourceTree = "<group>"; };
+		3E2AC4B80EAB069100D0151A /* TIPChromaticGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TIPChromaticGradientView.h; sourceTree = "<group>"; };
+		3E2AC4B90EAB069100D0151A /* TIPChromaticGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TIPChromaticGradientView.m; sourceTree = "<group>"; };
 		3E3EF1770D47189C00A25F61 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3E3FB8BC0BB879F100B2C457 /* TriviaPlayerGetInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriviaPlayerGetInputController.h; sourceTree = "<group>"; };
 		3E3FB8BD0BB879F100B2C457 /* TriviaPlayerGetInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriviaPlayerGetInputController.m; sourceTree = "<group>"; };
@@ -370,6 +376,8 @@
 				3EE93E8B0C48299D00C03A8F /* TriviaSceneQA.m */,
 				3EE93FAC0C4943CA00C03A8F /* TriviaScenePlayers.h */,
 				3EE93FAD0C4943CA00C03A8F /* TriviaScenePlayers.m */,
+				3E2AC3620EAAE34300D0151A /* NSColor+Defaults.h */,
+				3E2AC3630EAAE34300D0151A /* NSColor+Defaults.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -429,6 +437,8 @@
 				3EB524C80C31D128004A0DA1 /* PlayerNameView.m */,
 				3EB525E90C31F94D004A0DA1 /* SimpleTimerView.h */,
 				3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */,
+				3E2AC4B80EAB069100D0151A /* TIPChromaticGradientView.h */,
+				3E2AC4B90EAB069100D0151A /* TIPChromaticGradientView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -793,6 +803,8 @@
 				3EE93E8C0C48299D00C03A8F /* TriviaSceneQA.m in Sources */,
 				3EE93FAE0C4943CA00C03A8F /* TriviaScenePlayers.m in Sources */,
 				3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */,
+				3E2AC3F90EAAF29800D0151A /* NSColor+Defaults.m in Sources */,
+				3E2AC4BA0EAB069100D0151A /* TIPChromaticGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

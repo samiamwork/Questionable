@@ -19,4 +19,5 @@
 	StringTexture *_questionmark;
 }
 
+- (void)updateColors;
 @end

@@ -480,9 +480,8 @@ void TIPGradientChromaticEvaluation(void *info, const float *in, float *out)
 	c2[1] = color2->green;
 	c2[2] = color2->blue;
 	c2[3] = color2->alpha;
-	
-	TIPGradientTransformRGB_HSV(c1);
-	TIPGradientTransformRGB_HSV(c2);
+
+	// We're assuming that the colors are already in HSV-space (r=h, g=s, b=v).
 	TIPGradientResolveHSV(c1,c2);
 	
 	if(c1[0] > c2[0]) //if color1's hue is higher than color2's hue then 

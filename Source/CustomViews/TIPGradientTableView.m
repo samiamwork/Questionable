@@ -110,7 +110,7 @@
 		
 		rowIndex = newRowIndex;
 	}
-
+	TIPGradientRelease(gradient);
 }
 
 - (void)selectRow:(int)row byExtendingSelection:(BOOL)willExtend;

@@ -8,7 +8,7 @@
 
 #import "TriviaSceneBoard.h"
 #import "TriviaBoard.h"
-
+#import "NSColor+Defaults.h"
 
 @implementation TriviaSceneBoard
 
@@ -19,17 +19,12 @@
 		
 		_categoryTitleBox = [[RectangularBox alloc] init];
 		[_categoryTitleBox setSharpCorners:BoxCornerUpperRight | BoxCornerLowerRight];
-		[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
-		[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
 		[_categoryTitleBox setLineWidth:1.0f];
 		
 		_pointsBox = [[RectangularBox alloc] init];
 		[_pointsBox setSharpCorners:BoxCornerAll];
-		[_pointsBox setStartColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
-		[_pointsBox setEndColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
 		[_pointsBox setLineWidth:1.0f];
 		[_pointsBox setCornerRadius:10.0f];
-		[_pointsBox setBorderColor:[NSColor colorWithCalibratedRed:0.2f green:0.2f blue:0.5f alpha:1.0f]];
 		//[_pointsBox setShadingDirection:BoxShadingHorizontal];
 		
 		_shine = [[RectangularBox alloc] init];
@@ -37,6 +32,8 @@
 		[_shine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
 		[_shine setSharpCorners:BoxCornerUpperRight | BoxCornerLowerRight];
 		[_shine enableBorder:NO];
+		
+		[self updateColors];
 		
 		_categoryTitleStrings = [[NSMutableArray alloc] init];
 		_questionPointStrings = [[NSMutableArray alloc] init];
@@ -69,6 +66,16 @@
 	[_questionPointStrings release];
 
 	[super dealloc];
+}
+
+- (void)updateColors
+{
+	[_categoryTitleBox setStartColor:[NSColor colorWithCalibratedWhite:0.7f alpha:1.0f]];
+	[_categoryTitleBox setEndColor:[NSColor colorWithCalibratedWhite:0.4f alpha:1.0f]];
+
+	[_pointsBox setStartColor:[NSColor colorWithDifferenceHue:-.0385f saturation:0.0464f brightness:0.0186f]];
+	[_pointsBox setEndColor:[NSColor colorWithDifferenceHue:0.0286f saturation:-0.0029f brightness:0.4343f]];
+	[_pointsBox setBorderColor:[NSColor colorWithDifferenceHue:0.0238f saturation:-0.0364f brightness:-0.0500]];
 }
 
 - (void)setCategories:(NSArray *)newCategories

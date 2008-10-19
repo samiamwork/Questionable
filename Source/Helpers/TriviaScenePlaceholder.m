@@ -7,6 +7,7 @@
 //
 
 #import "TriviaScenePlaceholder.h"
+#import "NSColor+Defaults.h"
 
 
 @implementation TriviaScenePlaceholder
@@ -18,9 +19,7 @@
 		
 		_placeholderBox = [[RectangularBox alloc] init];
 		[_placeholderBox setLineWidth:10.0f];
-		[_placeholderBox setBorderColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
-		[_placeholderBox setStartColor:[NSColor colorWithCalibratedRed:0.5f green:0.7f blue:0.8f alpha:1.0f]];
-		[_placeholderBox setEndColor:[NSColor colorWithCalibratedRed:0.1f green:0.7f blue:0.8f alpha:1.0f]];
+
 		_questionmark = [[StringTexture alloc] initWithString:@"?" withSize:NSMakeSize(150.0f,150.0f) withFontSize:100.0f];
 		[_questionmark setFont:[NSFont fontWithName:@"Helvetica-Bold" size:100.0f]];
 		[_questionmark setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
@@ -31,7 +30,8 @@
 		[_placeholderShine setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
 		[_placeholderShine setStartColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.05f]];
 		[_placeholderShine setEndColor:[NSColor colorWithCalibratedWhite:1.0f alpha:0.5f]];
-		
+
+		[self updateColors];
 		[self setSize:NSMakeSize(640.0f,480.0f)];
 	}
 
@@ -45,6 +45,13 @@
 	[_placeholderShine release];
 
 	[super dealloc];
+}
+
+- (void)updateColors
+{
+	[_placeholderBox setBorderColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
+	[_placeholderBox setStartColor:[NSColor colorWithDifferenceHue:-0.0873f saturation:-0.2614f brightness:0.2500f]];
+	[_placeholderBox setEndColor:[NSColor colorWithDifferenceHue:-0.1190f saturation:0.2386f brightness:0.2500f]];
 }
 
 #pragma mark Texture Scaling

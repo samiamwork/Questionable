@@ -25,5 +25,6 @@
 	float _playerPointPadding;
 }
 
+- (void)updateColors;
 - (void)setPlayers:(NSArray *)newPlayers;
 @end

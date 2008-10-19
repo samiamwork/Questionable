@@ -7,6 +7,7 @@
 //
 
 #import "TriviaSceneQA.h"
+#import "NSColor+Defaults.h"
 
 
 @implementation TriviaSceneQA
@@ -20,13 +21,9 @@
 		_textString = nil;
 		
 		_QATitleBox = [[RectangularBox alloc] init];
-		[_QATitleBox setStartColor:[NSColor colorWithCalibratedRed:0.2f green:0.25f blue:0.55f alpha:1.0f]];
-		[_QATitleBox setEndColor:[NSColor colorWithCalibratedRed:0.3f green:0.35f blue:0.65f alpha:1.0f]];
 		[_QATitleBox setSharpCorners:BoxCornerLowerLeft|BoxCornerLowerRight];
 		[_QATitleBox setLineWidth:1.0f];
 		_QATextBox = [[RectangularBox alloc] init];
-		[_QATextBox setEndColor:[NSColor colorWithCalibratedRed:46.0f/255.0f green:83.0f/255.0f blue:145.0f/255.0f alpha:1.0f]];
-		[_QATextBox setStartColor:[NSColor colorWithCalibratedRed:92.0f/255.0f green:142.0f/255.0f blue:251.0f/255.0f alpha:1.0f]];
 		[_QATextBox setSharpCorners:BoxCornerUpperLeft|BoxCornerUpperRight];
 		[_QATextBox setLineWidth:1.0f];
 		
@@ -36,6 +33,7 @@
 		[_shine setSharpCorners:BoxCornerLowerLeft | BoxCornerLowerRight];
 		[_shine enableBorder:NO];
 		
+		[self updateColors];
 		_qTimer = [[ArcTimer alloc] initWithRadius:40.0f];
 		
 		[self setSize:NSMakeSize(640.0f,480.0f)];
@@ -53,6 +51,15 @@
 	[_textString release];
 	
 	[super dealloc];
+}
+
+- (void)updateColors
+{
+	[_QATitleBox setStartColor:[NSColor colorWithDifferenceHue:0.0f saturation:0.0f brightness:0.0f]];
+	[_QATitleBox setEndColor:[NSColor colorWithDifferenceHue:0.0f saturation:-0.0979f brightness:0.1f]];
+	
+	[_QATextBox setEndColor:[NSColor colorWithDifferenceHue:-0.0385f saturation:0.0464f brightness:0.0186f]];
+	[_QATextBox setStartColor:[NSColor colorWithDifferenceHue:-0.0286f saturation:-0.0029f brightness:0.4343f]];
 }
 
 #define SCALE_SIZE(a,b) ((NSSize){a.width*b,a.height*b})
