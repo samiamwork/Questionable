@@ -13,10 +13,11 @@
 
 @implementation TriviaCategory
 
-+ (void)initialize
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"title",@"questions",@"questionChange",nil];
-	[TriviaCategory setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
+	if([key isEqualToString:@"anyPropertyChanged"])
+		return [NSSet setWithObjects:@"title", @"questions", @"questionChange", nil];
+	return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
 - (BOOL)anyPropertyChanged
@@ -196,7 +197,7 @@
 	if( aQuestion == nil )
 		return;
 	
-	unsigned questionIndex = [theQuestions indexOfObject:aQuestion];
+	NSUInteger questionIndex = [theQuestions indexOfObject:aQuestion];
 	if( questionIndex == NSNotFound )
 		return;
 	
@@ -209,7 +210,7 @@
 }
 - (void)insertObject:(TriviaQuestion *)aQuestion inQuestionsAtIndex:(unsigned int)anIndex
 {
-	unsigned foundIndex = [theQuestions indexOfObject:aQuestion];
+	NSUInteger foundIndex = [theQuestions indexOfObject:aQuestion];
 	if( ([self isFull] && foundIndex == NSNotFound) || anIndex == foundIndex )
 		return;
 	

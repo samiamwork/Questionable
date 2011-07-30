@@ -53,7 +53,7 @@
 	if( [key isEqualToString:@"players"] && change == NSKeyValueChangeRemoval ) {
 		
 		TriviaPlayer *playerToRemove;
-		unsigned currentIndex = [indexes firstIndex];
+		NSUInteger currentIndex = [indexes firstIndex];
 		while( currentIndex != NSNotFound ) {
 			playerToRemove = [players objectAtIndex:currentIndex];
 			//if( infoController && playerToRemove == [infoController player] )
@@ -154,7 +154,7 @@
 }
 - (IBAction)registerInput:(id)sender
 {	
-	unsigned int selectionIndex = [playerArrayController selectionIndex];
+	NSUInteger selectionIndex = [playerArrayController selectionIndex];
 	if( selectionIndex == NSNotFound || _waitingForButton )
 		return;
 	

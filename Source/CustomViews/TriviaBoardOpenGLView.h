@@ -27,7 +27,7 @@ typedef enum TIPTriviaBoardViewState {
 	kTIPTriviaBoardViewStatePlayers
 } TIPTriviaBoardViewState;
 
-@interface TriviaBoardOpenGLView : NSView {
+@interface TriviaBoardOpenGLView : NSView<NSAnimationDelegate> {
 	NSOpenGLContext *_windowedContext;
 	NSOpenGLPixelFormat *_windowedPixelFormat;
 	

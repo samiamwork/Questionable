@@ -322,11 +322,16 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	ByteCount styleSizes[] = {sizeof(ATSURGBAlphaColor)};
 	ATSURGBAlphaColor styleColor;
 	ATSUAttributeValuePtr styleValues[] = {&styleColor};
+	CGFloat red, green, blue, alpha;
 	
-	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&styleColor.red
-															  green:&styleColor.green
-															   blue:&styleColor.blue
-															  alpha:&styleColor.alpha];
+	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&red
+															  green:&green
+															   blue:&blue
+															  alpha:&alpha];
+	styleColor.red   = red;
+	styleColor.green = green;
+	styleColor.blue  = blue;
+	styleColor.alpha = alpha;
 	
 	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
 	if(status != noErr)
@@ -376,7 +381,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		kATSUStyleDropShadowBlurOptionTag};
 	ByteCount styleSizes[] = {sizeof(Boolean), sizeof(CGSize), sizeof(CGColorRef), sizeof(float)};
 	Boolean shadowOn = YES;
-	float rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	CGFloat rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&rgba[0]
 																  green:&rgba[1]
 																   blue:&rgba[2]
@@ -403,8 +408,8 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	ATSUAttributeTag layoutTags[] = {kATSULineTruncationTag};
 	ByteCount layoutSizes[] = {sizeof(ATSULineTruncation)};
-	ATSULineTruncation truncate = _truncate ? kATSUTruncateEnd : kATSUTruncateNone;
-	ATSUAttributeValuePtr layoutValues[] = {&truncate};
+	ATSULineTruncation lineTruncation = _truncate ? kATSUTruncateEnd : kATSUTruncateNone;
+	ATSUAttributeValuePtr layoutValues[] = {&lineTruncation};
 	
 	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
 	if(status != noErr)

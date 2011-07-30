@@ -85,7 +85,8 @@
 
 	FSPathMakeRef((UInt8*)[theFromPath fileSystemRepresentation], &theSourceFile, NULL);
 
-	NSDictionary *fileStats = [[NSFileManager defaultManager] fileAttributesAtPath:theFromPath traverseLink:YES];
+	NSError* err;
+	NSDictionary *fileStats = [[NSFileManager defaultManager] attributesOfItemAtPath:theFromPath error:&err];
 	if( fileStats != nil )
 		theFileSize = [[fileStats valueForKey:NSFileSize] unsignedLongLongValue];
 }

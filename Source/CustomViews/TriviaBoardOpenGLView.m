@@ -7,6 +7,7 @@
 //
 
 #import "TriviaBoardOpenGLView.h"
+#import "AquaticPrime.h"
 
 @interface NSObject (Delegate)
 - (void)triviaBoardViewTransitionDone:(TriviaBoardOpenGLView *)aView;
@@ -48,7 +49,7 @@
 			return nil;
 		}
 		
-		long vsync = 1;
+		GLint vsync = 1;
 		[_windowedContext setValues:&vsync forParameter:NSOpenGLCPSwapInterval];
 		
 		_preserveTargetAspectRatio = YES;

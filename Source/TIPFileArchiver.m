@@ -36,7 +36,8 @@
 
 		BOOL isDirectory;
 		if( [[NSFileManager defaultManager] fileExistsAtPath:aDirectory isDirectory:&isDirectory] && isDirectory) {
-			theUsedFilenames = [[NSMutableArray alloc] initWithArray:[[NSFileManager defaultManager] directoryContentsAtPath:aDirectory]];
+			NSError* err;
+			theUsedFilenames = [[NSMutableArray alloc] initWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:aDirectory error:&err]];
 		} else
 			theUsedFilenames = [[NSMutableArray alloc] init];
 		
@@ -111,18 +112,19 @@
 - (void)commitArchive
 {
 	// if directory doesn't exist or is a file, create it.
+	NSError* err;
 	BOOL isDirectory;
 	BOOL doesExist = [[NSFileManager defaultManager] fileExistsAtPath:theArchivePath isDirectory:&isDirectory];
 	if( doesExist && !isDirectory )
-		[[NSFileManager defaultManager] removeFileAtPath:theArchivePath handler:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:theArchivePath error:&err];
 	if( !doesExist )
-		[[NSFileManager defaultManager] createDirectoryAtPath:theArchivePath attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:theArchivePath withIntermediateDirectories:YES attributes:nil error:&err];
 
 	// first delete files so that we don't use up more space than we need to
 	NSEnumerator *fileEnumerator = [existingFiles objectEnumerator];
 	NSString *fileToDelete;
 	while( (fileToDelete = [fileEnumerator nextObject]) )
-		[[NSFileManager defaultManager] removeFileAtPath:[theArchivePath stringByAppendingPathComponent:fileToDelete] handler:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:[theArchivePath stringByAppendingPathComponent:fileToDelete] error:&err];
 	
 	if( [theFilesToCopy count] == 0 )
 		return;
@@ -136,7 +138,7 @@
 	
 	//empty and reset arrays to prepare for another run...maybe
 	[existingFiles removeAllObjects];
-	[existingFiles addObjectsFromArray:[[NSFileManager defaultManager] directoryContentsAtPath:theArchivePath]];
+	[existingFiles addObjectsFromArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:theArchivePath error:&err]];
 	
 	theSizeToCopyInBytes = 0;
 }
@@ -158,10 +160,11 @@
 
 - (void)syncArchive
 {
+	NSError* err;
 	NSEnumerator *fileEnumerator = [theFilesToCopy objectEnumerator];
 	TIPFileArchiveRecord *aRecord;
 	while( (aRecord = [fileEnumerator nextObject]) )
-		[[NSFileManager defaultManager] copyPath:[aRecord fromPath] toPath:[aRecord toPath] handler:NULL];
+		[[NSFileManager defaultManager] copyItemAtPath:[aRecord fromPath] toPath:[aRecord toPath] error:&err];
 	
 	[theFilesToCopy removeAllObjects];
 }

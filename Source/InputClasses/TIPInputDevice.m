@@ -199,8 +199,8 @@
 	
 	return NO;
 }
-- (unsigned)hash
+- (NSUInteger)hash
 {
-	return (unsigned)locationID;
+	return (NSUInteger)locationID;
 }
 @end

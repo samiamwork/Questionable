@@ -130,9 +130,10 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 - (NSArray *)audioFilesInDirectory:(NSString *)theDirectory
 {
 	NSMutableArray *audioFiles = [NSMutableArray array];
-	
+
+	NSError* err;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	NSEnumerator *fileEnumerator = [[defaultManager directoryContentsAtPath:theDirectory] objectEnumerator];
+	NSEnumerator *fileEnumerator = [[defaultManager contentsOfDirectoryAtPath:theDirectory error:&err] objectEnumerator];
 	NSString *file;
 	while( (file = [fileEnumerator nextObject]) ) {
 		BOOL isDirectory;
@@ -161,9 +162,10 @@ NSString* SoundThemeSoundTimeUp = @"SoundTimeUp";
 	NSEnumerator *soundDirEnumerator = [_availableSounds keyEnumerator];
 	NSString *dir;
 	while( (dir = [soundDirEnumerator nextObject]) ) {
+		NSError* err;
 		NSMutableDictionary *dirDict = [_availableSounds objectForKey:dir];
 		NSDate *lastChanged = [dirDict objectForKey:@"lastChanged"];
-		NSDate *dirModified = [[[NSFileManager defaultManager] fileAttributesAtPath:dir traverseLink:YES] objectForKey:NSFileModificationDate];
+		NSDate *dirModified = [[[NSFileManager defaultManager] attributesOfItemAtPath:dir error:&err] objectForKey:NSFileModificationDate];
 		if( [dirModified laterDate:lastChanged] != lastChanged ) {
 			[dirDict setValue:[self audioFilesInDirectory:dir] forKey:@"files"];
 			[dirDict setValue:dirModified forKey:@"lastChanged"];

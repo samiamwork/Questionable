@@ -47,7 +47,7 @@
 {
 	// Take the color apart
 	NSColor *alternateSelectedControlColor = [NSColor alternateSelectedControlColor];
-	float hue, saturation, brightness, alpha;
+	CGFloat hue, saturation, brightness, alpha;
 	[[alternateSelectedControlColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
 	
 	// Create synthetic darker and lighter versions
@@ -76,7 +76,7 @@
 	// immediately. We need for all the data the shading function needs
 	// to draw to potentially outlive us.
 	TIPMutableGradientRef gradient = TIPMutableGradientCreate();
-	float red, green, blue;
+	CGFloat red, green, blue;
 	[lighterColor getRed:&red green:&green blue:&blue alpha:&alpha];
 	TIPGradientAddRGBColorStop(gradient,0.0f,red,green,blue,alpha);
 	
@@ -84,7 +84,7 @@
 	TIPGradientAddRGBColorStop(gradient,1.0f,red,green,blue,alpha);
 	
 	NSIndexSet *selectedRowIndexes = [self selectedRowIndexes];
-	unsigned int rowIndex = [selectedRowIndexes indexGreaterThanOrEqualToIndex:0];
+	NSUInteger rowIndex = [selectedRowIndexes indexGreaterThanOrEqualToIndex:0];
 	
 	while (rowIndex != NSNotFound) {
 		unsigned int endOfCurrentRunRowIndex, newRowIndex = rowIndex;
@@ -113,16 +113,25 @@
 	TIPGradientRelease(gradient);
 }
 
-- (void)selectRow:(int)row byExtendingSelection:(BOOL)willExtend;
+- (void)selectRow:(NSInteger)row byExtendingSelection:(BOOL)willExtend;
 {
 	// we display extra because we draw
 	// multiple contiguous selected rows differently, so changing
 	//	one row's selection can change how others draw.
-	[super selectRow:row byExtendingSelection:willExtend];
+	[super selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:willExtend];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)deselectRow:(int)row;
+- (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)willExtend
+{
+	// we display extra because we draw
+	// multiple contiguous selected rows differently, so changing
+	//	one row's selection can change how others draw.
+	[super selectRowIndexes:indexes byExtendingSelection:willExtend];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)deselectRow:(NSInteger)row;
 {
 	// we display extra because we draw
 	// multiple contiguous selected rows differently, so changing

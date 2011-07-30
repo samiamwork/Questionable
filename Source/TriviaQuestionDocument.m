@@ -97,12 +97,13 @@
 	}
 	
 	//if our directory doesn't exist then create it, or delete it if it's a file.
+	NSError* err;
 	BOOL isDirectory;
 	BOOL doesExist = [[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDirectory];
 	if( doesExist && !isDirectory )
-		[[NSFileManager defaultManager] removeFileAtPath:filename handler:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:filename error:&err];
 	if( !doesExist )
-		[[NSFileManager defaultManager] createDirectoryAtPath:filename attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:filename withIntermediateDirectories:YES attributes:nil error:&err];
 	
 	NSString *mediaDirectory = [filename stringByAppendingPathComponent:@"media"];
 	TIPFileArchiver *fileArchiver = [[TIPFileArchiver alloc] initWithDirectory:mediaDirectory];

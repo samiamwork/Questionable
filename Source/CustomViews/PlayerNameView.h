@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "../Helpers/TransitionAnimation.h"
 
-@interface PlayerNameView : NSTextField {
+@interface PlayerNameView : NSTextField<NSAnimationDelegate> {
 	TransitionAnimation *_fadeAnimation;
 }
 

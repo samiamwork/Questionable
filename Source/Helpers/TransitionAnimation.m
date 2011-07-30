@@ -18,7 +18,7 @@
     [super setCurrentProgress:progress];
 	
 	if( [self delegate] != nil && [[self delegate] respondsToSelector:@selector(animationTick:)] )
-		[[self delegate] animationTick:self];
+		[(NSObject*)[self delegate] animationTick:self];
 	
 	if( progress == 1.0 )
 		[self stopAnimation];

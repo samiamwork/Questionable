@@ -94,21 +94,36 @@
 - (void)setStartColor:(NSColor *)newColor
 {
 	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	[rgbColor getRed:&_startColor.red green:&_startColor.green blue:&_startColor.blue alpha:&_startColor.alpha];
+	CGFloat red, green, blue, alpha;
+	[rgbColor getRed:&red green:&green blue:&blue alpha:&alpha];
+	_startColor.red   = red;
+	_startColor.green = green;
+	_startColor.blue  = blue;
+	_startColor.alpha = alpha;
 	_dirtyVerticies = YES;
 }
 
 - (void)setEndColor:(NSColor *)newColor
 {
 	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	[rgbColor getRed:&_endColor.red green:&_endColor.green blue:&_endColor.blue alpha:&_endColor.alpha];
+	CGFloat red, green, blue, alpha;
+	[rgbColor getRed:&red green:&green blue:&blue alpha:&alpha];
+	_endColor.red   = red;
+	_endColor.green = green;
+	_endColor.blue  = blue;
+	_endColor.alpha = alpha;
 	_dirtyVerticies = YES;
 }
 
 - (void)setBorderColor:(NSColor *)newColor
 {
 	NSColor *rgbColor = [newColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	[rgbColor getRed:&_borderColor.red green:&_borderColor.green blue:&_borderColor.blue alpha:&_borderColor.alpha];
+	CGFloat red, green, blue, alpha;
+	[rgbColor getRed:&red green:&green blue:&blue alpha:&alpha];
+	_borderColor.red   = red;
+	_borderColor.green = green;
+	_borderColor.blue  = blue;
+	_borderColor.alpha = alpha;
 	_dirtyVerticies = YES;
 }
 

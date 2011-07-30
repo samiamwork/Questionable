@@ -16,10 +16,11 @@ typedef enum TriviaQuestionType {
 
 @implementation TriviaQuestion
 
-+ (void)initialize
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"question",@"answer",nil];
-	[TriviaQuestion setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
+	if([key isEqualToString:@"anyPropertyChanged"])
+		return [NSSet setWithObjects:@"question", @"answer", nil];
+	return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
 - (BOOL)anyPropertyChanged

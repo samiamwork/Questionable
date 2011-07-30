@@ -13,10 +13,11 @@
 
 @implementation TriviaBoard
 
-+ (void)initialize
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"title",@"categoryChange",nil];
-	[TriviaBoard setKeys:keys triggerChangeNotificationsForDependentKey:@"anyPropertyChanged"];
+	if([key isEqualToString:@"anyPropertyChanged"])
+		return [NSSet setWithObjects:@"title", @"categoryChange", nil];
+	return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
 - (BOOL)anyPropertyChanged
@@ -183,7 +184,7 @@
 	if( aCategory == nil )
 		return;
 	
-	unsigned categoryIndex = [theCategories indexOfObject:aCategory];
+	NSUInteger categoryIndex = [theCategories indexOfObject:aCategory];
 	if( categoryIndex == NSNotFound )
 		return;
 	
@@ -202,7 +203,7 @@
 }
 - (void)insertObject:(TriviaCategory *)aCategory inCategoriesAtIndex:(unsigned int)anIndex
 {
-	unsigned foundIndex = [theCategories indexOfObject:aCategory];
+	NSUInteger foundIndex = [theCategories indexOfObject:aCategory];
 	if( [self isFull] && foundIndex == NSNotFound )
 		return;
 	

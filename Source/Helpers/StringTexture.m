@@ -7,6 +7,7 @@
 //
 
 #import "StringTexture.h"
+#import <OpenGL/glu.h>
 
 #define glReportError()\
 {\
@@ -184,7 +185,7 @@
 	glPushAttrib(GL_COLOR_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glPushMatrix();
-	float red,green,blue,alpha;
+	CGFloat red,green,blue,alpha;
 	[_textColor getRed:&red green:&green blue:&blue alpha:&alpha];
 	glColor4f(red,green,blue,alpha);
 	

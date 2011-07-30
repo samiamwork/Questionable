@@ -14,7 +14,7 @@
 #import "TIPMovie.h"
 #import "TIPImage.h"
 
-@interface QuestionView : NSView {
+@interface QuestionView : NSView<NSTextViewDelegate> {
 	MovieDragView *theMovieView;
 	NSScrollView *theTextScrollView;
 	ImageDragView *theImageView;

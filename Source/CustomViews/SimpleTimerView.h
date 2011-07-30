@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "TransitionAnimation.h"
 
-@interface SimpleTimerView : NSView {
+@interface SimpleTimerView : NSView<NSAnimationDelegate> {
 	float _value;
 	TransitionAnimation *_timerAnimation;
 }

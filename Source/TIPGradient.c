@@ -154,8 +154,8 @@ void TIPGradientSetBlendingMode( TIPMutableGradientRef aGradient, TIPGradientBle
 	
 	CGFunctionCallbacks evaluationCallbackInfo = {0, evaluationFunction, NULL};
 	
-	static const float input_value_range[2] = {0.0f, 1.0f}; // range for the evaluator input
-	static const float output_value_ranges[8] = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f}; // ranges for the evaluator output
+	static const CGFloat input_value_range[2] = {0.0f, 1.0f}; // range for the evaluator input
+	static const CGFloat output_value_ranges[8] = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f}; // ranges for the evaluator output
 	
 	aGradient->gradientFunction = CGFunctionCreate(&(aGradient->elementList),
 												   1, input_value_range,
