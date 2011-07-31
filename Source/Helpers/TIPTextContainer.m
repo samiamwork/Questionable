@@ -12,64 +12,24 @@
 
 @implementation TIPTextContainer
 
-int allocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **offsets, int numberOfElements )
-{
-	if( *heights ) {
-		free(*heights);
-		*heights = NULL;
-	}
-	
-	*heights = (ATSUTextMeasurement *)malloc( numberOfElements*(sizeof(ATSUTextMeasurement)+sizeof(UniCharArrayOffset)) );
-	if( !*heights )
-		return 0;
-	
-	*offsets = (UniCharArrayOffset *)((char*)*heights + (numberOfElements*sizeof(ATSUTextMeasurement)));
-	return 1;
-}
-
-int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **offsets )
-{
-	if(*heights)
-		free(*heights);
-	
-	*heights = NULL;
-	*offsets = NULL;
-	
-	return 1;
-}
-
 - (id)init
 {
 	if( (self = [super init]) ) {
-		textBuffer = NULL;
-		textLength = 0;
-		lineCount = 0;
-		fontSize  = 0.0f;
-		leading = FloatToFixed(0.0f);
-		lineWidth = 500.0f;
-		fontName = nil;
-		
-		lineHeights = NULL;
-		endOfLines = NULL;
-		
-		OSStatus status = noErr;
-		
-		status = ATSUCreateStyle(&defaultStyle);
-		if(status != noErr)
-			printf(ERR_PREFIX "could not create style!\n");
-		
-		status = ATSUCreateTextLayout(&defaultLayout);
-		if(status != noErr)
-			printf("could not create text layout!\n");
-		
+		CGFloat black[4] = {0.0, 0.0, 0.0, 1.0};
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+		_color = CGColorCreate(colorSpace, black);
+		CGColorSpaceRelease(colorSpace);
+
+		NSFont* sysFont;
+		_fontSize          = [NSFont systemFontSize];
+		sysFont            = [NSFont systemFontOfSize:_fontSize];
+		_fontName          = [[sysFont fontName] retain];
+		_font              = (CTFontRef)[sysFont retain];
+		_lineWidth         = CGFLOAT_MAX;
+
 		[self setText:@"Text not set!"];
 		[self setAlignment:kTIPTextAlignmentCenter];
-		[self setFontSize:12.0f];
-		
-		ATSUSetTransientFontMatching(defaultLayout, true);
-		
-		_fitInRect = NO;
-		_widthDirty = YES;
+
 		_truncate = NO;
 	}
 	
@@ -78,45 +38,12 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 
 - (void)dealloc
 {
-	if(textBuffer)
-		free(textBuffer);
-	if(fontName)
-		[fontName release];
+	if(_attributedString)
+		CFRelease(_attributedString);
+	[_fontName release];
+	CFRelease(_font);
 	
-	deallocateTextArrays( &lineHeights, &endOfLines);
-	
-	ATSUDisposeStyle(defaultStyle);
-	ATSUDisposeTextLayout(defaultLayout);
-
 	[super dealloc];
-}
-
-- (void)recalculateLineHeights
-{
-	OSStatus status;
-	unsigned thisLine;
-	ATSUTextMeasurement ascent;
-	ATSUTextMeasurement descent;
-	ATSUTextMeasurement textBefore, textAfter;
-	
-	totalHeight = 0;
-	// now calculate the line heights
-	for( thisLine=0; thisLine<lineCount; thisLine++) {
-		status = ATSUGetUnjustifiedBounds(defaultLayout, endOfLines[thisLine],endOfLines[thisLine+1]-endOfLines[thisLine], &textBefore, &textAfter, &ascent, &descent);
-		if( status != noErr )
-			printf("error: %s\n", GetMacOSStatusCommentString(status));
-		lineHeights[thisLine] = ascent + descent + leading;
-		
-		if( thisLine==0 )
-			firstAscent = ascent;
-		totalHeight += lineHeights[thisLine];
-	}
-	
-	// correct the total height so that it reflects the true height (leading is not part of the text).
-	totalHeight -= leading;
-	
-	float floatHeight = FixedToFloat(totalHeight);
-	floatHeight = 0;
 }
 
 #pragma mark creation
@@ -130,6 +57,7 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 	
 	return [newContainer autorelease];
 }
+
 + (id)containerWithString:(NSString *)aString color:(NSColor *)aColor fontName:(NSString *)theFontName
 {
 	id newContainer = [[[self class] alloc] init];
@@ -145,257 +73,112 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 #pragma mark setters
 /*==================*/
 
-- (void)setWidth:(float)width
+- (void)applyAttributes
 {
-	OSStatus status;
-	CFIndex strLength = textLength;
-	
-	if( lineWidth == width && !_widthDirty )
-		return;
-	
-	lineWidth = width;
-	
-	ATSUAttributeTag layoutTags[] = {kATSULineWidthTag};
-	ByteCount layoutSizes[] = {sizeof(ATSUTextMeasurement)};
-	ATSUTextMeasurement myLineWidth = FloatToFixed(width);
-	ATSUAttributeValuePtr layoutValues[] = {&myLineWidth};
-	
-	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
-	
-	ATSUClearSoftLineBreaks(defaultLayout,kATSUFromTextBeginning,kATSUToTextEnd);
-	if( _truncate == NO )
-		status = ATSUBatchBreakLines(defaultLayout,kATSUFromTextBeginning,kATSUToTextEnd, FloatToFixed(width),NULL);
-	
-	endOfLines = NULL;
-	lineHeights = NULL;
-	status = ATSUGetSoftLineBreaks(defaultLayout, kATSUFromTextBeginning, kATSUToTextEnd, 0, NULL, &lineCount);
-	lineCount += 1;
-	allocateTextArrays( &lineHeights, &endOfLines, lineCount + 1);
-	
-	endOfLines[0] = 0;
-	status = ATSUGetSoftLineBreaks(defaultLayout, kATSUFromTextBeginning, kATSUToTextEnd, lineCount, &endOfLines[1], &lineCount);
-	lineCount += 1;
-	endOfLines[lineCount] = strLength;
-	
-	[self recalculateLineHeights];
-	
-	_widthDirty = NO;
+	CFRange stringRange = CFRangeMake(0, CFAttributedStringGetLength(_attributedString));
+
+	CTLineBreakMode lineBreakMode = _truncate ? kCTLineBreakByTruncatingTail : kCTLineBreakByWordWrapping;
+	CTParagraphStyleSetting paragraphSettings[] = {
+		{
+			kCTParagraphStyleSpecifierLineBreakMode,
+			sizeof(CTLineBreakMode),
+			&lineBreakMode
+		},
+		{
+			kCTParagraphStyleSpecifierAlignment,
+			sizeof(CTTextAlignment),
+			&_alignment
+		}
+	};
+	CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(paragraphSettings, sizeof(paragraphSettings)/sizeof(paragraphSettings[0]));
+	// TODO: It's pretty ham-fisted to set them all at once but this is just to get things working
+	NSDictionary* styleDict = [NSDictionary dictionaryWithObjectsAndKeys:
+							   (id)_font , kCTFontAttributeName,
+							   (id)_color, kCTForegroundColorAttributeName,
+							   (id)paragraphStyle, kCTParagraphStyleAttributeName,
+							   nil];
+	CFAttributedStringSetAttributes(_attributedString, stringRange, (CFDictionaryRef)styleDict, true);
+
+	CFRelease(paragraphStyle);
 }
 
-- (void)setFitInRect:(BOOL)willFitInRect
+- (void)setFontWithName:(NSString*)fontName
 {
-	_fitInRect = willFitInRect;
-}
-- (BOOL)fitInRect
-{
-	return _fitInRect;
-}
+	if(fontName == _fontName)
+		return;
 
-- (void)setFont:(NSFont *)newFont
-{
-	if( newFont == nil )
-		return;
-	
-	[self setFontWithName:[newFont fontName]];
-}
+	[_fontName release];
+	_fontName = [fontName retain];
+	CFRelease(_font);
+	_font = CTFontCreateWithName((CFStringRef)_fontName, _fontSize, NULL);
 
-- (void)setFontWithName:(NSString *)newFontName
-{
-	if( newFontName == nil )
-		return;
-	
-	OSStatus status;
-	
-	ATSUFontID newFontID;
-	ATSUAttributeTag styleTags[] = {kATSUFontTag};
-	ByteCount styleSizes[] = {sizeof(ATSUFontID)};
-	ATSUAttributeValuePtr styleValues[] = {&newFontID};
-	
-	ATSUFindFontFromName([newFontName cStringUsingEncoding:NSUTF8StringEncoding],
-						 [newFontName lengthOfBytesUsingEncoding:NSUTF8StringEncoding],
-						 kFontPostscriptName,kFontNoPlatform,kFontNoScript,kFontNoLanguage,
-						 &newFontID);
-	if( newFontID == kATSUInvalidFontID ) {
-		printf(ERR_PREFIX "Could not find font!\n");
-		return;
-	}
-	
-	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
-	if(status != noErr) {
-		printf(ERR_PREFIX "Could not set font!\n");
-		return;
-	}
-	
-	if( fontName )
-		[fontName release];
-	fontName = newFontName;
-	[fontName retain];
-	
-	// since not all fonts have the same size we need to redo our line breaks
-	[self setWidth:lineWidth];
-
-	_widthDirty = YES;
+	[self applyAttributes];
 }
 
 - (void)setFontSize:(float)theSize
 {
-	OSStatus status;
-	
-	Fixed atsuSize = FloatToFixed(theSize);
-	ATSUAttributeTag styleTags[] = {kATSUSizeTag};
-	ByteCount styleSizes[] = {sizeof(Fixed)};
-	ATSUAttributeValuePtr styleValues[] = {&atsuSize};
-	
-	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
-	if( status != noErr )
-		printf(ERR_PREFIX "could not set font size!\n");
-	
-	ByteCount actualSize;
-	status = ATSUGetAttribute(defaultStyle,kATSUSizeTag,sizeof(Fixed),&atsuSize,&actualSize);
-	fontSize = FixedToFloat(atsuSize);
-	
-	// we also need to redo our line breaks since the size has changed.
-	_widthDirty = YES;
-	[self setWidth:lineWidth];
-}
-- (float)fontSize
-{
-	return fontSize;
+	CFRelease(_font);
+	_fontSize = theSize;
+	_font = CTFontCreateWithName((CFStringRef)_fontName, theSize, NULL);
+
+	[self applyAttributes];
 }
 
-- (void)setLeading:(float)newLeading
+- (CGFloat)fontSize
 {
-	OSStatus status;
-	
-	ATSUTextMeasurement leadingValue = FloatToFixed(0.0f);
-	ATSUAttributeTag styleTags[] = {kATSULeadingTag};
-	ByteCount styleSizes[] = {sizeof(ATSUTextMeasurement)};
-	ATSUAttributeValuePtr styleValues[] = {&leadingValue};
-	
-	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
-	if( status != noErr ) {
-		printf(ERR_PREFIX "could not set leading!\n");
-		return;
-	}
-	
-	leading = FloatToFixed(newLeading);
-	
-	[self recalculateLineHeights];
+	return _fontSize;
 }
 
 - (void)setAlignment:(TIPTextAlignment)newAlignment
 {
-	OSStatus status;
-	
-	// Layout attribs (flush factor)
-	ATSUAttributeTag layoutTags[] = {kATSULineFlushFactorTag};
-	ByteCount layoutSizes[] = {sizeof(Fract)};
-	Fract myFlushFactor;
-	ATSUAttributeValuePtr layoutValues[] = {&myFlushFactor};
-	
 	switch(newAlignment) {
 		case kTIPTextAlignmentLeft:
-			myFlushFactor = kATSUStartAlignment;
+			_alignment = kCTLeftTextAlignment;
 			break;
 		case kTIPTextAlignmentRight:
-			myFlushFactor = kATSUEndAlignment;
+			_alignment = kCTRightTextAlignment;
 			break;
 		case kTIPTextAlignmentCenter:
-			myFlushFactor = kATSUCenterAlignment;
+			_alignment = kCTCenterTextAlignment;
 			break;
 		default:
 			printf( ERR_PREFIX "not a supported alignment value!\n");
-			return;
 			break;
 	}
-	
-	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
-	if(status != noErr)
-		printf(ERR_PREFIX "Could not set alignment!\n");
 
-	_widthDirty = YES;
+	[self applyAttributes];
 }
+
 - (void)setColor:(NSColor *)aColor
 {
-	OSStatus status;
-	ATSUAttributeTag styleTags[] = {kATSURGBAlphaColorTag};
-	ByteCount styleSizes[] = {sizeof(ATSURGBAlphaColor)};
-	ATSURGBAlphaColor styleColor;
-	ATSUAttributeValuePtr styleValues[] = {&styleColor};
-	CGFloat red, green, blue, alpha;
-	
-	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&red
-															  green:&green
-															   blue:&blue
-															  alpha:&alpha];
-	styleColor.red   = red;
-	styleColor.green = green;
-	styleColor.blue  = blue;
-	styleColor.alpha = alpha;
-	
-	status = ATSUSetAttributes(defaultStyle, 1, styleTags, styleSizes, styleValues);
-	if(status != noErr)
-		printf(ERR_PREFIX "Could not set new color!\n");
+	CGColorRelease(_color);
+	CGFloat rgba[4];
+	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&rgba[0]
+																  green:&rgba[1]
+																   blue:&rgba[2]
+																  alpha:&rgba[3]];
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	_color = CGColorCreate(colorSpace, rgba);
+	CGColorSpaceRelease(colorSpace);
+
+	[self applyAttributes];
 }
 
 - (void)setText:(NSString *)newText
 {
-	OSStatus status;
-	unsigned newTextLength = [newText lengthOfBytesUsingEncoding:NSUnicodeStringEncoding] + 1;
-	
-	if( textBuffer != NULL )
-		free(textBuffer);
-	textBuffer = (UniChar *)malloc( newTextLength );
-	if( textBuffer == NULL ) {
-		printf(ERR_PREFIX "Could not allocate space for string!\n");
-		return;
+	if(_attributedString)
+		CFRelease(_attributedString);
+	if(newText != nil)
+	{
+		_attributedString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+		CFAttributedStringReplaceString(_attributedString, CFRangeMake(0, 0), (CFStringRef)newText);
+	}
+	else
+	{
+		_attributedString = NULL;
 	}
 
-	if( ![newText getCString:(char *)textBuffer maxLength:newTextLength encoding:NSUnicodeStringEncoding] ) {
-		printf(ERR_PREFIX "could not copy text into buffer!\n");
-		return;
-	}
-	textLength = [newText length];
-	
-	status = ATSUSetTextPointerLocation(defaultLayout,
-										textBuffer,
-										kATSUFromTextBeginning,
-										kATSUToTextEnd,
-										textLength);
-	if( status != noErr )
-		printf(ERR_PREFIX "Could not set new text!\n");
-	
-	status = ATSUSetRunStyle(defaultLayout,defaultStyle,0, textLength);
-	if( status != noErr )
-		printf(ERR_PREFIX "Could not assign style to new text!\n");
-
-	_widthDirty = YES;
-}
-
-- (void)setShadowWithOffset:(NSSize)anOffset color:(NSColor *)aColor blur:(float)blur
-{
-	OSStatus status;
-	ATSUAttributeTag styleTags[] = {kATSUStyleDropShadowTag,
-		kATSUStyleDropShadowOffsetOptionTag,
-		kATSUStyleDropShadowColorOptionTag,
-		kATSUStyleDropShadowBlurOptionTag};
-	ByteCount styleSizes[] = {sizeof(Boolean), sizeof(CGSize), sizeof(CGColorRef), sizeof(float)};
-	Boolean shadowOn = YES;
-	CGFloat rgba[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	[[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getRed:&rgba[0]
-																  green:&rgba[1]
-																   blue:&rgba[2]
-																  alpha:&rgba[3] ];
-	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-	CGColorRef shadowColor = CGColorCreate(colorSpaceRef, rgba);
-	ATSUAttributeValuePtr styleValues[] = {&shadowOn, (CGSize *)&anOffset, &shadowColor, &blur};
-	
-	status = ATSUSetAttributes(defaultStyle, 4, styleTags, styleSizes, styleValues);
-	if(status != noErr)
-		printf(ERR_PREFIX "Could not set shadow!\n");
-	
-	CGColorRelease(shadowColor);
-	CGColorSpaceRelease(colorSpaceRef);
+	[self applyAttributes];
 }
 
 - (void)setTruncates:(BOOL)shouldTruncate
@@ -404,42 +187,86 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
 		return;
 	
 	_truncate = shouldTruncate;
-	OSStatus status;
-	
-	ATSUAttributeTag layoutTags[] = {kATSULineTruncationTag};
-	ByteCount layoutSizes[] = {sizeof(ATSULineTruncation)};
-	ATSULineTruncation lineTruncation = _truncate ? kATSUTruncateEnd : kATSUTruncateNone;
-	ATSUAttributeValuePtr layoutValues[] = {&lineTruncation};
-	
-	status = ATSUSetLayoutControls(defaultLayout, 1, layoutTags, layoutSizes, layoutValues);
-	if(status != noErr)
-		printf(ERR_PREFIX "Could not set truncate!\n");
-	_widthDirty = YES;
+
+	[self applyAttributes];
 }
 
-- (unsigned int)lineCount
+- (NSUInteger)lineCount
 {
-	return (unsigned int)lineCount;
+	CFRange fitInRange;
+	CGSize size                  = CGSizeMake(_lineWidth, CGFLOAT_MAX);
+	CFRange stringRange          = CFRangeMake(0, CFAttributedStringGetLength(_attributedString));
+	CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(_attributedString);
+	CGSize textSize              = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, stringRange, NULL, size, &fitInRange);
+	CGRect textRect              = CGRectMake(0.0, 0.0, textSize.width, textSize.height);
+
+	CGMutablePathRef rectPath = CGPathCreateMutable();
+	CGPathAddRect(rectPath, NULL, textRect);
+	CTFrameRef textFrame = CTFramesetterCreateFrame(framesetter, stringRange, rectPath, NULL);
+	CFArrayRef lines     = CTFrameGetLines(textFrame);
+	NSUInteger lineCount = CFArrayGetCount(lines);
+
+	CFRelease(rectPath);
+	CFRelease(textFrame);
+	CFRelease(framesetter);
+
+	return lineCount;
 }
+
+- (void)setLineWidth:(CGFloat)lineWidth
+{
+	_lineWidth = lineWidth;
+}
+
 - (NSSize)containerSize
 {
-	NSSize containerSize = NSMakeSize(lineWidth,FixedToFloat(totalHeight));
-	return containerSize;
+	CFRange fitInRange;
+	CGSize size                  = CGSizeMake(_lineWidth, CGFLOAT_MAX);
+	CFRange stringRange          = CFRangeMake(0, CFAttributedStringGetLength(_attributedString));
+	CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(_attributedString);
+	CGSize textSize              = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, stringRange, NULL, size, &fitInRange);
+
+	CFRelease(framesetter);
+	return NSMakeSize(textSize.width, textSize.height);
 }
 
-#define MINIMUM_STEPSIZE 0.5f
 - (void)fitTextInRect:(NSRect)rect
 {
-	if( textLength == 0 )
-		return;
-	
-	unsigned int targetLineCount = lineCount;
-	[self setWidth:rect.size.width];
-	[self setFontSize:ceilf(rect.size.height/(float)targetLineCount)];
-	
-	while( FixedToFloat(totalHeight) > rect.size.height ) {
-		targetLineCount++;
-		[self setFontSize:ceilf(rect.size.height/(float)targetLineCount)];
+	_lineWidth = rect.size.width;
+	CGRect r                  = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+	CFRange stringRange       = CFRangeMake(0, CFAttributedStringGetLength(_attributedString));
+	CTFramesetterRef framesetter;
+	CFRange rangeThatFits;
+
+	framesetter = CTFramesetterCreateWithAttributedString(_attributedString);
+	CTFramesetterSuggestFrameSizeWithConstraints(framesetter, stringRange, NULL, r.size, &rangeThatFits);
+	CFRelease(framesetter);
+	if(rangeThatFits.length < stringRange.length)
+	{
+		// Binary search using the new value as a lower-bound
+		CGFloat lowerBound = floor(_fontSize*((CGFloat)rangeThatFits.length/(CGFloat)stringRange.length));
+		CGFloat upperBound = floor(_fontSize);
+		while(upperBound - lowerBound > 1.0)
+		{
+			CGFloat midpoint = floor((upperBound-lowerBound)/2.0)+lowerBound;
+			[self setFontSize:midpoint];
+			// TODO: I'm not sure I need to recreate the framesetter every time
+			framesetter = CTFramesetterCreateWithAttributedString(_attributedString);
+			r.size.height = CGFLOAT_MAX;
+			CGSize textSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, stringRange, NULL, r.size, &rangeThatFits);
+			CFRelease(framesetter);
+			if(textSize.height > rect.size.height)
+			{
+				// Too big
+				upperBound = midpoint;
+			}
+			else
+			{
+				// too small
+				lowerBound = midpoint;
+			}
+		}
+		[self setFontSize:lowerBound];
 	}
 
 #ifdef MINIMUM_FONTSIZE
@@ -458,41 +285,35 @@ int deallocateTextArrays( ATSUTextMeasurement **heights, UniCharArrayOffset **of
  * then it will align the string at the top.
  */
 
-- (void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)cxt
+- (void)drawTextInRect:(NSRect)rect inContext:(CGContextRef)ctx
 {
-	OSStatus status;
-	unsigned thisLine;
-	
-	[self setWidth:rect.size.width];
-	
-	if( _fitInRect )
-		[self fitTextInRect:rect];
-	
-	Fixed fX = FloatToFixed(rect.origin.x);
-	Fixed fY = FloatToFixed(rect.origin.y + rect.size.height) - firstAscent;
+	[self setLineWidth:rect.size.width];
 
-	// TODO: I should have some sort of alignment property to decide
-	// when to do this or not.
-	if( totalHeight < FloatToFixed(rect.size.height) )
-		fY -= FloatToFixed( (rect.size.height-FixedToFloat(totalHeight))/2.0f );
-	
-	// clip to our rect so we don't go outside the lines...
-	// TODO: Stop printing if we're going to go outsidethe lines and print
-	// ellipsis as last character
-	CGContextSaveGState(cxt);
-	CGContextClipToRect(cxt, *(CGRect *)&rect);
-	
-	ATSUAttributeTag tags[] = { kATSUCGContextTag };
-	ByteCount valueSizes[] = { sizeof(CGContextRef) };
-	ATSUAttributeValuePtr values[] = { &cxt };
-	status = ATSUSetLayoutControls(defaultLayout, 1, tags, valueSizes, values);
-	
-	for(thisLine=0; thisLine<lineCount; thisLine++) {
-		ATSUDrawText(defaultLayout, endOfLines[thisLine], endOfLines[thisLine+1]-endOfLines[thisLine], fX, fY);
-		fY -= lineHeights[thisLine];
+	CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(_attributedString);
+	CGMutablePathRef rectPath    = CGPathCreateMutable();
+	CFRange          textRange   = CFRangeMake(0, CFAttributedStringGetLength(_attributedString));
+	CFRange          fitInRange;
+	CGSize           textSize    = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, textRange, NULL, CGSizeMake(_lineWidth, CGFLOAT_MAX), &fitInRange);
+
+	if(textSize.height < rect.size.height)
+		rect.origin.y -= (rect.size.height-textSize.height)/2.0;
+	else if(textSize.height > rect.size.height)
+	{
+		rect.size.height = textSize.height;
+		rect.origin.y += (textSize.height-rect.size.height)/2.0;
 	}
-	
-	CGContextRestoreGState(cxt);
+	CGPathAddRect(rectPath, NULL, CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height));
+
+	CGContextSaveGState(ctx);
+	{
+		CTFrameRef theTextFrame = CTFramesetterCreateFrame(framesetter, textRange, rectPath, NULL);
+		CGContextSetTextMatrix(ctx, CGAffineTransformIdentity);
+		CTFrameDraw(theTextFrame, ctx);
+		CFRelease(theTextFrame);
+	}
+	CGContextRestoreGState(ctx);
+	CFRelease(rectPath);
+	CFRelease(framesetter);
 }
 
 @end

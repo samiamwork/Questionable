@@ -135,7 +135,8 @@
 	unsigned questionIndex;
 	for( questionIndex = 0; questionIndex < questionsPerCategory; questionIndex++ ) {
 		TIPTextContainer *newText = [TIPTextContainer containerWithString:[[NSNumber numberWithInt:questionIndex*100+100] stringValue]];
-		[newText setFont:[NSFont fontWithName:@"Helvetica-Bold" size:15.0f]];
+		[newText setFontWithName:@"Helvetica-Bold"];
+		[newText setFontSize:15.0];
 		[newText setColor:[NSColor colorWithCalibratedWhite:0.2f alpha:1.0f]];
 		
 		[pointArray addObject:newText];

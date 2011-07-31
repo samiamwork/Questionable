@@ -109,7 +109,8 @@
 
 - (void)setFont:(NSFont *)newFont
 {
-	[_text setFont:newFont];
+	[_text setFontWithName:[newFont fontName]];
+	[_text setFontSize:[newFont pointSize]];
 	_dirtyTexture = YES;
 }
 
@@ -224,7 +225,7 @@
 		return;
 	
 	_size = newSize;
-	[_text setWidth:_size.width*_scale];
+	[_text setLineWidth:_size.width*_scale];
 	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
@@ -237,7 +238,7 @@
 	_scale = newScale;
 	
 	[self setFontSize:_fontSize];
-	[_text setWidth:_size.width*_scale];
+	[_text setLineWidth:_size.width*_scale];
 	[self calculateTextureSize];
 	_dirtyTexture = YES;
 }
