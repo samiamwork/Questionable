@@ -198,13 +198,16 @@
 	CGRect currentRect = CGRectMake(0.0f, bounds.size.height-titleHeight, qSize.width, titleHeight);
 	
 	//draw category bar gradient
-	TIPMutableGradientRef categoryGradient = TIPMutableGradientCreate();
-	TIPGradientAddRGBColorStop(categoryGradient, 0.0f, 0.76f,0.76f,0.76f,1.0f);
-	TIPGradientAddRGBColorStop(categoryGradient, 0.39f, 0.37f,0.37f,0.37f,1.0f);
-	TIPGradientAddRGBColorStop(categoryGradient, 0.83f, 0.47f,0.47f,0.47f,1.0f);
-	TIPGradientAddRGBColorStop(categoryGradient, 1.0f, 0.69f,0.69f,0.69f,1.0f);
-	TIPGradientAxialFillRect(currentContext, categoryGradient, CGRectMake(0.0f,bounds.size.height-titleHeight,bounds.size.width,titleHeight),90.0f);
-	TIPGradientRelease(categoryGradient);
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGColorRef one   = CGColorCreate(rgbColorSpace, (CGFloat[]){0.76, 0.76, 0.76, 1.0});
+	CGColorRef two   = CGColorCreate(rgbColorSpace, (CGFloat[]){0.37, 0.37, 0.37, 1.0});
+	CGColorRef three = CGColorCreate(rgbColorSpace, (CGFloat[]){0.47, 0.47, 0.47, 1.0});
+	CGColorRef four  = CGColorCreate(rgbColorSpace, (CGFloat[]){0.69, 0.69, 0.69, 1.0});
+	NSArray* colors = [NSArray arrayWithObjects:(id)one, (id)two, (id)three, (id)four, nil];
+	CGGradientRef categoryGradient = CGGradientCreateWithColors(rgbColorSpace, (CFArrayRef)colors, (CGFloat[]){0.0, 0.39, 0.83, 1.0});
+	CGRect gradientRect = CGRectMake(0.0f,bounds.size.height-titleHeight,bounds.size.width,titleHeight);
+	CGContextDrawLinearGradient(currentContext, categoryGradient, gradientRect.origin, CGPointMake(gradientRect.origin.x, gradientRect.origin.y+gradientRect.size.height), 0);
+	CGGradientRelease(categoryGradient);
 	
 	CGContextSetRGBStrokeColor(currentContext,0.0f,0.0f,0.0f,0.3f);
 	CGContextSetLineWidth(currentContext,3.0f);
@@ -338,11 +341,14 @@
 	
 	CGContextRef currentContext = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextClearRect(currentContext, *(CGRect *)&bounds);
-	TIPMutableGradientRef bgGradient = TIPMutableGradientCreate();
-	TIPGradientAddRGBColorStop(bgGradient,0.0f,0.9f,0.9f,0.9f,1.0f);
-	TIPGradientAddRGBColorStop(bgGradient,1.0f,0.7f,0.7f,0.7f,1.0f);
-	TIPGradientRadialFillRect(currentContext,bgGradient,*(CGRect *)&bounds,(CGPoint){bounds.size.width/2.0f,0.0f},sqrtf(bounds.size.width*bounds.size.width/4.0f + bounds.size.height*bounds.size.height));
-	TIPGradientRelease(bgGradient);
+
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGColorRef one   = CGColorCreate(rgbColorSpace, (CGFloat[]){0.9, 0.9, 0.9, 1.0});
+	CGColorRef two   = CGColorCreate(rgbColorSpace, (CGFloat[]){0.7, 0.7, 0.7, 1.0});
+	NSArray* colors = [NSArray arrayWithObjects:(id)one, (id)two, nil];
+	CGGradientRef bgGradient = CGGradientCreateWithColors(rgbColorSpace, (CFArrayRef)colors, (CGFloat[]){0.0, 1.0});
+	CGContextDrawRadialGradient(currentContext, bgGradient, CGPointMake(bounds.size.width/2.0, 0.0), 0.0, CGPointMake(bounds.size.width/2.0, 0.0), sqrtf(bounds.size.width*bounds.size.width/4.0f + bounds.size.height*bounds.size.height), kCGGradientDrawsAfterEndLocation | kCGGradientDrawsBeforeStartLocation);
+	CGGradientRelease(bgGradient);
 	
 	switch( _viewState ) {
 		case kTriviaSimpleViewBoard:
