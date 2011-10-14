@@ -52,6 +52,7 @@
 
 - (void)awakeFromNib
 {
+	[playerController setDelegate:self];
 	[simpleBoardView setDelegate:self];
 	
 	[incorrectButton setEnabled:NO];
@@ -186,14 +187,14 @@
 	[correctButton setEnabled:NO];
 }
 
-- (void)playerBuzzed:(NSNotification *)theNotification
+- (void)playerBuzzed:(TriviaPlayer *)thePlayer
 {
 	if( [roundTimer stopped] || [roundTimer paused] || [questionTimer paused] )
 		return;
 	if( buzzedPlayer != nil )
 		return;
 	
-	buzzedPlayer = [theNotification object];
+	buzzedPlayer = thePlayer;
 	if( ![buzzedPlayer enabled] )
 		return;
 	// would be better if I could disable all players and then reenable

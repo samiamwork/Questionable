@@ -16,7 +16,10 @@
 	TIPInputElement *inputElement;
 
 	BOOL enabled;
+	BOOL pressed;
 }
+
+@property (readwrite,assign) BOOL pressed;
 
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
@@ -24,17 +27,17 @@
 - (void)setPoints:(int)newPoints;
 - (void)addPoints:(int)addPoints;
 - (void)subtractPoints:(int)subtractPoints;
+- (NSInteger)status;
+- (BOOL)pressed;
+- (void)setPressed:(BOOL)shouldPress;
 
 - (BOOL)enabled;
 - (void)setEnabled:(BOOL)isEnabled;
 
 - (NSComparisonResult)sortByPoints:(id)anotherPlayer;
 
-- (BOOL)isConnected;
-//- (BOOL)setIsConnected:(BOOL)connected;
+- (BOOL)connected;
 
-//- (void)registerInput;
 - (TIPInputElement *)inputElement;
 - (void)setInputElement:(TIPInputElement *)newElement;
-- (BOOL)isButtonPressed;
 @end

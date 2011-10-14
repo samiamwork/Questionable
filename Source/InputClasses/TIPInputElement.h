@@ -11,47 +11,16 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import <IOKit/IOCFPlugIn.h>
+#import <IOKit/hid/IOHIDLib.h>
+
+@class TIPInputDevice;
 
 @interface TIPInputElement : NSObject {
-	IOHIDElementCookie cookie;
-	IOHIDElementType type;
-	long usagePage;
-	long usage;
-	long min;
-	long max;
-	
-	// for calibration
-	long scaledMin;
-	long scaledMax;
-	
-	long size;
-	BOOL isRelative;
-	BOOL isWrapping;
-	BOOL isNonLinear;
-	//BOOL hasPreferredState;
-	BOOL hasNullState;
-	
-	long referenceValue;
-	
-	NSString *name;
-	NSMutableArray *collectionElements;
-	id device;
+	IOHIDElementRef _element;
+	TIPInputDevice* _device;
 }
 
-+ (id)elementWithDictionary:(NSDictionary *)description device:(id)aDevice;
-
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-- (id)device;
-- (void)setDevice:(id)newDevice;
-
-- (long)usagePage;
-- (long)usage;
-- (IOHIDElementType)type;
-
-- (long)getValue;
-- (void)setReferenceValue;
-- (TIPInputElement *)isDifferentThanReference;
-
-- (NSArray *)collectionElements;
++ (id)elementWithElementRef:(IOHIDElementRef)theElement device:(TIPInputDevice*)device;
+- (id)initWithElementRef:(IOHIDElementRef)theElement device:(TIPInputDevice*)device;
+- (TIPInputDevice*)device;
 @end

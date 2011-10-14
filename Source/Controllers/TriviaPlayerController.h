@@ -11,16 +11,17 @@
 #import "../WindowControllers/TriviaPlayerGetInputController.h"
 
 
-@interface TriviaPlayerController : NSObject {
+@interface TriviaPlayerController : NSObject<TIPInputManagerDelegate> {
 	NSMutableArray *players;
 	IBOutlet NSArrayController *playerArrayController;
 	NSArray *sortDescriptors;
-	NSTimer *inputPollTimer;
+	id _delegate;
 	
-	BOOL _waitingForButton;
 	TriviaPlayerGetInputController *_getInputWindow;
-	TriviaPlayer *_playerToGetButtonFor;
 }
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 - (NSMutableArray *)players;
 - (void)setPlayers:(NSArray *)newPlayers;
@@ -34,4 +35,8 @@
 - (void)enableAllPlayers;
 
 - (IBAction)registerInput:(id)sender;
+@end
+
+@interface NSObject (PlayerDelegate)
+- (void)playerBuzzed:(TriviaPlayer *)thePlayer;
 @end

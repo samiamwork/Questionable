@@ -20,8 +20,7 @@
 		
 		NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"points" ascending:NO] autorelease];
 		sortDescriptors = [[NSArray alloc] initWithObjects:descriptor,nil];
-		inputPollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(checkForBuzz:) userInfo:nil repeats:YES];
-		
+
 		_getInputWindow = [[TriviaPlayerGetInputController alloc] init];
 		
 		[self addObserver:self forKeyPath:@"players" options:NSKeyValueObservingOptionOld context:nil];
@@ -36,11 +35,19 @@
 	[players release];
 	[sortDescriptors release];
 	[self removeObserver:self forKeyPath:@"players"];
-	[inputPollTimer invalidate];
-	
+
 	[_getInputWindow release];
 	
 	[super dealloc];
+}
+
+- (id)delegate
+{
+	return _delegate;
+}
+- (void)setDelegate:(id)newDelegate
+{
+	_delegate = newDelegate;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -143,41 +150,28 @@
 		[aPlayer setEnabled:YES];
 }
 
-- (void)checkForBuzz:(NSTimer *)aTimer
-{
-	NSEnumerator *playerEnumerator = [players objectEnumerator];
-	TriviaPlayer *aPlayer;
-	while( (aPlayer = [playerEnumerator nextObject]) ) {
-		if( [aPlayer isButtonPressed] )
-			return;
-	}
-}
 - (IBAction)registerInput:(id)sender
 {	
 	NSUInteger selectionIndex = [playerArrayController selectionIndex];
-	if( selectionIndex == NSNotFound || _waitingForButton )
+	if( selectionIndex == NSNotFound)
 		return;
 	
 	[_getInputWindow setPromptStringForPlayerName:[[players objectAtIndex:selectionIndex] name]];
-	_playerToGetButtonFor = [players objectAtIndex:selectionIndex];
-	[_playerToGetButtonFor retain];
-	_waitingForButton = YES;
-	
+
 	[[TIPInputManager defaultManager] getAnyElementWithTimeout:5.0];
 	[_getInputWindow beginModalStatus];
 }
 
-- (void)elementSearchFinished:(TIPInputElement *)foundElement
+- (void)elementSearchFinished:(TIPInputElement*)foundElement
 {
-	_waitingForButton = NO;
 	[_getInputWindow endModalStatus];
-	if( foundElement == nil || _playerToGetButtonFor == nil )
+
+	TriviaPlayer *thePlayer = [players objectAtIndex:[playerArrayController selectionIndex]];
+	if( foundElement == nil || thePlayer  == nil)
 		return;
-	
-	[_playerToGetButtonFor setInputElement:foundElement];
-	[_playerToGetButtonFor release];
-	_playerToGetButtonFor = nil;
-	
+
+	[thePlayer setInputElement:foundElement];
+
 	unsigned int selectedPlayerIndex = [playerArrayController selectionIndex];
 	unsigned int originalSelectedPlayer = selectedPlayerIndex;
 	
@@ -185,9 +179,38 @@
 		selectedPlayerIndex++;
 		if( selectedPlayerIndex >= [players count] )
 			selectedPlayerIndex = 0;
-	} while( selectedPlayerIndex != originalSelectedPlayer && [[players objectAtIndex:selectedPlayerIndex] isConnected] );
+	} while( selectedPlayerIndex != originalSelectedPlayer && [[players objectAtIndex:selectedPlayerIndex] connected] );
 	
 	if( selectedPlayerIndex != originalSelectedPlayer )
 		[playerArrayController setSelectionIndex:selectedPlayerIndex];
+	
+}
+
+- (void)inputManager:(TIPInputManager*)inputManager elementPressed:(TIPInputElement*)element
+{
+	for(TriviaPlayer* aPlayer in players)
+	{
+		if([aPlayer inputElement] == element)
+		{
+			[aPlayer setPressed:YES];
+			if([aPlayer enabled] && _delegate != nil && [_delegate respondsToSelector:@selector(playerBuzzed:)])
+			{
+				[_delegate playerBuzzed:aPlayer];
+			}
+			break;
+		}
+	}
+}
+
+- (void)inputManager:(TIPInputManager *)inputManager elementReleased:(TIPInputElement *)element
+{
+	for(TriviaPlayer* aPlayer in players)
+	{
+		if([aPlayer inputElement] == element)
+		{
+			[aPlayer setPressed:NO];
+			break;
+		}
+	}
 }
 @end

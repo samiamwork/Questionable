@@ -9,11 +9,18 @@
 #import <Cocoa/Cocoa.h>
 #import "TIPInputElement.h"
 
+@class TIPInputDevice;
+@protocol TIPInputDeviceDelegate
+- (void)TIPInputDevice:(TIPInputDevice*)theDevice buttonPressed:(TIPInputElement*)theElement;
+- (void)TIPInputDevice:(TIPInputDevice*)theDevice buttonReleased:(TIPInputElement*)theElement;
+@end
+
+
 @interface TIPInputDevice : NSObject {
-	IOHIDDeviceInterface **deviceInterface;
-	//NSMutableDictionary *description;
-	
-	NSMutableArray *elements;
+	IOHIDDeviceRef             _device;
+	id<TIPInputDeviceDelegate> _delegate;
+
+	NSMutableDictionary* _elements;
 	
 	// properties
 	long locationID;
@@ -25,13 +32,10 @@
 	NSString *serial;
 }
 
-+ (id)deviceWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive;
++ (id)deviceWithDeviceRef:(IOHIDDeviceRef)theDevice;
+- (id)initWithDeviceRef:(IOHIDDeviceRef)theDevice;
 
-- (void)connectWithIOObject:(io_object_t)ioObject exclusive:(BOOL)getExclusive;
-- (NSArray *)elements;
 - (long)locationID;
-
-- (IOHIDDeviceInterface **)deviceInterface;
-
-- (TIPInputElement *)getAnyElementWithTimeout:(NSTimeInterval)timeout;
+- (IOHIDDeviceRef)deviceRef;
+- (void)setDelegate:(id<TIPInputDeviceDelegate>)delegate;
 @end

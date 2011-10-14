@@ -8,41 +8,38 @@
 
 #import "TIPInputManager.h"
 #import <IOKit/IOKitLib.h>
-#import <IOKit/hid/IOHIDLib.h>
 #import <IOKit/hid/IOHIDUsageTables.h>
-
-@interface NSObject (delegate)
-- (void)elementSearchFinished:(TIPInputElement *)foundElement;
-@end
+#import <IOKit/hid/IOHIDKeys.h>
 
 @implementation TIPInputManager
 
-void HIDAddDevices( void *managerRef, io_iterator_t iterator );
-void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
+void HIDAddDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef device);
+void HIDRemoveDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef device);
 
-- (id) init {
+- (id) init
+{
 	self = [super init];
 	if (self != nil) {
-		// normal
-		deviceArray = [[NSMutableArray alloc] init];
-		// end normal
+		_hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+		_devices    = [[NSMutableSet alloc] init];
+
 		IOReturn result = kIOReturnSuccess;
 		
 		// set up dictionary describing matching devices of interest
-		NSMutableDictionary *HIDMatchingDictionary = (NSMutableDictionary *)IOServiceMatching( kIOHIDDeviceKey );
+		//NSMutableDictionary *HIDMatchingDictionary = [NSMutableDictionary dictionary];
 		
 		NSNumber *usagePage = [NSNumber numberWithInt:kHIDPage_GenericDesktop];
 		
 		NSMutableArray *deviceUsagePairs = [NSMutableArray array];
 		NSMutableDictionary *joystickDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *gamepadDictionary = [NSMutableDictionary dictionary];
-		NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
-		NSMutableDictionary *mouseDictionary = [NSMutableDictionary dictionary];
+		//NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
+		//NSMutableDictionary *mouseDictionary = [NSMutableDictionary dictionary];
 		
 		[joystickDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[gamepadDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
-		[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
-		[mouseDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
+		//[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
+		//[mouseDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 
 		[joystickDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Joystick] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:joystickDictionary];
@@ -50,52 +47,31 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 		[gamepadDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_GamePad] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:gamepadDictionary];
 		
-		[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
-		[deviceUsagePairs addObject:keyboardDictionary];
+		//[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
+		//[deviceUsagePairs addObject:keyboardDictionary];
 		
-		[mouseDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Mouse] forKey:@kIOHIDDeviceUsageKey];
-		[deviceUsagePairs addObject:mouseDictionary];
+		//[mouseDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Mouse] forKey:@kIOHIDDeviceUsageKey];
+		//[deviceUsagePairs addObject:mouseDictionary];
 		
-		[HIDMatchingDictionary setValue:deviceUsagePairs forKey:@kIOHIDDeviceUsagePairsKey];
-		
-		// get an iterator of all currently connected devices that we're interested in
-		removedDeviceIterator = 0;
-		addedDeviceIterator = 0;
-		[HIDMatchingDictionary retain];
-		result = IOServiceGetMatchingServices( kIOMasterPortDefault, (CFDictionaryRef )HIDMatchingDictionary, &addedDeviceIterator );
-		if( result != kIOReturnSuccess )
-			printf("could not find any matching devices!\n");
-		
-		// register for device added notifications
-		IONotificationPortRef notificationObject = IONotificationPortCreate( kIOMasterPortDefault );
-		CFRunLoopSourceRef notificationRunLoopSource = IONotificationPortGetRunLoopSource( notificationObject );
-		CFRunLoopAddSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
-		
-		// this will consume a reference
-		[HIDMatchingDictionary retain];
-		result = IOServiceAddMatchingNotification( notificationObject, kIOFirstMatchNotification, (CFDictionaryRef )HIDMatchingDictionary, HIDAddDevices, self, &addedDeviceIterator);
-		// register for device removed notifications
-		[HIDMatchingDictionary retain];
-		result = IOServiceAddMatchingNotification( notificationObject, kIOTerminatedNotification, (CFDictionaryRef )HIDMatchingDictionary, HIDRemoveDevices, self, &removedDeviceIterator);
-		
-		// build the device list release the itterator
-		//HIDAddDevices( self, addedDeviceIterator);
-		io_object_t ioObject;
-		while( (ioObject = IOIteratorNext(addedDeviceIterator)) ) {
-			[deviceArray addObject:[TIPInputDevice deviceWithIOObject:ioObject exclusive:NO]];
-			// apparently we need to release it
-			IOObjectRelease(ioObject);
-		}
-		// activate device removal notifications by using the iterator
-		HIDRemoveDevices( self, removedDeviceIterator);
-		
+		IOHIDManagerSetDeviceMatchingMultiple(_hidManager, (CFArrayRef)deviceUsagePairs);
+		IOHIDManagerRegisterDeviceMatchingCallback(_hidManager, &HIDAddDevice, self);
+		IOHIDManagerRegisterDeviceRemovalCallback(_hidManager, &HIDRemoveDevice, self);
+		CFRunLoopAddCommonMode(CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+		CFRunLoopAddCommonMode(CFRunLoopGetCurrent(), (CFStringRef)NSModalPanelRunLoopMode);
+		IOHIDManagerScheduleWithRunLoop(_hidManager, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
+		result = IOHIDManagerOpen(_hidManager, kIOHIDOptionsTypeNone);
+
 		_delegate = nil;
 	}
 	return self;
 }
 
-- (void) dealloc {
-	[deviceArray release];
+- (void) dealloc
+{
+	IOHIDManagerClose(_hidManager, kIOHIDOptionsTypeNone);
+	IOHIDManagerUnscheduleFromRunLoop(_hidManager, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
+	CFRelease(_hidManager);
+	[_devices release];
 	
 	[super dealloc];
 }
@@ -114,117 +90,96 @@ void HIDRemoveDevices( void *managerRef, io_iterator_t iterator );
 	return g_inputManager;
 }
 
-- (id)delegate
-{
-	return _delegate;
-}
-- (void)setDelegate:(id)newDelegate
+- (void)setDelegate:(NSObject<TIPInputManagerDelegate>*)newDelegate
 {
 	_delegate = newDelegate;
 }
 
-- (NSArray *)devices
-{
-	return (NSArray *)deviceArray;
-}
-
 - (void)getAnyElementWithTimeout:(NSTimeInterval)timeout;
 {
-	// save current input state of all devices and elements
-	// loop through all objects waiting for the first element in
-	// any device that shows a change of more than X%.
-	
-	// set all the elements reference Values
-	TIPInputDevice *aDevice;
-	NSEnumerator *deviceEnumerator = [deviceArray objectEnumerator];
-	while( (aDevice = [deviceEnumerator nextObject]) ) {
-		TIPInputElement *anElement;
-		NSEnumerator *elementEnumerator = [[aDevice elements] objectEnumerator];
-		while( (anElement = [elementEnumerator nextObject]) )
-			[anElement setReferenceValue];
-	}
-	
-	_elementCheckTimeout = timeout;
-	_startTime = [NSDate timeIntervalSinceReferenceDate];
-	_elementCheckTimer = [NSTimer timerWithTimeInterval:1.0/30.0 target:self selector:@selector(checkElements:) userInfo:nil repeats:YES];
+	// Set a value callback
+	_waitingForNewButton = YES;
+	_elementCheckTimer = [NSTimer timerWithTimeInterval:timeout target:self selector:@selector(timeout:) userInfo:nil repeats:NO];
 	[[NSRunLoop currentRunLoop] addTimer:_elementCheckTimer forMode:NSModalPanelRunLoopMode];
 }
 
-- (void)checkElements:(NSTimer *)aTimer
+- (void)timeout:(NSTimer*)aTimer
 {
-	TIPInputElement *differentElement = nil;
-	
-	TIPInputDevice *aDevice;
-	NSEnumerator *deviceEnumerator = [deviceArray objectEnumerator];
-	while( (aDevice = [deviceEnumerator nextObject]) && differentElement == nil) {
-		
-		NSEnumerator *elementEnumerator = [[aDevice elements] objectEnumerator];
-		TIPInputElement *anElement;
-		while( (anElement = [elementEnumerator nextObject]) && differentElement == nil)
-			differentElement = [anElement isDifferentThanReference];			
-		
+	[_elementCheckTimer invalidate];
+	_elementCheckTimer = nil;
+	if( _delegate != nil && [_delegate respondsToSelector:@selector(elementSearchFinished:)] )
+		[_delegate elementSearchFinished:nil];
+}
+
+- (void)addDevice:(IOHIDDeviceRef)newDevice
+{
+	TIPInputDevice* device = [TIPInputDevice deviceWithDeviceRef:newDevice];
+	[device setDelegate:self];
+	[_devices addObject:device];
+}
+
+- (void)removeDevice:(IOHIDDeviceRef)deviceToRemove
+{
+	NSNumber* locationNumber = (NSNumber*)IOHIDDeviceGetProperty(deviceToRemove, CFSTR(kIOHIDLocationIDKey));
+	// This is stupid but effective and simple
+	for(TIPInputDevice* device in _devices)
+	{
+		if([device locationID] == [locationNumber longValue])
+		{
+			// Give device a chance to notify anyone listening to elements
+			//[device willRemove];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"TIPInputDeviceDisconnected" object:device];
+			[_devices removeObject:device];
+			break;
+		}
 	}
-	
-	if( [NSDate timeIntervalSinceReferenceDate] - _startTime > _elementCheckTimeout || differentElement != nil ) {
+}
+
+// Device delegate function
+- (void)TIPInputDevice:(TIPInputDevice*)theDevice buttonPressed:(TIPInputElement*)theElement
+{
+	if(_elementCheckTimer != nil)
+	{
+		// we're waitng configuring input for someone
 		[_elementCheckTimer invalidate];
 		_elementCheckTimer = nil;
-		if( _delegate != nil && [_delegate respondsToSelector:@selector(elementSearchFinished:)] )
-			[_delegate elementSearchFinished:differentElement];
+		if(_delegate != nil)
+		{
+			[_delegate elementSearchFinished:theElement];
+		}
+	}
+	else
+	{
+		// we're just getting button presses
+		if(_delegate != nil)
+		{
+			[_delegate inputManager:self elementPressed:theElement];
+		}
 	}
 }
 
-- (void)removeDeviceAtLocation:(long)aLocation
+- (void)TIPInputDevice:(TIPInputDevice*)theDevice buttonReleased:(TIPInputElement*)theElement
 {
-	NSEnumerator *deviceEnumerator = [deviceArray objectEnumerator];
-	TIPInputDevice *aDevice;
-	aDevice = [deviceEnumerator nextObject];
-	while( aDevice && [aDevice locationID] != aLocation )
-		aDevice = [deviceEnumerator nextObject];
-	
-	if( aDevice ) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TIPInputDeviceDisconnected" object:aDevice];
-		[deviceArray removeObject:aDevice];
+	if(_elementCheckTimer != nil)
+	{
+		return;
 	}
-
+	if(_delegate != nil)
+	{
+		[_delegate inputManager:self elementReleased:theElement];
+	}
 }
+
 #pragma mark C USB functions
 
-void HIDAddDevices( void *managerRef, io_iterator_t iterator )
+void HIDAddDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef device)
 {
-	TIPInputManager *manager = (TIPInputManager *)managerRef;
-	io_object_t ioObject;
-	
-	NSAutoreleasePool *newPool = [[NSAutoreleasePool alloc] init];
-	while( (ioObject = IOIteratorNext(iterator)) ) {
-		//printf("device added!\n");
-		
-		[manager->deviceArray addObject:[TIPInputDevice deviceWithIOObject:ioObject exclusive:YES]];
-		// apparently we need to release it
-		IOObjectRelease(ioObject);
-		
-		//printf("Device count = %d\n", [manager->deviceArray count]);
-	}
-	// wait until we've got a nice sound for this
-	//[[TriviaSoundController defaultController] playSound:SoundThemeSoundCorrectAnswer];
-	[newPool release];
+	[(TIPInputManager*)ctx addDevice:device];
 }
 
-void HIDRemoveDevices( void *managerRef, io_iterator_t iterator )
+void HIDRemoveDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef device)
 {
-	TIPInputManager *manager = (TIPInputManager *)managerRef;
-	io_object_t ioObject;
-	
-	while( (ioObject = IOIteratorNext(iterator)) ) {
-		// need to be able to find device in device array by io_object_t
-		IOReturn result;
-		NSMutableDictionary *removedDescription;
-		result = IORegistryEntryCreateCFProperties( ioObject, (CFMutableDictionaryRef *)&removedDescription, kCFAllocatorDefault, kNilOptions);
-		long removedLocationID = [[removedDescription valueForKey:@kIOHIDLocationIDKey] longValue];
-		
-		[manager removeDeviceAtLocation:removedLocationID];
-		
-		[removedDescription release];
-	}	
+	[(TIPInputManager*)ctx removeDevice:device];
 }
 
 @end

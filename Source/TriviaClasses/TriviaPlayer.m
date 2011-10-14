@@ -11,6 +11,15 @@
 
 @implementation TriviaPlayer
 
+@synthesize pressed;
+
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	if([key isEqualToString:@"status"])
+		return [NSSet setWithObjects:@"connected", @"pressed", nil];
+	return [super keyPathsForValuesAffectingValueForKey:key];
+}
+
 - (id)init
 {
 	if( (self = [super init]) ) {
@@ -57,13 +66,38 @@
 }
 - (void)addPoints:(int)addPoints
 {
+	[self willChangeValueForKey:@"points"];
 	thePoints += addPoints;
+	[self didChangeValueForKey:@"points"];
 }
 - (void)subtractPoints:(int)subtractPoints
 {
+	[self willChangeValueForKey:@"points"];
 	thePoints -= subtractPoints;
+	[self didChangeValueForKey:@"points"];
 }
 
+- (NSInteger)status
+{
+	if(pressed)
+	{
+		return 2;
+	}
+	else if([self connected])
+	{
+		return 1;
+	}
+	return 0;
+}
+
+- (BOOL)pressed
+{
+	return pressed;
+}
+- (void)setPressed:(BOOL)shouldPress
+{
+	pressed = shouldPress;
+}
 
 - (BOOL)enabled
 {
@@ -84,22 +118,14 @@
 	return NSOrderedAscending;
 }
 
-- (BOOL)isConnected
+- (BOOL)connected
 {
 	if( inputElement == nil )
 		return NO;
 	
 	return YES;
 }
-/*
-- (void)registerInput
-{	
-	[self willChangeValueForKey:@"isConnected"];
-	inputElement = [[TIPInputManager defaultManager] getAnyElementWithTimeout:5.0];
-		
-	[self didChangeValueForKey:@"isConnected"];
-}
-*/
+
 - (TIPInputElement *)inputElement
 {
 	return inputElement;
@@ -108,8 +134,7 @@
 {
 	if( newElement == inputElement )
 		return;
-	
-	//printf("%s: u = %ld, up = %ld\n", [theName cString], [newElement usage], [newElement usagePage] );
+
 	if( inputElement != nil )
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 														name:@"TIPInputDeviceDisconnected"
@@ -119,30 +144,15 @@
 												 selector:@selector(deviceDisconnected:)
 													 name:@"TIPInputDeviceDisconnected"
 												   object:[newElement device]];
-	[self willChangeValueForKey:@"isConnected"];
+	[self willChangeValueForKey:@"connected"];
 	[inputElement release];
 	inputElement = [newElement retain];
-	[self didChangeValueForKey:@"isConnected"];
-	
+	[self didChangeValueForKey:@"connected"];
 }
 
 - (void)deviceDisconnected:(NSNotification *)aNotification
 {
 	[self setInputElement:nil];
-}
-
-- (BOOL)isButtonPressed
-{
-	if( !enabled || inputElement == nil )
-		return NO;
-	
-	long value = [inputElement getValue];
-	if( value ) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TIPTriviaPlayerBuzzed" object:self];
-		return YES;
-	}
-
-	return  NO;
 }
 
 // light up for buttons pressed

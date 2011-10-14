@@ -2369,26 +2369,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.isConnected</string>
-						<reference key="source" ref="44094570"/>
-						<reference key="destination" ref="887969171"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="44094570"/>
-							<reference key="NSDestination" ref="887969171"/>
-							<string key="NSLabel">value: arrangedObjects.isConnected</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.isConnected</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">BoolToStatusImageTransformer</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">318</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.points</string>
 						<reference key="source" ref="468109631"/>
 						<reference key="destination" ref="887969171"/>
@@ -2814,6 +2794,26 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="154146401"/>
 					</object>
 					<int key="connectionID">503</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.connected</string>
+						<reference key="source" ref="44094570"/>
+						<reference key="destination" ref="887969171"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="44094570"/>
+							<reference key="NSDestination" ref="887969171"/>
+							<string key="NSLabel">value: arrangedObjects.connected</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.connected</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">BoolToStatusImageTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">581</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4231,7 +4231,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">580</int>
+			<int key="maxID">581</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
