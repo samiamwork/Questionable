@@ -36,8 +36,6 @@
 		3E806E940BD5C8DC0068BD88 /* Correct.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E810BD5C8DC0068BD88 /* Correct.tiff */; };
 		3E806E950BD5C8DC0068BD88 /* fullscreenIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */; };
 		3E806E960BD5C8DC0068BD88 /* Incorrect.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */; };
-		3E806E970BD5C8DC0068BD88 /* jewel green.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E840BD5C8DC0068BD88 /* jewel green.pdf */; };
-		3E806E980BD5C8DC0068BD88 /* jewel red.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E850BD5C8DC0068BD88 /* jewel red.pdf */; };
 		3E806E990BD5C8DC0068BD88 /* loadQuestions.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */; };
 		3E806E9A0BD5C8DC0068BD88 /* Minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E870BD5C8DC0068BD88 /* Minus.tiff */; };
 		3E806E9B0BD5C8DC0068BD88 /* NoSound.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E806E880BD5C8DC0068BD88 /* NoSound.tiff */; };
@@ -51,6 +49,10 @@
 		3E806FB70BD6C82F0068BD88 /* Questionable Help in Resources */ = {isa = PBXBuildFile; fileRef = 3E806FA70BD6C82E0068BD88 /* Questionable Help */; };
 		3E8DB74D0C3D769800DC2845 /* ArcTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DB74C0C3D769800DC2845 /* ArcTimer.m */; };
 		3E8DB8460C3DC34100DC2845 /* TextureCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */; };
+		3E98395D144A0FE700BD1278 /* PlayerConnectionValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E98395C144A0FE700BD1278 /* PlayerConnectionValueTransformer.m */; };
+		3E983962144A126000BD1278 /* jewel blue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E98395F144A126000BD1278 /* jewel blue.tiff */; };
+		3E983963144A126000BD1278 /* jewel green.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E983960144A126000BD1278 /* jewel green.tiff */; };
+		3E983964144A126000BD1278 /* jewel red.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3E983961144A126000BD1278 /* jewel red.tiff */; };
 		3E9B2B930BAB15A200B4CF05 /* RectangularBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */; };
 		3E9B2B940BAB15A200B4CF05 /* StringTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B2B920BAB15A200B4CF05 /* StringTexture.m */; };
 		3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA262D70BBD8A44001AF85F /* TIPSideGradientTableView.m */; };
@@ -157,8 +159,6 @@
 		3E806E810BD5C8DC0068BD88 /* Correct.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Correct.tiff; sourceTree = "<group>"; };
 		3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = fullscreenIcon.tiff; sourceTree = "<group>"; };
 		3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Incorrect.tiff; sourceTree = "<group>"; };
-		3E806E840BD5C8DC0068BD88 /* jewel green.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel green.pdf"; sourceTree = "<group>"; };
-		3E806E850BD5C8DC0068BD88 /* jewel red.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jewel red.pdf"; sourceTree = "<group>"; };
 		3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = loadQuestions.tiff; sourceTree = "<group>"; };
 		3E806E870BD5C8DC0068BD88 /* Minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Minus.tiff; sourceTree = "<group>"; };
 		3E806E880BD5C8DC0068BD88 /* NoSound.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = NoSound.tiff; sourceTree = "<group>"; };
@@ -174,6 +174,11 @@
 		3E8DB74C0C3D769800DC2845 /* ArcTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcTimer.m; sourceTree = "<group>"; };
 		3E8DB8440C3DC34100DC2845 /* TextureCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureCanvas.h; sourceTree = "<group>"; };
 		3E8DB8450C3DC34100DC2845 /* TextureCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureCanvas.m; sourceTree = "<group>"; };
+		3E98395B144A0FE700BD1278 /* PlayerConnectionValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConnectionValueTransformer.h; sourceTree = "<group>"; };
+		3E98395C144A0FE700BD1278 /* PlayerConnectionValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerConnectionValueTransformer.m; sourceTree = "<group>"; };
+		3E98395F144A126000BD1278 /* jewel blue.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "jewel blue.tiff"; sourceTree = "<group>"; };
+		3E983960144A126000BD1278 /* jewel green.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "jewel green.tiff"; sourceTree = "<group>"; };
+		3E983961144A126000BD1278 /* jewel red.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "jewel red.tiff"; sourceTree = "<group>"; };
 		3E9B2B8F0BAB15A200B4CF05 /* RectangularBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RectangularBox.h; sourceTree = "<group>"; };
 		3E9B2B900BAB15A200B4CF05 /* RectangularBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RectangularBox.m; sourceTree = "<group>"; };
 		3E9B2B910BAB15A200B4CF05 /* StringTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StringTexture.h; sourceTree = "<group>"; };
@@ -385,6 +390,9 @@
 		3E806E7E0BD5C8DC0068BD88 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3E98395F144A126000BD1278 /* jewel blue.tiff */,
+				3E983960144A126000BD1278 /* jewel green.tiff */,
+				3E983961144A126000BD1278 /* jewel red.tiff */,
 				3E444DE10C2C4C2000F70169 /* controls.tif */,
 				3E444DE20C2C4C2000F70169 /* controlsOff.tif */,
 				3E444DE30C2C4C2000F70169 /* players.tif */,
@@ -395,8 +403,6 @@
 				3E806E810BD5C8DC0068BD88 /* Correct.tiff */,
 				3E806E820BD5C8DC0068BD88 /* fullscreenIcon.tiff */,
 				3E806E830BD5C8DC0068BD88 /* Incorrect.tiff */,
-				3E806E840BD5C8DC0068BD88 /* jewel green.pdf */,
-				3E806E850BD5C8DC0068BD88 /* jewel red.pdf */,
 				3E806E860BD5C8DC0068BD88 /* loadQuestions.tiff */,
 				3E806E870BD5C8DC0068BD88 /* Minus.tiff */,
 				3E806E880BD5C8DC0068BD88 /* NoSound.tiff */,
@@ -545,6 +551,8 @@
 		3EE2B02A0B82A75D00EFBE3D /* ValueTransformers */ = {
 			isa = PBXGroup;
 			children = (
+				3E98395B144A0FE700BD1278 /* PlayerConnectionValueTransformer.h */,
+				3E98395C144A0FE700BD1278 /* PlayerConnectionValueTransformer.m */,
 				3EE2B02D0B82A79700EFBE3D /* BoolToStatusImageTransformer.h */,
 				3EE2B02E0B82A79700EFBE3D /* BoolToStatusImageTransformer.m */,
 				3EE2B0350B82A8F500EFBE3D /* BoolToStatusStringTransformer.h */,
@@ -669,8 +677,6 @@
 				3E806E940BD5C8DC0068BD88 /* Correct.tiff in Resources */,
 				3E806E950BD5C8DC0068BD88 /* fullscreenIcon.tiff in Resources */,
 				3E806E960BD5C8DC0068BD88 /* Incorrect.tiff in Resources */,
-				3E806E970BD5C8DC0068BD88 /* jewel green.pdf in Resources */,
-				3E806E980BD5C8DC0068BD88 /* jewel red.pdf in Resources */,
 				3E806E990BD5C8DC0068BD88 /* loadQuestions.tiff in Resources */,
 				3E806E9A0BD5C8DC0068BD88 /* Minus.tiff in Resources */,
 				3E806E9B0BD5C8DC0068BD88 /* NoSound.tiff in Resources */,
@@ -691,6 +697,9 @@
 				3E444DEB0C2C4C2000F70169 /* questions.tif in Resources */,
 				3E444DEC0C2C4C2000F70169 /* questionsOff.tif in Resources */,
 				3E3EF1780D47189C00A25F61 /* Localizable.strings in Resources */,
+				3E983962144A126000BD1278 /* jewel blue.tiff in Resources */,
+				3E983963144A126000BD1278 /* jewel green.tiff in Resources */,
+				3E983964144A126000BD1278 /* jewel red.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +803,7 @@
 				3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */,
 				3E2AC3F90EAAF29800D0151A /* NSColor+Defaults.m in Sources */,
 				3E2AC4BA0EAB069100D0151A /* TIPChromaticGradientView.m in Sources */,
+				3E98395D144A0FE700BD1278 /* PlayerConnectionValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
