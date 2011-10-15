@@ -11,6 +11,9 @@
 
 @interface PlayerNameView : NSTextField<NSAnimationDelegate> {
 	TransitionAnimation *_fadeAnimation;
+	NSToolTipTag         _toolTipTag;
+	NSString*            _toolTipText;
 }
 
+- (void)setToolTip:(NSString*)toolTipText;
 @end

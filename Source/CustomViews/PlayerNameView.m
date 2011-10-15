@@ -22,8 +22,14 @@
 - (void)dealloc
 {
 	[_fadeAnimation release];
+	[_toolTipText release];
 
 	[super dealloc];
+}
+
+- (void)awakeFromNib
+{
+	_toolTipTag = -1;
 }
 
 - (void)animationTick:(TransitionAnimation *)theAnimation
@@ -55,5 +61,19 @@
 	[_fadeAnimation startAnimation];
 }
 
+- (void)setToolTip:(NSString*)toolTipText
+{
+	if(toolTipText == _toolTipText)
+	{
+		return;
+	}
+	[_toolTipText release];
+	_toolTipText = [toolTipText retain];
+	[self removeToolTip:_toolTipTag];
+	if(_toolTipText != nil)
+	{
+		_toolTipTag = [self addToolTipRect:[self bounds] owner:_toolTipText userData:nil];
+	}
+}
 
 @end

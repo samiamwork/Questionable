@@ -150,8 +150,10 @@
 	[[TriviaSoundController defaultController] playSound:SoundThemeSoundCorrectAnswer];
 	
 	[buzzedPlayer addPoints:(selectedQuestionIndex+1) * 100];
+	[nameField setToolTip:[NSString stringWithFormat:NSLocalizedString(@"last correct answer by \"%@\"",@"last correct answer by \"%@\""), [buzzedPlayer name]]];
+
 	[self showAnswer];
-	
+
 	[nameField setStringValue:@""];
 	
 	[incorrectButton setEnabled:NO];
@@ -302,7 +304,8 @@
 		[buzzedPlayer setEnabled:YES];
 		buzzedPlayer = nil;
 	}
-	
+
+	[nameField setToolTip:nil];
 	if( delegate != nil && [delegate respondsToSelector:@selector(willStopGame:)] )
 		[delegate willStopGame:self];
 }
