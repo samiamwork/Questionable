@@ -49,6 +49,7 @@ static NSString *TriviaToolbarItemIdentifierControlsTab = @"Trivia Toolbar Item 
 	[self setupToolbar];
 	
 	[gameController setDelegate:self];
+	[_controlTabs selectTabViewItemAtIndex:0];
 }
 
 - (void)setupToolbar
