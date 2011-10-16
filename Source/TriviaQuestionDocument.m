@@ -139,7 +139,7 @@
 		return;
 	
 	[theBoards release];
-	theBoards = [newBoards retain];
+	theBoards = [newBoards mutableCopy];
 }
 - (void)addBoard:(TriviaBoard *)aBoard;
 {
