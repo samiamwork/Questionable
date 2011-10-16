@@ -20,6 +20,7 @@ typedef enum TriviaSimpleViewState {
 } TriviaSimpleViewState;
 
 @interface TriviaBoardSimpleView : NSView {
+	BOOL _paused;
 	TriviaBoard *mainBoard;
 	TriviaQuestion *_question;
 	unsigned questionsPerCategory;

@@ -76,24 +76,28 @@
 
 - (void)startTimerOfLength:(NSTimeInterval)theLength
 {
+	_paused = NO;
 	[_leftTimerView startTimerOfLength:theLength];
 	[_rightTimerView startTimerOfLength:theLength];
 }
 
 - (void)stopTimer
 {
+	_paused = NO;
 	[_leftTimerView stopTimer];
 	[_rightTimerView stopTimer];
 }
 
 - (void)resetTimer
 {
+	_paused = NO;
 	[_leftTimerView resetTimer];
 	[_rightTimerView resetTimer];
 }
 
 - (void)pauseTimer
 {
+	_paused = !_paused;
 	[_leftTimerView pauseTimer];
 	[_rightTimerView pauseTimer];
 }
@@ -371,7 +375,7 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-	if( _viewState != kTriviaSimpleViewBoard || mainBoard == nil )
+	if( _viewState != kTriviaSimpleViewBoard || mainBoard == nil || _paused)
 		return;
 	
 	NSPoint point = [self convertPoint:[theEvent locationInWindow] fromView:nil];
