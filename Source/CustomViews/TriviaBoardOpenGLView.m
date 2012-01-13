@@ -7,7 +7,6 @@
 //
 
 #import "TriviaBoardOpenGLView.h"
-#import "AquaticPrime.h"
 
 @interface NSObject (Delegate)
 - (void)triviaBoardViewTransitionDone:(TriviaBoardOpenGLView *)aView;
@@ -313,26 +312,7 @@
 		return;
 	}
 	
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSData *badData = [NSData data];
-	// if unregistered insert the "unregistered" category
-	if( APVerifyLicenseData((CFDataRef )badData) ||
-		!APVerifyLicenseData((CFDataRef )licenseData) ) {
-		TriviaCategory *dummyCategory = [[TriviaCategory alloc] init];
-		[dummyCategory setTitle:@"Please Register"];
-		
-		NSEnumerator *questionEnumerator = [[dummyCategory questions] objectEnumerator];
-		TriviaQuestion *aQuestion;
-		while( (aQuestion = [questionEnumerator nextObject]) ) {
-			[aQuestion setQuestion:@"How much does Questionable cost?"];
-			[aQuestion setAnswer:@"$25"];
-		}
-		
-		_categories = [[_mainBoard categories] arrayByAddingObject:dummyCategory];
-		[dummyCategory release];
-	} else {
-		_categories = [NSArray arrayWithArray:[_mainBoard categories]];
-	}
+	_categories = [NSArray arrayWithArray:[_mainBoard categories]];
 	[_categories retain];
 	[_boardScene setCategories:_categories];
 	

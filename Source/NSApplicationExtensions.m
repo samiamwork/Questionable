@@ -7,7 +7,6 @@
 //
 
 #import "NSApplicationExtensions.h"
-#import "AquaticPrime.h"
 
 @interface NSAttributedString (Hyperlink)
 +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL;
@@ -39,23 +38,12 @@
 
 - (NSString *)registeredString
 {
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSDictionary *licenseDict = (NSDictionary *)APCreateDictionaryForLicenseData( (CFDataRef )licenseData );
-	
-	if( licenseDict == nil )
-		return @"Unregistered";
-	
-	NSMutableString *regString = [NSMutableString stringWithFormat:@"%@\n%@",
-		[licenseDict valueForKey:@"Name"],[licenseDict valueForKey:@"Email"]];
-	[licenseDict release];
-	return regString;
+	return @"Registered";
 }
 
 - (BOOL)registered
 {
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	
-	return APVerifyLicenseData( (CFDataRef )licenseData );
+	return YES;
 }
 
 @end

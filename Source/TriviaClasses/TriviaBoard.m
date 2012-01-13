@@ -7,7 +7,6 @@
 //
 
 #import "TriviaBoard.h"
-#import "AquaticPrime.h"
 
 #define MAXCATEGORIES 5
 
@@ -231,18 +230,6 @@
 }
 - (BOOL)isFull
 {
-	NSData *licenseData = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"license"];
-	NSData *badData = [NSData data];
-	
-	// if unregistered limit the number of categories to MAX-1
-	if( APVerifyLicenseData((CFDataRef )badData) ||
-		!APVerifyLicenseData((CFDataRef )licenseData) ) {
-		if( [theCategories count] < MAXCATEGORIES-1 )
-			return NO;
-		
-		return YES;
-	}
-	
 	if( [theCategories count] < MAXCATEGORIES )
 		return NO;
 	

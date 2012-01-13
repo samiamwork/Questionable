@@ -63,7 +63,6 @@
 		3EB525EB0C31F94D004A0DA1 /* SimpleTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB525EA0C31F94D004A0DA1 /* SimpleTimerView.m */; };
 		3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE04BC0C2D95A600C8334B /* PrefsValidator.m */; };
 		3EBF587A0C5FAE1800786813 /* TriviaSceneBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */; };
-		3EE136770BCB55910062334B /* AquaticPrime.c in Sources */ = {isa = PBXBuildFile; fileRef = 3EE136750BCB55910062334B /* AquaticPrime.c */; };
 		3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */; };
 		3EE139940BCDF5740062334B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3EE139920BCDF5740062334B /* Preferences.nib */; };
 		3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1399A0BCDF5A90062334B /* Preferences.m */; };
@@ -199,8 +198,6 @@
 		3EBF58780C5FAE1800786813 /* TriviaSceneBoard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TriviaSceneBoard.h; sourceTree = "<group>"; };
 		3EBF58790C5FAE1800786813 /* TriviaSceneBoard.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TriviaSceneBoard.m; sourceTree = "<group>"; };
 		3EC2508E0BE961C30032C6F0 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; wrapsLines = 1; };
-		3EE136750BCB55910062334B /* AquaticPrime.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AquaticPrime.c; sourceTree = "<group>"; };
-		3EE136760BCB55910062334B /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
 		3EE1367B0BCB5A800062334B /* NSApplicationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSApplicationExtensions.h; sourceTree = "<group>"; };
 		3EE1367C0BCB5A800062334B /* NSApplicationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSApplicationExtensions.m; sourceTree = "<group>"; };
 		3EE139930BCDF5740062334B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
@@ -585,8 +582,6 @@
 		45FC53AB08FBFB490091ABDF /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				3EE136750BCB55910062334B /* AquaticPrime.c */,
-				3EE136760BCB55910062334B /* AquaticPrime.h */,
 				3E11DC7C0B84EF61000DC73F /* TIPGradient.c */,
 				3E11DC7D0B84EF61000DC73F /* TIPGradient.h */,
 				3EE2AE730B811B7200EFBE3D /* TIPFileArchiver.h */,
@@ -791,7 +786,6 @@
 				3E3FBA990BBA017200B2C457 /* TriviaStatusView.m in Sources */,
 				3E3FBABC0BBA19F300B2C457 /* TriviaGradientView.m in Sources */,
 				3EA262D80BBD8A44001AF85F /* TIPSideGradientTableView.m in Sources */,
-				3EE136770BCB55910062334B /* AquaticPrime.c in Sources */,
 				3EE1367D0BCB5A800062334B /* NSApplicationExtensions.m in Sources */,
 				3EE1399B0BCDF5A90062334B /* Preferences.m in Sources */,
 				3EBE04BD0C2D95A600C8334B /* PrefsValidator.m in Sources */,
