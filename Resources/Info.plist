@@ -66,6 +66,8 @@
 		<key>MinimumSystemVersion</key>
 		<string>10.4.0</string>
 	</dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6.0</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>

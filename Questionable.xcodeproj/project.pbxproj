@@ -893,6 +893,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Resources/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Questionable;
 				SDKROOT = macosx10.6;
 				WARNING_CFLAGS = "$(inherited)";
@@ -933,6 +934,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Resources/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Questionable;
 				SDKROOT = macosx10.6;
