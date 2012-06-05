@@ -17,18 +17,19 @@
 	[product release];
 	[serial release];
 	[_elements release];
-	
+
+	IOHIDDeviceClose(_device, kIOHIDOptionsTypeNone);
 	CFRelease(_device);
 	
 	[super dealloc];
 }
 
-+ (id)deviceWithDeviceRef:(IOHIDDeviceRef)theDevice
++ (id)deviceWithDeviceRef:(IOHIDDeviceRef)theDevice exclusive:(BOOL)exclusive
 {
 	if(theDevice == NULL)
 		return nil;
 
-	TIPInputDevice* newDevice = [[TIPInputDevice alloc] initWithDeviceRef:theDevice];
+	TIPInputDevice* newDevice = [[TIPInputDevice alloc] initWithDeviceRef:theDevice exclusive:exclusive];
 	return newDevice;
 }
 
@@ -68,7 +69,7 @@ static void HIDValueCallback(void *ctx, IOReturn result, void *sender, IOHIDValu
 	[(TIPInputDevice*)ctx valueChanged:value];
 }
 
-- (id)initWithDeviceRef:(IOHIDDeviceRef)theDevice
+- (id)initWithDeviceRef:(IOHIDDeviceRef)theDevice exclusive:(BOOL)exclusive
 {
 	self = [super init];
 	if(self != nil)
@@ -76,6 +77,21 @@ static void HIDValueCallback(void *ctx, IOReturn result, void *sender, IOHIDValu
 		_device = theDevice;
 		IOHIDDeviceRegisterInputValueCallback(_device, &HIDValueCallback, self);
 		CFRetain(theDevice);
+		IOReturn result;
+		if(exclusive)
+		{
+			// If we want to get exclusive access (we do, especially for things like mice)
+			// we need to close the device. The result isn't success but exclusive access
+			// appears to not work otherwise
+			result = IOHIDDeviceClose(theDevice, 0);
+			result = IOHIDDeviceOpen(theDevice, kIOHIDOptionsTypeSeizeDevice);
+		}
+		else
+		{
+			result = IOHIDDeviceOpen(theDevice, kIOHIDOptionsTypeNone);
+		}
+		if(result != kIOReturnSuccess)
+			NSLog(@"error opening device");
 		_elements = [[NSMutableDictionary alloc] init];
 		NSNumber* locationNumber = (NSNumber*)IOHIDDeviceGetProperty(theDevice, CFSTR(kIOHIDLocationIDKey));
 		locationID = [locationNumber longValue];

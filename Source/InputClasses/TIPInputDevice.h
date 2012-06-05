@@ -32,8 +32,8 @@
 	NSString *serial;
 }
 
-+ (id)deviceWithDeviceRef:(IOHIDDeviceRef)theDevice;
-- (id)initWithDeviceRef:(IOHIDDeviceRef)theDevice;
++ (id)deviceWithDeviceRef:(IOHIDDeviceRef)theDevice exclusive:(BOOL)exclusive;
+- (id)initWithDeviceRef:(IOHIDDeviceRef)theDevice exclusive:(BOOL)exclusive;
 
 - (long)locationID;
 - (IOHIDDeviceRef)deviceRef;
