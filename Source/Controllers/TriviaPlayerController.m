@@ -92,7 +92,7 @@
 - (IBAction)addPlayer:(id)sender
 {
 	TriviaPlayer *newPlayer = [[TriviaPlayer alloc] init];
-	[newPlayer setName:[NSString stringWithFormat:@"Player %d", [players count]+1]];
+	[newPlayer setName:[NSString stringWithFormat:@"Player %d", (int)[players count]+1]];
 	
 	[players addObject:newPlayer];
 

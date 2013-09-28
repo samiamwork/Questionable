@@ -142,7 +142,7 @@
 {
 	
 	TriviaBoard *newBoard = [[TriviaBoard alloc] init];
-	[newBoard setTitle:[NSString stringWithFormat:@"Round %d",[[theQuestionDoc boards] count]+1]];
+	[newBoard setTitle:[NSString stringWithFormat:@"Round %d",(int)[[theQuestionDoc boards] count]+1]];
 	TriviaCategory *newCategory = [[TriviaCategory alloc] init];
 	[newCategory setTitle:@"New Category"];
 
