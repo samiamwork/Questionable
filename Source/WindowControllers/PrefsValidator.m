@@ -58,7 +58,7 @@
 	if( alertTitle == nil )
 		return YES;
 	
-	NSBeginAlertSheet(alertTitle,suggestAlternate,nil,nil,[self window],self,alertSheetSelector,nil,contextInfo,alertMessage);
+	NSBeginAlertSheet(alertTitle,suggestAlternate,nil,nil,[self window],self,alertSheetSelector,nil,contextInfo,@"%@",alertMessage);
 	return YES;
 }
 
