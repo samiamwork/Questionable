@@ -253,13 +253,14 @@
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	[openPanel setAllowsMultipleSelection:NO];
-	int openResult = [openPanel runModalForTypes:[NSArray arrayWithObject:@"triviaqm"]];
+	[openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"triviaqm"]];
+	int openResult = [openPanel runModal];
 	
-	if( openResult == NSCancelButton || [[openPanel filenames] count] == 0 )
+	if( openResult == NSCancelButton || [[openPanel URLs] count] == 0 )
 		return;
 	
 	
-	NSString *filePath = [[openPanel filenames] objectAtIndex:0];
+	NSString *filePath = [(NSURL*)[[openPanel URLs] objectAtIndex:0] path];
 	[self openGameFile:filePath];
 }
 
