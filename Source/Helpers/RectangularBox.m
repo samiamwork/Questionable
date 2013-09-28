@@ -261,7 +261,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 	color4 midColor2 = blendColors( _startColor, _endColor, yPoints[2]/_boxSize.height );
 
 	if( _boxSize.width < _cornerRadius*2.0f ) {
-		switch( _sharpCorners ) {
+		switch( (int)_sharpCorners ) {
 			case BoxCornerUpperLeft|BoxCornerLowerLeft:
 				xPoints[2] = xPoints[1];
 				break;
@@ -272,7 +272,7 @@ void setArrayElement( fullVertex2 **fullVertex, vertex2 vert, texture2 tex, colo
 		}
 	}
 	if( _boxSize.height < _cornerRadius*2.0f ) {
-		switch( _sharpCorners ) {
+		switch( (int)_sharpCorners ) {
 			case BoxCornerUpperLeft|BoxCornerUpperRight:
 				yPoints[2] = yPoints[1];
 				break;
