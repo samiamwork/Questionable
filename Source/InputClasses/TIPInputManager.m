@@ -11,6 +11,8 @@
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import <IOKit/hid/IOHIDKeys.h>
 
+#define ENABLE_KEYBOARDS 0
+
 @implementation TIPInputManager
 
 void HIDAddDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef device);
@@ -33,12 +35,10 @@ void HIDRemoveDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef de
 		NSMutableArray *deviceUsagePairs = [NSMutableArray array];
 		NSMutableDictionary *joystickDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *gamepadDictionary = [NSMutableDictionary dictionary];
-		//NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
 		NSMutableDictionary *mouseDictionary = [NSMutableDictionary dictionary];
 		
 		[joystickDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[gamepadDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
-		//[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 		[mouseDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
 
 		[joystickDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Joystick] forKey:@kIOHIDDeviceUsageKey];
@@ -46,9 +46,14 @@ void HIDRemoveDevice(void* ctx, IOReturn result, void* sender, IOHIDDeviceRef de
 
 		[gamepadDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_GamePad] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:gamepadDictionary];
-		
-		//[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
-		//[deviceUsagePairs addObject:keyboardDictionary];
+
+		if(ENABLE_KEYBOARDS)
+		{
+			NSMutableDictionary *keyboardDictionary = [NSMutableDictionary dictionary];
+			[keyboardDictionary setValue:usagePage forKey:@kIOHIDDeviceUsagePageKey];
+			[keyboardDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Keyboard] forKey:@kIOHIDDeviceUsageKey];
+			[deviceUsagePairs addObject:keyboardDictionary];
+		}
 		
 		[mouseDictionary setValue:[NSNumber numberWithInt:kHIDUsage_GD_Mouse] forKey:@kIOHIDDeviceUsageKey];
 		[deviceUsagePairs addObject:mouseDictionary];
