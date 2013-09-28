@@ -895,7 +895,7 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Questionable;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "$(inherited)";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -937,7 +937,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Questionable;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "$(inherited)";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
