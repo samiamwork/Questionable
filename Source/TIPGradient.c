@@ -270,7 +270,7 @@ void TIPGradientFindEndpointsForRotation( CGRect rect, float angle, CGPoint *sta
 		
 		float rangle = angle * pi/180;	//convert the angle to radians
 		
-		if(fabsf(tan(rangle))<=1)	//for range [-45,45], [135,225]
+		if(fabsf(tanf(rangle))<=1)	//for range [-45,45], [135,225]
 		{
 			x = rect.size.width;
 			y = rect.size.height;
